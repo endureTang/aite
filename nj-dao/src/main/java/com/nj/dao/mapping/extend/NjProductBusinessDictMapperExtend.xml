@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjProductBusinessDictMapperExtend">
+
+   <!-- 根据产品ID获取业务配置列表 -->
+	  <select id="selectByProduct" parameterType="java.lang.String" resultType="com.nj.model.generate.NjProductBusinessDict">
+	  	SELECT
+			busi_dict_id as id,
+			input_type
+		FROM
+			nj_product_business_dict
+		WHERE
+			product_id = #{productId}
+	  </select>
+	  
+	  <!-- 根据产品id、类型id获取产品配置项 -->
+	  <select id="getProductBusinessByType" parameterType="java.util.Map" resultType="com.nj.model.datamodel.SysBusinessDictModel">
+	  	SELECT
+			dict.id,
+			dict.data_type,
+			dict.business_type,
+			dict.keyword,
+			dict.descption,
+			dict.orders,
+			proDict.input_type
+		FROM
+			nj_product_business_dict proDict
+		LEFT JOIN sys_business_dict dict ON proDict.busi_dict_id = dict.id
+		WHERE
+			proDict.product_id = #{productId}
+			<![CDATA[ 
+			AND proDict.input_type <3
+			]]>
+		AND dict.parent_id = #{infoType} ORDER BY dict.orders
+	  </select>
+	  
+	  <!-- 根据产品id、类型id获取产品配置项 -->
+	  <select id="getProductBusinessTypeList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			dict.id,
+			dict.business_type as businessType,
+			dict.descption,
+			dict.url as keyword,
+			pd.input_type as inputType
+		FROM
+			sys_business_dict dict
+		INNER JOIN nj_product_business_dict pd ON dict.id = pd.busi_dict_id <![CDATA[ and pd.input_type < 3]]>
+		AND pd.product_id = #{productId}
+		WHERE
+			dict.show_type = #{showType}
+		
+		ORDER BY
+			dict.orders
+	  </select>
+	  
+	  <!-- 批量插入 -->
+	  <insert id="insertBath" parameterType="java.util.List">
+	  	  insert into nj_product_business_dict
+	  	  (
+	        id,
+	        product_id,
+	        busi_dict_id,
+	        input_type
+	      )
+	      VALUES
+	      <foreach collection="list" item="model" separator=",">
+            (
+            #{model.id},
+            #{model.productId},
+            #{model.busiDictId},
+            #{model.inputType}
+            )
+         </foreach>
+	  </insert>
+	  <!-- 根据产品ID清除交易配置 -->
+	  <delete id="deleteByProductId" parameterType="java.lang.String">
+	  	delete from nj_product_business_dict where product_id = #{productId}
+	  </delete>
+</mapper>

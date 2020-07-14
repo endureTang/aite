@@ -1,0 +1,32 @@
+@charset "UTF-8";
+
+/* 产品管理——>产品创建——>基本配置*/
+.product-box{ padding: 10px 30px 0 30px;font-family: "微软雅黑"; overflow: hidden;}
+h2,h5{font-family: "微软雅黑";}
+.product-box>h2{ color: #8a8db0; font-size: 24px; font-weight: 600; }
+.product-box>p{color: #aaaab6;}
+.step{ padding: 20px 0;}
+.step>a{color: #b3b3b3;}
+.step .select-step{ color: #ff5e16; }
+.title{ color: #8a8db0; border-left: 2px solid #8a8db0; padding-left: 5px; font-size: 14px;}
+.form-box{ margin-top: 30px; }
+fieldset{ margin-bottom: 30px;}
+legend{ font-size: 14px; color: #8a8db0; border: 0; margin-bottom: 10px; }
+.input-txt{ width:320px; height: 30px; text-indent: 5px; color: #8a8db0; font-size: 14px; }
+.textarea-txt{ width: 320px; height: 58px;resize: none; padding: 5px;color: #8a8db0; font-size: 14px; }
+.iconfont.icon-chose{ font-size: 70px !important; color: #ced4e0 !important; background-color: #f5f6f8 !important; cursor: pointer;}
+.submit{float:left; width: 120px; height: 34px; border-radius: 5px;-webkit-border-radius:5px; background: #ff5e16; margin: 18px 15px 0 0;}
+.submit button{ background: none; color: #fff; border: 0;width: 100%; height: 100%}
+.return{float: left; width: 120px;height: 34px;margin-top: 18px;background: #fff;border:1px solid #d3d4d9;border-radius: 5px; -webkit-border-radius: 5px;}
+.return button{ color: #8c8e9a; border:0;width: 100%; height: 100%;background: none }
+/*选择图标样式*/
+.icon-box{ min-width: 820px; overflow: hidden; padding: 30px 0;}
+.icon-txt{color: #8a8db0; float: left; width: 120px;font-size: 14px;}
+.icon-content{margin: 0; padding: 0; overflow: hidden;}
+.icon-content >li{ list-style: none; overflow: hidden; margin-bottom: 30px;}
+.img-bg,.get-img-bg{width: 70px; height: 70px; background:#F5F6F8; overflow: hidden;}
+.img-bg{float: right;}
+.img-bg >img,.get-img-bg>img{ width: 100%; }
+.get-img-bg{display: none; }
+.li-box{ width: 100px; overflow: hidden; float: left;margin:0 0 20px 20px;}
+.li-box>input{ float: left; margin-top: 25px; }

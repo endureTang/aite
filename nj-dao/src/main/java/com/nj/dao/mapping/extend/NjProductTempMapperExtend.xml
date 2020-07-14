@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjProductTempMapperExtend">
+ 
+  <select id="selectByProductId" resultType="com.nj.model.generate.NjProductTemp">
+  	SELECT * FROM nj_product_temp where product_id = #{productId}
+  </select>
+  <select id="selectProductTempByOrderId" resultType="com.nj.model.generate.NjProductTemp">
+  	select npt.* from nj_loan_order nlo
+	INNER JOIN nj_product_temp npt on npt.product_id=nlo.product_id
+	where nlo.id=#{orderId}
+  </select>
+</mapper>

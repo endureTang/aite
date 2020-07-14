@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjChannelRequsetMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjChannelRequset">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="source_order_no" jdbcType="VARCHAR" property="sourceOrderNo" />
+    <result column="business_no" jdbcType="VARCHAR" property="businessNo" />
+    <result column="request_type" jdbcType="VARCHAR" property="requestType" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="is_notice" jdbcType="BIT" property="isNotice" />
+    <result column="request_status" jdbcType="TINYINT" property="requestStatus" />
+    <result column="fail_reasion" jdbcType="VARCHAR" property="failReasion" />
+    <result column="notice_time" jdbcType="TIMESTAMP" property="noticeTime" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.nj.model.generate.NjChannelRequset">
+    <result column="request_msg" jdbcType="LONGVARCHAR" property="requestMsg" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_no, source_order_no, business_no, request_type, channel_id, is_notice, 
+    request_status, fail_reasion, notice_time, create_date
+  </sql>
+  <sql id="Blob_Column_List">
+    request_msg
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.nj.model.generate.NjChannelRequsetExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from nj_channel_requset
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjChannelRequsetExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_channel_requset
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from nj_channel_requset
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_channel_requset
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjChannelRequsetExample">
+    delete from nj_channel_requset
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjChannelRequset">
+    insert into nj_channel_requset (id, order_no, source_order_no, 
+      business_no, request_type, channel_id, 
+      is_notice, request_status, fail_reasion, 
+      notice_time, create_date, request_msg
+      )
+    values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{sourceOrderNo,jdbcType=VARCHAR}, 
+      #{businessNo,jdbcType=VARCHAR}, #{requestType,jdbcType=VARCHAR}, #{channelId,jdbcType=VARCHAR}, 
+      #{isNotice,jdbcType=BIT}, #{requestStatus,jdbcType=TINYINT}, #{failReasion,jdbcType=VARCHAR}, 
+      #{noticeTime,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{requestMsg,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjChannelRequset">
+    insert into nj_channel_requset
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="sourceOrderNo != null">
+        source_order_no,
+      </if>
+      <if test="businessNo != null">
+        business_no,
+      </if>
+      <if test="requestType != null">
+        request_type,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="isNotice != null">
+        is_notice,
+      </if>
+      <if test="requestStatus != null">
+        request_status,
+      </if>
+      <if test="failReasion != null">
+        fail_reasion,
+      </if>
+      <if test="noticeTime != null">
+        notice_time,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="requestMsg != null">
+        request_msg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceOrderNo != null">
+        #{sourceOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="businessNo != null">
+        #{businessNo,jdbcType=VARCHAR},
+      </if>
+      <if test="requestType != null">
+        #{requestType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="isNotice != null">
+        #{isNotice,jdbcType=BIT},
+      </if>
+      <if test="requestStatus != null">
+        #{requestStatus,jdbcType=TINYINT},
+      </if>
+      <if test="failReasion != null">
+        #{failReasion,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeTime != null">
+        #{noticeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestMsg != null">
+        #{requestMsg,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjChannelRequsetExample" resultType="java.lang.Long">
+    select count(*) from nj_channel_requset
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_channel_requset
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceOrderNo != null">
+        source_order_no = #{record.sourceOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessNo != null">
+        business_no = #{record.businessNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestType != null">
+        request_type = #{record.requestType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelId != null">
+        channel_id = #{record.channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isNotice != null">
+        is_notice = #{record.isNotice,jdbcType=BIT},
+      </if>
+      <if test="record.requestStatus != null">
+        request_status = #{record.requestStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.failReasion != null">
+        fail_reasion = #{record.failReasion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeTime != null">
+        notice_time = #{record.noticeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.requestMsg != null">
+        request_msg = #{record.requestMsg,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update nj_channel_requset
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      source_order_no = #{record.sourceOrderNo,jdbcType=VARCHAR},
+      business_no = #{record.businessNo,jdbcType=VARCHAR},
+      request_type = #{record.requestType,jdbcType=VARCHAR},
+      channel_id = #{record.channelId,jdbcType=VARCHAR},
+      is_notice = #{record.isNotice,jdbcType=BIT},
+      request_status = #{record.requestStatus,jdbcType=TINYINT},
+      fail_reasion = #{record.failReasion,jdbcType=VARCHAR},
+      notice_time = #{record.noticeTime,jdbcType=TIMESTAMP},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      request_msg = #{record.requestMsg,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_channel_requset
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      source_order_no = #{record.sourceOrderNo,jdbcType=VARCHAR},
+      business_no = #{record.businessNo,jdbcType=VARCHAR},
+      request_type = #{record.requestType,jdbcType=VARCHAR},
+      channel_id = #{record.channelId,jdbcType=VARCHAR},
+      is_notice = #{record.isNotice,jdbcType=BIT},
+      request_status = #{record.requestStatus,jdbcType=TINYINT},
+      fail_reasion = #{record.failReasion,jdbcType=VARCHAR},
+      notice_time = #{record.noticeTime,jdbcType=TIMESTAMP},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjChannelRequset">
+    update nj_channel_requset
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceOrderNo != null">
+        source_order_no = #{sourceOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="businessNo != null">
+        business_no = #{businessNo,jdbcType=VARCHAR},
+      </if>
+      <if test="requestType != null">
+        request_type = #{requestType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="isNotice != null">
+        is_notice = #{isNotice,jdbcType=BIT},
+      </if>
+      <if test="requestStatus != null">
+        request_status = #{requestStatus,jdbcType=TINYINT},
+      </if>
+      <if test="failReasion != null">
+        fail_reasion = #{failReasion,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeTime != null">
+        notice_time = #{noticeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="requestMsg != null">
+        request_msg = #{requestMsg,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.nj.model.generate.NjChannelRequset">
+    update nj_channel_requset
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      source_order_no = #{sourceOrderNo,jdbcType=VARCHAR},
+      business_no = #{businessNo,jdbcType=VARCHAR},
+      request_type = #{requestType,jdbcType=VARCHAR},
+      channel_id = #{channelId,jdbcType=VARCHAR},
+      is_notice = #{isNotice,jdbcType=BIT},
+      request_status = #{requestStatus,jdbcType=TINYINT},
+      fail_reasion = #{failReasion,jdbcType=VARCHAR},
+      notice_time = #{noticeTime,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      request_msg = #{requestMsg,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjChannelRequset">
+    update nj_channel_requset
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      source_order_no = #{sourceOrderNo,jdbcType=VARCHAR},
+      business_no = #{businessNo,jdbcType=VARCHAR},
+      request_type = #{requestType,jdbcType=VARCHAR},
+      channel_id = #{channelId,jdbcType=VARCHAR},
+      is_notice = #{isNotice,jdbcType=BIT},
+      request_status = #{requestStatus,jdbcType=TINYINT},
+      fail_reasion = #{failReasion,jdbcType=VARCHAR},
+      notice_time = #{noticeTime,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

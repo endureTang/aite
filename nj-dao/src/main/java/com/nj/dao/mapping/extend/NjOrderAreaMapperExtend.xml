@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjOrderAreaMapperExtend">
+  
+  <!-- 删除所有区域 -->
+  <delete id="deleteAll">
+  		delete from nj_order_area
+  </delete>
+  
+  <!-- 查询订单区域数量  -->
+  <select id="getOrderAreaCount"  resultType="java.util.Map">
+       select 
+       		t3.name as provinceName,
+       		t2.provinceCode,
+       		count(t2.tfcf_project_no) as num, 
+       		sum(t2.audit_amount) auditAmt
+       	from 
+       		sys_area t3 
+       	right join  
+			(select 
+				t1.true_name,
+				t1.identify_id,
+				CONCAT(left(t1.identify_id,2),"0000") provinceCode ,
+				t.* 
+			from  
+				nj_loan_order t 
+			left join 
+				nj_app_user t1 
+			on 
+				t.user_id = t1.id 
+			where 
+				t.status =12 
+				and t1.identify_id is not null ) t2 
+			on t2.provinceCode = t3.id   
+		group by 
+			t3.name  
+  </select>  
+
+</mapper>

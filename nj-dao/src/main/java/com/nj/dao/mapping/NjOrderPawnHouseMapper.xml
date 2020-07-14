@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjOrderPawnHouseMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjOrderPawnHouse">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="house_name" jdbcType="VARCHAR" property="houseName" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="owner" jdbcType="VARCHAR" property="owner" />
+    <result column="warrant_no" jdbcType="VARCHAR" property="warrantNo" />
+    <result column="covered_area" jdbcType="DECIMAL" property="coveredArea" />
+    <result column="record_date" jdbcType="TIMESTAMP" property="recordDate" />
+    <result column="house_age" jdbcType="INTEGER" property="houseAge" />
+    <result column="fitment_status" jdbcType="VARCHAR" property="fitmentStatus" />
+    <result column="is_only" jdbcType="BIT" property="isOnly" />
+    <result column="web_one_name" jdbcType="VARCHAR" property="webOneName" />
+    <result column="web_one_price" jdbcType="DECIMAL" property="webOnePrice" />
+    <result column="web_two_name" jdbcType="VARCHAR" property="webTwoName" />
+    <result column="web_two_price" jdbcType="DECIMAL" property="webTwoPrice" />
+    <result column="web_three_name" jdbcType="VARCHAR" property="webThreeName" />
+    <result column="web_three_price" jdbcType="DECIMAL" property="webThreePrice" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="company_price" jdbcType="DECIMAL" property="companyPrice" />
+    <result column="cognizance_price" jdbcType="DECIMAL" property="cognizancePrice" />
+    <result column="mortgage_no" jdbcType="TINYINT" property="mortgageNo" />
+    <result column="loan_balance" jdbcType="DECIMAL" property="loanBalance" />
+    <result column="loan_quta" jdbcType="DECIMAL" property="loanQuta" />
+    <result column="market_money" jdbcType="DECIMAL" property="marketMoney" />
+    <result column="loan_money" jdbcType="DECIMAL" property="loanMoney" />
+    <result column="loan_term" jdbcType="TINYINT" property="loanTerm" />
+    <result column="is_del" jdbcType="BIT" property="isDel" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="pawn_status" jdbcType="VARCHAR" property="pawnStatus" />
+    <result column="pawn_bank" jdbcType="VARCHAR" property="pawnBank" />
+    <result column="pic_file_one" jdbcType="VARCHAR" property="picFileOne" />
+    <result column="pic_file_two" jdbcType="VARCHAR" property="picFileTwo" />
+    <result column="pic_file_three" jdbcType="VARCHAR" property="picFileThree" />
+    <result column="pic_file_four" jdbcType="VARCHAR" property="picFileFour" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.nj.model.generate.NjOrderPawnHouse">
+    <result column="remarks" jdbcType="LONGVARCHAR" property="remarks" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, user_id, house_name, province, city, county, address, owner, warrant_no, 
+    covered_area, record_date, house_age, fitment_status, is_only, web_one_name, web_one_price, 
+    web_two_name, web_two_price, web_three_name, web_three_price, company_name, company_price, 
+    cognizance_price, mortgage_no, loan_balance, loan_quta, market_money, loan_money, 
+    loan_term, is_del, create_time, create_by, update_time, update_by, version, pawn_status, 
+    pawn_bank, pic_file_one, pic_file_two, pic_file_three, pic_file_four
+  </sql>
+  <sql id="Blob_Column_List">
+    remarks
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.nj.model.generate.NjOrderPawnHouseExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from nj_order_pawn_house
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjOrderPawnHouseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_order_pawn_house
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from nj_order_pawn_house
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_order_pawn_house
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjOrderPawnHouseExample">
+    delete from nj_order_pawn_house
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjOrderPawnHouse">
+    insert into nj_order_pawn_house (id, order_id, user_id, 
+      house_name, province, city, 
+      county, address, owner, 
+      warrant_no, covered_area, record_date, 
+      house_age, fitment_status, is_only, 
+      web_one_name, web_one_price, web_two_name, 
+      web_two_price, web_three_name, web_three_price, 
+      company_name, company_price, cognizance_price, 
+      mortgage_no, loan_balance, loan_quta, 
+      market_money, loan_money, loan_term, 
+      is_del, create_time, create_by, 
+      update_time, update_by, version, 
+      pawn_status, pawn_bank, pic_file_one, 
+      pic_file_two, pic_file_three, pic_file_four, 
+      remarks)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{houseName,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{county,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{owner,jdbcType=VARCHAR}, 
+      #{warrantNo,jdbcType=VARCHAR}, #{coveredArea,jdbcType=DECIMAL}, #{recordDate,jdbcType=TIMESTAMP}, 
+      #{houseAge,jdbcType=INTEGER}, #{fitmentStatus,jdbcType=VARCHAR}, #{isOnly,jdbcType=BIT}, 
+      #{webOneName,jdbcType=VARCHAR}, #{webOnePrice,jdbcType=DECIMAL}, #{webTwoName,jdbcType=VARCHAR}, 
+      #{webTwoPrice,jdbcType=DECIMAL}, #{webThreeName,jdbcType=VARCHAR}, #{webThreePrice,jdbcType=DECIMAL}, 
+      #{companyName,jdbcType=VARCHAR}, #{companyPrice,jdbcType=DECIMAL}, #{cognizancePrice,jdbcType=DECIMAL}, 
+      #{mortgageNo,jdbcType=TINYINT}, #{loanBalance,jdbcType=DECIMAL}, #{loanQuta,jdbcType=DECIMAL}, 
+      #{marketMoney,jdbcType=DECIMAL}, #{loanMoney,jdbcType=DECIMAL}, #{loanTerm,jdbcType=TINYINT}, 
+      #{isDel,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, 
+      #{pawnStatus,jdbcType=VARCHAR}, #{pawnBank,jdbcType=VARCHAR}, #{picFileOne,jdbcType=VARCHAR}, 
+      #{picFileTwo,jdbcType=VARCHAR}, #{picFileThree,jdbcType=VARCHAR}, #{picFileFour,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjOrderPawnHouse">
+    insert into nj_order_pawn_house
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="houseName != null">
+        house_name,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="county != null">
+        county,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="owner != null">
+        owner,
+      </if>
+      <if test="warrantNo != null">
+        warrant_no,
+      </if>
+      <if test="coveredArea != null">
+        covered_area,
+      </if>
+      <if test="recordDate != null">
+        record_date,
+      </if>
+      <if test="houseAge != null">
+        house_age,
+      </if>
+      <if test="fitmentStatus != null">
+        fitment_status,
+      </if>
+      <if test="isOnly != null">
+        is_only,
+      </if>
+      <if test="webOneName != null">
+        web_one_name,
+      </if>
+      <if test="webOnePrice != null">
+        web_one_price,
+      </if>
+      <if test="webTwoName != null">
+        web_two_name,
+      </if>
+      <if test="webTwoPrice != null">
+        web_two_price,
+      </if>
+      <if test="webThreeName != null">
+        web_three_name,
+      </if>
+      <if test="webThreePrice != null">
+        web_three_price,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="companyPrice != null">
+        company_price,
+      </if>
+      <if test="cognizancePrice != null">
+        cognizance_price,
+      </if>
+      <if test="mortgageNo != null">
+        mortgage_no,
+      </if>
+      <if test="loanBalance != null">
+        loan_balance,
+      </if>
+      <if test="loanQuta != null">
+        loan_quta,
+      </if>
+      <if test="marketMoney != null">
+        market_money,
+      </if>
+      <if test="loanMoney != null">
+        loan_money,
+      </if>
+      <if test="loanTerm != null">
+        loan_term,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="pawnStatus != null">
+        pawn_status,
+      </if>
+      <if test="pawnBank != null">
+        pawn_bank,
+      </if>
+      <if test="picFileOne != null">
+        pic_file_one,
+      </if>
+      <if test="picFileTwo != null">
+        pic_file_two,
+      </if>
+      <if test="picFileThree != null">
+        pic_file_three,
+      </if>
+      <if test="picFileFour != null">
+        pic_file_four,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="houseName != null">
+        #{houseName,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null">
+        #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="warrantNo != null">
+        #{warrantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="coveredArea != null">
+        #{coveredArea,jdbcType=DECIMAL},
+      </if>
+      <if test="recordDate != null">
+        #{recordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="houseAge != null">
+        #{houseAge,jdbcType=INTEGER},
+      </if>
+      <if test="fitmentStatus != null">
+        #{fitmentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="isOnly != null">
+        #{isOnly,jdbcType=BIT},
+      </if>
+      <if test="webOneName != null">
+        #{webOneName,jdbcType=VARCHAR},
+      </if>
+      <if test="webOnePrice != null">
+        #{webOnePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="webTwoName != null">
+        #{webTwoName,jdbcType=VARCHAR},
+      </if>
+      <if test="webTwoPrice != null">
+        #{webTwoPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="webThreeName != null">
+        #{webThreeName,jdbcType=VARCHAR},
+      </if>
+      <if test="webThreePrice != null">
+        #{webThreePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPrice != null">
+        #{companyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="cognizancePrice != null">
+        #{cognizancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="mortgageNo != null">
+        #{mortgageNo,jdbcType=TINYINT},
+      </if>
+      <if test="loanBalance != null">
+        #{loanBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="loanQuta != null">
+        #{loanQuta,jdbcType=DECIMAL},
+      </if>
+      <if test="marketMoney != null">
+        #{marketMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="loanMoney != null">
+        #{loanMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="loanTerm != null">
+        #{loanTerm,jdbcType=TINYINT},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="pawnStatus != null">
+        #{pawnStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnBank != null">
+        #{pawnBank,jdbcType=VARCHAR},
+      </if>
+      <if test="picFileOne != null">
+        #{picFileOne,jdbcType=VARCHAR},
+      </if>
+      <if test="picFileTwo != null">
+        #{picFileTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="picFileThree != null">
+        #{picFileThree,jdbcType=VARCHAR},
+      </if>
+      <if test="picFileFour != null">
+        #{picFileFour,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjOrderPawnHouseExample" resultType="java.lang.Long">
+    select count(*) from nj_order_pawn_house
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_order_pawn_house
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseName != null">
+        house_name = #{record.houseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null">
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.county != null">
+        county = #{record.county,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.owner != null">
+        owner = #{record.owner,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warrantNo != null">
+        warrant_no = #{record.warrantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coveredArea != null">
+        covered_area = #{record.coveredArea,jdbcType=DECIMAL},
+      </if>
+      <if test="record.recordDate != null">
+        record_date = #{record.recordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.houseAge != null">
+        house_age = #{record.houseAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.fitmentStatus != null">
+        fitment_status = #{record.fitmentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isOnly != null">
+        is_only = #{record.isOnly,jdbcType=BIT},
+      </if>
+      <if test="record.webOneName != null">
+        web_one_name = #{record.webOneName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.webOnePrice != null">
+        web_one_price = #{record.webOnePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.webTwoName != null">
+        web_two_name = #{record.webTwoName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.webTwoPrice != null">
+        web_two_price = #{record.webTwoPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.webThreeName != null">
+        web_three_name = #{record.webThreeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.webThreePrice != null">
+        web_three_price = #{record.webThreePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.companyName != null">
+        company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyPrice != null">
+        company_price = #{record.companyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.cognizancePrice != null">
+        cognizance_price = #{record.cognizancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mortgageNo != null">
+        mortgage_no = #{record.mortgageNo,jdbcType=TINYINT},
+      </if>
+      <if test="record.loanBalance != null">
+        loan_balance = #{record.loanBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.loanQuta != null">
+        loan_quta = #{record.loanQuta,jdbcType=DECIMAL},
+      </if>
+      <if test="record.marketMoney != null">
+        market_money = #{record.marketMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.loanMoney != null">
+        loan_money = #{record.loanMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.loanTerm != null">
+        loan_term = #{record.loanTerm,jdbcType=TINYINT},
+      </if>
+      <if test="record.isDel != null">
+        is_del = #{record.isDel,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.pawnStatus != null">
+        pawn_status = #{record.pawnStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pawnBank != null">
+        pawn_bank = #{record.pawnBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picFileOne != null">
+        pic_file_one = #{record.picFileOne,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picFileTwo != null">
+        pic_file_two = #{record.picFileTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picFileThree != null">
+        pic_file_three = #{record.picFileThree,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picFileFour != null">
+        pic_file_four = #{record.picFileFour,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update nj_order_pawn_house
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      house_name = #{record.houseName,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      county = #{record.county,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      owner = #{record.owner,jdbcType=VARCHAR},
+      warrant_no = #{record.warrantNo,jdbcType=VARCHAR},
+      covered_area = #{record.coveredArea,jdbcType=DECIMAL},
+      record_date = #{record.recordDate,jdbcType=TIMESTAMP},
+      house_age = #{record.houseAge,jdbcType=INTEGER},
+      fitment_status = #{record.fitmentStatus,jdbcType=VARCHAR},
+      is_only = #{record.isOnly,jdbcType=BIT},
+      web_one_name = #{record.webOneName,jdbcType=VARCHAR},
+      web_one_price = #{record.webOnePrice,jdbcType=DECIMAL},
+      web_two_name = #{record.webTwoName,jdbcType=VARCHAR},
+      web_two_price = #{record.webTwoPrice,jdbcType=DECIMAL},
+      web_three_name = #{record.webThreeName,jdbcType=VARCHAR},
+      web_three_price = #{record.webThreePrice,jdbcType=DECIMAL},
+      company_name = #{record.companyName,jdbcType=VARCHAR},
+      company_price = #{record.companyPrice,jdbcType=DECIMAL},
+      cognizance_price = #{record.cognizancePrice,jdbcType=DECIMAL},
+      mortgage_no = #{record.mortgageNo,jdbcType=TINYINT},
+      loan_balance = #{record.loanBalance,jdbcType=DECIMAL},
+      loan_quta = #{record.loanQuta,jdbcType=DECIMAL},
+      market_money = #{record.marketMoney,jdbcType=DECIMAL},
+      loan_money = #{record.loanMoney,jdbcType=DECIMAL},
+      loan_term = #{record.loanTerm,jdbcType=TINYINT},
+      is_del = #{record.isDel,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=INTEGER},
+      pawn_status = #{record.pawnStatus,jdbcType=VARCHAR},
+      pawn_bank = #{record.pawnBank,jdbcType=VARCHAR},
+      pic_file_one = #{record.picFileOne,jdbcType=VARCHAR},
+      pic_file_two = #{record.picFileTwo,jdbcType=VARCHAR},
+      pic_file_three = #{record.picFileThree,jdbcType=VARCHAR},
+      pic_file_four = #{record.picFileFour,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_order_pawn_house
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      house_name = #{record.houseName,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      county = #{record.county,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      owner = #{record.owner,jdbcType=VARCHAR},
+      warrant_no = #{record.warrantNo,jdbcType=VARCHAR},
+      covered_area = #{record.coveredArea,jdbcType=DECIMAL},
+      record_date = #{record.recordDate,jdbcType=TIMESTAMP},
+      house_age = #{record.houseAge,jdbcType=INTEGER},
+      fitment_status = #{record.fitmentStatus,jdbcType=VARCHAR},
+      is_only = #{record.isOnly,jdbcType=BIT},
+      web_one_name = #{record.webOneName,jdbcType=VARCHAR},
+      web_one_price = #{record.webOnePrice,jdbcType=DECIMAL},
+      web_two_name = #{record.webTwoName,jdbcType=VARCHAR},
+      web_two_price = #{record.webTwoPrice,jdbcType=DECIMAL},
+      web_three_name = #{record.webThreeName,jdbcType=VARCHAR},
+      web_three_price = #{record.webThreePrice,jdbcType=DECIMAL},
+      company_name = #{record.companyName,jdbcType=VARCHAR},
+      company_price = #{record.companyPrice,jdbcType=DECIMAL},
+      cognizance_price = #{record.cognizancePrice,jdbcType=DECIMAL},
+      mortgage_no = #{record.mortgageNo,jdbcType=TINYINT},
+      loan_balance = #{record.loanBalance,jdbcType=DECIMAL},
+      loan_quta = #{record.loanQuta,jdbcType=DECIMAL},
+      market_money = #{record.marketMoney,jdbcType=DECIMAL},
+      loan_money = #{record.loanMoney,jdbcType=DECIMAL},
+      loan_term = #{record.loanTerm,jdbcType=TINYINT},
+      is_del = #{record.isDel,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=INTEGER},
+      pawn_status = #{record.pawnStatus,jdbcType=VARCHAR},
+      pawn_bank = #{record.pawnBank,jdbcType=VARCHAR},
+      pic_file_one = #{record.picFileOne,jdbcType=VARCHAR},
+      pic_file_two = #{record.picFileTwo,jdbcType=VARCHAR},
+      pic_file_three = #{record.picFileThree,jdbcType=VARCHAR},
+      pic_file_four = #{record.picFileFour,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjOrderPawnHouse">
+    update nj_order_pawn_house
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="houseName != null">
+        house_name = #{houseName,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null">
+        county = #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null">
+        owner = #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="warrantNo != null">
+        warrant_no = #{warrantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="coveredArea != null">
+        covered_area = #{coveredArea,jdbcType=DECIMAL},
+      </if>
+      <if test="recordDate != null">
+        record_date = #{recordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="houseAge != null">
+        house_age = #{houseAge,jdbcType=INTEGER},
+      </if>
+      <if test="fitmentStatus != null">
+        fitment_status = #{fitmentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="isOnly != null">
+        is_only = #{isOnly,jdbcType=BIT},
+      </if>
+      <if test="webOneName != null">
+        web_one_name = #{webOneName,jdbcType=VARCHAR},
+      </if>
+      <if test="webOnePrice != null">
+        web_one_price = #{webOnePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="webTwoName != null">
+        web_two_name = #{webTwoName,jdbcType=VARCHAR},
+      </if>
+      <if test="webTwoPrice != null">
+        web_two_price = #{webTwoPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="webThreeName != null">
+        web_three_name = #{webThreeName,jdbcType=VARCHAR},
+      </if>
+      <if test="webThreePrice != null">
+        web_three_price = #{webThreePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPrice != null">
+        company_price = #{companyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="cognizancePrice != null">
+        cognizance_price = #{cognizancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="mortgageNo != null">
+        mortgage_no = #{mortgageNo,jdbcType=TINYINT},
+      </if>
+      <if test="loanBalance != null">
+        loan_balance = #{loanBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="loanQuta != null">
+        loan_quta = #{loanQuta,jdbcType=DECIMAL},
+      </if>
+      <if test="marketMoney != null">
+        market_money = #{marketMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="loanMoney != null">
+        loan_money = #{loanMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="loanTerm != null">
+        loan_term = #{loanTerm,jdbcType=TINYINT},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="pawnStatus != null">
+        pawn_status = #{pawnStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnBank != null">
+        pawn_bank = #{pawnBank,jdbcType=VARCHAR},
+      </if>
+      <if test="picFileOne != null">
+        pic_file_one = #{picFileOne,jdbcType=VARCHAR},
+      </if>
+      <if test="picFileTwo != null">
+        pic_file_two = #{picFileTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="picFileThree != null">
+        pic_file_three = #{picFileThree,jdbcType=VARCHAR},
+      </if>
+      <if test="picFileFour != null">
+        pic_file_four = #{picFileFour,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.nj.model.generate.NjOrderPawnHouse">
+    update nj_order_pawn_house
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      house_name = #{houseName,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      county = #{county,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      owner = #{owner,jdbcType=VARCHAR},
+      warrant_no = #{warrantNo,jdbcType=VARCHAR},
+      covered_area = #{coveredArea,jdbcType=DECIMAL},
+      record_date = #{recordDate,jdbcType=TIMESTAMP},
+      house_age = #{houseAge,jdbcType=INTEGER},
+      fitment_status = #{fitmentStatus,jdbcType=VARCHAR},
+      is_only = #{isOnly,jdbcType=BIT},
+      web_one_name = #{webOneName,jdbcType=VARCHAR},
+      web_one_price = #{webOnePrice,jdbcType=DECIMAL},
+      web_two_name = #{webTwoName,jdbcType=VARCHAR},
+      web_two_price = #{webTwoPrice,jdbcType=DECIMAL},
+      web_three_name = #{webThreeName,jdbcType=VARCHAR},
+      web_three_price = #{webThreePrice,jdbcType=DECIMAL},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_price = #{companyPrice,jdbcType=DECIMAL},
+      cognizance_price = #{cognizancePrice,jdbcType=DECIMAL},
+      mortgage_no = #{mortgageNo,jdbcType=TINYINT},
+      loan_balance = #{loanBalance,jdbcType=DECIMAL},
+      loan_quta = #{loanQuta,jdbcType=DECIMAL},
+      market_money = #{marketMoney,jdbcType=DECIMAL},
+      loan_money = #{loanMoney,jdbcType=DECIMAL},
+      loan_term = #{loanTerm,jdbcType=TINYINT},
+      is_del = #{isDel,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      version = #{version,jdbcType=INTEGER},
+      pawn_status = #{pawnStatus,jdbcType=VARCHAR},
+      pawn_bank = #{pawnBank,jdbcType=VARCHAR},
+      pic_file_one = #{picFileOne,jdbcType=VARCHAR},
+      pic_file_two = #{picFileTwo,jdbcType=VARCHAR},
+      pic_file_three = #{picFileThree,jdbcType=VARCHAR},
+      pic_file_four = #{picFileFour,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjOrderPawnHouse">
+    update nj_order_pawn_house
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      house_name = #{houseName,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      county = #{county,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      owner = #{owner,jdbcType=VARCHAR},
+      warrant_no = #{warrantNo,jdbcType=VARCHAR},
+      covered_area = #{coveredArea,jdbcType=DECIMAL},
+      record_date = #{recordDate,jdbcType=TIMESTAMP},
+      house_age = #{houseAge,jdbcType=INTEGER},
+      fitment_status = #{fitmentStatus,jdbcType=VARCHAR},
+      is_only = #{isOnly,jdbcType=BIT},
+      web_one_name = #{webOneName,jdbcType=VARCHAR},
+      web_one_price = #{webOnePrice,jdbcType=DECIMAL},
+      web_two_name = #{webTwoName,jdbcType=VARCHAR},
+      web_two_price = #{webTwoPrice,jdbcType=DECIMAL},
+      web_three_name = #{webThreeName,jdbcType=VARCHAR},
+      web_three_price = #{webThreePrice,jdbcType=DECIMAL},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_price = #{companyPrice,jdbcType=DECIMAL},
+      cognizance_price = #{cognizancePrice,jdbcType=DECIMAL},
+      mortgage_no = #{mortgageNo,jdbcType=TINYINT},
+      loan_balance = #{loanBalance,jdbcType=DECIMAL},
+      loan_quta = #{loanQuta,jdbcType=DECIMAL},
+      market_money = #{marketMoney,jdbcType=DECIMAL},
+      loan_money = #{loanMoney,jdbcType=DECIMAL},
+      loan_term = #{loanTerm,jdbcType=TINYINT},
+      is_del = #{isDel,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      version = #{version,jdbcType=INTEGER},
+      pawn_status = #{pawnStatus,jdbcType=VARCHAR},
+      pawn_bank = #{pawnBank,jdbcType=VARCHAR},
+      pic_file_one = #{picFileOne,jdbcType=VARCHAR},
+      pic_file_two = #{picFileTwo,jdbcType=VARCHAR},
+      pic_file_three = #{picFileThree,jdbcType=VARCHAR},
+      pic_file_four = #{picFileFour,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

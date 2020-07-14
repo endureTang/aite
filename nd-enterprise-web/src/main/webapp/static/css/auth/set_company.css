@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+/*设置公司页面*/
+body{background: #404352}
+.creat-page{width: 1160px; margin: 0 auto; padding: 0;position: absolute;left: 50%; margin-left: -580px;}
+.info-box{ min-height: 590px; overflow: hidden; font-family:"微软雅黑"; margin:0; padding: 160px 0 0 0;}
+.set-box{ position: relative; float: left; width: 375px; height: 160px;background: #D2D2DA;color: #7a7b8d; margin:0 10px 10px 0; list-style: none;}
+.set-txt{ padding: 0 0 0 15px;}
+.checkbox{width: 400px}
+.checkbox>a{color: #fff; text-decoration: underline; float: right;}
+footer{ overflow: hidden; font-family: '微软雅黑';}
+.create-mark{position: absolute; font-size: 14px; right: 0; top: 23px; width: 80px; height: 26px; line-height: 26px;  text-align: center; background: #fff}
+.title{width: 246px; height: 65px; *margin-top: 15px;}
+p{ font-size: 14px; margin: 0; }

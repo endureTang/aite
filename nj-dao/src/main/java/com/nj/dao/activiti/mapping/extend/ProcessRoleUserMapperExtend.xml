@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.activiti.mapper.extend.ProcessRoleUserMapperExtend">
+
+	<resultMap id="processRoleUser" type="com.nj.model.activiti.base.ProcessRoleUser">
+		<id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="process_id" property="processId" jdbcType="VARCHAR"/>
+		<result column="process_role_id" property="processRoleId" jdbcType="VARCHAR"/>
+		<result column="user_id" property="userId" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	
+	<select id="getListByTaskKey" parameterType="string" resultMap="processRoleUser">
+		SELECT 
+			pru.*  
+		FROM 
+			process_role_user pru,process_node pn,process_usertask_role pur
+		WHERE  pn.`process_id`=pru.`process_id`
+			AND pur.roleid=pru.`process_role_id`
+			AND pn.`id`=pur.`process_node_id`
+			AND pn.`node_key`=#{taksKey,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getTaskIdList" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select t3.taskins_id as taskinsId from nj_loan_order t1 
+		INNER JOIN process_form t2 on t1.id = t2.entity_id AND t2.process_status = 'approve'
+		INNER JOIN process_form_taskins t3 on t2.id = t3.process_form_id
+		INNER JOIN act_hi_taskinst t6 on t6.id_ = t3.taskins_id
+		where t1.product_id = #{productId,jdbcType=VARCHAR}
+		AND t6.task_def_key_ in (
+			SELECT pn.node_key FROM process_node pn 
+			INNER JOIN process_usertask_role pur
+			on pn.id = pur.process_node_id
+			and pur.roleid = #{processRoleId,jdbcType=VARCHAR} 
+			and pn.process_id = #{processId,jdbcType=VARCHAR}
+		);
+	</select>
+	
+</mapper>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjChannelMapperExtend">
+
+    <resultMap id="BaseResultMap" type="com.nj.model.generate.NjChannel">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="repay_account_id" jdbcType="VARCHAR" property="repayAccountId"/>
+        <result column="repee_account_id" jdbcType="VARCHAR" property="repeeAccountId"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="del_flag" jdbcType="BIT" property="delFlag"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
+        <result column="funds_limit" jdbcType="DOUBLE" property="fundsLimit"/>
+    </resultMap>
+
+    <select id="findChannelByProject" parameterType="String" resultMap="BaseResultMap">
+        select * from nj_channel nc
+        LEFT JOIN
+        nj_product_channel npc ON npc.nj_channel_id = nc.id
+        WHERE npc.id= #{projectChannelId, jdbcType=VARCHAR}
+    </select>
+
+    <select id="findLimitByProjectCode" parameterType="String" resultType="java.util.HashMap">
+        select DISTINCT nc.funds_limit as fundsLimit, nc.id as channelId , np.id as productId from nj_channel nc
+        LEFT JOIN
+        nj_product_channel npc ON npc.nj_channel_id = nc.id
+LEFT JOIN
+        nj_product  np  ON npc.product_id = np.id
+        WHERE np.product_code=#{projectCode, jdbcType=VARCHAR}  and np.del_flag=0 and nc.del_flag=0 and npc.del_flag =0
+    </select>
+
+    <select id="getChannelList" parameterType="java.util.Map"
+            resultType="java.util.HashMap">
+        select
+        c.id,c.name as channelName,
+        c.repay_account_id as repayId,
+        a.name as repayName,
+        c.repee_account_id as repeeId,
+        b.name as repeeName,
+        c.create_date as createDate
+        from
+        nj_channel c
+        LEFT JOIN nj_channel_tfcf_act a
+        on c.repay_account_id = a.id
+        LEFT JOIN nj_channel_tfcf_act b
+        on c.repee_account_id = b.id
+        where
+        c.del_flag = 0
+        and c.company_id = #{companyId}
+        <if test="channelName != null">
+            and c.name like CONCAT('%',#{channelName,jdbcType=VARCHAR},'%')
+        </if>
+        ORDER BY
+        c.create_date desc limit #{start},#{length};
+    </select>
+
+
+    <select id="getChannelListCount" parameterType="java.util.Map"
+            resultType="java.lang.Integer">
+		select count(*) from nj_channel c
+			where c.del_flag = 0 
+			and c.company_id = #{companyId}
+	</select>
+
+    <update id="bindChannel" parameterType="PageData">
+        update nj_channel set
+        <if test="select == 0">
+            repay_account_id = #{acctId}
+            ,repee_account_id = #{acctId}
+        </if>
+        <if test="select == 1">
+            repee_account_id = #{acctId}
+        </if>
+        <if test="select == 2">
+            repay_account_id = #{acctId}
+        </if>
+        where 1=1
+        and id = #{channelId}
+    </update>
+
+    <update id="delete" parameterType="String">
+		update nj_channel set
+		del_flag = 1
+		where 1=1
+		and id = #{id}
+	</update>
+
+    <update id="batchDelete" parameterType="PageData">
+        update nj_channel set
+        del_flag = 1
+        where 1=1
+        and id in
+        <foreach item="id" collection="idList" open="(" separator=","
+                 close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="getChannelAllList" parameterType="java.util.Map"
+            resultType="java.util.HashMap">
+        select c.id,c.name as channelName,c.repay_account_id as repayId,a.name as repayName,
+        c.repee_account_id as repeeId,b.name as repeeName,c.create_date as createDate
+        from nj_channel c LEFT JOIN nj_channel_tfcf_act a on c.repay_account_id = a.id
+        LEFT JOIN nj_channel_tfcf_act b on c.repee_account_id = b.id
+        where c.del_flag = 0 and c.company_id = #{companyId}
+        <if test="channelName != null">
+            and c.name like #{channelName,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+    <update id="unbind1" parameterType="java.util.Map">
+        update nj_channel set
+        <if test="type == 1">
+            repay_account_id = ''
+        </if>
+        <if test="type == 2">
+            repee_account_id = ''
+        </if>
+        where id = #{channelId}
+    </update>
+
+    <update id="unbind2" parameterType="java.util.Map">
+		update nj_channel_tfcf_act set
+	        channel_id = '',
+	        del_flag = 1
+		where id = #{reId}
+	</update>
+
+    <!-- 根据传入参数获取渠道列表（暂时只有名称） -->
+    <select id="selectByParam" parameterType="java.util.Map" resultType="com.nj.model.generate.NjChannel">
+        SELECT id,name FROM nj_channel
+        <where>
+            and del_flag = 0
+            <if test="name != null and name != '' ">
+                and name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="companyId != null and companyId != '' ">
+                and company_id = #{companyId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAllChannelListPage" parameterType="java.util.Map" resultType="java.util.Map">
+        select
+        c.remark,
+        c.type as channelType,
+        c.funds_limit as fundsLimit,
+        c.`code` as channelCode,
+        c.id,c.name as channelName,
+        c.repay_account_id as repayId,
+        a.name as repayName,
+        c.repee_account_id as repeeId,
+        b.name as repeeName,
+        c.del_flag as delFlag,
+        c.user_info_id as userInfoId,
+        c.create_date as createDate
+        from
+        nj_channel c
+        LEFT JOIN nj_channel_tfcf_act a
+        on c.repay_account_id = a.id
+        LEFT JOIN nj_channel_tfcf_act b
+        on c.repee_account_id = b.id
+        where 1=1
+        <if test="companyId != null and companyId != ''">
+            and c.company_id = #{companyId}
+        </if>
+        <if test="channelName != null">
+            and c.name like CONCAT('%',#{channelName,jdbcType=VARCHAR},'%')
+        </if>
+        ORDER BY
+        c.create_date desc
+    </select>
+
+    <select id="selectMaxChannelCode" resultType="java.lang.String">
+		SELECT MAX(`code`) as code FROM nj_channel
+	</select>
+    <select id="getRepayChannelUserList" resultType="java.util.Map">
+		SELECT
+			a.`name`,
+			b.tfcf_id AS repayAccountId
+		FROM
+			nj_channel a
+		INNER JOIN nj_channel_tfcf_act b ON a.repay_account_id = b.id
+		WHERE
+			a.del_flag = 0
+		AND a.repay_account_id IS NOT NULL
+		AND a.repay_account_id != ''
+		AND b.tfcf_id != ''
+		AND b.tfcf_id IS NOT NULL
+	</select>
+	<!-- 根据渠道id获取渠道天赋财富收款账户id -->
+	<select id="getChannelRepayUserIdById" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT
+			b.tfcf_id
+		FROM
+			nj_channel a
+		INNER JOIN nj_channel_tfcf_act b ON a.repee_account_id = b.id
+		AND a.id = #{channelId}
+	</select>
+
+</mapper>

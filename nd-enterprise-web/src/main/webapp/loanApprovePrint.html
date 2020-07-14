@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金鼎能贷放款审批表—住房抵押</title>
+    <style>
+        [v-cloak] {
+            display: none !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        body {
+            font-size: 14px;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        i, s, b, sub, sup {
+            font-style: normal;
+        }
+
+        .text-center {
+            text-align: center!important;
+        }
+        .text-left {
+            text-align: left!important;
+        }
+        .text-right {
+            text-align: right!important;
+        }
+
+        .container {
+            width: 1000px;
+            margin: 10px auto;
+            border: 1px solid #eee;
+            padding: 20px 30px;
+        }
+
+        .container > h1 {
+            font-size: 26px;
+            line-height: 40px;
+            margin: 15px 0;
+        }
+
+        .container > p span {
+            padding: 0 20px;
+            border-bottom: 1px solid #afafaf;
+        }
+
+        .container > p > i {
+            margin: 0 5px;
+        }
+
+        .container table {
+            width: 100%;
+            margin-top: 50px;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+        .reply-table {
+            margin-top: -1px!important;
+        }
+        .container table tr {
+
+        }
+
+        .container table td {
+            border: 1px solid #afafaf;
+            line-height: 30px;
+            text-align: left;
+            padding: 0 15px;
+        }
+        .container table td span {
+            margin-right: 15px;
+        }
+        .container table td > i {
+            width: 40%;
+            display: inline-block;
+        }
+        .container table td > p {
+            margin-bottom: 10px;
+        }
+        .order-contract-reply {
+
+        }
+        .container table td.write-contract {
+            /*padding-top: 60px;*/
+        }
+        .container table.reply-table {
+
+        }
+        .w15 {
+            width: 15%;
+        }
+        .w40{
+            width: 40%;
+        }
+        .h120{
+            height: 120px;
+        }
+        .h100{
+            height: 100px;}
+        .relative{
+            position: relative;}
+        .indent{
+            text-indent: 2em;
+        }
+
+    </style>
+    <style media="print">
+        @page {
+            size: 210mm 290mm;  /* auto is the initial value */
+            /*margin: 0mm; !* this affects the margin in the printer settings *!*/
+            margin: 0px auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="loanApprove" v-cloak>
+    <h1 id="test" class="text-center">金鼎能贷放款审批表—住房抵押</h1>
+    <p class="text-center">
+        <i>日期: <span>{{dateTime}}</span></i>
+        <i>编号: <span>{{tableData.orderNo}}</span></i>
+    </p>
+    <table>
+        <tr>
+            <td colspan="3"><span>业务部门:</span>{{tableData.deptName}}</td>
+        </tr>
+        <tr>
+            <td colspan="3"><span>客户名称:</span>{{tableData.trueName}}</td>
+        </tr>
+        <tr>
+            <td class="w15 text-center" rowspan="3">项目内容</td>
+            <td colspan="2"><span>业务种类:</span>金鼎能贷-住房抵押</td>
+        </tr>
+        <tr>
+            <td class="w40"><span>贷款金额(万元)：</span>{{tableData.auditAmount/10000}}</td>
+            <td class="w40"><span>期限(月):</span>{{tableData.auditPeriod}}</td>
+        </tr>
+        <tr>
+            <td class="w40"><span>贷款利率(月): </span>{{tableData.auditRatingMonth}}%</td>
+            <td class="w40"><span>还款方式: </span>{{tableData.repayWay}}</td>
+        </tr>
+        <!--合同开始-->
+        <tr>
+            <td :rowspan="contractList.length+2" class="text-center">本笔业务重要法律文件列示</td>
+        </tr>
+        <tr>
+            <td class="text-center">合同文本</td>
+            <td class="text-center">份数</td>
+        </tr>
+        <tr v-for="(item,key) in contractList">
+            <td>{{key+1}}、{{item.contractName}}</td>
+            <td></td>
+        </tr>
+        <!--业务合同鉴证意见-->
+        <tr class="h100">
+            <td class="text-center">业务合同鉴证意见</td>
+            <td colspan="2" class="relative order-contract-reply">
+                <p>本人于 <span>{{faceSTime[0]}}</span>年 <span>{{faceSTime[1]}}</span>月 <span>{{faceSTime[2]}}</span> 日参与了以上合同文本的签字见证工作，我已核实签订人身份，签订过程无异议。</p>
+                <i><span>经办人:</span>{{tableData.businessCommissionerName}}</i>
+                <i><span>时间:</span>{{tableData.faceSignTime}}</i>
+            </td>
+        </tr>
+        <!--业务合同审签意见-->
+        <tr class="h120">
+            <td class="text-center">业务合同审签意见 <br>（风控法务意见）</td>
+            <td colspan="2" class="relative order-contract-reply write-contract">
+                <p>{{tableData.legalAffairsCondition}}</p>
+                <i><span>签字人:</span>{{tableData.legalAffairsUserName}}</i>
+                <i><span>时间:</span>{{tableData.legalAffairsT}}</i>
+            </td>
+        </tr>
+        <!--他权办理-->
+        <tr class="h100">
+            <td class="text-center">他权办理</td>
+            <td colspan="2" class="relative order-contract-reply">
+                <i><span>抵押登记办理经办人:</span>{{tableData.pledgeTransact}}</i>
+                <i><span>时间:</span>{{tableData.pledgeTransactT}}</i>
+                <i><span>他权取得经办人:</span>{{tableData.heRightTransact}}</i>
+                <i><span>时间:</span>{{tableData.heRightTransactT}}</i>
+            </td>
+        </tr>
+    </table>
+    <table class="reply-table">
+        <!--审批意见-->
+        <tr>
+            <td class="text-center" rowspan="8">审查意见</td>
+            <td rowspan="2">贷款放款条件落实情况说明<br>（客户经理）</td>
+            <td class="h100">放款条件落实如下： <br>{{tableData.loanCondition}}</td>
+        </tr>
+        <tr>
+            <td>
+                <p>已按有权签批人意见落实！{{tableData.rightYJ}}</p>
+                <p class="indent">业务部客户经理：{{tableData.businessCommissionerName}}  <span>{{faceTime[0]}}</span> 年 <span>{{faceTime[1]}}</span>月 <span>{{faceTime[2]}}</span>日</p>
+                <i><span>业务部负责人:</span>{{tableData.businessManagerName}}</i>
+                <i><span>时间:</span>{{tableData.businessManagerT}}</i>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="3" class="text-center">风控部门放款审查意见</td>
+            <td class="h120">
+                <p>对合同规范性检查情况审查意见： <br>{{tableData.riskCommissionerYJ}}</p>
+                <i><span> 放款审查人:</span>{{tableData.riskCommissionerName}}</i>
+                <i><span>时间:</span>{{tableData.riskCommissionerT}}</i>
+            </td>
+        </tr>
+        <tr>
+            <td class="h120">
+                <p>审批意见落实情况： <br>{{tableData.riskManagerYJ}}</p>
+                <i><span> 放款审查人:</span>{{tableData.riskCommissionerName}}</i>
+                <i><span>风控部经理:</span>{{tableData.riskManagerName}}</i>
+            </td>
+        </tr>
+        <tr>
+            <td class="h120">
+                <p>收到重要权证情况:</p>
+                <p>1、房屋抵押受理单编号或房屋他权证编号： <span>{{tableData.pledgeNum}}</span></p>
+                <p>2、房屋所有权证或不动产登记证明编号： <span>{{tableData.estateProveNum}}</span></p>
+                <p>3、国土证编号： <span>{{tableData.landNum}}</span></p>
+                <p class="text-right" style="margin-right: 30px;">签字: <span>{{tableData.riskManagerName}}</span></p>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center">有权审批人意见</td>
+            <td class="h100">
+                <p>{{tableData.rightYJ}}</p>
+                <i><span>时间:</span>{{tableData.rightT}}</i>
+                <i><span>签字:</span>{{tableData.rightUserName}}</i>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center">财务部门放款意见</td>
+            <td class="h100">
+                <p>{{tableData.financeManagerYJ}}</p>
+                <i><span>初审:</span>{{tableData.financeCommissionerUserName}}</i>
+                <i><span>复审:</span>{{tableData.financeManagerUserName}}</i>
+                <i><span>时间:</span>{{tableData.financeManagerT}}</i>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<script src="./static/js/util.js"></script>
+<script src="./static/plugins/vue/vue.js"></script>
+<script src="./static/js/jQuery-1.9.1.min.js"></script>
+<script src="./static/js/myOrderCommon.js"></script>
+<script>
+    var loanApprove = {
+        init: function () {
+            this.newVue();
+        },
+        vm: {},
+        newVue: function () {
+            var _this = this;
+            this.vm = new Vue({
+                el: '#loanApprove',
+                data: {
+                    contractList : [],
+                    tableData : {}
+                },
+                computed: {
+                    dateTime : function () {
+                        var date = new Date();
+                        return date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate();
+                    },
+                    faceTime : function () {
+                        return this.tableData.businessManagerT ? this.tableData.businessManagerT.split(' ')[0].split('-') : [];
+                    },
+                    faceSTime : function () {
+                        return this.tableData.faceSignTime ? this.tableData.faceSignTime.split(' ')[0].split('-') : [];
+                    }
+                },
+                filters: {
+                    formatTime: function (time) {
+                        if (time) {
+                            var date = new Date(time);
+                            return date.getFullYear() + '-' + (preZero(date.getMonth() + 1)) + '-' + preZero(date.getDate()) + ' ' + preZero(date.getHours()) + ':' + preZero(date.getMinutes()) + ':' + preZero(date.getSeconds());
+                        }
+
+                        function preZero(num) {
+                            num = '' + num;
+                            return num.length == 1 ? '0' + num : num;
+                        }
+                    },
+
+                },
+                methods: {
+                    fetchData: function (cb) {
+                        _this.getData('/lendingReview/getLendingTableData', function (res) {
+                            cb && cb(res)
+                        })
+                    },
+                    fetchContractList: function (cb) {
+                        _this.getData('/loanOrder/getContractByOrderId', function (res) {
+                            cb && cb(res)
+                        })
+                    }
+                },
+                updated: function () {
+                     // window.print();
+                },
+                mounted: function () {
+                    var _this = this;
+                    this.fetchData(function (res) {
+                        _this.tableData = res;
+                    });
+                    _this.fetchContractList(function (res) {
+                        _this.contractList = res.result ? res.result : [{contractName:''}];
+                    })
+                    window.print();
+                }
+            })
+        },
+        getData: function (url,cb) {
+            var _this = this;
+            $.ajax({
+                url: util.getServerUrl(url),
+                method: 'POST',
+                async : false,
+                data: {orderId: _this.getQueryString('orderId')},
+                success: function (res) {
+                    if (res.status == 0 || res.returnCode == 0) {
+                        cb && cb(res);
+                    } else {
+                        alert('获取数据出错')
+                    }
+                },
+                error: function (error) {
+                    alert(error)
+                }
+            })
+        },
+        getQueryString: function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return r[2];
+            return '';
+        }
+    }
+    $(function () {
+        loanApprove.init();
+    })
+</script>
+</html>

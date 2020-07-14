@@ -1,0 +1,924 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjProductMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjProduct">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    <result column="product_code_zj" jdbcType="VARCHAR" property="productCodeZj" />
+    <result column="product_description" jdbcType="VARCHAR" property="productDescription" />
+    <result column="product_tags" jdbcType="VARCHAR" property="productTags" />
+    <result column="is_own_input" jdbcType="BIT" property="isOwnInput" />
+    <result column="logo_url" jdbcType="VARCHAR" property="logoUrl" />
+    <result column="loan_subject" jdbcType="TINYINT" property="loanSubject" />
+    <result column="guarantee_type" jdbcType="TINYINT" property="guaranteeType" />
+    <result column="guarantee_value" jdbcType="VARCHAR" property="guaranteeValue" />
+    <result column="is_mortgage" jdbcType="BIT" property="isMortgage" />
+    <result column="pay_dead_line" jdbcType="VARCHAR" property="payDeadLine" />
+    <result column="non_recu_fee_type" jdbcType="INTEGER" property="nonRecuFeeType" />
+    <result column="non_recu_fee" jdbcType="DECIMAL" property="nonRecuFee" />
+    <result column="fee_type" jdbcType="INTEGER" property="feeType" />
+    <result column="default_fee" jdbcType="DECIMAL" property="defaultFee" />
+    <result column="min_fee" jdbcType="DECIMAL" property="minFee" />
+    <result column="max_fee" jdbcType="DECIMAL" property="maxFee" />
+    <result column="repay_way" jdbcType="VARCHAR" property="repayWay" />
+    <result column="reckon_model" jdbcType="INTEGER" property="reckonModel" />
+    <result column="is_prepay_sup" jdbcType="BIT" property="isPrepaySup" />
+    <result column="prepay_fee_type" jdbcType="INTEGER" property="prepayFeeType" />
+    <result column="prepay_raw_fee" jdbcType="DECIMAL" property="prepayRawFee" />
+    <result column="is_penalty_sup" jdbcType="BIT" property="isPenaltySup" />
+    <result column="penalty_raw_fee" jdbcType="DECIMAL" property="penaltyRawFee" />
+    <result column="penalty_type" jdbcType="INTEGER" property="penaltyType" />
+    <result column="is_user_customized" jdbcType="BIT" property="isUserCustomized" />
+    <result column="visiable_scope" jdbcType="INTEGER" property="visiableScope" />
+    <result column="account_type" jdbcType="INTEGER" property="accountType" />
+    <result column="recmmand_order" jdbcType="INTEGER" property="recmmandOrder" />
+    <result column="is_recommand" jdbcType="BIT" property="isRecommand" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="display_order" jdbcType="INTEGER" property="displayOrder" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="open_product_id" jdbcType="VARCHAR" property="openProductId" />
+    <result column="fee_info" jdbcType="VARCHAR" property="feeInfo" />
+    <result column="amount_info" jdbcType="VARCHAR" property="amountInfo" />
+    <result column="term_info" jdbcType="VARCHAR" property="termInfo" />
+    <result column="product_type" jdbcType="INTEGER" property="productType" />
+    <result column="product_threechannel_id" jdbcType="VARCHAR" property="productThreechannelId" />
+    <result column="price_strategy" jdbcType="SMALLINT" property="priceStrategy" />
+    <result column="is_overdue_auto_deduct" jdbcType="SMALLINT" property="isOverdueAutoDeduct" />
+    <result column="td_report_valid_date" jdbcType="INTEGER" property="tdReportValidDate" />
+    <result column="wd_usage_no" jdbcType="VARCHAR" property="wdUsageNo" />
+    <result column="wd_borrow_type" jdbcType="VARCHAR" property="wdBorrowType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, product_name, product_code, product_code_zj, product_description, product_tags, 
+    is_own_input, logo_url, loan_subject, guarantee_type, guarantee_value, is_mortgage, 
+    pay_dead_line, non_recu_fee_type, non_recu_fee, fee_type, default_fee, min_fee, max_fee, 
+    repay_way, reckon_model, is_prepay_sup, prepay_fee_type, prepay_raw_fee, is_penalty_sup, 
+    penalty_raw_fee, penalty_type, is_user_customized, visiable_scope, account_type, 
+    recmmand_order, is_recommand, state, display_order, del_flag, create_date, create_by, 
+    update_date, update_by, open_product_id, fee_info, amount_info, term_info, product_type, 
+    product_threechannel_id, price_strategy, is_overdue_auto_deduct, td_report_valid_date, 
+    wd_usage_no, wd_borrow_type
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjProductExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_product
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_product
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjProductExample">
+    delete from nj_product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjProduct">
+    insert into nj_product (id, product_name, product_code, 
+      product_code_zj, product_description, product_tags, 
+      is_own_input, logo_url, loan_subject, 
+      guarantee_type, guarantee_value, is_mortgage, 
+      pay_dead_line, non_recu_fee_type, non_recu_fee, 
+      fee_type, default_fee, min_fee, 
+      max_fee, repay_way, reckon_model, 
+      is_prepay_sup, prepay_fee_type, prepay_raw_fee, 
+      is_penalty_sup, penalty_raw_fee, penalty_type, 
+      is_user_customized, visiable_scope, account_type, 
+      recmmand_order, is_recommand, state, 
+      display_order, del_flag, create_date, 
+      create_by, update_date, update_by, 
+      open_product_id, fee_info, amount_info, 
+      term_info, product_type, product_threechannel_id, 
+      price_strategy, is_overdue_auto_deduct, td_report_valid_date, 
+      wd_usage_no, wd_borrow_type)
+    values (#{id,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{productCode,jdbcType=VARCHAR}, 
+      #{productCodeZj,jdbcType=VARCHAR}, #{productDescription,jdbcType=VARCHAR}, #{productTags,jdbcType=VARCHAR}, 
+      #{isOwnInput,jdbcType=BIT}, #{logoUrl,jdbcType=VARCHAR}, #{loanSubject,jdbcType=TINYINT}, 
+      #{guaranteeType,jdbcType=TINYINT}, #{guaranteeValue,jdbcType=VARCHAR}, #{isMortgage,jdbcType=BIT}, 
+      #{payDeadLine,jdbcType=VARCHAR}, #{nonRecuFeeType,jdbcType=INTEGER}, #{nonRecuFee,jdbcType=DECIMAL}, 
+      #{feeType,jdbcType=INTEGER}, #{defaultFee,jdbcType=DECIMAL}, #{minFee,jdbcType=DECIMAL}, 
+      #{maxFee,jdbcType=DECIMAL}, #{repayWay,jdbcType=VARCHAR}, #{reckonModel,jdbcType=INTEGER}, 
+      #{isPrepaySup,jdbcType=BIT}, #{prepayFeeType,jdbcType=INTEGER}, #{prepayRawFee,jdbcType=DECIMAL}, 
+      #{isPenaltySup,jdbcType=BIT}, #{penaltyRawFee,jdbcType=DECIMAL}, #{penaltyType,jdbcType=INTEGER}, 
+      #{isUserCustomized,jdbcType=BIT}, #{visiableScope,jdbcType=INTEGER}, #{accountType,jdbcType=INTEGER}, 
+      #{recmmandOrder,jdbcType=INTEGER}, #{isRecommand,jdbcType=BIT}, #{state,jdbcType=INTEGER}, 
+      #{displayOrder,jdbcType=INTEGER}, #{delFlag,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{openProductId,jdbcType=VARCHAR}, #{feeInfo,jdbcType=VARCHAR}, #{amountInfo,jdbcType=VARCHAR}, 
+      #{termInfo,jdbcType=VARCHAR}, #{productType,jdbcType=INTEGER}, #{productThreechannelId,jdbcType=VARCHAR}, 
+      #{priceStrategy,jdbcType=SMALLINT}, #{isOverdueAutoDeduct,jdbcType=SMALLINT}, #{tdReportValidDate,jdbcType=INTEGER}, 
+      #{wdUsageNo,jdbcType=VARCHAR}, #{wdBorrowType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjProduct">
+    insert into nj_product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="productCode != null">
+        product_code,
+      </if>
+      <if test="productCodeZj != null">
+        product_code_zj,
+      </if>
+      <if test="productDescription != null">
+        product_description,
+      </if>
+      <if test="productTags != null">
+        product_tags,
+      </if>
+      <if test="isOwnInput != null">
+        is_own_input,
+      </if>
+      <if test="logoUrl != null">
+        logo_url,
+      </if>
+      <if test="loanSubject != null">
+        loan_subject,
+      </if>
+      <if test="guaranteeType != null">
+        guarantee_type,
+      </if>
+      <if test="guaranteeValue != null">
+        guarantee_value,
+      </if>
+      <if test="isMortgage != null">
+        is_mortgage,
+      </if>
+      <if test="payDeadLine != null">
+        pay_dead_line,
+      </if>
+      <if test="nonRecuFeeType != null">
+        non_recu_fee_type,
+      </if>
+      <if test="nonRecuFee != null">
+        non_recu_fee,
+      </if>
+      <if test="feeType != null">
+        fee_type,
+      </if>
+      <if test="defaultFee != null">
+        default_fee,
+      </if>
+      <if test="minFee != null">
+        min_fee,
+      </if>
+      <if test="maxFee != null">
+        max_fee,
+      </if>
+      <if test="repayWay != null">
+        repay_way,
+      </if>
+      <if test="reckonModel != null">
+        reckon_model,
+      </if>
+      <if test="isPrepaySup != null">
+        is_prepay_sup,
+      </if>
+      <if test="prepayFeeType != null">
+        prepay_fee_type,
+      </if>
+      <if test="prepayRawFee != null">
+        prepay_raw_fee,
+      </if>
+      <if test="isPenaltySup != null">
+        is_penalty_sup,
+      </if>
+      <if test="penaltyRawFee != null">
+        penalty_raw_fee,
+      </if>
+      <if test="penaltyType != null">
+        penalty_type,
+      </if>
+      <if test="isUserCustomized != null">
+        is_user_customized,
+      </if>
+      <if test="visiableScope != null">
+        visiable_scope,
+      </if>
+      <if test="accountType != null">
+        account_type,
+      </if>
+      <if test="recmmandOrder != null">
+        recmmand_order,
+      </if>
+      <if test="isRecommand != null">
+        is_recommand,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="displayOrder != null">
+        display_order,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="openProductId != null">
+        open_product_id,
+      </if>
+      <if test="feeInfo != null">
+        fee_info,
+      </if>
+      <if test="amountInfo != null">
+        amount_info,
+      </if>
+      <if test="termInfo != null">
+        term_info,
+      </if>
+      <if test="productType != null">
+        product_type,
+      </if>
+      <if test="productThreechannelId != null">
+        product_threechannel_id,
+      </if>
+      <if test="priceStrategy != null">
+        price_strategy,
+      </if>
+      <if test="isOverdueAutoDeduct != null">
+        is_overdue_auto_deduct,
+      </if>
+      <if test="tdReportValidDate != null">
+        td_report_valid_date,
+      </if>
+      <if test="wdUsageNo != null">
+        wd_usage_no,
+      </if>
+      <if test="wdBorrowType != null">
+        wd_borrow_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null">
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productCodeZj != null">
+        #{productCodeZj,jdbcType=VARCHAR},
+      </if>
+      <if test="productDescription != null">
+        #{productDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="productTags != null">
+        #{productTags,jdbcType=VARCHAR},
+      </if>
+      <if test="isOwnInput != null">
+        #{isOwnInput,jdbcType=BIT},
+      </if>
+      <if test="logoUrl != null">
+        #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="loanSubject != null">
+        #{loanSubject,jdbcType=TINYINT},
+      </if>
+      <if test="guaranteeType != null">
+        #{guaranteeType,jdbcType=TINYINT},
+      </if>
+      <if test="guaranteeValue != null">
+        #{guaranteeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="isMortgage != null">
+        #{isMortgage,jdbcType=BIT},
+      </if>
+      <if test="payDeadLine != null">
+        #{payDeadLine,jdbcType=VARCHAR},
+      </if>
+      <if test="nonRecuFeeType != null">
+        #{nonRecuFeeType,jdbcType=INTEGER},
+      </if>
+      <if test="nonRecuFee != null">
+        #{nonRecuFee,jdbcType=DECIMAL},
+      </if>
+      <if test="feeType != null">
+        #{feeType,jdbcType=INTEGER},
+      </if>
+      <if test="defaultFee != null">
+        #{defaultFee,jdbcType=DECIMAL},
+      </if>
+      <if test="minFee != null">
+        #{minFee,jdbcType=DECIMAL},
+      </if>
+      <if test="maxFee != null">
+        #{maxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="repayWay != null">
+        #{repayWay,jdbcType=VARCHAR},
+      </if>
+      <if test="reckonModel != null">
+        #{reckonModel,jdbcType=INTEGER},
+      </if>
+      <if test="isPrepaySup != null">
+        #{isPrepaySup,jdbcType=BIT},
+      </if>
+      <if test="prepayFeeType != null">
+        #{prepayFeeType,jdbcType=INTEGER},
+      </if>
+      <if test="prepayRawFee != null">
+        #{prepayRawFee,jdbcType=DECIMAL},
+      </if>
+      <if test="isPenaltySup != null">
+        #{isPenaltySup,jdbcType=BIT},
+      </if>
+      <if test="penaltyRawFee != null">
+        #{penaltyRawFee,jdbcType=DECIMAL},
+      </if>
+      <if test="penaltyType != null">
+        #{penaltyType,jdbcType=INTEGER},
+      </if>
+      <if test="isUserCustomized != null">
+        #{isUserCustomized,jdbcType=BIT},
+      </if>
+      <if test="visiableScope != null">
+        #{visiableScope,jdbcType=INTEGER},
+      </if>
+      <if test="accountType != null">
+        #{accountType,jdbcType=INTEGER},
+      </if>
+      <if test="recmmandOrder != null">
+        #{recmmandOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isRecommand != null">
+        #{isRecommand,jdbcType=BIT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="displayOrder != null">
+        #{displayOrder,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="openProductId != null">
+        #{openProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="feeInfo != null">
+        #{feeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="amountInfo != null">
+        #{amountInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="termInfo != null">
+        #{termInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        #{productType,jdbcType=INTEGER},
+      </if>
+      <if test="productThreechannelId != null">
+        #{productThreechannelId,jdbcType=VARCHAR},
+      </if>
+      <if test="priceStrategy != null">
+        #{priceStrategy,jdbcType=SMALLINT},
+      </if>
+      <if test="isOverdueAutoDeduct != null">
+        #{isOverdueAutoDeduct,jdbcType=SMALLINT},
+      </if>
+      <if test="tdReportValidDate != null">
+        #{tdReportValidDate,jdbcType=INTEGER},
+      </if>
+      <if test="wdUsageNo != null">
+        #{wdUsageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="wdBorrowType != null">
+        #{wdBorrowType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjProductExample" resultType="java.lang.Long">
+    select count(*) from nj_product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_product
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productName != null">
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productCode != null">
+        product_code = #{record.productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productCodeZj != null">
+        product_code_zj = #{record.productCodeZj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productDescription != null">
+        product_description = #{record.productDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productTags != null">
+        product_tags = #{record.productTags,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isOwnInput != null">
+        is_own_input = #{record.isOwnInput,jdbcType=BIT},
+      </if>
+      <if test="record.logoUrl != null">
+        logo_url = #{record.logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loanSubject != null">
+        loan_subject = #{record.loanSubject,jdbcType=TINYINT},
+      </if>
+      <if test="record.guaranteeType != null">
+        guarantee_type = #{record.guaranteeType,jdbcType=TINYINT},
+      </if>
+      <if test="record.guaranteeValue != null">
+        guarantee_value = #{record.guaranteeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isMortgage != null">
+        is_mortgage = #{record.isMortgage,jdbcType=BIT},
+      </if>
+      <if test="record.payDeadLine != null">
+        pay_dead_line = #{record.payDeadLine,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nonRecuFeeType != null">
+        non_recu_fee_type = #{record.nonRecuFeeType,jdbcType=INTEGER},
+      </if>
+      <if test="record.nonRecuFee != null">
+        non_recu_fee = #{record.nonRecuFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.feeType != null">
+        fee_type = #{record.feeType,jdbcType=INTEGER},
+      </if>
+      <if test="record.defaultFee != null">
+        default_fee = #{record.defaultFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.minFee != null">
+        min_fee = #{record.minFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxFee != null">
+        max_fee = #{record.maxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repayWay != null">
+        repay_way = #{record.repayWay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reckonModel != null">
+        reckon_model = #{record.reckonModel,jdbcType=INTEGER},
+      </if>
+      <if test="record.isPrepaySup != null">
+        is_prepay_sup = #{record.isPrepaySup,jdbcType=BIT},
+      </if>
+      <if test="record.prepayFeeType != null">
+        prepay_fee_type = #{record.prepayFeeType,jdbcType=INTEGER},
+      </if>
+      <if test="record.prepayRawFee != null">
+        prepay_raw_fee = #{record.prepayRawFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isPenaltySup != null">
+        is_penalty_sup = #{record.isPenaltySup,jdbcType=BIT},
+      </if>
+      <if test="record.penaltyRawFee != null">
+        penalty_raw_fee = #{record.penaltyRawFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.penaltyType != null">
+        penalty_type = #{record.penaltyType,jdbcType=INTEGER},
+      </if>
+      <if test="record.isUserCustomized != null">
+        is_user_customized = #{record.isUserCustomized,jdbcType=BIT},
+      </if>
+      <if test="record.visiableScope != null">
+        visiable_scope = #{record.visiableScope,jdbcType=INTEGER},
+      </if>
+      <if test="record.accountType != null">
+        account_type = #{record.accountType,jdbcType=INTEGER},
+      </if>
+      <if test="record.recmmandOrder != null">
+        recmmand_order = #{record.recmmandOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.isRecommand != null">
+        is_recommand = #{record.isRecommand,jdbcType=BIT},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.displayOrder != null">
+        display_order = #{record.displayOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=BIT},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openProductId != null">
+        open_product_id = #{record.openProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feeInfo != null">
+        fee_info = #{record.feeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amountInfo != null">
+        amount_info = #{record.amountInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.termInfo != null">
+        term_info = #{record.termInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productType != null">
+        product_type = #{record.productType,jdbcType=INTEGER},
+      </if>
+      <if test="record.productThreechannelId != null">
+        product_threechannel_id = #{record.productThreechannelId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priceStrategy != null">
+        price_strategy = #{record.priceStrategy,jdbcType=SMALLINT},
+      </if>
+      <if test="record.isOverdueAutoDeduct != null">
+        is_overdue_auto_deduct = #{record.isOverdueAutoDeduct,jdbcType=SMALLINT},
+      </if>
+      <if test="record.tdReportValidDate != null">
+        td_report_valid_date = #{record.tdReportValidDate,jdbcType=INTEGER},
+      </if>
+      <if test="record.wdUsageNo != null">
+        wd_usage_no = #{record.wdUsageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wdBorrowType != null">
+        wd_borrow_type = #{record.wdBorrowType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_product
+    set id = #{record.id,jdbcType=VARCHAR},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      product_code = #{record.productCode,jdbcType=VARCHAR},
+      product_code_zj = #{record.productCodeZj,jdbcType=VARCHAR},
+      product_description = #{record.productDescription,jdbcType=VARCHAR},
+      product_tags = #{record.productTags,jdbcType=VARCHAR},
+      is_own_input = #{record.isOwnInput,jdbcType=BIT},
+      logo_url = #{record.logoUrl,jdbcType=VARCHAR},
+      loan_subject = #{record.loanSubject,jdbcType=TINYINT},
+      guarantee_type = #{record.guaranteeType,jdbcType=TINYINT},
+      guarantee_value = #{record.guaranteeValue,jdbcType=VARCHAR},
+      is_mortgage = #{record.isMortgage,jdbcType=BIT},
+      pay_dead_line = #{record.payDeadLine,jdbcType=VARCHAR},
+      non_recu_fee_type = #{record.nonRecuFeeType,jdbcType=INTEGER},
+      non_recu_fee = #{record.nonRecuFee,jdbcType=DECIMAL},
+      fee_type = #{record.feeType,jdbcType=INTEGER},
+      default_fee = #{record.defaultFee,jdbcType=DECIMAL},
+      min_fee = #{record.minFee,jdbcType=DECIMAL},
+      max_fee = #{record.maxFee,jdbcType=DECIMAL},
+      repay_way = #{record.repayWay,jdbcType=VARCHAR},
+      reckon_model = #{record.reckonModel,jdbcType=INTEGER},
+      is_prepay_sup = #{record.isPrepaySup,jdbcType=BIT},
+      prepay_fee_type = #{record.prepayFeeType,jdbcType=INTEGER},
+      prepay_raw_fee = #{record.prepayRawFee,jdbcType=DECIMAL},
+      is_penalty_sup = #{record.isPenaltySup,jdbcType=BIT},
+      penalty_raw_fee = #{record.penaltyRawFee,jdbcType=DECIMAL},
+      penalty_type = #{record.penaltyType,jdbcType=INTEGER},
+      is_user_customized = #{record.isUserCustomized,jdbcType=BIT},
+      visiable_scope = #{record.visiableScope,jdbcType=INTEGER},
+      account_type = #{record.accountType,jdbcType=INTEGER},
+      recmmand_order = #{record.recmmandOrder,jdbcType=INTEGER},
+      is_recommand = #{record.isRecommand,jdbcType=BIT},
+      state = #{record.state,jdbcType=INTEGER},
+      display_order = #{record.displayOrder,jdbcType=INTEGER},
+      del_flag = #{record.delFlag,jdbcType=BIT},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      open_product_id = #{record.openProductId,jdbcType=VARCHAR},
+      fee_info = #{record.feeInfo,jdbcType=VARCHAR},
+      amount_info = #{record.amountInfo,jdbcType=VARCHAR},
+      term_info = #{record.termInfo,jdbcType=VARCHAR},
+      product_type = #{record.productType,jdbcType=INTEGER},
+      product_threechannel_id = #{record.productThreechannelId,jdbcType=VARCHAR},
+      price_strategy = #{record.priceStrategy,jdbcType=SMALLINT},
+      is_overdue_auto_deduct = #{record.isOverdueAutoDeduct,jdbcType=SMALLINT},
+      td_report_valid_date = #{record.tdReportValidDate,jdbcType=INTEGER},
+      wd_usage_no = #{record.wdUsageNo,jdbcType=VARCHAR},
+      wd_borrow_type = #{record.wdBorrowType,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjProduct">
+    update nj_product
+    <set>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null">
+        product_code = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="productCodeZj != null">
+        product_code_zj = #{productCodeZj,jdbcType=VARCHAR},
+      </if>
+      <if test="productDescription != null">
+        product_description = #{productDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="productTags != null">
+        product_tags = #{productTags,jdbcType=VARCHAR},
+      </if>
+      <if test="isOwnInput != null">
+        is_own_input = #{isOwnInput,jdbcType=BIT},
+      </if>
+      <if test="logoUrl != null">
+        logo_url = #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="loanSubject != null">
+        loan_subject = #{loanSubject,jdbcType=TINYINT},
+      </if>
+      <if test="guaranteeType != null">
+        guarantee_type = #{guaranteeType,jdbcType=TINYINT},
+      </if>
+      <if test="guaranteeValue != null">
+        guarantee_value = #{guaranteeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="isMortgage != null">
+        is_mortgage = #{isMortgage,jdbcType=BIT},
+      </if>
+      <if test="payDeadLine != null">
+        pay_dead_line = #{payDeadLine,jdbcType=VARCHAR},
+      </if>
+      <if test="nonRecuFeeType != null">
+        non_recu_fee_type = #{nonRecuFeeType,jdbcType=INTEGER},
+      </if>
+      <if test="nonRecuFee != null">
+        non_recu_fee = #{nonRecuFee,jdbcType=DECIMAL},
+      </if>
+      <if test="feeType != null">
+        fee_type = #{feeType,jdbcType=INTEGER},
+      </if>
+      <if test="defaultFee != null">
+        default_fee = #{defaultFee,jdbcType=DECIMAL},
+      </if>
+      <if test="minFee != null">
+        min_fee = #{minFee,jdbcType=DECIMAL},
+      </if>
+      <if test="maxFee != null">
+        max_fee = #{maxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="repayWay != null">
+        repay_way = #{repayWay,jdbcType=VARCHAR},
+      </if>
+      <if test="reckonModel != null">
+        reckon_model = #{reckonModel,jdbcType=INTEGER},
+      </if>
+      <if test="isPrepaySup != null">
+        is_prepay_sup = #{isPrepaySup,jdbcType=BIT},
+      </if>
+      <if test="prepayFeeType != null">
+        prepay_fee_type = #{prepayFeeType,jdbcType=INTEGER},
+      </if>
+      <if test="prepayRawFee != null">
+        prepay_raw_fee = #{prepayRawFee,jdbcType=DECIMAL},
+      </if>
+      <if test="isPenaltySup != null">
+        is_penalty_sup = #{isPenaltySup,jdbcType=BIT},
+      </if>
+      <if test="penaltyRawFee != null">
+        penalty_raw_fee = #{penaltyRawFee,jdbcType=DECIMAL},
+      </if>
+      <if test="penaltyType != null">
+        penalty_type = #{penaltyType,jdbcType=INTEGER},
+      </if>
+      <if test="isUserCustomized != null">
+        is_user_customized = #{isUserCustomized,jdbcType=BIT},
+      </if>
+      <if test="visiableScope != null">
+        visiable_scope = #{visiableScope,jdbcType=INTEGER},
+      </if>
+      <if test="accountType != null">
+        account_type = #{accountType,jdbcType=INTEGER},
+      </if>
+      <if test="recmmandOrder != null">
+        recmmand_order = #{recmmandOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isRecommand != null">
+        is_recommand = #{isRecommand,jdbcType=BIT},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="displayOrder != null">
+        display_order = #{displayOrder,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="openProductId != null">
+        open_product_id = #{openProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="feeInfo != null">
+        fee_info = #{feeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="amountInfo != null">
+        amount_info = #{amountInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="termInfo != null">
+        term_info = #{termInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        product_type = #{productType,jdbcType=INTEGER},
+      </if>
+      <if test="productThreechannelId != null">
+        product_threechannel_id = #{productThreechannelId,jdbcType=VARCHAR},
+      </if>
+      <if test="priceStrategy != null">
+        price_strategy = #{priceStrategy,jdbcType=SMALLINT},
+      </if>
+      <if test="isOverdueAutoDeduct != null">
+        is_overdue_auto_deduct = #{isOverdueAutoDeduct,jdbcType=SMALLINT},
+      </if>
+      <if test="tdReportValidDate != null">
+        td_report_valid_date = #{tdReportValidDate,jdbcType=INTEGER},
+      </if>
+      <if test="wdUsageNo != null">
+        wd_usage_no = #{wdUsageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="wdBorrowType != null">
+        wd_borrow_type = #{wdBorrowType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjProduct">
+    update nj_product
+    set product_name = #{productName,jdbcType=VARCHAR},
+      product_code = #{productCode,jdbcType=VARCHAR},
+      product_code_zj = #{productCodeZj,jdbcType=VARCHAR},
+      product_description = #{productDescription,jdbcType=VARCHAR},
+      product_tags = #{productTags,jdbcType=VARCHAR},
+      is_own_input = #{isOwnInput,jdbcType=BIT},
+      logo_url = #{logoUrl,jdbcType=VARCHAR},
+      loan_subject = #{loanSubject,jdbcType=TINYINT},
+      guarantee_type = #{guaranteeType,jdbcType=TINYINT},
+      guarantee_value = #{guaranteeValue,jdbcType=VARCHAR},
+      is_mortgage = #{isMortgage,jdbcType=BIT},
+      pay_dead_line = #{payDeadLine,jdbcType=VARCHAR},
+      non_recu_fee_type = #{nonRecuFeeType,jdbcType=INTEGER},
+      non_recu_fee = #{nonRecuFee,jdbcType=DECIMAL},
+      fee_type = #{feeType,jdbcType=INTEGER},
+      default_fee = #{defaultFee,jdbcType=DECIMAL},
+      min_fee = #{minFee,jdbcType=DECIMAL},
+      max_fee = #{maxFee,jdbcType=DECIMAL},
+      repay_way = #{repayWay,jdbcType=VARCHAR},
+      reckon_model = #{reckonModel,jdbcType=INTEGER},
+      is_prepay_sup = #{isPrepaySup,jdbcType=BIT},
+      prepay_fee_type = #{prepayFeeType,jdbcType=INTEGER},
+      prepay_raw_fee = #{prepayRawFee,jdbcType=DECIMAL},
+      is_penalty_sup = #{isPenaltySup,jdbcType=BIT},
+      penalty_raw_fee = #{penaltyRawFee,jdbcType=DECIMAL},
+      penalty_type = #{penaltyType,jdbcType=INTEGER},
+      is_user_customized = #{isUserCustomized,jdbcType=BIT},
+      visiable_scope = #{visiableScope,jdbcType=INTEGER},
+      account_type = #{accountType,jdbcType=INTEGER},
+      recmmand_order = #{recmmandOrder,jdbcType=INTEGER},
+      is_recommand = #{isRecommand,jdbcType=BIT},
+      state = #{state,jdbcType=INTEGER},
+      display_order = #{displayOrder,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=BIT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      open_product_id = #{openProductId,jdbcType=VARCHAR},
+      fee_info = #{feeInfo,jdbcType=VARCHAR},
+      amount_info = #{amountInfo,jdbcType=VARCHAR},
+      term_info = #{termInfo,jdbcType=VARCHAR},
+      product_type = #{productType,jdbcType=INTEGER},
+      product_threechannel_id = #{productThreechannelId,jdbcType=VARCHAR},
+      price_strategy = #{priceStrategy,jdbcType=SMALLINT},
+      is_overdue_auto_deduct = #{isOverdueAutoDeduct,jdbcType=SMALLINT},
+      td_report_valid_date = #{tdReportValidDate,jdbcType=INTEGER},
+      wd_usage_no = #{wdUsageNo,jdbcType=VARCHAR},
+      wd_borrow_type = #{wdBorrowType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjUserBusinessApprovalMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjUserBusinessApproval">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="identity_card" jdbcType="VARCHAR" property="identityCard" />
+    <result column="spouse_identity_card" jdbcType="VARCHAR" property="spouseIdentityCard" />
+    <result column="house_account" jdbcType="VARCHAR" property="houseAccount" />
+    <result column="spouse_house_account" jdbcType="VARCHAR" property="spouseHouseAccount" />
+    <result column="marr_prove" jdbcType="VARCHAR" property="marrProve" />
+    <result column="credit_report" jdbcType="VARCHAR" property="creditReport" />
+    <result column="spouse_credit_report" jdbcType="VARCHAR" property="spouseCreditReport" />
+    <result column="house_certificate" jdbcType="VARCHAR" property="houseCertificate" />
+    <result column="nation_certificate" jdbcType="VARCHAR" property="nationCertificate" />
+    <result column="house_query" jdbcType="VARCHAR" property="houseQuery" />
+    <result column="bank_detail" jdbcType="VARCHAR" property="bankDetail" />
+    <result column="house_message" jdbcType="VARCHAR" property="houseMessage" />
+    <result column="pawn_photo" jdbcType="VARCHAR" property="pawnPhoto" />
+    <result column="contract_prove" jdbcType="VARCHAR" property="contractProve" />
+    <result column="other_prove" jdbcType="VARCHAR" property="otherProve" />
+    <result column="opinion" jdbcType="VARCHAR" property="opinion" />
+    <result column="user_receive" jdbcType="VARCHAR" property="userReceive" />
+    <result column="receive_time" jdbcType="TIMESTAMP" property="receiveTime" />
+    <result column="work_company" jdbcType="VARCHAR" property="workCompany" />
+    <result column="credit_result" jdbcType="VARCHAR" property="creditResult" />
+    <result column="bigdata_query_messge" jdbcType="VARCHAR" property="bigdataQueryMessge" />
+    <result column="lawsuit_query_message" jdbcType="VARCHAR" property="lawsuitQueryMessage" />
+    <result column="famliy_debt" jdbcType="DECIMAL" property="famliyDebt" />
+    <result column="warrant_no" jdbcType="VARCHAR" property="warrantNo" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="pawn_sw" jdbcType="VARCHAR" property="pawnSw" />
+    <result column="pawn_org" jdbcType="VARCHAR" property="pawnOrg" />
+    <result column="only_house" jdbcType="VARCHAR" property="onlyHouse" />
+    <result column="house_type" jdbcType="VARCHAR" property="houseType" />
+    <result column="house_status" jdbcType="VARCHAR" property="houseStatus" />
+    <result column="house_limit" jdbcType="VARCHAR" property="houseLimit" />
+    <result column="cognizance_price" jdbcType="DECIMAL" property="cognizancePrice" />
+    <result column="loan_quta" jdbcType="DECIMAL" property="loanQuta" />
+    <result column="pawn_rate" jdbcType="VARCHAR" property="pawnRate" />
+    <result column="loan_usage" jdbcType="VARCHAR" property="loanUsage" />
+    <result column="repay_source" jdbcType="VARCHAR" property="repaySource" />
+    <result column="product_require" jdbcType="VARCHAR" property="productRequire" />
+    <result column="require_message" jdbcType="VARCHAR" property="requireMessage" />
+    <result column="is_del" jdbcType="BIT" property="isDel" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, order_id, identity_card, spouse_identity_card, house_account, spouse_house_account, 
+    marr_prove, credit_report, spouse_credit_report, house_certificate, nation_certificate, 
+    house_query, bank_detail, house_message, pawn_photo, contract_prove, other_prove, 
+    opinion, user_receive, receive_time, work_company, credit_result, bigdata_query_messge, 
+    lawsuit_query_message, famliy_debt, warrant_no, area, pawn_sw, pawn_org, only_house, 
+    house_type, house_status, house_limit, cognizance_price, loan_quta, pawn_rate, loan_usage, 
+    repay_source, product_require, require_message, is_del, create_time, create_by, update_time, 
+    update_by
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjUserBusinessApprovalExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_user_business_approval
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_user_business_approval
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_user_business_approval
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjUserBusinessApprovalExample">
+    delete from nj_user_business_approval
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjUserBusinessApproval">
+    insert into nj_user_business_approval (id, user_id, order_id, 
+      identity_card, spouse_identity_card, house_account, 
+      spouse_house_account, marr_prove, credit_report, 
+      spouse_credit_report, house_certificate, nation_certificate, 
+      house_query, bank_detail, house_message, 
+      pawn_photo, contract_prove, other_prove, 
+      opinion, user_receive, receive_time, 
+      work_company, credit_result, bigdata_query_messge, 
+      lawsuit_query_message, famliy_debt, warrant_no, 
+      area, pawn_sw, pawn_org, 
+      only_house, house_type, house_status, 
+      house_limit, cognizance_price, loan_quta, 
+      pawn_rate, loan_usage, repay_source, 
+      product_require, require_message, is_del, 
+      create_time, create_by, update_time, 
+      update_by)
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{identityCard,jdbcType=VARCHAR}, #{spouseIdentityCard,jdbcType=VARCHAR}, #{houseAccount,jdbcType=VARCHAR}, 
+      #{spouseHouseAccount,jdbcType=VARCHAR}, #{marrProve,jdbcType=VARCHAR}, #{creditReport,jdbcType=VARCHAR}, 
+      #{spouseCreditReport,jdbcType=VARCHAR}, #{houseCertificate,jdbcType=VARCHAR}, #{nationCertificate,jdbcType=VARCHAR}, 
+      #{houseQuery,jdbcType=VARCHAR}, #{bankDetail,jdbcType=VARCHAR}, #{houseMessage,jdbcType=VARCHAR}, 
+      #{pawnPhoto,jdbcType=VARCHAR}, #{contractProve,jdbcType=VARCHAR}, #{otherProve,jdbcType=VARCHAR}, 
+      #{opinion,jdbcType=VARCHAR}, #{userReceive,jdbcType=VARCHAR}, #{receiveTime,jdbcType=TIMESTAMP}, 
+      #{workCompany,jdbcType=VARCHAR}, #{creditResult,jdbcType=VARCHAR}, #{bigdataQueryMessge,jdbcType=VARCHAR}, 
+      #{lawsuitQueryMessage,jdbcType=VARCHAR}, #{famliyDebt,jdbcType=DECIMAL}, #{warrantNo,jdbcType=VARCHAR}, 
+      #{area,jdbcType=VARCHAR}, #{pawnSw,jdbcType=VARCHAR}, #{pawnOrg,jdbcType=VARCHAR}, 
+      #{onlyHouse,jdbcType=VARCHAR}, #{houseType,jdbcType=VARCHAR}, #{houseStatus,jdbcType=VARCHAR}, 
+      #{houseLimit,jdbcType=VARCHAR}, #{cognizancePrice,jdbcType=DECIMAL}, #{loanQuta,jdbcType=DECIMAL}, 
+      #{pawnRate,jdbcType=VARCHAR}, #{loanUsage,jdbcType=VARCHAR}, #{repaySource,jdbcType=VARCHAR}, 
+      #{productRequire,jdbcType=VARCHAR}, #{requireMessage,jdbcType=VARCHAR}, #{isDel,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjUserBusinessApproval">
+    insert into nj_user_business_approval
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="identityCard != null">
+        identity_card,
+      </if>
+      <if test="spouseIdentityCard != null">
+        spouse_identity_card,
+      </if>
+      <if test="houseAccount != null">
+        house_account,
+      </if>
+      <if test="spouseHouseAccount != null">
+        spouse_house_account,
+      </if>
+      <if test="marrProve != null">
+        marr_prove,
+      </if>
+      <if test="creditReport != null">
+        credit_report,
+      </if>
+      <if test="spouseCreditReport != null">
+        spouse_credit_report,
+      </if>
+      <if test="houseCertificate != null">
+        house_certificate,
+      </if>
+      <if test="nationCertificate != null">
+        nation_certificate,
+      </if>
+      <if test="houseQuery != null">
+        house_query,
+      </if>
+      <if test="bankDetail != null">
+        bank_detail,
+      </if>
+      <if test="houseMessage != null">
+        house_message,
+      </if>
+      <if test="pawnPhoto != null">
+        pawn_photo,
+      </if>
+      <if test="contractProve != null">
+        contract_prove,
+      </if>
+      <if test="otherProve != null">
+        other_prove,
+      </if>
+      <if test="opinion != null">
+        opinion,
+      </if>
+      <if test="userReceive != null">
+        user_receive,
+      </if>
+      <if test="receiveTime != null">
+        receive_time,
+      </if>
+      <if test="workCompany != null">
+        work_company,
+      </if>
+      <if test="creditResult != null">
+        credit_result,
+      </if>
+      <if test="bigdataQueryMessge != null">
+        bigdata_query_messge,
+      </if>
+      <if test="lawsuitQueryMessage != null">
+        lawsuit_query_message,
+      </if>
+      <if test="famliyDebt != null">
+        famliy_debt,
+      </if>
+      <if test="warrantNo != null">
+        warrant_no,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="pawnSw != null">
+        pawn_sw,
+      </if>
+      <if test="pawnOrg != null">
+        pawn_org,
+      </if>
+      <if test="onlyHouse != null">
+        only_house,
+      </if>
+      <if test="houseType != null">
+        house_type,
+      </if>
+      <if test="houseStatus != null">
+        house_status,
+      </if>
+      <if test="houseLimit != null">
+        house_limit,
+      </if>
+      <if test="cognizancePrice != null">
+        cognizance_price,
+      </if>
+      <if test="loanQuta != null">
+        loan_quta,
+      </if>
+      <if test="pawnRate != null">
+        pawn_rate,
+      </if>
+      <if test="loanUsage != null">
+        loan_usage,
+      </if>
+      <if test="repaySource != null">
+        repay_source,
+      </if>
+      <if test="productRequire != null">
+        product_require,
+      </if>
+      <if test="requireMessage != null">
+        require_message,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null">
+        #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseIdentityCard != null">
+        #{spouseIdentityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAccount != null">
+        #{houseAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseHouseAccount != null">
+        #{spouseHouseAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="marrProve != null">
+        #{marrProve,jdbcType=VARCHAR},
+      </if>
+      <if test="creditReport != null">
+        #{creditReport,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseCreditReport != null">
+        #{spouseCreditReport,jdbcType=VARCHAR},
+      </if>
+      <if test="houseCertificate != null">
+        #{houseCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="nationCertificate != null">
+        #{nationCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="houseQuery != null">
+        #{houseQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="bankDetail != null">
+        #{bankDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="houseMessage != null">
+        #{houseMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnPhoto != null">
+        #{pawnPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="contractProve != null">
+        #{contractProve,jdbcType=VARCHAR},
+      </if>
+      <if test="otherProve != null">
+        #{otherProve,jdbcType=VARCHAR},
+      </if>
+      <if test="opinion != null">
+        #{opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="userReceive != null">
+        #{userReceive,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveTime != null">
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workCompany != null">
+        #{workCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="creditResult != null">
+        #{creditResult,jdbcType=VARCHAR},
+      </if>
+      <if test="bigdataQueryMessge != null">
+        #{bigdataQueryMessge,jdbcType=VARCHAR},
+      </if>
+      <if test="lawsuitQueryMessage != null">
+        #{lawsuitQueryMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="famliyDebt != null">
+        #{famliyDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="warrantNo != null">
+        #{warrantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnSw != null">
+        #{pawnSw,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnOrg != null">
+        #{pawnOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="onlyHouse != null">
+        #{onlyHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="houseType != null">
+        #{houseType,jdbcType=VARCHAR},
+      </if>
+      <if test="houseStatus != null">
+        #{houseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="houseLimit != null">
+        #{houseLimit,jdbcType=VARCHAR},
+      </if>
+      <if test="cognizancePrice != null">
+        #{cognizancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="loanQuta != null">
+        #{loanQuta,jdbcType=DECIMAL},
+      </if>
+      <if test="pawnRate != null">
+        #{pawnRate,jdbcType=VARCHAR},
+      </if>
+      <if test="loanUsage != null">
+        #{loanUsage,jdbcType=VARCHAR},
+      </if>
+      <if test="repaySource != null">
+        #{repaySource,jdbcType=VARCHAR},
+      </if>
+      <if test="productRequire != null">
+        #{productRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="requireMessage != null">
+        #{requireMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjUserBusinessApprovalExample" resultType="java.lang.Long">
+    select count(*) from nj_user_business_approval
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_user_business_approval
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identityCard != null">
+        identity_card = #{record.identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spouseIdentityCard != null">
+        spouse_identity_card = #{record.spouseIdentityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseAccount != null">
+        house_account = #{record.houseAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spouseHouseAccount != null">
+        spouse_house_account = #{record.spouseHouseAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marrProve != null">
+        marr_prove = #{record.marrProve,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creditReport != null">
+        credit_report = #{record.creditReport,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spouseCreditReport != null">
+        spouse_credit_report = #{record.spouseCreditReport,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseCertificate != null">
+        house_certificate = #{record.houseCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nationCertificate != null">
+        nation_certificate = #{record.nationCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseQuery != null">
+        house_query = #{record.houseQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankDetail != null">
+        bank_detail = #{record.bankDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseMessage != null">
+        house_message = #{record.houseMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pawnPhoto != null">
+        pawn_photo = #{record.pawnPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractProve != null">
+        contract_prove = #{record.contractProve,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherProve != null">
+        other_prove = #{record.otherProve,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opinion != null">
+        opinion = #{record.opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userReceive != null">
+        user_receive = #{record.userReceive,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveTime != null">
+        receive_time = #{record.receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.workCompany != null">
+        work_company = #{record.workCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creditResult != null">
+        credit_result = #{record.creditResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bigdataQueryMessge != null">
+        bigdata_query_messge = #{record.bigdataQueryMessge,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lawsuitQueryMessage != null">
+        lawsuit_query_message = #{record.lawsuitQueryMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.famliyDebt != null">
+        famliy_debt = #{record.famliyDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.warrantNo != null">
+        warrant_no = #{record.warrantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.area != null">
+        area = #{record.area,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pawnSw != null">
+        pawn_sw = #{record.pawnSw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pawnOrg != null">
+        pawn_org = #{record.pawnOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.onlyHouse != null">
+        only_house = #{record.onlyHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseType != null">
+        house_type = #{record.houseType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseStatus != null">
+        house_status = #{record.houseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseLimit != null">
+        house_limit = #{record.houseLimit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cognizancePrice != null">
+        cognizance_price = #{record.cognizancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.loanQuta != null">
+        loan_quta = #{record.loanQuta,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pawnRate != null">
+        pawn_rate = #{record.pawnRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loanUsage != null">
+        loan_usage = #{record.loanUsage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repaySource != null">
+        repay_source = #{record.repaySource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productRequire != null">
+        product_require = #{record.productRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requireMessage != null">
+        require_message = #{record.requireMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDel != null">
+        is_del = #{record.isDel,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_user_business_approval
+    set id = #{record.id,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      identity_card = #{record.identityCard,jdbcType=VARCHAR},
+      spouse_identity_card = #{record.spouseIdentityCard,jdbcType=VARCHAR},
+      house_account = #{record.houseAccount,jdbcType=VARCHAR},
+      spouse_house_account = #{record.spouseHouseAccount,jdbcType=VARCHAR},
+      marr_prove = #{record.marrProve,jdbcType=VARCHAR},
+      credit_report = #{record.creditReport,jdbcType=VARCHAR},
+      spouse_credit_report = #{record.spouseCreditReport,jdbcType=VARCHAR},
+      house_certificate = #{record.houseCertificate,jdbcType=VARCHAR},
+      nation_certificate = #{record.nationCertificate,jdbcType=VARCHAR},
+      house_query = #{record.houseQuery,jdbcType=VARCHAR},
+      bank_detail = #{record.bankDetail,jdbcType=VARCHAR},
+      house_message = #{record.houseMessage,jdbcType=VARCHAR},
+      pawn_photo = #{record.pawnPhoto,jdbcType=VARCHAR},
+      contract_prove = #{record.contractProve,jdbcType=VARCHAR},
+      other_prove = #{record.otherProve,jdbcType=VARCHAR},
+      opinion = #{record.opinion,jdbcType=VARCHAR},
+      user_receive = #{record.userReceive,jdbcType=VARCHAR},
+      receive_time = #{record.receiveTime,jdbcType=TIMESTAMP},
+      work_company = #{record.workCompany,jdbcType=VARCHAR},
+      credit_result = #{record.creditResult,jdbcType=VARCHAR},
+      bigdata_query_messge = #{record.bigdataQueryMessge,jdbcType=VARCHAR},
+      lawsuit_query_message = #{record.lawsuitQueryMessage,jdbcType=VARCHAR},
+      famliy_debt = #{record.famliyDebt,jdbcType=DECIMAL},
+      warrant_no = #{record.warrantNo,jdbcType=VARCHAR},
+      area = #{record.area,jdbcType=VARCHAR},
+      pawn_sw = #{record.pawnSw,jdbcType=VARCHAR},
+      pawn_org = #{record.pawnOrg,jdbcType=VARCHAR},
+      only_house = #{record.onlyHouse,jdbcType=VARCHAR},
+      house_type = #{record.houseType,jdbcType=VARCHAR},
+      house_status = #{record.houseStatus,jdbcType=VARCHAR},
+      house_limit = #{record.houseLimit,jdbcType=VARCHAR},
+      cognizance_price = #{record.cognizancePrice,jdbcType=DECIMAL},
+      loan_quta = #{record.loanQuta,jdbcType=DECIMAL},
+      pawn_rate = #{record.pawnRate,jdbcType=VARCHAR},
+      loan_usage = #{record.loanUsage,jdbcType=VARCHAR},
+      repay_source = #{record.repaySource,jdbcType=VARCHAR},
+      product_require = #{record.productRequire,jdbcType=VARCHAR},
+      require_message = #{record.requireMessage,jdbcType=VARCHAR},
+      is_del = #{record.isDel,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjUserBusinessApproval">
+    update nj_user_business_approval
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null">
+        identity_card = #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseIdentityCard != null">
+        spouse_identity_card = #{spouseIdentityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="houseAccount != null">
+        house_account = #{houseAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseHouseAccount != null">
+        spouse_house_account = #{spouseHouseAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="marrProve != null">
+        marr_prove = #{marrProve,jdbcType=VARCHAR},
+      </if>
+      <if test="creditReport != null">
+        credit_report = #{creditReport,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseCreditReport != null">
+        spouse_credit_report = #{spouseCreditReport,jdbcType=VARCHAR},
+      </if>
+      <if test="houseCertificate != null">
+        house_certificate = #{houseCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="nationCertificate != null">
+        nation_certificate = #{nationCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="houseQuery != null">
+        house_query = #{houseQuery,jdbcType=VARCHAR},
+      </if>
+      <if test="bankDetail != null">
+        bank_detail = #{bankDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="houseMessage != null">
+        house_message = #{houseMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnPhoto != null">
+        pawn_photo = #{pawnPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="contractProve != null">
+        contract_prove = #{contractProve,jdbcType=VARCHAR},
+      </if>
+      <if test="otherProve != null">
+        other_prove = #{otherProve,jdbcType=VARCHAR},
+      </if>
+      <if test="opinion != null">
+        opinion = #{opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="userReceive != null">
+        user_receive = #{userReceive,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveTime != null">
+        receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workCompany != null">
+        work_company = #{workCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="creditResult != null">
+        credit_result = #{creditResult,jdbcType=VARCHAR},
+      </if>
+      <if test="bigdataQueryMessge != null">
+        bigdata_query_messge = #{bigdataQueryMessge,jdbcType=VARCHAR},
+      </if>
+      <if test="lawsuitQueryMessage != null">
+        lawsuit_query_message = #{lawsuitQueryMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="famliyDebt != null">
+        famliy_debt = #{famliyDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="warrantNo != null">
+        warrant_no = #{warrantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnSw != null">
+        pawn_sw = #{pawnSw,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnOrg != null">
+        pawn_org = #{pawnOrg,jdbcType=VARCHAR},
+      </if>
+      <if test="onlyHouse != null">
+        only_house = #{onlyHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="houseType != null">
+        house_type = #{houseType,jdbcType=VARCHAR},
+      </if>
+      <if test="houseStatus != null">
+        house_status = #{houseStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="houseLimit != null">
+        house_limit = #{houseLimit,jdbcType=VARCHAR},
+      </if>
+      <if test="cognizancePrice != null">
+        cognizance_price = #{cognizancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="loanQuta != null">
+        loan_quta = #{loanQuta,jdbcType=DECIMAL},
+      </if>
+      <if test="pawnRate != null">
+        pawn_rate = #{pawnRate,jdbcType=VARCHAR},
+      </if>
+      <if test="loanUsage != null">
+        loan_usage = #{loanUsage,jdbcType=VARCHAR},
+      </if>
+      <if test="repaySource != null">
+        repay_source = #{repaySource,jdbcType=VARCHAR},
+      </if>
+      <if test="productRequire != null">
+        product_require = #{productRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="requireMessage != null">
+        require_message = #{requireMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjUserBusinessApproval">
+    update nj_user_business_approval
+    set user_id = #{userId,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      identity_card = #{identityCard,jdbcType=VARCHAR},
+      spouse_identity_card = #{spouseIdentityCard,jdbcType=VARCHAR},
+      house_account = #{houseAccount,jdbcType=VARCHAR},
+      spouse_house_account = #{spouseHouseAccount,jdbcType=VARCHAR},
+      marr_prove = #{marrProve,jdbcType=VARCHAR},
+      credit_report = #{creditReport,jdbcType=VARCHAR},
+      spouse_credit_report = #{spouseCreditReport,jdbcType=VARCHAR},
+      house_certificate = #{houseCertificate,jdbcType=VARCHAR},
+      nation_certificate = #{nationCertificate,jdbcType=VARCHAR},
+      house_query = #{houseQuery,jdbcType=VARCHAR},
+      bank_detail = #{bankDetail,jdbcType=VARCHAR},
+      house_message = #{houseMessage,jdbcType=VARCHAR},
+      pawn_photo = #{pawnPhoto,jdbcType=VARCHAR},
+      contract_prove = #{contractProve,jdbcType=VARCHAR},
+      other_prove = #{otherProve,jdbcType=VARCHAR},
+      opinion = #{opinion,jdbcType=VARCHAR},
+      user_receive = #{userReceive,jdbcType=VARCHAR},
+      receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      work_company = #{workCompany,jdbcType=VARCHAR},
+      credit_result = #{creditResult,jdbcType=VARCHAR},
+      bigdata_query_messge = #{bigdataQueryMessge,jdbcType=VARCHAR},
+      lawsuit_query_message = #{lawsuitQueryMessage,jdbcType=VARCHAR},
+      famliy_debt = #{famliyDebt,jdbcType=DECIMAL},
+      warrant_no = #{warrantNo,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      pawn_sw = #{pawnSw,jdbcType=VARCHAR},
+      pawn_org = #{pawnOrg,jdbcType=VARCHAR},
+      only_house = #{onlyHouse,jdbcType=VARCHAR},
+      house_type = #{houseType,jdbcType=VARCHAR},
+      house_status = #{houseStatus,jdbcType=VARCHAR},
+      house_limit = #{houseLimit,jdbcType=VARCHAR},
+      cognizance_price = #{cognizancePrice,jdbcType=DECIMAL},
+      loan_quta = #{loanQuta,jdbcType=DECIMAL},
+      pawn_rate = #{pawnRate,jdbcType=VARCHAR},
+      loan_usage = #{loanUsage,jdbcType=VARCHAR},
+      repay_source = #{repaySource,jdbcType=VARCHAR},
+      product_require = #{productRequire,jdbcType=VARCHAR},
+      require_message = #{requireMessage,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjProdRepayObjMapperExtend">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjProdRepayObj">
+    
+  </resultMap>
+  
+  <!-- 根据产品ID获取还款人信息 -->
+  <select id="selectByProductId" parameterType="java.lang.String" resultType="com.nj.model.generate.NjProdRepayObj">
+  	SELECT * FROM nj_prod_repay_obj WHERE product_id = #{productId} ORDER BY repay_order 
+  </select>
+</mapper>

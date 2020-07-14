@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+/* 产品管理——>产品创建——>风控配置*/
+.pro-business-box{ color: #8a8db0; padding-bottom: 20px; margin-bottom: 20px; font-size: 14px;}
+.gruy-box{width: 300px;overflow: hidden;background: #fafbfd; margin: 20px 0 0 0; }
+.gruy-box-content{padding: 30px 15px;}
+.gruy-box-content>input{ float: left;margin-right: 5px;}
+.gruy-box-content>a{font-size: 16px;}
+
+.title{margin-top: 30px;}
+.base-info{overflow: hidden; color: #878ca2; font-size: 14px;}
+.base-info > tbody tr{ height: 35px; line-height: 50px;}
+.input-txt{ text-indent: 5px; height: 28px; width: 200px; line-height: 22px; outline: none;}
+.input-txt:focus{ border:1px solid #ff5e16;}
+select:focus{text-indent: 5px !important}
+
+.tab-box-bg{background: #fafbfd; width: 100%; min-height:130px; overflow: hidden; margin: 20px 0;}
+.tab-box-content{ padding: 20px; }
+.tab-name{color: #8a8db0; padding-top: 10px;}
+.tab-desc{ color: #b3b3b3; }
+.td-txt{float: left; width: 150px;}

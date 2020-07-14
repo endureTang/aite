@@ -1,0 +1,1161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjLoanOrderMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjLoanOrder">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="audit_amount" jdbcType="DECIMAL" property="auditAmount" />
+    <result column="audit_period" jdbcType="INTEGER" property="auditPeriod" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="usage_id" jdbcType="VARCHAR" property="usageId" />
+    <result column="usage_desc" jdbcType="VARCHAR" property="usageDesc" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="relative_chan_id" jdbcType="VARCHAR" property="relativeChanId" />
+    <result column="agent_id" jdbcType="VARCHAR" property="agentId" />
+    <result column="product_id" jdbcType="VARCHAR" property="productId" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="audit_rating" jdbcType="VARCHAR" property="auditRating" />
+    <result column="audit_service_rating" jdbcType="VARCHAR" property="auditServiceRating" />
+    <result column="charge_fee_rate" jdbcType="VARCHAR" property="chargeFeeRate" />
+    <result column="fee_value" jdbcType="VARCHAR" property="feeValue" />
+    <result column="fee_rate" jdbcType="VARCHAR" property="feeRate" />
+    <result column="lend_method" jdbcType="VARCHAR" property="lendMethod" />
+    <result column="ge_agcy_advice" jdbcType="VARCHAR" property="geAgcyAdvice" />
+    <result column="funds_use" jdbcType="VARCHAR" property="fundsUse" />
+    <result column="enterprise_case" jdbcType="VARCHAR" property="enterpriseCase" />
+    <result column="project_content" jdbcType="VARCHAR" property="projectContent" />
+    <result column="repay_way" jdbcType="VARCHAR" property="repayWay" />
+    <result column="cfstatus" jdbcType="INTEGER" property="cfstatus" />
+    <result column="callback_url" jdbcType="VARCHAR" property="callbackUrl" />
+    <result column="source_order_no" jdbcType="VARCHAR" property="sourceOrderNo" />
+    <result column="relend_method" jdbcType="VARCHAR" property="relendMethod" />
+    <result column="audit_sxf" jdbcType="VARCHAR" property="auditSxf" />
+    <result column="audit_sxf_type" jdbcType="INTEGER" property="auditSxfType" />
+    <result column="audit_bond" jdbcType="VARCHAR" property="auditBond" />
+    <result column="audit_bond_type" jdbcType="INTEGER" property="auditBondType" />
+    <result column="audit_remarks" jdbcType="VARCHAR" property="auditRemarks" />
+    <result column="blocked_funds" jdbcType="VARCHAR" property="blockedFunds" />
+    <result column="contract_attr_id" jdbcType="VARCHAR" property="contractAttrId" />
+    <result column="tfcf_project_no" jdbcType="VARCHAR" property="tfcfProjectNo" />
+    <result column="make_loans_date" jdbcType="TIMESTAMP" property="makeLoansDate" />
+    <result column="risk_grade" jdbcType="VARCHAR" property="riskGrade" />
+    <result column="after_status" jdbcType="TINYINT" property="afterStatus" />
+    <result column="asset_grade" jdbcType="VARCHAR" property="assetGrade" />
+    <result column="company_id" jdbcType="VARCHAR" property="companyId" />
+    <result column="is_archive" jdbcType="INTEGER" property="isArchive" />
+    <result column="together_loan_userid" jdbcType="VARCHAR" property="togetherLoanUserid" />
+    <result column="transaction_no" jdbcType="VARCHAR" property="transactionNo" />
+    <result column="fix_rate" jdbcType="VARCHAR" property="fixRate" />
+    <result column="assets_code" jdbcType="VARCHAR" property="assetsCode" />
+    <result column="diduction_callback_url" jdbcType="VARCHAR" property="diductionCallbackUrl" />
+    <result column="project_amount" jdbcType="DECIMAL" property="projectAmount" />
+    <result column="first_amount" jdbcType="DECIMAL" property="firstAmount" />
+    <result column="middle_amount" jdbcType="DECIMAL" property="middleAmount" />
+    <result column="actual_amount" jdbcType="DECIMAL" property="actualAmount" />
+    <result column="is_company_payed" jdbcType="BIT" property="isCompanyPayed" />
+    <result column="is_capital_channel_payed" jdbcType="BIT" property="isCapitalChannelPayed" />
+    <result column="total_rating" jdbcType="VARCHAR" property="totalRating" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="contract_rate" jdbcType="VARCHAR" property="contractRate" />
+    <result column="td_report_id" jdbcType="VARCHAR" property="tdReportId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_no, user_id, amount, period, audit_amount, audit_period, remarks, usage_id, 
+    usage_desc, status, channel_id, relative_chan_id, agent_id, product_id, product_name, 
+    del_flag, create_date, create_by, update_date, update_by, audit_rating, audit_service_rating, 
+    charge_fee_rate, fee_value, fee_rate, lend_method, ge_agcy_advice, funds_use, enterprise_case, 
+    project_content, repay_way, cfstatus, callback_url, source_order_no, relend_method, 
+    audit_sxf, audit_sxf_type, audit_bond, audit_bond_type, audit_remarks, blocked_funds, 
+    contract_attr_id, tfcf_project_no, make_loans_date, risk_grade, after_status, asset_grade, 
+    company_id, is_archive, together_loan_userid, transaction_no, fix_rate, assets_code, 
+    diduction_callback_url, project_amount, first_amount, middle_amount, actual_amount, 
+    is_company_payed, is_capital_channel_payed, total_rating, project_name, contract_rate, 
+    td_report_id
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjLoanOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_loan_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_loan_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_loan_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjLoanOrderExample">
+    delete from nj_loan_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjLoanOrder">
+    insert into nj_loan_order (id, order_no, user_id, 
+      amount, period, audit_amount, 
+      audit_period, remarks, usage_id, 
+      usage_desc, status, channel_id, 
+      relative_chan_id, agent_id, product_id, 
+      product_name, del_flag, create_date, 
+      create_by, update_date, update_by, 
+      audit_rating, audit_service_rating, charge_fee_rate, 
+      fee_value, fee_rate, lend_method, 
+      ge_agcy_advice, funds_use, enterprise_case, 
+      project_content, repay_way, cfstatus, 
+      callback_url, source_order_no, relend_method, 
+      audit_sxf, audit_sxf_type, audit_bond, 
+      audit_bond_type, audit_remarks, blocked_funds, 
+      contract_attr_id, tfcf_project_no, make_loans_date, 
+      risk_grade, after_status, asset_grade, 
+      company_id, is_archive, together_loan_userid, 
+      transaction_no, fix_rate, assets_code, 
+      diduction_callback_url, project_amount, first_amount, 
+      middle_amount, actual_amount, is_company_payed, 
+      is_capital_channel_payed, total_rating, project_name, 
+      contract_rate, td_report_id)
+    values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{period,jdbcType=INTEGER}, #{auditAmount,jdbcType=DECIMAL}, 
+      #{auditPeriod,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, #{usageId,jdbcType=VARCHAR}, 
+      #{usageDesc,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{channelId,jdbcType=VARCHAR}, 
+      #{relativeChanId,jdbcType=VARCHAR}, #{agentId,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, 
+      #{productName,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{auditRating,jdbcType=VARCHAR}, #{auditServiceRating,jdbcType=VARCHAR}, #{chargeFeeRate,jdbcType=VARCHAR}, 
+      #{feeValue,jdbcType=VARCHAR}, #{feeRate,jdbcType=VARCHAR}, #{lendMethod,jdbcType=VARCHAR}, 
+      #{geAgcyAdvice,jdbcType=VARCHAR}, #{fundsUse,jdbcType=VARCHAR}, #{enterpriseCase,jdbcType=VARCHAR}, 
+      #{projectContent,jdbcType=VARCHAR}, #{repayWay,jdbcType=VARCHAR}, #{cfstatus,jdbcType=INTEGER}, 
+      #{callbackUrl,jdbcType=VARCHAR}, #{sourceOrderNo,jdbcType=VARCHAR}, #{relendMethod,jdbcType=VARCHAR}, 
+      #{auditSxf,jdbcType=VARCHAR}, #{auditSxfType,jdbcType=INTEGER}, #{auditBond,jdbcType=VARCHAR}, 
+      #{auditBondType,jdbcType=INTEGER}, #{auditRemarks,jdbcType=VARCHAR}, #{blockedFunds,jdbcType=VARCHAR}, 
+      #{contractAttrId,jdbcType=VARCHAR}, #{tfcfProjectNo,jdbcType=VARCHAR}, #{makeLoansDate,jdbcType=TIMESTAMP}, 
+      #{riskGrade,jdbcType=VARCHAR}, #{afterStatus,jdbcType=TINYINT}, #{assetGrade,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=VARCHAR}, #{isArchive,jdbcType=INTEGER}, #{togetherLoanUserid,jdbcType=VARCHAR}, 
+      #{transactionNo,jdbcType=VARCHAR}, #{fixRate,jdbcType=VARCHAR}, #{assetsCode,jdbcType=VARCHAR}, 
+      #{diductionCallbackUrl,jdbcType=VARCHAR}, #{projectAmount,jdbcType=DECIMAL}, #{firstAmount,jdbcType=DECIMAL}, 
+      #{middleAmount,jdbcType=DECIMAL}, #{actualAmount,jdbcType=DECIMAL}, #{isCompanyPayed,jdbcType=BIT}, 
+      #{isCapitalChannelPayed,jdbcType=BIT}, #{totalRating,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, 
+      #{contractRate,jdbcType=VARCHAR}, #{tdReportId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjLoanOrder">
+    insert into nj_loan_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="auditAmount != null">
+        audit_amount,
+      </if>
+      <if test="auditPeriod != null">
+        audit_period,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="usageId != null">
+        usage_id,
+      </if>
+      <if test="usageDesc != null">
+        usage_desc,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="relativeChanId != null">
+        relative_chan_id,
+      </if>
+      <if test="agentId != null">
+        agent_id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="auditRating != null">
+        audit_rating,
+      </if>
+      <if test="auditServiceRating != null">
+        audit_service_rating,
+      </if>
+      <if test="chargeFeeRate != null">
+        charge_fee_rate,
+      </if>
+      <if test="feeValue != null">
+        fee_value,
+      </if>
+      <if test="feeRate != null">
+        fee_rate,
+      </if>
+      <if test="lendMethod != null">
+        lend_method,
+      </if>
+      <if test="geAgcyAdvice != null">
+        ge_agcy_advice,
+      </if>
+      <if test="fundsUse != null">
+        funds_use,
+      </if>
+      <if test="enterpriseCase != null">
+        enterprise_case,
+      </if>
+      <if test="projectContent != null">
+        project_content,
+      </if>
+      <if test="repayWay != null">
+        repay_way,
+      </if>
+      <if test="cfstatus != null">
+        cfstatus,
+      </if>
+      <if test="callbackUrl != null">
+        callback_url,
+      </if>
+      <if test="sourceOrderNo != null">
+        source_order_no,
+      </if>
+      <if test="relendMethod != null">
+        relend_method,
+      </if>
+      <if test="auditSxf != null">
+        audit_sxf,
+      </if>
+      <if test="auditSxfType != null">
+        audit_sxf_type,
+      </if>
+      <if test="auditBond != null">
+        audit_bond,
+      </if>
+      <if test="auditBondType != null">
+        audit_bond_type,
+      </if>
+      <if test="auditRemarks != null">
+        audit_remarks,
+      </if>
+      <if test="blockedFunds != null">
+        blocked_funds,
+      </if>
+      <if test="contractAttrId != null">
+        contract_attr_id,
+      </if>
+      <if test="tfcfProjectNo != null">
+        tfcf_project_no,
+      </if>
+      <if test="makeLoansDate != null">
+        make_loans_date,
+      </if>
+      <if test="riskGrade != null">
+        risk_grade,
+      </if>
+      <if test="afterStatus != null">
+        after_status,
+      </if>
+      <if test="assetGrade != null">
+        asset_grade,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="isArchive != null">
+        is_archive,
+      </if>
+      <if test="togetherLoanUserid != null">
+        together_loan_userid,
+      </if>
+      <if test="transactionNo != null">
+        transaction_no,
+      </if>
+      <if test="fixRate != null">
+        fix_rate,
+      </if>
+      <if test="assetsCode != null">
+        assets_code,
+      </if>
+      <if test="diductionCallbackUrl != null">
+        diduction_callback_url,
+      </if>
+      <if test="projectAmount != null">
+        project_amount,
+      </if>
+      <if test="firstAmount != null">
+        first_amount,
+      </if>
+      <if test="middleAmount != null">
+        middle_amount,
+      </if>
+      <if test="actualAmount != null">
+        actual_amount,
+      </if>
+      <if test="isCompanyPayed != null">
+        is_company_payed,
+      </if>
+      <if test="isCapitalChannelPayed != null">
+        is_capital_channel_payed,
+      </if>
+      <if test="totalRating != null">
+        total_rating,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="contractRate != null">
+        contract_rate,
+      </if>
+      <if test="tdReportId != null">
+        td_report_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=INTEGER},
+      </if>
+      <if test="auditAmount != null">
+        #{auditAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="auditPeriod != null">
+        #{auditPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="usageId != null">
+        #{usageId,jdbcType=VARCHAR},
+      </if>
+      <if test="usageDesc != null">
+        #{usageDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="relativeChanId != null">
+        #{relativeChanId,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null">
+        #{agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="auditRating != null">
+        #{auditRating,jdbcType=VARCHAR},
+      </if>
+      <if test="auditServiceRating != null">
+        #{auditServiceRating,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeFeeRate != null">
+        #{chargeFeeRate,jdbcType=VARCHAR},
+      </if>
+      <if test="feeValue != null">
+        #{feeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="feeRate != null">
+        #{feeRate,jdbcType=VARCHAR},
+      </if>
+      <if test="lendMethod != null">
+        #{lendMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="geAgcyAdvice != null">
+        #{geAgcyAdvice,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsUse != null">
+        #{fundsUse,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseCase != null">
+        #{enterpriseCase,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContent != null">
+        #{projectContent,jdbcType=VARCHAR},
+      </if>
+      <if test="repayWay != null">
+        #{repayWay,jdbcType=VARCHAR},
+      </if>
+      <if test="cfstatus != null">
+        #{cfstatus,jdbcType=INTEGER},
+      </if>
+      <if test="callbackUrl != null">
+        #{callbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceOrderNo != null">
+        #{sourceOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="relendMethod != null">
+        #{relendMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="auditSxf != null">
+        #{auditSxf,jdbcType=VARCHAR},
+      </if>
+      <if test="auditSxfType != null">
+        #{auditSxfType,jdbcType=INTEGER},
+      </if>
+      <if test="auditBond != null">
+        #{auditBond,jdbcType=VARCHAR},
+      </if>
+      <if test="auditBondType != null">
+        #{auditBondType,jdbcType=INTEGER},
+      </if>
+      <if test="auditRemarks != null">
+        #{auditRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="blockedFunds != null">
+        #{blockedFunds,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAttrId != null">
+        #{contractAttrId,jdbcType=VARCHAR},
+      </if>
+      <if test="tfcfProjectNo != null">
+        #{tfcfProjectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="makeLoansDate != null">
+        #{makeLoansDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="riskGrade != null">
+        #{riskGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="afterStatus != null">
+        #{afterStatus,jdbcType=TINYINT},
+      </if>
+      <if test="assetGrade != null">
+        #{assetGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="isArchive != null">
+        #{isArchive,jdbcType=INTEGER},
+      </if>
+      <if test="togetherLoanUserid != null">
+        #{togetherLoanUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionNo != null">
+        #{transactionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fixRate != null">
+        #{fixRate,jdbcType=VARCHAR},
+      </if>
+      <if test="assetsCode != null">
+        #{assetsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="diductionCallbackUrl != null">
+        #{diductionCallbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectAmount != null">
+        #{projectAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="firstAmount != null">
+        #{firstAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="middleAmount != null">
+        #{middleAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="actualAmount != null">
+        #{actualAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="isCompanyPayed != null">
+        #{isCompanyPayed,jdbcType=BIT},
+      </if>
+      <if test="isCapitalChannelPayed != null">
+        #{isCapitalChannelPayed,jdbcType=BIT},
+      </if>
+      <if test="totalRating != null">
+        #{totalRating,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractRate != null">
+        #{contractRate,jdbcType=VARCHAR},
+      </if>
+      <if test="tdReportId != null">
+        #{tdReportId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjLoanOrderExample" resultType="java.lang.Long">
+    select count(*) from nj_loan_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_loan_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.period != null">
+        period = #{record.period,jdbcType=INTEGER},
+      </if>
+      <if test="record.auditAmount != null">
+        audit_amount = #{record.auditAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.auditPeriod != null">
+        audit_period = #{record.auditPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usageId != null">
+        usage_id = #{record.usageId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usageDesc != null">
+        usage_desc = #{record.usageDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.channelId != null">
+        channel_id = #{record.channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relativeChanId != null">
+        relative_chan_id = #{record.relativeChanId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentId != null">
+        agent_id = #{record.agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productId != null">
+        product_id = #{record.productId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productName != null">
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=BIT},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditRating != null">
+        audit_rating = #{record.auditRating,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditServiceRating != null">
+        audit_service_rating = #{record.auditServiceRating,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chargeFeeRate != null">
+        charge_fee_rate = #{record.chargeFeeRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feeValue != null">
+        fee_value = #{record.feeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feeRate != null">
+        fee_rate = #{record.feeRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lendMethod != null">
+        lend_method = #{record.lendMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.geAgcyAdvice != null">
+        ge_agcy_advice = #{record.geAgcyAdvice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundsUse != null">
+        funds_use = #{record.fundsUse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseCase != null">
+        enterprise_case = #{record.enterpriseCase,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectContent != null">
+        project_content = #{record.projectContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repayWay != null">
+        repay_way = #{record.repayWay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cfstatus != null">
+        cfstatus = #{record.cfstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.callbackUrl != null">
+        callback_url = #{record.callbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceOrderNo != null">
+        source_order_no = #{record.sourceOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relendMethod != null">
+        relend_method = #{record.relendMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditSxf != null">
+        audit_sxf = #{record.auditSxf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditSxfType != null">
+        audit_sxf_type = #{record.auditSxfType,jdbcType=INTEGER},
+      </if>
+      <if test="record.auditBond != null">
+        audit_bond = #{record.auditBond,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditBondType != null">
+        audit_bond_type = #{record.auditBondType,jdbcType=INTEGER},
+      </if>
+      <if test="record.auditRemarks != null">
+        audit_remarks = #{record.auditRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blockedFunds != null">
+        blocked_funds = #{record.blockedFunds,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractAttrId != null">
+        contract_attr_id = #{record.contractAttrId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tfcfProjectNo != null">
+        tfcf_project_no = #{record.tfcfProjectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.makeLoansDate != null">
+        make_loans_date = #{record.makeLoansDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.riskGrade != null">
+        risk_grade = #{record.riskGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.afterStatus != null">
+        after_status = #{record.afterStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.assetGrade != null">
+        asset_grade = #{record.assetGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isArchive != null">
+        is_archive = #{record.isArchive,jdbcType=INTEGER},
+      </if>
+      <if test="record.togetherLoanUserid != null">
+        together_loan_userid = #{record.togetherLoanUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transactionNo != null">
+        transaction_no = #{record.transactionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fixRate != null">
+        fix_rate = #{record.fixRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assetsCode != null">
+        assets_code = #{record.assetsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.diductionCallbackUrl != null">
+        diduction_callback_url = #{record.diductionCallbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectAmount != null">
+        project_amount = #{record.projectAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.firstAmount != null">
+        first_amount = #{record.firstAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.middleAmount != null">
+        middle_amount = #{record.middleAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.actualAmount != null">
+        actual_amount = #{record.actualAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isCompanyPayed != null">
+        is_company_payed = #{record.isCompanyPayed,jdbcType=BIT},
+      </if>
+      <if test="record.isCapitalChannelPayed != null">
+        is_capital_channel_payed = #{record.isCapitalChannelPayed,jdbcType=BIT},
+      </if>
+      <if test="record.totalRating != null">
+        total_rating = #{record.totalRating,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectName != null">
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractRate != null">
+        contract_rate = #{record.contractRate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tdReportId != null">
+        td_report_id = #{record.tdReportId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_loan_order
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      amount = #{record.amount,jdbcType=DECIMAL},
+      period = #{record.period,jdbcType=INTEGER},
+      audit_amount = #{record.auditAmount,jdbcType=DECIMAL},
+      audit_period = #{record.auditPeriod,jdbcType=INTEGER},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      usage_id = #{record.usageId,jdbcType=VARCHAR},
+      usage_desc = #{record.usageDesc,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      channel_id = #{record.channelId,jdbcType=VARCHAR},
+      relative_chan_id = #{record.relativeChanId,jdbcType=VARCHAR},
+      agent_id = #{record.agentId,jdbcType=VARCHAR},
+      product_id = #{record.productId,jdbcType=VARCHAR},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=BIT},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      audit_rating = #{record.auditRating,jdbcType=VARCHAR},
+      audit_service_rating = #{record.auditServiceRating,jdbcType=VARCHAR},
+      charge_fee_rate = #{record.chargeFeeRate,jdbcType=VARCHAR},
+      fee_value = #{record.feeValue,jdbcType=VARCHAR},
+      fee_rate = #{record.feeRate,jdbcType=VARCHAR},
+      lend_method = #{record.lendMethod,jdbcType=VARCHAR},
+      ge_agcy_advice = #{record.geAgcyAdvice,jdbcType=VARCHAR},
+      funds_use = #{record.fundsUse,jdbcType=VARCHAR},
+      enterprise_case = #{record.enterpriseCase,jdbcType=VARCHAR},
+      project_content = #{record.projectContent,jdbcType=VARCHAR},
+      repay_way = #{record.repayWay,jdbcType=VARCHAR},
+      cfstatus = #{record.cfstatus,jdbcType=INTEGER},
+      callback_url = #{record.callbackUrl,jdbcType=VARCHAR},
+      source_order_no = #{record.sourceOrderNo,jdbcType=VARCHAR},
+      relend_method = #{record.relendMethod,jdbcType=VARCHAR},
+      audit_sxf = #{record.auditSxf,jdbcType=VARCHAR},
+      audit_sxf_type = #{record.auditSxfType,jdbcType=INTEGER},
+      audit_bond = #{record.auditBond,jdbcType=VARCHAR},
+      audit_bond_type = #{record.auditBondType,jdbcType=INTEGER},
+      audit_remarks = #{record.auditRemarks,jdbcType=VARCHAR},
+      blocked_funds = #{record.blockedFunds,jdbcType=VARCHAR},
+      contract_attr_id = #{record.contractAttrId,jdbcType=VARCHAR},
+      tfcf_project_no = #{record.tfcfProjectNo,jdbcType=VARCHAR},
+      make_loans_date = #{record.makeLoansDate,jdbcType=TIMESTAMP},
+      risk_grade = #{record.riskGrade,jdbcType=VARCHAR},
+      after_status = #{record.afterStatus,jdbcType=TINYINT},
+      asset_grade = #{record.assetGrade,jdbcType=VARCHAR},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      is_archive = #{record.isArchive,jdbcType=INTEGER},
+      together_loan_userid = #{record.togetherLoanUserid,jdbcType=VARCHAR},
+      transaction_no = #{record.transactionNo,jdbcType=VARCHAR},
+      fix_rate = #{record.fixRate,jdbcType=VARCHAR},
+      assets_code = #{record.assetsCode,jdbcType=VARCHAR},
+      diduction_callback_url = #{record.diductionCallbackUrl,jdbcType=VARCHAR},
+      project_amount = #{record.projectAmount,jdbcType=DECIMAL},
+      first_amount = #{record.firstAmount,jdbcType=DECIMAL},
+      middle_amount = #{record.middleAmount,jdbcType=DECIMAL},
+      actual_amount = #{record.actualAmount,jdbcType=DECIMAL},
+      is_company_payed = #{record.isCompanyPayed,jdbcType=BIT},
+      is_capital_channel_payed = #{record.isCapitalChannelPayed,jdbcType=BIT},
+      total_rating = #{record.totalRating,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      contract_rate = #{record.contractRate,jdbcType=VARCHAR},
+      td_report_id = #{record.tdReportId,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjLoanOrder">
+    update nj_loan_order
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=INTEGER},
+      </if>
+      <if test="auditAmount != null">
+        audit_amount = #{auditAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="auditPeriod != null">
+        audit_period = #{auditPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="usageId != null">
+        usage_id = #{usageId,jdbcType=VARCHAR},
+      </if>
+      <if test="usageDesc != null">
+        usage_desc = #{usageDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="relativeChanId != null">
+        relative_chan_id = #{relativeChanId,jdbcType=VARCHAR},
+      </if>
+      <if test="agentId != null">
+        agent_id = #{agentId,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="auditRating != null">
+        audit_rating = #{auditRating,jdbcType=VARCHAR},
+      </if>
+      <if test="auditServiceRating != null">
+        audit_service_rating = #{auditServiceRating,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeFeeRate != null">
+        charge_fee_rate = #{chargeFeeRate,jdbcType=VARCHAR},
+      </if>
+      <if test="feeValue != null">
+        fee_value = #{feeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="feeRate != null">
+        fee_rate = #{feeRate,jdbcType=VARCHAR},
+      </if>
+      <if test="lendMethod != null">
+        lend_method = #{lendMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="geAgcyAdvice != null">
+        ge_agcy_advice = #{geAgcyAdvice,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsUse != null">
+        funds_use = #{fundsUse,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseCase != null">
+        enterprise_case = #{enterpriseCase,jdbcType=VARCHAR},
+      </if>
+      <if test="projectContent != null">
+        project_content = #{projectContent,jdbcType=VARCHAR},
+      </if>
+      <if test="repayWay != null">
+        repay_way = #{repayWay,jdbcType=VARCHAR},
+      </if>
+      <if test="cfstatus != null">
+        cfstatus = #{cfstatus,jdbcType=INTEGER},
+      </if>
+      <if test="callbackUrl != null">
+        callback_url = #{callbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceOrderNo != null">
+        source_order_no = #{sourceOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="relendMethod != null">
+        relend_method = #{relendMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="auditSxf != null">
+        audit_sxf = #{auditSxf,jdbcType=VARCHAR},
+      </if>
+      <if test="auditSxfType != null">
+        audit_sxf_type = #{auditSxfType,jdbcType=INTEGER},
+      </if>
+      <if test="auditBond != null">
+        audit_bond = #{auditBond,jdbcType=VARCHAR},
+      </if>
+      <if test="auditBondType != null">
+        audit_bond_type = #{auditBondType,jdbcType=INTEGER},
+      </if>
+      <if test="auditRemarks != null">
+        audit_remarks = #{auditRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="blockedFunds != null">
+        blocked_funds = #{blockedFunds,jdbcType=VARCHAR},
+      </if>
+      <if test="contractAttrId != null">
+        contract_attr_id = #{contractAttrId,jdbcType=VARCHAR},
+      </if>
+      <if test="tfcfProjectNo != null">
+        tfcf_project_no = #{tfcfProjectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="makeLoansDate != null">
+        make_loans_date = #{makeLoansDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="riskGrade != null">
+        risk_grade = #{riskGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="afterStatus != null">
+        after_status = #{afterStatus,jdbcType=TINYINT},
+      </if>
+      <if test="assetGrade != null">
+        asset_grade = #{assetGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="isArchive != null">
+        is_archive = #{isArchive,jdbcType=INTEGER},
+      </if>
+      <if test="togetherLoanUserid != null">
+        together_loan_userid = #{togetherLoanUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionNo != null">
+        transaction_no = #{transactionNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fixRate != null">
+        fix_rate = #{fixRate,jdbcType=VARCHAR},
+      </if>
+      <if test="assetsCode != null">
+        assets_code = #{assetsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="diductionCallbackUrl != null">
+        diduction_callback_url = #{diductionCallbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="projectAmount != null">
+        project_amount = #{projectAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="firstAmount != null">
+        first_amount = #{firstAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="middleAmount != null">
+        middle_amount = #{middleAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="actualAmount != null">
+        actual_amount = #{actualAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="isCompanyPayed != null">
+        is_company_payed = #{isCompanyPayed,jdbcType=BIT},
+      </if>
+      <if test="isCapitalChannelPayed != null">
+        is_capital_channel_payed = #{isCapitalChannelPayed,jdbcType=BIT},
+      </if>
+      <if test="totalRating != null">
+        total_rating = #{totalRating,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractRate != null">
+        contract_rate = #{contractRate,jdbcType=VARCHAR},
+      </if>
+      <if test="tdReportId != null">
+        td_report_id = #{tdReportId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjLoanOrder">
+    update nj_loan_order
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DECIMAL},
+      period = #{period,jdbcType=INTEGER},
+      audit_amount = #{auditAmount,jdbcType=DECIMAL},
+      audit_period = #{auditPeriod,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      usage_id = #{usageId,jdbcType=VARCHAR},
+      usage_desc = #{usageDesc,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      channel_id = #{channelId,jdbcType=VARCHAR},
+      relative_chan_id = #{relativeChanId,jdbcType=VARCHAR},
+      agent_id = #{agentId,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
+      product_name = #{productName,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      audit_rating = #{auditRating,jdbcType=VARCHAR},
+      audit_service_rating = #{auditServiceRating,jdbcType=VARCHAR},
+      charge_fee_rate = #{chargeFeeRate,jdbcType=VARCHAR},
+      fee_value = #{feeValue,jdbcType=VARCHAR},
+      fee_rate = #{feeRate,jdbcType=VARCHAR},
+      lend_method = #{lendMethod,jdbcType=VARCHAR},
+      ge_agcy_advice = #{geAgcyAdvice,jdbcType=VARCHAR},
+      funds_use = #{fundsUse,jdbcType=VARCHAR},
+      enterprise_case = #{enterpriseCase,jdbcType=VARCHAR},
+      project_content = #{projectContent,jdbcType=VARCHAR},
+      repay_way = #{repayWay,jdbcType=VARCHAR},
+      cfstatus = #{cfstatus,jdbcType=INTEGER},
+      callback_url = #{callbackUrl,jdbcType=VARCHAR},
+      source_order_no = #{sourceOrderNo,jdbcType=VARCHAR},
+      relend_method = #{relendMethod,jdbcType=VARCHAR},
+      audit_sxf = #{auditSxf,jdbcType=VARCHAR},
+      audit_sxf_type = #{auditSxfType,jdbcType=INTEGER},
+      audit_bond = #{auditBond,jdbcType=VARCHAR},
+      audit_bond_type = #{auditBondType,jdbcType=INTEGER},
+      audit_remarks = #{auditRemarks,jdbcType=VARCHAR},
+      blocked_funds = #{blockedFunds,jdbcType=VARCHAR},
+      contract_attr_id = #{contractAttrId,jdbcType=VARCHAR},
+      tfcf_project_no = #{tfcfProjectNo,jdbcType=VARCHAR},
+      make_loans_date = #{makeLoansDate,jdbcType=TIMESTAMP},
+      risk_grade = #{riskGrade,jdbcType=VARCHAR},
+      after_status = #{afterStatus,jdbcType=TINYINT},
+      asset_grade = #{assetGrade,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      is_archive = #{isArchive,jdbcType=INTEGER},
+      together_loan_userid = #{togetherLoanUserid,jdbcType=VARCHAR},
+      transaction_no = #{transactionNo,jdbcType=VARCHAR},
+      fix_rate = #{fixRate,jdbcType=VARCHAR},
+      assets_code = #{assetsCode,jdbcType=VARCHAR},
+      diduction_callback_url = #{diductionCallbackUrl,jdbcType=VARCHAR},
+      project_amount = #{projectAmount,jdbcType=DECIMAL},
+      first_amount = #{firstAmount,jdbcType=DECIMAL},
+      middle_amount = #{middleAmount,jdbcType=DECIMAL},
+      actual_amount = #{actualAmount,jdbcType=DECIMAL},
+      is_company_payed = #{isCompanyPayed,jdbcType=BIT},
+      is_capital_channel_payed = #{isCapitalChannelPayed,jdbcType=BIT},
+      total_rating = #{totalRating,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      contract_rate = #{contractRate,jdbcType=VARCHAR},
+      td_report_id = #{tdReportId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

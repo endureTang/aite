@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjProductMapperExtend">
+	
+  <select id="getProductsByCoporateId" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select np.id,np.product_code as productCode, np.product_name as productName,np.create_date as createDate,nc.compan_name as companName,np.state from nj_product np 
+			inner join nj_corp_prod ncp 
+			on np.id = ncp.product_id
+			and ncp.corporate_id = #{coporateId,jdbcType=VARCHAR}
+			inner join nj_coporate nc
+			on ncp.corporate_id = nc.id
+			where np.del_flag = 0 limit #{start},#{length}
+	</select>
+	
+	<select id="getProductsByUserId" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select 
+			np.id as id,np.product_name productName,np.product_code productCode,np.open_product_id as openProductId 
+		from 
+			nj_product_user npu
+		inner join 
+			nj_product np 
+		on 
+			npu.product_id = np.id
+		where 
+			npu.user_id = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getProductsByCoporateIdCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from nj_product np 
+			inner join nj_corp_prod ncp 
+			on np.id = ncp.product_id
+			and ncp.corporate_id = #{coporateId,jdbcType=VARCHAR}
+			inner join nj_coporate nc
+			on ncp.corporate_id = nc.id
+			where np.del_flag = 0
+	</select>
+	
+  <select id="getProductsByAdmin" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select 
+			np.id,np.product_code as productCode, 
+			np.product_name as productName,
+			np.create_date as createDate,
+			nc.compan_name as companName,
+			np.state,
+			np.open_product_id openProductId
+		from 
+			nj_product np 
+		inner join 
+			nj_corp_prod ncp 
+		on 
+			np.id = ncp.product_id
+		inner join 
+			nj_coporate nc
+		on 
+			ncp.corporate_id = nc.id
+		where np.del_flag = 0
+			<if test="state !=null">
+			 AND np.state = #{state}
+ 			</if>
+	</select>
+	
+  <select id="getProductsByCorpAdmin" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select np.id,np.product_code as productCode, np.product_name as productName,np.create_date as createDate,nc.compan_name as companName,np.state,np.open_product_id as openProductId from nj_product np 
+			inner join nj_corp_prod ncp 
+			on np.id = ncp.product_id
+			inner join nj_coporate nc
+			on ncp.corporate_id = nc.id
+			where np.del_flag = 0
+			<if test="state !=null">
+			 AND np.state = #{state}
+ 			</if>
+			<if test="coporateId !=null">
+			 AND ncp.corporate_id = #{coporateId}
+ 			</if>
+	</select>
+  
+  
+  <update id="updateVisiableScope" parameterType="com.nj.model.generate.NjProduct">
+		update nj_product set
+		visiable_scope = #{visiableScope},
+		state = #{state}
+		where 1=1
+		and id = #{id}
+	</update>
+	
+	<!-- 张海添加 -->
+	<select id="getProductDetailById" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		SELECT np.id AS productId ,np.product_name as productName, np.default_fee as defaultRate,np.repay_way as repayType, np.product_code AS productCode, np.product_description AS productDesc , np.max_fee AS loanRateUpper,
+			np.min_fee AS loanRateLower , np.logo_url AS logoUrl, npp.max_loan AS loanUpperAmount , npp.min_loan AS loanLowerAmount,
+			npp.increase_by AS increaseType , njc.compan_name  AS companyName, sd1.label_text as repayTypeText
+			FROM nj_product np
+			LEFT JOIN nj_product_para npp ON (npp.product_id= np.id) AND  np.id=#{id,jdbcType=VARCHAR}
+			LEFT JOIN nj_corp_prod njcp ON (njcp.product_id = np.id) AND  np.id=#{id,jdbcType=VARCHAR}
+			LEFT JOIN nj_coporate njc ON (njc.id=njcp.corporate_id)
+			INNER JOIN sys_dict sd1 ON sd1.type='CPHKFS' AND sd1.value=np.repay_way AND  np.id=#{id,jdbcType=VARCHAR}
+			WHERE np.id=#{id,jdbcType=VARCHAR}
+			GROUP by np.id		
+	</select>
+	
+	<select id="getProductPeriodsByProdId" parameterType="java.lang.String"
+		resultType="java.util.HashMap">
+		SELECT njpc.id as id , sd.value as period 
+		FROM nj_product_cycle njpc , sys_dict sd 
+		WHERE sd.id=njpc.sys_id AND njpc.product_id=#{productId,jdbcType=VARCHAR}
+		ORDER BY sd.sort ASC
+	</select>
+	
+	<!-- add by Zhang.Hai ，查询热推产品 -->
+	<!-- 
+	<select id="getRecommandProducts" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		SELECT tmp.* from nj_user_whitelist njuw LEFT JOIN  
+			(SELECT njp.recmmand_order, njp.id as productId ,njp.max_fee as loanUpperRate,
+			     njp.min_fee as loanLowerRate, njp.product_code as productCode , njp.product_name as productName, 
+			     njp.product_description as productDesc, njpp.max_loan as loanUpperAmount,njpp.min_loan as loanLowerAmount, 
+			     njp.visiable_scope, njp.logo_url as logoUrl, count(njlo.id) as applyNum 
+			 FROM nj_product njp
+			 LEFT JOIN nj_loan_order njlo ON njlo.product_id = njp.id,
+			 nj_product_para njpp,
+			 <if test="areaCode !=null">
+			 , nj_product_area njpa, sys_area sa
+			 </if>
+			 <if test="companyCode !=null">
+			 ,nj_coporate njc, nj_corp_prod njcp
+			 </if>
+			 
+			 WHERE njlo.product_id= njp.id
+			 AND njpp.product_id= njp.id 
+			 <if test="companyCode !=null">
+			 AND njcp.product_id = njp.id 
+			 AND njc.id= njcp.corporate_id 
+			 AND njc.compan_code=#{companyCode,jdbcType=VARCHAR}
+			 </if>
+			 <if test="areaCode !=null">
+			 AND njpa.area_id =sa.id
+			 AND njpa.product_id=njp.id 			 
+			 AND sa.code= #{areaCode, jdbcType=VARCHAR} 
+			 </if>
+			 AND njp.is_recommand=1 
+			 AND njp.del_flag=0 ) tmp
+		ON njuw.product_id = tmp.productId
+		WHERE tmp.visiable_scope=0 
+		<if test="mobileNo !=null">
+		OR (tmp.visiable_scope=1 AND njuw.product_id = tmp.productId AND njuw.phone= #{mobileNo,jdbcType=VARCHAR}) 
+		</if>
+		order by recmmand_order desc limit #{topnum,jdbcType=INTEGER}
+	</select>
+	 -->
+	 <!-- 张海添加 -->
+	<select id="getRecommandProducts" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		SELECT tmp.* from nj_user_whitelist njuw RIGHT JOIN  
+			(SELECT njp.recmmand_order, njp.id as productId ,njp.max_fee as loanRateUpper,
+			     njp.min_fee as loanRateLower, njp.product_code as productCode , njp.product_name as productName, 
+			     njp.product_description as productDesc, njpp.max_loan as loanUpperAmount,njpp.min_loan as loanLowerAmount, 
+			     njp.visiable_scope, njp.logo_url as logoUrl, count(njlo.id) as applyNum 
+			 FROM nj_product njp
+			 LEFT JOIN nj_loan_order njlo ON njlo.product_id = njp.id
+			 <if test="areaCode !=null">
+			 INNER JOIN nj_product_area njpa ON (njpa.product_id= njp.id) INNER JOIN ON sys_area sa ON (sa.id= njpa.area_id)
+			 </if>
+			 <if test="companyCode !=null">
+			 INNER JOIN nj_corp_prod njcp ON (njcp.product_id=njp.id) INNER JOIN nj_coporate njc ON (njc.id= njcp.corporate_id)
+ 			 </if>
+ 			 INNER JOIN nj_product_para njpp ON (njpp.product_id=njp.id) 			  			 
+			 WHERE njp.is_recommand=1 AND njp.del_flag=0 AND njp.state=#{state, jdbcType=INTEGER}
+			 <if test="companyCode !=null">
+			 AND njc.compan_code=#{companyCode,jdbcType=VARCHAR}
+			 </if>
+			 <if test="areaCode!=null">
+			 AND sa.code= #{areaCode, jdbcType=VARCHAR}
+			 </if> 
+			 GROUP BY njp.id) tmp
+		ON njuw.product_id = tmp.productId
+		WHERE tmp.visiable_scope=0 
+		<if test="mobileNo !=null">
+		OR (tmp.visiable_scope=1 AND njuw.phone= #{mobileNo,jdbcType=VARCHAR}) 
+		</if>
+		GROUP BY tmp.productId
+		order by recmmand_order desc limit #{topnum,jdbcType=INTEGER} 
+	</select>
+	
+	
+	<select id="getTemplateName" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select t.file_path  from nj_template t LEFT JOIN nj_product_temp pt ON
+			t.id = pt.template_id where pt.product_id =  #{productId};
+	</select>
+	
+	
+	<select id="getTemplateNameByTempId" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select t.file_path  from nj_template t
+			where t.id =  #{tempId};
+	</select>
+	
+	<select id="getProductCount" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM nj_user_whitelist njuw
+		RIGHT JOIN (
+			SELECT njp.id AS productId
+				,njp.visiable_scope AS visiableScope
+			FROM nj_product njp
+			INNER JOIN nj_product_para njpp ON (njpp.product_id = njp.id)
+			INNER JOIN nj_product_type njpt ON njpt.product_id= njp.id
+			INNER JOIN sys_dict sd ON sd.id = njpt.type_id AND sd.type='CPFBSXFL'
+			<if test="companyCode !=null">
+			INNER JOIN nj_corp_prod njcp ON (njcp.product_id = njp.id)
+			INNER JOIN nj_coporate njc ON (njc.id = njcp.corporate_id)
+			</if>
+			<if test="areaCode!=null">
+			INNER JOIN nj_product_area njpa ON (njpa.product_id = njp.id)
+			INNER JOIN sys_area sa ON (sa.id = njpa.area_id)
+			</if>
+			WHERE njp.del_flag = 0 AND njp.state=#{state,jdbcType=INTEGER}
+		    	<if test="companyCode !=null">
+				AND njc.compan_code=#{companyCode,jdbcType=VARCHAR}
+				</if>
+				<if test="areaCode!=null">
+				AND sa.code= #{areaCode, jdbcType=VARCHAR}
+				</if> 
+				<if test="productTypeCode !=null">
+				AND sd.value=#{productTypeCode, jdbcType=VARCHAR}
+				</if>
+			GROUP BY njp.id
+			) tmp ON njuw.product_id = tmp.productId
+		WHERE tmp.visiableScope = 0
+		<if test="mobileNo !=null">
+			OR (
+				tmp.visiableScope = 1
+				AND njuw.product_id = tmp.productId
+				AND njuw.phone = #{mobileNo, jdbcType=VARCHAR}
+				)
+		</if>
+	</select>
+	
+	<select id="getProductList" resultType="java.util.Map">
+		SELECT tmp.*
+		FROM nj_user_whitelist njuw
+		RIGHT JOIN (
+			SELECT njp.id AS productId
+				,njp.product_code AS productCode
+				,njp.product_name AS productName
+				,njp.min_fee AS loanRateLower
+				,njp.max_fee AS loanRateUppder
+				,njp.logo_url AS logoUrl
+				,njp.repay_way AS repayType
+				,njp.product_description AS productDesc
+				,njp.default_fee AS defaultRate
+				,njpp.min_loan AS loanLowerAmount
+				,njpp.max_loan AS loanUpperAmount
+				,njp.visiable_scope AS visiableScope
+				,sd.value as productTypeCode
+				,sd.label_text as productTypeName
+				,sd2.label_text as repayTypeText
+			FROM nj_product njp
+			INNER JOIN nj_product_para njpp ON (njpp.product_id = njp.id)
+			INNER JOIN nj_product_type njpt ON njpt.product_id= njp.id
+			INNER JOIN sys_dict sd ON sd.id = njpt.type_id AND sd.type='CPFBSXFL'
+			INNER JOIN sys_dict sd2 ON sd2.type='CPHKFS' AND sd2.value=njp.repay_way 
+			<if test="productTypeCode !=null">
+				AND sd.value=#{productTypeCode, jdbcType=VARCHAR}
+			</if>
+			<if test="companyCode !=null">
+			INNER JOIN nj_corp_prod njcp ON (njcp.product_id = njp.id)
+			INNER JOIN nj_coporate njc ON (njc.id = njcp.corporate_id)
+			</if>
+			<if test="areaCode!=null">
+			INNER JOIN nj_product_area njpa ON (njpa.product_id = njp.id)
+			INNER JOIN sys_dict sd1 ON (sd1.type='SYSCITY' AND sd1.value=#{areaCode,jdbcType=VARCHAR}
+				AND sd1.id = njpa.area_id )
+			</if>
+			WHERE njp.del_flag = 0 AND njp.state=#{state,jdbcType=INTEGER}
+		    	<if test="companyCode !=null">
+				AND njc.compan_code=#{companyCode,jdbcType=VARCHAR}
+				</if>
+			GROUP BY njp.id
+			) tmp ON njuw.product_id = tmp.productId
+		WHERE tmp.visiableScope = 0
+		<if test="mobileNo !=null">
+			OR (
+				tmp.visiableScope = 1
+				AND njuw.product_id = tmp.productId
+				AND njuw.phone = #{mobileNo, jdbcType=VARCHAR}
+				)
+		</if>
+		GROUP BY tmp.productId
+		LIMIT #{page, jdbcType=INTEGER},#{pageNum, jdbcType=INTEGER}
+	</select>
+	
+	<!-- 张海添加 -->
+	<select id="getProductCompanyMap" parameterType="java.lang.String"
+		resultType="java.util.Map">
+	SELECT njc.id AS companyId
+		,njc.compan_name AS companyName
+		,njc.compan_code AS companyCode
+	FROM nj_corp_prod njcp
+	INNER JOIN nj_coporate njc ON njcp.corporate_id = njc.id
+	WHERE njcp.product_id = #{productId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getAcceptStepsById" parameterType="java.lang.String"
+		resultType="java.util.Map">
+		SELECT sd.type AS type
+			,sd.value AS value
+			,sd.label_text AS label
+			,njat.thre_status AS 'status'
+		FROM nj_product njp
+		INNER JOIN nj_accept_thresholds njat ON njp.id = njat.product_id
+		INNER JOIN sys_dict sd ON njat.sys_id = sd.id
+			AND sd.del_flag = 0
+		WHERE njp.id =#{productId, jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 张海添加，获取广告 -->
+	<select id="getAdvertisement"
+		resultType="java.util.Map">
+		SELECT njb.banner_name AS NAME
+			,njb.banner_detail AS detail
+			,njb.banner_title AS title
+			,njb.banner_img AS picUrl
+			,njb.banner_type AS 'type'
+			,njb.banner_url AS businessId
+		FROM nj_banner njb
+		WHERE del_flag != 1
+	</select>
+	
+	<select id="getProductAuditParameters" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select 
+		np.min_fee as minFee,
+		np.max_fee as maxFee,
+		min(cast(sd.value as signed)) as minPeriod,
+		max(cast(sd.value as signed)) as maxPeriod
+		 from nj_loan_order nlo
+		inner join nj_product np
+		on nlo.product_id = np.id
+		<if test="orderNo !=null">
+			and nlo.order_no =#{orderNo,jdbcType=VARCHAR}
+		</if>
+		inner join nj_product_cycle npc
+		on np.id = npc.product_id
+		inner join sys_dict sd
+		on npc.sys_id = sd.id
+		<if test="type !=null">
+			and sd.type = #{type,jdbcType=VARCHAR}
+		</if>
+	</select>
+</mapper>

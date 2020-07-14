@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjStatisticsSummaryMapperExtend">
+  		  <!-- 批量插入 -->
+	  <insert id="insertBath" parameterType="java.util.List">
+	  	   INSERT INTO nj_statistics_summary (
+	  	   id, 
+	  	   compan_id, 
+	  	   compan_code, 
+	  	   compan_name, 
+	  	   loan_num, 
+	  	   loan_amount, 
+	  	   overdue_amount, 
+	  	   loan_user_count, 
+	  	   first_amount_range_count, 
+	  	   first_amount_range_sum,
+	  	   second_amount_range_count, 
+	  	   second_amount_range_sum, 
+	  	   third_amount_range_count, 
+	  	   third_amount_range_sum,
+	  	   fourth_amount_range_count, 
+	  	   fourth_amount_range_sum, 
+	  	   fifth_amount_range_count,  
+	  	   fifth_amount_range_sum, 
+	  	   due_date)
+	      VALUES
+	      <foreach collection="list" item="model" separator=",">
+            (
+            #{model.id},
+            #{model.companId},
+            #{model.companCode},
+            #{model.companName},
+            #{model.loanNum},
+            #{model.loanAmount},
+            #{model.overdueAmount},
+            #{model.loanUserCount},
+            #{model.firstAmountRangeCount},
+            #{model.firstAmountRangeSum},
+            #{model.secondAmountRangeCount},
+            #{model.secondAmountRangeSum},
+            #{model.thirdAmountRangeCount},
+            #{model.thirdAmountRangeSum},
+            #{model.fourthAmountRangeCount},
+            #{model.fourthAmountRangeSum},
+            #{model.fifthAmountRangeCount},
+            #{model.fifthAmountRangeSum},
+            #{model.dueDate}
+            )
+         </foreach>
+	  </insert>
+</mapper>

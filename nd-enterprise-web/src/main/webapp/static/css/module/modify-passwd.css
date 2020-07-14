@@ -1,0 +1,72 @@
+ul,li,p {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+.modal-content {
+  background-color: #fff;
+}
+#passwdModal .modal-header {
+  position: relative;
+  border: 1px solid #f7f7f7;
+}
+#passwdModal .modal-header button {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+#passwdModal li {
+  overflow: hidden;
+  line-height: 34px;
+  margin-bottom: 30px;
+}
+#passwdModal li > div {
+  display: inline-block;
+  width: 80%;
+  position: relative;
+}
+#passwdModal li > div span.badge {
+  position: absolute;
+  right: -25px;
+  top: 8px;
+  color: #ff1213;
+  background-color: transparent;
+}
+#passwdModal input {
+  border-radius: 5px;
+}
+#passwdModal .msg-tip {
+  color: #ff1213;
+  font-size: 12px;
+  width: 300px;
+  text-align: left;
+  display: none;
+}
+#passwdModal .msg-tip.go-show {
+  display: block;
+}
+#passwdModal i {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  width: 24px;
+  height: 16px;
+  background: url("../../img/hide_passwd.png") no-repeat center;
+  cursor: pointer;
+  opacity: 0.5;
+}
+#passwdModal i.show-passwd {
+  background: url("../../img/show_passwd.png") no-repeat center;
+}
+
+#myCModal .modal-header,
+#myCModal .modal-footer {
+  border: none;
+}
+#myCModal p {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}

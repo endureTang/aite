@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjVersionMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjVersion">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="update_notice" jdbcType="VARCHAR" property="updateNotice" />
+    <result column="update_ios_version" jdbcType="VARCHAR" property="updateIosVersion" />
+    <result column="android_download_url" jdbcType="VARCHAR" property="androidDownloadUrl" />
+    <result column="ios_download_url" jdbcType="VARCHAR" property="iosDownloadUrl" />
+    <result column="is_force_update" jdbcType="BIT" property="isForceUpdate" />
+    <result column="update_android_version" jdbcType="VARCHAR" property="updateAndroidVersion" />
+    <result column="update_ios_version_code" jdbcType="INTEGER" property="updateIosVersionCode" />
+    <result column="update_android_version_code" jdbcType="INTEGER" property="updateAndroidVersionCode" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="app_type" jdbcType="INTEGER" property="appType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, update_notice, update_ios_version, android_download_url, ios_download_url, is_force_update, 
+    update_android_version, update_ios_version_code, update_android_version_code, type, 
+    create_date, app_type
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjVersionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_version
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_version
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjVersionExample">
+    delete from nj_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjVersion">
+    insert into nj_version (id, update_notice, update_ios_version, 
+      android_download_url, ios_download_url, is_force_update, 
+      update_android_version, update_ios_version_code, 
+      update_android_version_code, type, create_date, 
+      app_type)
+    values (#{id,jdbcType=VARCHAR}, #{updateNotice,jdbcType=VARCHAR}, #{updateIosVersion,jdbcType=VARCHAR}, 
+      #{androidDownloadUrl,jdbcType=VARCHAR}, #{iosDownloadUrl,jdbcType=VARCHAR}, #{isForceUpdate,jdbcType=BIT}, 
+      #{updateAndroidVersion,jdbcType=VARCHAR}, #{updateIosVersionCode,jdbcType=INTEGER}, 
+      #{updateAndroidVersionCode,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{appType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjVersion">
+    insert into nj_version
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="updateNotice != null">
+        update_notice,
+      </if>
+      <if test="updateIosVersion != null">
+        update_ios_version,
+      </if>
+      <if test="androidDownloadUrl != null">
+        android_download_url,
+      </if>
+      <if test="iosDownloadUrl != null">
+        ios_download_url,
+      </if>
+      <if test="isForceUpdate != null">
+        is_force_update,
+      </if>
+      <if test="updateAndroidVersion != null">
+        update_android_version,
+      </if>
+      <if test="updateIosVersionCode != null">
+        update_ios_version_code,
+      </if>
+      <if test="updateAndroidVersionCode != null">
+        update_android_version_code,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="appType != null">
+        app_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="updateNotice != null">
+        #{updateNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="updateIosVersion != null">
+        #{updateIosVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="androidDownloadUrl != null">
+        #{androidDownloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="iosDownloadUrl != null">
+        #{iosDownloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isForceUpdate != null">
+        #{isForceUpdate,jdbcType=BIT},
+      </if>
+      <if test="updateAndroidVersion != null">
+        #{updateAndroidVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="updateIosVersionCode != null">
+        #{updateIosVersionCode,jdbcType=INTEGER},
+      </if>
+      <if test="updateAndroidVersionCode != null">
+        #{updateAndroidVersionCode,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appType != null">
+        #{appType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjVersionExample" resultType="java.lang.Long">
+    select count(*) from nj_version
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_version
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateNotice != null">
+        update_notice = #{record.updateNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateIosVersion != null">
+        update_ios_version = #{record.updateIosVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.androidDownloadUrl != null">
+        android_download_url = #{record.androidDownloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iosDownloadUrl != null">
+        ios_download_url = #{record.iosDownloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isForceUpdate != null">
+        is_force_update = #{record.isForceUpdate,jdbcType=BIT},
+      </if>
+      <if test="record.updateAndroidVersion != null">
+        update_android_version = #{record.updateAndroidVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateIosVersionCode != null">
+        update_ios_version_code = #{record.updateIosVersionCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateAndroidVersionCode != null">
+        update_android_version_code = #{record.updateAndroidVersionCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.appType != null">
+        app_type = #{record.appType,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_version
+    set id = #{record.id,jdbcType=VARCHAR},
+      update_notice = #{record.updateNotice,jdbcType=VARCHAR},
+      update_ios_version = #{record.updateIosVersion,jdbcType=VARCHAR},
+      android_download_url = #{record.androidDownloadUrl,jdbcType=VARCHAR},
+      ios_download_url = #{record.iosDownloadUrl,jdbcType=VARCHAR},
+      is_force_update = #{record.isForceUpdate,jdbcType=BIT},
+      update_android_version = #{record.updateAndroidVersion,jdbcType=VARCHAR},
+      update_ios_version_code = #{record.updateIosVersionCode,jdbcType=INTEGER},
+      update_android_version_code = #{record.updateAndroidVersionCode,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      app_type = #{record.appType,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjVersion">
+    update nj_version
+    <set>
+      <if test="updateNotice != null">
+        update_notice = #{updateNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="updateIosVersion != null">
+        update_ios_version = #{updateIosVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="androidDownloadUrl != null">
+        android_download_url = #{androidDownloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="iosDownloadUrl != null">
+        ios_download_url = #{iosDownloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="isForceUpdate != null">
+        is_force_update = #{isForceUpdate,jdbcType=BIT},
+      </if>
+      <if test="updateAndroidVersion != null">
+        update_android_version = #{updateAndroidVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="updateIosVersionCode != null">
+        update_ios_version_code = #{updateIosVersionCode,jdbcType=INTEGER},
+      </if>
+      <if test="updateAndroidVersionCode != null">
+        update_android_version_code = #{updateAndroidVersionCode,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appType != null">
+        app_type = #{appType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjVersion">
+    update nj_version
+    set update_notice = #{updateNotice,jdbcType=VARCHAR},
+      update_ios_version = #{updateIosVersion,jdbcType=VARCHAR},
+      android_download_url = #{androidDownloadUrl,jdbcType=VARCHAR},
+      ios_download_url = #{iosDownloadUrl,jdbcType=VARCHAR},
+      is_force_update = #{isForceUpdate,jdbcType=BIT},
+      update_android_version = #{updateAndroidVersion,jdbcType=VARCHAR},
+      update_ios_version_code = #{updateIosVersionCode,jdbcType=INTEGER},
+      update_android_version_code = #{updateAndroidVersionCode,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      app_type = #{appType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

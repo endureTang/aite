@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjProductFeeCfgMapperExtend">
+
+	<select id="getFeeCodeSetByCoporateId" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT 
+			fc.business_fee_code 
+		FROM 
+			nj_corp_prod cp
+		LEFT JOIN 
+			nj_product_fee_cfg fc
+		ON 
+			cp.product_id=fc.product_id
+		WHERE 
+			cp.corporate_id=#{coporateId,jdbcType=VARCHAR} 
+			AND fc.cfg_obj = 2
+	</select>
+</mapper>

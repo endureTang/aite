@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjOrderHouseMapperExtend">
+ 	
+ 	<select id="getOrderHousesByOrderId" parameterType="java.lang.String" resultType="java.util.Map">
+ 		SELECT 
+ 			nuh.id houseId,
+ 			nuh.`name` name,
+ 			nuh.`buy_price` price,
+ 			nuh.`address` address,
+ 			nua.`file_path` filePath
+ 		FROM 
+ 			nj_order_house noh,
+ 			nj_user_house nuh,
+ 			nj_house_attachment nha,
+ 			nj_user_attachment nua
+		WHERE noh.`house_id`=nuh.`id`
+			AND nuh.`id`=nha.`house_id`
+			AND nha.`attachment_Id`=nua.`id`
+			AND noh.`order_id`=#{orderId,jdbcType=VARCHAR}
+			AND nuh.`del_flag`=0
+			AND nua.`del_flag`=0
+ 	</select>
+ 	
+</mapper>

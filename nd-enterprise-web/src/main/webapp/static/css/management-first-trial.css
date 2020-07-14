@@ -1,0 +1,733 @@
+ul,li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+i {font-style: normal}
+.container-fluid {
+  padding-left: 40px;
+  padding-right: 0;
+  background-color: #f3f3f3;
+}
+.clearfix::after {
+  content: '';
+  display: block;
+  visibility: hidden;
+  height: 0;
+  line-height: 0;
+  clear: both;
+}
+.nav-bar {
+  line-height: 60px;
+  font-size: 14px;
+  color: #333;
+  padding-left: 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #f3f3f3;
+  position: relative;
+}
+
+/*before_base_info*/
+.nav-bar .reject-reason {
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  top: 12px;
+  font-size: 13px;
+  background-color: rgba(0,0,0,.5);
+  border-radius : 30px;
+  line-height: 36px;
+  padding: 0 25px;
+  box-shadow: 0 3px 9px 0 rgba(0,0,0,.4);
+  -webkit-box-shadow : 0 3px 9px 0 rgba(0,0,0,.4);
+  -moz-box-shadow: 0 3px 9px 0 rgba(0,0,0,.4);
+  -ms-box-shadow: 0 3px 9px 0 rgba(0,0,0,.4);
+  -o-box-shadow: 0 3px 9px 0 rgba(0,0,0,.4);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  transform: translateX(-50%);
+  display: none;
+}
+.nav-bar .reject-reason.go-show,
+.nav-bar .check-user.go-show {
+  display: block;
+}
+.nav-bar .check-user {
+  font-size: 13px;
+  color: #333333;
+  position: absolute;
+  left: 10%;
+  top: 0;
+  display: none;
+}
+.nav-bar .check-user > span {
+  margin-right: 15px;
+}
+
+.steps {
+  /* padding-bottom: 40px; */
+  border-bottom: 1px solid #f3f3f3;
+  background-color: #fff;
+  /* padding-top: 20px; */
+}
+.steps > ul {
+  padding: 20px 30px 40px;
+}
+@media screen and (max-width: 1396px) {
+  .steps > ul {
+    padding: 20px 10px 40px;
+  }
+  .steps > ul li.process {
+    width: 70px;
+  }
+}
+.steps li {
+  float: left;
+  text-align: center;
+  width: 60px;
+  height: 100px;
+  margin-bottom: 20px;
+  position: relative;
+  background: url("../img/management/point_no_active.png") no-repeat center;
+}
+.steps li.active {
+  background: url("../img/management/point_active.png") no-repeat center;
+}
+.steps li.process {
+  width: 80px;
+  background: url("../img/management/arrow_no_active.png") no-repeat center;
+}
+.steps li.process.active {
+  background: url("../img/management/arrow_active.png") no-repeat center;
+}
+.steps li.process.hide {
+  display: none;
+}
+.steps li span {
+  width: 150%;
+  left: -16px;
+}
+.steps li span.time-out {
+  font-size: 12px;
+  position: absolute;
+  top: 4px;
+}
+.steps li span.time-out.hide {
+  display: none;
+}
+.steps li.active span.time-out {
+  color: #008bff;
+}
+.steps li span.normal {
+  position: absolute;
+  bottom: 4px;
+  color: #666;
+}
+.steps li span.people-name {
+  position: absolute;
+  bottom: -15px;
+}
+/*tab�?*/
+.tab-con .nav-tabs {
+  border-bottom: 2px solid #eeeeee;
+  background-color: #fff;
+  position: relative;
+}
+.tab-con .nav-tabs>li {
+  padding: 0 15px;
+}
+.tab-con .nav-tabs>li>a {
+  font-family: 'microsoft yahei';
+  font-weight: 700;
+  color: #333;
+  font-size: 16px;
+  line-height: 50px;
+  padding: 0;
+}
+.tab-con .nav-tabs>li.active>a {
+  border: none;
+  border-bottom: 2px solid #008bff;
+  color: #008bff;
+}
+.tab-con .nav-tabs>li>a:hover {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #008bff;
+}
+.tab-con .tab-pane {
+  padding: 20px;
+}
+/*徽章*/
+.tab-con .nav-tabs > li .badge {
+  display: inline-block;
+  vertical-align: baseline;
+  width: 18px;
+  height: 18px;
+  background: url("../img/management/badge.png") no-repeat center;
+  display: none;
+}
+.tab-con .nav-tabs > li .badge.show-badge {
+  display: inline-block;
+}
+.tab-con .tab-content li .badge,
+.tab-con .tab-content .work-pos .badge,
+.tab-con .tab-content .home-pos .badge {
+  color: #ff1a15;
+  background: transparent;
+  font-size: 16px;
+}
+/*通用bootstrap修改*/
+.tab-content .panel-info>.panel-heading,
+.check-cheat .panel > .panel-heading {
+  background-color: #fbfcff;
+  border-color: #e9f1ff;
+}
+.tab-content .panel-info {
+  border-color: #e9f1ff;
+}
+.tab-content .panel-info > .panel-heading,
+.check-cheat .panel > .panel-heading {
+  color: #008bff;
+}
+.tab-content .panel-info .panel-title,
+.check-cheat .panel .panel-title {
+  font-size: 16px;
+}
+
+
+.block {
+  display: block !important;
+}
+.mlr15 {
+  margin: 0 15px !important;
+}
+.w400 {
+  width: 400px !important;
+}
+
+
+
+/*基础信息*/
+.tab-content #two .credit-info {
+  position: relative;
+}
+.tab-content #two .credit-info button#saveCredit {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  display: none;
+  background-color: #008bff;
+  border-color: #008bff;
+}
+.tab-content #one ul,
+.tab-content #three ul,
+.tab-content #fore ul,
+.tab-content #two .credit-info ul,
+.tab-content #two .credit-history ul {
+  float: left;
+}
+.tab-content #fore .first-reply,
+.tab-content #fore .again-reply,
+.tab-content #fore .final-reply {
+  display: none;
+}
+.tab-content #fore .first-trial-replay,
+.tab-content #fore .again-trial-replay,
+.tab-content #fore .final-trial-replay,
+.tab-content #five .order-reply {
+  position: relative;
+}
+.tab-content #fore .first-trial-replay .icon-font-checked,
+.tab-content #fore .again-trial-replay .icon-font-checked,
+.tab-content #fore .final-trial-replay .icon-font-checked {
+  position: absolute;
+  right: 60px;
+  top: 10px;
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  background: url("../img/reply_pass.png") no-repeat center;
+  opacity: 0;
+  -webkit-transition: opacity 1s .2s;
+  -moz-transition: opacity 1s .2s;
+  -ms-transition: opacity 1s .2s;
+  -o-transition: opacity 1s .2s;
+  transition: opacity 1s .2s;
+}
+.tab-content #fore .first-trial-replay .icon-font-checked.show-icon,
+.tab-content #fore .again-trial-replay .icon-font-checked.show-icon,
+.tab-content #fore .final-trial-replay .icon-font-checked.show-icon {
+  opacity: 1;
+}
+.tab-content #fore .first-trial-replay ul,
+.tab-content #fore .again-trial-replay ul,
+.tab-content #fore .final-trial-replay ul {
+  float: none;
+}
+.tab-content #one .apply-info li,
+.tab-content #one .self-info li,
+.tab-content #one .work-info li,
+.tab-content #one .car-info li,
+.tab-content #one .contact-info li,
+.tab-content #three .apply-info li,
+.tab-content #three .self-info li,
+.tab-content #three .work-info li,
+.tab-content #three .car-info li,
+.tab-content #three .contact-info li,
+.tab-content #fore .electric-trial li,
+.tab-content #fore .first-trial-replay li,
+.tab-content #fore .again-trial-replay li,
+.tab-content #fore .final-trial-replay li,
+.tab-content #two .credit-info li,
+.tab-content #two .credit-history li {
+  width: 320px;
+  /*width: 300px;*/
+  line-height: 45px;
+  margin-bottom: 10px;
+  margin-right: 35px;
+}
+.tab-content #fore .electric-trial li,
+.tab-content #fore .first-trial-replay li,
+.tab-content #fore .again-trial-replay li,
+.tab-content #fore .final-trial-replay li {
+	width: 100%;
+	margin-bottom: 15px;
+}
+.tab-content #fore .electric-trial li {
+  margin-right: 120px;
+}
+.tab-content #fore .electric-trial li span {
+  color: #008bff;
+}
+
+.tab-content #one .apply-info .application input,
+.tab-content #three .apply-info .application input {
+  color: #ff4425;
+}
+.tab-content i.desc-name,
+.tab-content i.desc-spe-name {
+	width: 80px;
+	display:inline-block;
+}
+.tab-content i.desc-reply-name {
+  width: 20%;
+  margin-right: 5%;
+}
+.tab-content i.desc-spe-name {
+  width: 156px;
+}
+.tab-content #one .self-info .form-control,
+.tab-content #one .work-info .form-control,
+.tab-content #one .contact-info .form-control,
+.tab-content #one .base-info-control-info .form-control,
+.tab-content #one .apply-info .application input,
+.tab-content #one .car-info .form-control,
+.tab-content #three .self-info .form-control,
+.tab-content #three .work-info .form-control,
+.tab-content #three .contact-info .form-control,
+.tab-content #three .people-check-control-info .form-control,
+.tab-content #three .apply-info .application input,
+.tab-content #three .apply-info .application .form-control,
+.tab-content #three .car-info .form-control,
+.tab-content #fore .first-trial-replay .form-control,
+.tab-content #fore .again-trial-replay .form-control,
+.tab-content #fore .final-trial-replay .form-control,
+.tab-content #fore .credit-trial-first-control-info .form-control,
+.tab-content #fore .credit-trial-again-control-info .form-control,
+.tab-content #fore .credit-trial-final-control-info .form-control,
+.tab-content #two .credit-info .form-control,
+.tab-content #two .credit-history .form-control,
+.tab-content #two .credit-info-control-info .form-control {
+  display: inline-block;
+  /*width: initial;*/
+  width: 190px;
+}
+.ie .tab-content #one .self-info .form-control,
+.ie .tab-content #one .work-info .form-control,
+.ie .tab-content #one .contact-info .form-control,
+.ie .tab-content #one .base-info-control-info .form-control,
+.ie .tab-content #one .apply-info .application input,
+.ie .tab-content #one .car-info .form-control,
+.ie .tab-content #three .self-info .form-control,
+.ie .tab-content #three .work-info .form-control,
+.ie .tab-content #three .contact-info .form-control,
+.ie .tab-content #three .people-check-control-info .form-control,
+.ie .tab-content #three .apply-info .application input,
+.ie .tab-content #three .apply-info .application .form-control,
+.ie .tab-content #three .car-info .form-control,
+.ie .tab-content #fore .first-trial-replay .form-control,
+.ie .tab-content #fore .again-trial-replay .form-control,
+.ie .tab-content #fore .final-trial-replay .form-control,
+.ie .tab-content #fore .credit-trial-first-control-info .form-control,
+.ie .tab-content #fore .credit-trial-again-control-info .form-control,
+.ie .tab-content #fore .credit-trial-final-control-info .form-control,
+.ie .tab-content #two .credit-info .form-control,
+.ie .tab-content #two .credit-history .form-control,
+.ie .tab-content #two .credit-info-control-info .form-control {
+  display: inline-block;
+  /*width: auto;*/
+  width: 190px;
+}
+.ie select::-ms-expand { display: none; }
+.tab-content .form-control.special-length {
+  width: 31.5% !important;
+}
+.tab-content #fore .first-trial-replay .input-box,
+.tab-content #fore .again-trial-replay .input-box,
+.tab-content #fore .final-trial-replay .input-box,
+.ie .tab-content #fore .first-trial-replay .input-box,
+.ie .tab-content #fore .again-trial-replay .input-box,
+.ie .tab-content #fore .final-trial-replay .input-box {
+  width: 65%;
+  height: 100px;
+  vertical-align: top;
+}
+
+
+.tab-content #three .apply-info .application textarea,
+.tab-content #three .self-info .not-home-pos textarea,
+.tab-content #three .work-info .not-work-pos textarea,
+.tab-content #three .car-info textarea,
+.tab-content #three .contact-info textarea {
+  vertical-align: top;
+}
+
+.tab-content #one .base-info-control-info .panel-body textarea.form-control,
+.tab-content #three .people-check-control-info .panel-body textarea.form-control,
+.tab-content #fore .credit-trial-first-control-info .panel-body textarea.form-control,
+.tab-content #fore .credit-trial-again-control-info .panel-body textarea.form-control,
+.tab-content #fore .credit-trial-final-control-info .panel-body textarea.form-control,
+.tab-content #two .credit-info-control-info .panel-body textarea.form-control {
+  width: 45%;
+  margin-left: 10px;
+  margin-right: 10px;
+  vertical-align: top;
+}
+.tab-content #one .base-info-control-info button.btn-success,
+.tab-content #three .people-check-control-info button.btn-success,
+.tab-content #fore .credit-trial-first-control-info button.btn-success,
+.tab-content #fore .credit-trial-again-control-info button.btn-success,
+.tab-content #fore .credit-trial-final-control-info button.btn-success,
+.tab-content #two .credit-info-control-info button.btn-success {
+  margin: 20px 0 30px 0;
+  /*margin-left: 15px;*/
+}
+.tab-content #one .base-info-control-info .panel-body,
+.tab-content #three .people-check-control-info .panel-body,
+.tab-content #fore .credit-trial-first-control-info .panel-body,
+.tab-content #fore .credit-trial-again-control-info .panel-body,
+.tab-content #fore .credit-trial-final-control-info .panel-body,
+.tab-content #two .credit-info-control-info .panel-body {
+  padding-bottom: 30px;
+}
+.tab-content #one .base-info-control-info .base-info-refuse,
+.tab-content #three .people-check-control-info .people-check-refuse,
+.tab-content #fore .credit-trial-first-control-info .credit-trial-first-refuse,
+.tab-content #fore .credit-trial-again-control-info .credit-trial-again-refuse,
+.tab-content #fore .credit-trial-final-control-info .credit-trial-final-refuse,
+.tab-content #two .credit-info-control-info .credit-info-refuse {
+  line-height: 34px;
+  display: inline-block;
+}
+.tab-content #one .base-info-control-info .col-md-5,
+.tab-content #three .people-check-control-info .col-md-5,
+.tab-content #fore .credit-trial-first-control-info .col-md-5,
+.tab-content #fore .credit-trial-again-control-info .col-md-5,
+.tab-content #fore .credit-trial-final-control-info .col-md-5,
+.tab-content #two .credit-info-control-info .col-md-5 {
+  margin-top: 30px;
+}
+.tab-content #two .authorization-info .address-list span,
+.tab-content #two .authorization-info .recently-login span {
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 30px;
+  width: 60px;
+}
+.tab-content #two .authorization-info .recently-login .rencently-map {
+  display: inline-block;
+  margin-bottom: 0;
+  width: 650px;
+  border: 1px solid #e1e1e1;
+  vertical-align: top;
+}
+.tab-content #two .authorization-info .recently-login .rencently-map .display-text{
+  width: 250px;
+  height: 250px;
+  border-right: 1px solid #e1e1e1;
+}
+.tab-content #two .authorization-info .recently-login .rencently-map .map-location {
+  width: 398px;
+  height: 250px;
+}
+.tab-content #two .authorization-info .recently-login .rencently-map .display-text p {
+  margin-top: 15px;
+  padding: 0 20px;
+  line-height: 24px;
+  font-weight: 700;
+}
+.tab-content #two .credit-history span.credit-history-tag {
+  color: #008bff;
+  font-weight: 700;
+}
+/*拒件原因*/
+.select-flag .base-info-refuse,
+.select-flag .credit-info-refuse,
+.select-flag .credit-trial-first-refuse,
+.select-flag .credit-trial-again-refuse,
+.select-flag .credit-trial-final-refuse,
+.select-flag .people-check-refuse {
+  position: relative;
+}
+.select-flag .base-info-refuse input.refuse-reason,
+.select-flag .credit-info-refuse input.refuse-reason,
+.select-flag .credit-trial-first-refuse input.refuse-reason,
+.select-flag .credit-trial-again-refuse input.refuse-reason,
+.select-flag .credit-trial-final-refuse input.refuse-reason,
+.select-flag .people-check-refuse input.refuse-reason {
+  background-color: transparent;
+}
+.select-flag .base-info-refuse .base-info-refuseTree,
+.select-flag .credit-info-refuse .credit-info-refuseTree,
+.select-flag .credit-trial-first-refuse .credit-trial-first-refuseTree,
+.select-flag .credit-trial-again-refuse .credit-trial-again-refuseTree,
+.select-flag .credit-trial-final-refuse .credit-trial-final-refuseTree,
+.select-flag .people-check-refuse .people-check-refuseTree {
+  /*margin-left: 63px;*/
+  position: absolute;
+  left: 79px;
+  bottom: 30px;
+  display: none;
+}
+.select-flag .base-info-refuse .base-info-refuseTree.show,
+.select-flag .credit-info-refuse .credit-info-refuseTree.show,
+.select-flag .credit-trial-first-refuse .credit-trial-first-refuseTree.show,
+.select-flag .credit-trial-again-refuse .credit-trial-again-refuseTree.show,
+.select-flag .credit-trial-final-refuse .credit-trial-final-refuseTree.show,
+.select-flag .people-check-refuse .people-check-refuseTree.show {
+  display: block;
+}
+.list-group-item {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-size: 12px;
+}
+/*按钮*/
+#saveInfo,
+#add_credit_table,
+#printer_table,
+#saveRevCheat,
+#export_list {
+  background-color: #008bff;
+  border-color: #008bff;
+}
+#printer_table {
+  position: absolute;
+  right: 100px;
+  top: 80px;
+}
+/*模�?�框*/
+#myModal .modal-header,
+#phoneModal .modal-header,
+#phoneModalEdit .modal-header,
+#myModalConfirm .modal-header {
+  border: none;
+}
+#myModal .modal-body {
+  font-size: 16px;
+  font-weight: 700;
+  color: #5a5a5a;
+}
+#myModal .modal-footer,
+#phoneModal .modal-footer,
+#phoneModalEdit .modal-footer,
+#myModalConfirm .modal-footer {
+  border: none;
+}
+#phoneModal button.btn-primary,
+#phoneModalEdit button.btn-primary,
+#myModalConfirm button.btn-primary,
+button.btn-primary#saveRevCheat {
+  background-color: #008bff;
+}
+#phoneModal button.btn-primary:hover,
+#phoneModalEdit button.btn-primary:hover,
+#myModalConfirm button.btn-primary:hover,
+button.btn-primary#saveRevCheat:hover {
+  border: 1px solid #008bff;
+}
+#phoneModal li,
+#phoneModalEdit li {
+  margin-bottom: 15px;
+}
+#phoneModal .form-control,
+#phoneModalEdit .form-control {
+  display: inline-block;
+  width: 80%;
+}
+#phoneModal textarea.form-control,
+#phoneModalEdit textarea.form-control {
+  vertical-align: top;
+}
+#phoneModal .modal-footer span,
+#phoneModalEdit .modal-footer span {
+  display: none;
+  color: red;
+  font-size: 12px;
+  margin-right: 15px;
+}
+#phoneModal .modal-footer span.show-msg,
+#phoneModalEdit .modal-footer span.show-msg {
+  display: inline-block;
+}
+#myModalConfirm p {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+/*信审信息电话表格*/
+#fore .credit-table thead th,
+#six .operation-log-table thead th {
+  border-bottom: 2px solid #ddf0ff;
+  line-height: 2;
+}
+#fore .credit-table tbody td,
+#six .operation-log-table tbody td {
+  border-bottom: 1px solid #f9f9f9;
+  line-height: 2;
+}
+#fore #teleAuditInfoTbody span {
+  margin-right: 10px;
+  color: #008bff;
+  cursor: pointer;
+}
+/*审批表格*/
+.order-reply-table {
+  width: 1000px;
+  margin: 0 auto;
+  border: 1px solid #bfbfbf;
+  table-layout:fixed;
+}
+.order-reply-table caption {
+  text-align: center;
+  font-size: 20px;
+  padding: 20px 0;
+}
+.order-reply-table thead {
+  background-color: #f4f4f4;
+}
+.order-reply-table td,
+.order-reply-table th {
+  text-align: center;
+  border: 1px solid #bfbfbf;
+  line-height: 36px;
+  padding: 0 10px;
+}
+.order-reply-table td.bold {
+  font-weight: 700;
+  color: #333;
+}
+/*.order_reply_table select {*/
+  /*border: none;*/
+  /*appearance:none;*/
+  /*-moz-appearance:none;*/
+  /*-webkit-appearance:none;*/
+/*}*/
+#firstReplyTime,
+#againReplyTime,
+#finalReplyTime {
+  display: none !important;
+}
+#firstReplyTime.show,
+#againReplyTime.show,
+#finalReplyTime.show {
+  display: block !important;
+}
+/*disabled*/
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+  background-color: #f5f5f5;
+}
+/*反欺诈面�?*/
+.check-cheat {
+  padding: 0 20px;
+  margin-top: 20px;
+}
+.check-cheat .rev-cheat-result > span {
+  margin-right: 25px;
+}
+.check-cheat .rev-cheat-result > label {
+  margin-right: 15px;
+}
+.check-cheat .rev-cheat-result input {
+  margin-right: 10px;
+}
+.check-cheat .rev-cheat-result .iradio_square-blue {
+  margin-right: 10px;
+}
+.check-cheat .rev-cheat-describe {
+  margin-top: 25px;
+}
+.check-cheat .rev-cheat-describe textarea {
+  margin-top: 15px;
+  width: 30%;
+}
+.check-cheat .panel {
+  position: relative;
+}
+.check-cheat .panel button#saveRevCheat {
+  position: absolute;
+  right: 60px;
+  top: 70px;
+}
+.breadcrumb {
+	padding-left: 20px;
+}
+
+.tab-content #one .asset-prove,
+.tab-content #one .other-prove,
+.tab-content #three .asset-prove,
+.tab-content #three .other-prove {
+  display: none;
+}
+
+.tab-content #three .idProve {
+  margin-top: 10px;
+}
+.tab-content #one .asset-prove li,
+.tab-content #one .other-prove li,
+.tab-content #three .asset-prove li,
+.tab-content #three .other-prove li,
+.tab-content #three .idProve li {
+  margin-bottom: 20px;
+  width: 100%;
+}
+.tab-content #one .asset-prove li p,
+.tab-content #one .other-prove li p,
+.tab-content #three .asset-prove li p,
+.tab-content #three .other-prove li p,
+.tab-content #three .idProve li p {
+  line-height: 40px;
+}
+.tab-content #one .asset-prove li img,
+.tab-content #one .other-prove li img,
+.tab-content #three .asset-prove li img,
+.tab-content #three .other-prove li img,
+.tab-content #three .idProve li img {
+  width: 120px;
+  height: 85px;
+  margin-right: 10px;
+  position: relative;
+}
+@media screen and (max-width: 1396px) {
+  .tab-content #three .self-info {
+    position: relative;
+  }
+  .tab-content #three .self-info .home-pos {
+    position: absolute;
+    left: 370px;
+    top: 223px;
+    width: 100%;
+  }
+}

@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+body{background: #FAFAFB;font-family: "Microsoft YaHei"}
+.content{ width: 460px; margin: 0 auto; overflow: hidden; text-align: center;}
+h3{color: #ff5e16}
+p{ color: #555; }
+a{text-decoration: underline; color: #007feb}

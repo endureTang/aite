@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjProductMapperExtend">
+
+	<sql id="select_product_column_list">
+		SELECT 
+			product.id,
+			product.product_code as productCode,
+			product.open_product_id as openProductId,
+			product.product_name as productName,
+			product.create_date as createDate,
+			product.create_by as createById,
+			userinfo.user_name as createByName,
+			product.is_recommand as isRecommand,
+			product.state,
+			temp.template_id as productTempId,
+			CASE product.state WHEN 0 THEN '设置未完成' WHEN 1 THEN '已提交' WHEN 2 THEN '待审核'  WHEN 3 THEN '审核通过' WHEN 4 THEN '审核拒绝' WHEN 5 THEN '已上架' WHEN 6 THEN '已下架' ELSE '暂无' END as stateShow
+		FROM nj_product product LEFT JOIN nj_user_info userinfo ON product.create_by = userinfo.id
+		INNER JOIN nj_corp_prod ON product.id = nj_corp_prod.product_id
+		INNER JOIN nj_product_temp temp ON product.id = temp.product_id
+	</sql>
+	<select id="selectAllProductListPage"  parameterType="java.util.Map" resultType="java.util.HashMap">
+		<include refid="select_product_column_list" />
+		<where>
+			product.del_flag = 0
+			<if test="productName != null and productName != ''">
+				and product_name like CONCAT('%',#{productName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="coporateId != null and coporateId != ''">
+				and nj_corp_prod.corporate_id = #{coporateId}
+			</if>
+			<if test="state != null and state != ''">
+				and product.state =#{state}
+			</if>
+		</where>
+		ORDER BY
+			product.is_recommand DESC,
+			product.create_date DESC
+	</select>
+	
+	<!-- 获取产品详细 -->
+	<select id="getProductsById" parameterType="java.lang.String" resultType="com.nj.model.generate.NjProduct"> 
+		SELECT 
+			product.id,
+			product.open_product_id,
+			product.product_code_zj,
+			product.product_name,
+			product.is_recommand,
+			product.product_description,
+			product.loan_subject,
+			product.fee_info,
+			product.amount_info,
+			product.loan_subject,
+			product.guarantee_type,
+			product.guarantee_value,
+			product.product_tags,
+			product.price_strategy,
+			product.td_report_valid_date,
+			product.wd_usage_no,
+			product.wd_borrow_type
+		FROM nj_product product
+		<where>
+			and id = #{id}
+		</where>
+	</select>
+	<!-- 获取产品产品 -->
+	<select id="selectProductList" parameterType="java.util.Map" resultType="com.nj.model.generate.NjProduct">
+		select * from (
+			SELECT
+				product.id,
+				product.product_name,
+				product.amount_info,
+				product.term_info,
+				product.fee_info ,
+				product.is_recommand ,
+				product.create_date ,
+				product.product_tags
+			FROM
+				nj_product product
+				INNER JOIN 
+					nj_corp_prod cp 
+				ON 
+					product.id = cp.product_id 
+				left JOIN 
+					nj_product_area pdArea 
+				ON 
+					product.id = pdArea.product_id
+				inner join 
+					nj_product_temp pt 
+				on 
+					product.id=pt.product_id 
+					and pt.template_id in
+					<foreach collection="productTempId" separator="," open="(" close=")" item="ptId">
+						#{ptId}
+					</foreach>
+			<where>
+				product.del_flag = 0
+				<!-- 全国 -->
+				AND pdArea.type = 0
+				<![CDATA[
+				AND (product.id in (SELECT DISTINCT product_id FROM nj_product_channel WHERE channel_type = 1  AND del_flag = 0) or product.is_own_input = 1)
+				]]>
+				AND state = 5
+				<if test="isRecommand != null and isRecommand != '' ">
+					AND product.is_recommand = #{isRecommand}
+				</if>
+				<if test="companyId != null and companyId != '' ">
+					AND cp.corporate_id = #{companyId}
+				</if>
+			</where>
+			UNION 
+			SELECT
+				product.id,
+				product.product_name,
+				product.amount_info,
+				product.term_info,
+				product.fee_info ,
+				product.is_recommand ,
+				product.create_date ,
+				product.product_tags
+			FROM
+				nj_product product
+				INNER JOIN 
+					nj_corp_prod cp 
+				ON 
+					product.id = cp.product_id 
+				left JOIN 
+					nj_product_area pdArea 
+				ON 
+					product.id = pdArea.product_id
+				inner join 
+					nj_product_temp pt 
+				on 
+					product.id=pt.product_id 
+					and pt.template_id in
+					<foreach collection="productTempId" separator="," open="(" close=")" item="ptId">
+						#{ptId}
+					</foreach>
+			<where>
+				product.del_flag = 0
+				<![CDATA[
+				AND (product.id in (SELECT DISTINCT product_id FROM nj_product_channel WHERE channel_type = 1 AND del_flag = 0 ) or product.is_own_input = 1)
+				]]>
+				AND state = 5
+				<if test="areaType == 2">
+					AND (pdArea.city_id = #{areaId} or pdArea.province_id = #{parentId})
+				</if>
+				<if test="isRecommand != null and isRecommand != '' ">
+					AND product.is_recommand = #{isRecommand}
+				</if>
+				<if test="companyId != null and companyId != '' ">
+					AND cp.corporate_id = #{companyId}
+				</if>
+			</where>
+			)as tmp
+		order by tmp.is_recommand DESC,tmp.create_date DESC
+		<if test="rowNum != null and rowNum != '' ">
+			 LIMIT #{page,jdbcType=INTEGER},#{rowNum,jdbcType=INTEGER} 
+		</if>
+	</select>
+	<!-- 获取产品所需材料 -->
+	<select id="selectProductMaterial" resultType="java.lang.String">
+		SELECT
+			GROUP_CONCAT(
+				sys_business_dict.descption ORDER BY sys_business_dict.id 
+			) AS material
+		FROM
+			nj_product_business_dict
+		INNER JOIN sys_business_dict ON nj_product_business_dict.busi_dict_id = sys_business_dict.id
+		WHERE
+			nj_product_business_dict.product_id = #{productId} AND nj_product_business_dict.input_type = 1
+		AND FIND_IN_SET(sys_business_dict.show_type,#{materialParentIds});
+	</select>
+	
+	<!-- 清空产品模板中间表 -->
+	<delete id="deleteProductTemp">
+		DELETE FROM nj_product_temp WHERE product_id = #{productId}
+	</delete>
+	
+	<select id="getProductByOrderNo" resultType="java.util.Map">
+		SELECT
+			pd.is_online_sign as inOnlineSign,
+			od.id as orderId
+		FROM
+			nj_loan_order od
+		LEFT JOIN nj_product_transaction pd ON od.product_id = pd.product_id
+		WHERE
+			od.order_no = #{orderNo}
+	</select>
+	
+	<select id="getChannelType" resultType="java.util.Map">
+		SELECT
+			channel_type as channelType,
+			pd.is_own_input as isOwnInput
+		FROM
+			nj_product_channel pc
+		LEFT JOIN nj_product pd ON pc.product_id = pd.id
+		WHERE
+			pd.id = #{productId} and pc.del_flag = 0
+		AND pc.channel_type = 1 limit 1
+	</select>
+	
+	<select id="selectProductOutApiList" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			product.id,
+			product.product_name AS productName,
+			product.product_description AS productDescription,
+			nj_coporate.compan_name as companName
+		FROM
+			nj_product product
+		LEFT JOIN nj_corp_prod ON product.id = nj_corp_prod.product_id
+		LEFT JOIN nj_coporate ON nj_corp_prod.corporate_id = nj_coporate.id
+		WHERE
+			product.del_flag = 0
+		AND 
+			product.state = 5
+		<if test="coporateId != null and coporateId != '' ">
+				AND nj_coporate.id = #{coporateId,jdbcType=VARCHAR}
+	   </if>
+		ORDER BY
+			product.is_recommand DESC,
+			product.create_date DESC
+		limit #{start},#{length}
+	</select>
+	
+	
+	<select id="selectProductOutApiListCount" parameterType="java.util.Map" resultType="java.lang.Long">
+		SELECT
+			count(1)
+		FROM
+			nj_product product
+		LEFT JOIN nj_corp_prod ON product.id = nj_corp_prod.product_id
+		LEFT JOIN nj_coporate ON nj_corp_prod.corporate_id = nj_coporate.id
+		WHERE
+			product.del_flag = 0
+		AND 
+			product.state = 5
+		<if test="coporateId != null and coporateId != '' ">
+				AND nj_coporate.id = #{coporateId,jdbcType=VARCHAR}
+	   </if>
+	</select>
+	<!-- 获取产品拥有接口 -->
+	<select id="selectProductApi" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			sys_outside_api.id,
+			sys_outside_api.supplier_name AS supplierName,
+			sys_outside_api.api_name AS apiName,
+			sys_outside_api.api_keyword AS apiKeyword
+		FROM
+			nj_product_outside_api
+		INNER JOIN sys_outside_api ON nj_product_outside_api.outside_api_id = sys_outside_api.id
+		<where>
+			<if test="productId != null and productId != ''">
+				nj_product_outside_api.product_id = #{productId}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 获取所有接口列表 -->
+	<select id="selectAllApi" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+			id,
+			supplier_name AS supplierName,
+			api_name AS apiName,
+			api_keyword AS apiKeyword
+		FROM
+			sys_outside_api
+	</select>
+	<!-- 清除之前的数据 -->
+	<delete id="deleteProductApiByProductId">
+		DELETE FROM nj_product_outside_api WHERE product_id = #{productId}
+	</delete>
+	<!-- 根据产品ID获取产品接口列表 -->
+	<select id="selectApiByOrderId" resultType="com.nj.model.generate.SysOutsideApi">
+		SELECT
+			*
+		FROM
+			nj_product_outside_api
+		INNER JOIN sys_outside_api ON nj_product_outside_api.outside_api_id = sys_outside_api.id
+		WHERE
+			product_id = #{productId}
+	</select>
+	
+	<select id="getMaxProductCode" resultType="java.lang.String">
+		SELECT MAX(product_code) FROM nj_product
+	</select>
+	
+	<select id="getProductCompanyMap" resultType="java.util.Map">
+		SELECT njc.id AS companyId
+			,njc.compan_name AS companyName
+			,njc.compan_code AS companyCode
+		FROM nj_corp_prod njcp
+		INNER JOIN nj_coporate njc ON njcp.corporate_id = njc.id
+		WHERE njcp.product_id = #{productId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getProductBussinessDictByProductId" resultType="java.util.Map">
+		select t.descption,t.keyword,t.data_type,t1.input_type from sys_business_dict t inner join nj_product_business_dict t1  on t.id = t1.busi_dict_id  where  t.parent_id!=0 and t1.product_id=#{productId} group by t.keyword order by t.keyword asc
+		
+	</select>
+	
+	<!-- 
+  <select id="getProductsByCoporateId" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select np.id,np.product_code as productCode, np.product_name as productName,np.create_date as createDate,nc.compan_name as companName,np.state from nj_product np 
+			inner join nj_corp_prod ncp 
+			on np.id = ncp.product_id
+			and ncp.corporate_id = #{coporateId,jdbcType=VARCHAR}
+			inner join nj_coporate nc
+			on ncp.corporate_id = nc.id
+			where np.del_flag = 0 
+			<if test="productType !=null">
+			 AND np.product_type = #{productType}
+ 			</if>
+			order by np.create_date desc limit #{start},#{length}
+	</select>
+	
+	<select id="getProductsByUserId" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select 
+			np.id as id,
+			np.product_name productName,
+			np.product_code productCode,
+			np.open_product_id as openProductId 
+		from 
+			nj_product_user npu
+		inner join 
+			nj_product np 
+		on 
+			npu.user_id = #{id,jdbcType=VARCHAR} 
+			and npu.product_id = np.id 
+			and np.del_flag=0
+			<if test="productType !=null">
+			 AND np.product_type = #{productType}
+ 			</if>
+		inner join
+			nj_corp_prod ncp
+		on 
+			ncp.corporate_id=#{coporateId,jdbcType=VARCHAR} 
+			and npu.product_id = ncp.product_id
+	</select>
+	
+	<select id="getProductsByCoporateIdCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(*) from nj_product np 
+			inner join nj_corp_prod ncp 
+			on np.id = ncp.product_id
+			and ncp.corporate_id = #{coporateId,jdbcType=VARCHAR}
+			inner join nj_coporate nc
+			on ncp.corporate_id = nc.id
+			where np.del_flag = 0 
+			<if test="productType !=null">
+			 AND np.product_type = #{productType}
+ 			</if>
+	</select>
+	
+  <select id="getProductsByAdmin" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select 
+			np.id,np.product_code as productCode, 
+			np.product_name as productName,
+			np.create_date as createDate,
+			nc.compan_name as companName,
+			np.state,
+			np.open_product_id openProductId
+		from 
+			nj_product np 
+		inner join 
+			nj_corp_prod ncp 
+		on 
+			np.id = ncp.product_id
+		inner join 
+			nj_coporate nc
+		on 
+			ncp.corporate_id = nc.id
+		where np.del_flag = 0
+			<if test="state !=null">
+			 AND np.state = #{state}
+ 			</if>
+	</select>
+	
+  <select id="getProductsByCorpAdmin" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select 
+			np.id,
+			np.product_code as productCode, 
+			np.product_name as productName,
+			np.create_date as createDate,
+			nc.compan_name as companName,
+			np.state,
+			np.open_product_id as openProductId 
+		from nj_product np 
+		inner join 
+			nj_corp_prod ncp 
+		on 
+			np.id = ncp.product_id
+		inner join
+			nj_coporate nc
+		on 
+			ncp.corporate_id = nc.id
+		where 
+			np.del_flag = 0
+			<if test="productType !=null">
+			 AND np.product_type = #{productType}
+ 			</if>
+			<if test="state !=null">
+			 AND np.state = #{state}
+ 			</if>
+			<if test="coporateId !=null">
+			 AND ncp.corporate_id = #{coporateId}
+ 			</if>
+	</select>
+  
+  <update id="updateVisiableScope" parameterType="com.nj.model.generate.NjProduct">
+		update nj_product set
+		visiable_scope = #{visiableScope}
+		<if test="state !=null">
+		    ,state = #{state}
+		</if>
+		<if test="productThreechannelId !=null">
+		    ,product_threechannel_id = #{productThreechannelId}
+		</if>
+		where 1=1
+		and id = #{id}
+	</update>
+	
+  <select id="getProductState" parameterType="java.lang.String"
+      resultType="java.lang.Integer" >
+		select state from nj_product
+		where id = #{id}
+	</select>
+	
+	张海添加
+	<select id="getProductDetailById" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		SELECT np.id AS productId ,np.product_name as productName, np.default_fee as defaultRate, np.product_code AS productCode, np.product_description AS productDesc , np.max_fee AS loanRateUpper,
+			np.min_fee AS loanRateLower , np.logo_url AS logoUrl, npp.max_loan AS loanUpperAmount , npp.min_loan AS loanLowerAmount,
+			npp.increase_by AS increaseType , njc.compan_name  AS companyName,np.fee_info AS feeText, np.amount_info AS amountText,
+			np.term_info AS periodText
+			FROM nj_product np
+			LEFT JOIN nj_product_para npp ON (npp.product_id= np.id) AND  np.id=#{id,jdbcType=VARCHAR}
+			LEFT JOIN nj_corp_prod njcp ON (njcp.product_id = np.id) AND  np.id=#{id,jdbcType=VARCHAR}
+			LEFT JOIN nj_coporate njc ON (njc.id=njcp.corporate_id)
+			WHERE np.id=#{id,jdbcType=VARCHAR}
+			GROUP by np.id		
+	</select>
+	
+	<select id="getProductPeriodsByProdId" parameterType="java.lang.String"
+		resultType="java.util.HashMap">
+		SELECT njpc.id as id , sd.value as period 
+		FROM nj_product_cycle njpc , sys_dict sd 
+		WHERE sd.id=njpc.sys_id AND njpc.product_id=#{productId,jdbcType=VARCHAR}
+		ORDER BY sd.sort ASC
+	</select>
+	
+	add by Zhang.Hai ，查询热推产品
+	
+	<select id="getRecommandProducts" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		SELECT tmp.* from nj_user_whitelist njuw LEFT JOIN  
+			(SELECT njp.recmmand_order, njp.id as productId ,njp.max_fee as loanUpperRate,
+			     njp.min_fee as loanLowerRate, njp.product_code as productCode , njp.product_name as productName, 
+			     njp.product_description as productDesc, njpp.max_loan as loanUpperAmount,njpp.min_loan as loanLowerAmount, 
+			     njp.visiable_scope, njp.logo_url as logoUrl, count(njlo.id) as applyNum 
+			 FROM nj_product njp
+			 LEFT JOIN nj_loan_order njlo ON njlo.product_id = njp.id,
+			 nj_product_para njpp,
+			 <if test="areaCode !=null">
+			 , nj_product_area njpa, sys_area sa
+			 </if>
+			 <if test="companyCode !=null">
+			 ,nj_coporate njc, nj_corp_prod njcp
+			 </if>
+			 
+			 WHERE njlo.product_id= njp.id
+			 AND njpp.product_id= njp.id 
+			 <if test="companyCode !=null">
+			 AND njcp.product_id = njp.id 
+			 AND njc.id= njcp.corporate_id 
+			 AND njc.compan_code=#{companyCode,jdbcType=VARCHAR}
+			 </if>
+			 <if test="areaCode !=null">
+			 AND njpa.area_id =sa.id
+			 AND njpa.product_id=njp.id 			 
+			 AND sa.code= #{areaCode, jdbcType=VARCHAR} 
+			 </if>
+			 AND njp.is_recommand=1 
+			 AND njp.del_flag=0 ) tmp
+		ON njuw.product_id = tmp.productId
+		WHERE tmp.visiable_scope=0 
+		<if test="mobileNo !=null">
+		OR (tmp.visiable_scope=1 AND njuw.product_id = tmp.productId AND njuw.phone= #{mobileNo,jdbcType=VARCHAR}) 
+		</if>
+		order by recmmand_order desc limit #{topnum,jdbcType=INTEGER}
+	</select>
+	
+	 张海添加
+	<select id="getRecommandProducts" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		SELECT tmp.* from nj_user_whitelist njuw RIGHT JOIN  
+			(SELECT njp.recmmand_order, njp.id as productId ,njp.max_fee as loanRateUpper,
+			     njp.min_fee as loanRateLower, njp.product_code as productCode , njp.product_name as productName, 
+			     njp.product_description as productDesc, njpp.max_loan as loanUpperAmount,njpp.min_loan as loanLowerAmount, 
+			     njp.visiable_scope, njp.logo_url as logoUrl, njp.fee_info AS feeText, np.amount_info AS amountText,
+				njp.term_info AS periodText,count(njlo.id) as applyNum 
+			 FROM nj_product njp
+			 LEFT JOIN nj_loan_order njlo ON njlo.product_id = njp.id
+			 <if test="areaCode !=null">
+			 INNER JOIN nj_product_area njpa ON (njpa.product_id= njp.id) INNER JOIN ON sys_area sa ON (sa.id= njpa.area_id)
+			 </if>
+			 <if test="companyCode !=null">
+			 INNER JOIN nj_corp_prod njcp ON (njcp.product_id=njp.id) INNER JOIN nj_coporate njc ON (njc.id= njcp.corporate_id)
+ 			 </if>
+ 			 INNER JOIN nj_product_para njpp ON (njpp.product_id=njp.id) 			  			 
+			 WHERE njp.is_recommand=1 AND njp.del_flag=0 AND njp.state=#{state, jdbcType=INTEGER} AND njp.product_threechannel_id is not null
+			 <if test="companyCode !=null">
+			 AND njc.compan_code=#{companyCode,jdbcType=VARCHAR}
+			 </if>
+			 <if test="areaCode!=null">
+			 AND sa.code= #{areaCode, jdbcType=VARCHAR}
+			 </if> 
+			 GROUP BY njp.id) tmp
+		ON njuw.product_id = tmp.productId
+		WHERE tmp.visiable_scope=0 
+		<if test="mobileNo !=null">
+		OR (tmp.visiable_scope=1 AND njuw.phone= #{mobileNo,jdbcType=VARCHAR}) 
+		</if>
+		GROUP BY tmp.productId
+		order by recmmand_order desc limit #{topnum,jdbcType=INTEGER} 
+	</select>
+	
+	
+	<select id="getTemplateName" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select t.file_path  from nj_template t LEFT JOIN nj_product_temp pt ON
+			t.id = pt.template_id where pt.product_id =  #{productId};
+	</select>
+	
+	
+	<select id="getTemplateNameByTempId" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select t.file_path  from nj_template t
+			where t.id =  #{tempId};
+	</select>
+	
+	<select id="getProductCount" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM nj_user_whitelist njuw
+		RIGHT JOIN (
+			SELECT njp.id AS productId
+				,njp.visiable_scope AS visiableScope
+			FROM nj_product njp
+			<if test="productTypeCode !=null">
+			INNER JOIN nj_product_type njpt ON njpt.product_id= njp.id 
+			INNER JOIN sys_dict sd ON sd.id = njpt.type_id AND sd.type='CPFBSXFL' AND sd.value=#{productTypeCode, jdbcType=VARCHAR}
+			</if>
+			<if test="companyCode !=null">
+			INNER JOIN nj_corp_prod njcp ON (njcp.product_id = njp.id)
+			INNER JOIN nj_coporate njc ON (njc.id = njcp.corporate_id)
+			</if>
+			<if test="areaCode!=null">
+			INNER JOIN nj_product_area njpa ON (njpa.product_id = njp.id)
+			INNER JOIN sys_dict sd1 ON (sd1.type='SYSCITY' AND sd1.value=#{areaCode,jdbcType=VARCHAR}
+				AND sd1.id = njpa.area_id )
+			</if>
+			WHERE njp.del_flag = 0 AND njp.state=#{state,jdbcType=INTEGER} AND njp.product_type =0
+			GROUP BY njp.id
+			) tmp ON njuw.product_id = tmp.productId
+		WHERE tmp.visiableScope = 0
+		<if test="mobileNo !=null">
+			OR (
+				tmp.visiableScope = 1
+				AND njuw.product_id = tmp.productId
+				AND njuw.phone = #{mobileNo, jdbcType=VARCHAR}
+				)
+		</if>
+	</select>
+	
+	<select id="getProductList" resultType="java.util.Map">
+		SELECT tmp.*
+		FROM nj_user_whitelist njuw
+		RIGHT JOIN (
+			SELECT njp.id AS productId
+				,njp.product_code AS productCode
+				,njp.product_name AS productName
+				,njp.min_fee AS loanRateLower
+				,njp.max_fee AS loanRateUpper
+				,njp.logo_url AS logoUrl
+				,njp.create_date AS createDate
+				,njp.product_description AS productDesc
+				,njp.default_fee AS defaultRate
+				,njpp.min_loan AS loanLowerAmount
+				,njpp.max_loan AS loanUpperAmount
+				,njp.visiable_scope AS visiableScope
+				,sd.value as productTypeCode
+				,sd.label_text as productTypeName
+				,njp.fee_info AS feeText
+				,njp.amount_info AS amountText
+				,njp.term_info AS periodText
+			FROM nj_product njp
+			INNER JOIN nj_product_para njpp ON (njpp.product_id = njp.id)
+			INNER JOIN nj_product_type njpt ON njpt.product_id= njp.id
+			INNER JOIN sys_dict sd ON sd.id = njpt.type_id AND sd.type='CPFBSXFL'
+			<if test="productTypeCode !=null">
+				AND sd.value=#{productTypeCode, jdbcType=VARCHAR}
+			</if>
+			<if test="companyCode !=null">
+			INNER JOIN nj_corp_prod njcp ON (njcp.product_id = njp.id)
+			INNER JOIN nj_coporate njc ON (njc.id = njcp.corporate_id) 
+				AND njc.compan_code=#{companyCode,jdbcType=VARCHAR}
+			</if>
+			<if test="areaCode!=null">
+			INNER JOIN nj_product_area njpa ON (njpa.product_id = njp.id)
+			INNER JOIN sys_dict sd1 ON (sd1.type='SYSCITY' AND sd1.value=#{areaCode,jdbcType=VARCHAR}
+				AND sd1.id = njpa.area_id )
+			</if>
+			WHERE njp.del_flag = 0 AND njp.state=#{state,jdbcType=INTEGER} AND njp.product_type=0
+			GROUP BY njp.id
+			) tmp ON njuw.product_id = tmp.productId
+		WHERE tmp.visiableScope = 0
+		<if test="mobileNo !=null">
+			OR (
+				tmp.visiableScope = 1
+				AND njuw.product_id = tmp.productId
+				AND njuw.phone = #{mobileNo, jdbcType=VARCHAR}
+				)
+		</if>
+		GROUP BY tmp.productId
+		LIMIT #{page, jdbcType=INTEGER},#{pageNum, jdbcType=INTEGER}
+	</select>
+	
+	张海添加
+	<select id="getProductCompanyMap" parameterType="java.lang.String"
+		resultType="java.util.Map">
+	SELECT njc.id AS companyId
+		,njc.compan_name AS companyName
+		,njc.compan_code AS companyCode
+	FROM nj_corp_prod njcp
+	INNER JOIN nj_coporate njc ON njcp.corporate_id = njc.id
+	WHERE njcp.product_id = #{productId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getAcceptStepsById" parameterType="java.lang.String"
+		resultType="java.util.Map">
+		SELECT sd.type AS type
+			,sd.value AS value
+			,sd.label_text AS label
+			,njat.thre_status AS 'status'
+		FROM nj_product njp
+		INNER JOIN nj_accept_thresholds njat ON njp.id = njat.product_id
+		INNER JOIN sys_dict sd ON njat.sys_id = sd.id
+			AND sd.del_flag = 0
+		WHERE njp.id =#{productId, jdbcType=VARCHAR}
+	</select>
+	
+	张海添加，获取广告
+	<select id="getAdvertisement"
+		resultType="java.util.Map">
+		SELECT njb.banner_name AS NAME
+			,njb.banner_detail AS detail
+			,njb.banner_title AS title
+			,njb.banner_img AS picUrl
+			,njb.banner_type AS 'type'
+			,njb.banner_url AS businessId
+		FROM nj_banner njb
+		WHERE del_flag != 1
+	</select>
+	
+	<select id="getProductAuditParameters" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select 
+		npp.min_loan as minLoan,
+		npp.max_loan as maxLoan,
+		np.min_fee as minFee,
+		np.max_fee as maxFee,
+		min(cast(sd.value as signed)) as minPeriod,
+		max(cast(sd.value as signed)) as maxPeriod,
+		np.repay_way repayWays
+		from nj_loan_order nlo
+		inner join nj_product_para npp
+		on npp.product_id = nlo.product_id
+		inner join nj_product np
+		on nlo.product_id = np.id
+		<if test="orderNo !=null">
+			and nlo.order_no =#{orderNo,jdbcType=VARCHAR}
+		</if>
+		inner join nj_product_cycle npc
+		on np.id = npc.product_id
+		inner join sys_dict sd
+		on npc.sys_id = sd.id
+		<if test="type !=null">
+			and sd.type = #{type,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	张海添加获取产品标签
+	<select id="getProductTag" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT sd.label_text AS tag
+		FROM nj_product njp
+		INNER JOIN nj_product_tag njpt ON njp.id = njpt.product_id
+			AND njp.id = #{prodId, jdbcType=VARCHAR}
+		INNER JOIN sys_dict sd ON sd.id = njpt.tag_id
+	</select>
+	 -->
+	
+</mapper>

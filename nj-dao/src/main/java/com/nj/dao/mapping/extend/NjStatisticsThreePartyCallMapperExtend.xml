@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjStatisticsThreePartyCallMapperExtend">
+
+    <select id="getThirdPart" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+        company_id as companyId,
+        company_name as companyName,
+        SUM(fail_num) as failNum,
+        SUM(succeed_num) as succeedNum,
+        SUM(fail_num) + SUM(succeed_num) as total from nj_statistics_three_party_call
+        where time between  #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR} GROUP by company_id
+    </select>
+
+    <select id="getThirdPartByCompany" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+        company_id as companyId,
+        company_name as companyName,
+        description,
+		third_part as thirdPart,
+        SUM(fail_num) as failNum,
+        SUM(succeed_num) as succeedNum,
+        SUM(fail_num) + SUM(succeed_num) as total from nj_statistics_three_party_call
+        where  company_id =  #{companyId,jdbcType=VARCHAR}
+        and time between  #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR}
+        <if test="thirdPart != null and thirdPart != ''">
+            and third_part = #{thirdPart,jdbcType=VARCHAR}
+        </if>
+        <if test="description != null and description != ''">
+            and description = #{description,jdbcType=VARCHAR}
+        </if>
+        GROUP by name, third_part, company_id
+    </select>
+
+</mapper>

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjExtdataCompanyMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjExtdataCompany">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="sfmzzrrsbxx" jdbcType="VARCHAR" property="sfmzzrrsbxx" />
+    <result column="sfmzfyxx" jdbcType="VARCHAR" property="sfmzfyxx" />
+    <result column="sfmztsmd" jdbcType="VARCHAR" property="sfmztsmd" />
+    <result column="j3gysqcs" jdbcType="VARCHAR" property="j3gysqcs" />
+    <result column="j6gysqcs" jdbcType="VARCHAR" property="j6gysqcs" />
+    <result column="j12gysqcs" jdbcType="VARCHAR" property="j12gysqcs" />
+    <result column="sjzwzt" jdbcType="VARCHAR" property="sjzwzt" />
+    <result column="sjzwsc" jdbcType="VARCHAR" property="sjzwsc" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, sfmzzrrsbxx, sfmzfyxx, sfmztsmd, j3gysqcs, j6gysqcs, j12gysqcs, sjzwzt, 
+    sjzwsc
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjExtdataCompanyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_extdata_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_extdata_company
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_extdata_company
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjExtdataCompanyExample">
+    delete from nj_extdata_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjExtdataCompany">
+    insert into nj_extdata_company (id, order_id, sfmzzrrsbxx, 
+      sfmzfyxx, sfmztsmd, j3gysqcs, 
+      j6gysqcs, j12gysqcs, sjzwzt, 
+      sjzwsc)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{sfmzzrrsbxx,jdbcType=VARCHAR}, 
+      #{sfmzfyxx,jdbcType=VARCHAR}, #{sfmztsmd,jdbcType=VARCHAR}, #{j3gysqcs,jdbcType=VARCHAR}, 
+      #{j6gysqcs,jdbcType=VARCHAR}, #{j12gysqcs,jdbcType=VARCHAR}, #{sjzwzt,jdbcType=VARCHAR}, 
+      #{sjzwsc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjExtdataCompany">
+    insert into nj_extdata_company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="sfmzzrrsbxx != null">
+        sfmzzrrsbxx,
+      </if>
+      <if test="sfmzfyxx != null">
+        sfmzfyxx,
+      </if>
+      <if test="sfmztsmd != null">
+        sfmztsmd,
+      </if>
+      <if test="j3gysqcs != null">
+        j3gysqcs,
+      </if>
+      <if test="j6gysqcs != null">
+        j6gysqcs,
+      </if>
+      <if test="j12gysqcs != null">
+        j12gysqcs,
+      </if>
+      <if test="sjzwzt != null">
+        sjzwzt,
+      </if>
+      <if test="sjzwsc != null">
+        sjzwsc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="sfmzzrrsbxx != null">
+        #{sfmzzrrsbxx,jdbcType=VARCHAR},
+      </if>
+      <if test="sfmzfyxx != null">
+        #{sfmzfyxx,jdbcType=VARCHAR},
+      </if>
+      <if test="sfmztsmd != null">
+        #{sfmztsmd,jdbcType=VARCHAR},
+      </if>
+      <if test="j3gysqcs != null">
+        #{j3gysqcs,jdbcType=VARCHAR},
+      </if>
+      <if test="j6gysqcs != null">
+        #{j6gysqcs,jdbcType=VARCHAR},
+      </if>
+      <if test="j12gysqcs != null">
+        #{j12gysqcs,jdbcType=VARCHAR},
+      </if>
+      <if test="sjzwzt != null">
+        #{sjzwzt,jdbcType=VARCHAR},
+      </if>
+      <if test="sjzwsc != null">
+        #{sjzwsc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjExtdataCompanyExample" resultType="java.lang.Integer">
+    select count(*) from nj_extdata_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_extdata_company
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sfmzzrrsbxx != null">
+        sfmzzrrsbxx = #{record.sfmzzrrsbxx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sfmzfyxx != null">
+        sfmzfyxx = #{record.sfmzfyxx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sfmztsmd != null">
+        sfmztsmd = #{record.sfmztsmd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.j3gysqcs != null">
+        j3gysqcs = #{record.j3gysqcs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.j6gysqcs != null">
+        j6gysqcs = #{record.j6gysqcs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.j12gysqcs != null">
+        j12gysqcs = #{record.j12gysqcs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sjzwzt != null">
+        sjzwzt = #{record.sjzwzt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sjzwsc != null">
+        sjzwsc = #{record.sjzwsc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_extdata_company
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      sfmzzrrsbxx = #{record.sfmzzrrsbxx,jdbcType=VARCHAR},
+      sfmzfyxx = #{record.sfmzfyxx,jdbcType=VARCHAR},
+      sfmztsmd = #{record.sfmztsmd,jdbcType=VARCHAR},
+      j3gysqcs = #{record.j3gysqcs,jdbcType=VARCHAR},
+      j6gysqcs = #{record.j6gysqcs,jdbcType=VARCHAR},
+      j12gysqcs = #{record.j12gysqcs,jdbcType=VARCHAR},
+      sjzwzt = #{record.sjzwzt,jdbcType=VARCHAR},
+      sjzwsc = #{record.sjzwsc,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjExtdataCompany">
+    update nj_extdata_company
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="sfmzzrrsbxx != null">
+        sfmzzrrsbxx = #{sfmzzrrsbxx,jdbcType=VARCHAR},
+      </if>
+      <if test="sfmzfyxx != null">
+        sfmzfyxx = #{sfmzfyxx,jdbcType=VARCHAR},
+      </if>
+      <if test="sfmztsmd != null">
+        sfmztsmd = #{sfmztsmd,jdbcType=VARCHAR},
+      </if>
+      <if test="j3gysqcs != null">
+        j3gysqcs = #{j3gysqcs,jdbcType=VARCHAR},
+      </if>
+      <if test="j6gysqcs != null">
+        j6gysqcs = #{j6gysqcs,jdbcType=VARCHAR},
+      </if>
+      <if test="j12gysqcs != null">
+        j12gysqcs = #{j12gysqcs,jdbcType=VARCHAR},
+      </if>
+      <if test="sjzwzt != null">
+        sjzwzt = #{sjzwzt,jdbcType=VARCHAR},
+      </if>
+      <if test="sjzwsc != null">
+        sjzwsc = #{sjzwsc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjExtdataCompany">
+    update nj_extdata_company
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      sfmzzrrsbxx = #{sfmzzrrsbxx,jdbcType=VARCHAR},
+      sfmzfyxx = #{sfmzfyxx,jdbcType=VARCHAR},
+      sfmztsmd = #{sfmztsmd,jdbcType=VARCHAR},
+      j3gysqcs = #{j3gysqcs,jdbcType=VARCHAR},
+      j6gysqcs = #{j6gysqcs,jdbcType=VARCHAR},
+      j12gysqcs = #{j12gysqcs,jdbcType=VARCHAR},
+      sjzwzt = #{sjzwzt,jdbcType=VARCHAR},
+      sjzwsc = #{sjzwsc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

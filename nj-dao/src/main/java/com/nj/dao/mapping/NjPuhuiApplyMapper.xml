@@ -1,0 +1,2123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjPuhuiApplyMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjPuhuiApply">
+    <id column="loan_no" jdbcType="VARCHAR" property="loanNo" />
+    <result column="loan_type" jdbcType="VARCHAR" property="loanType" />
+    <result column="good_price" jdbcType="DECIMAL" property="goodPrice" />
+    <result column="fisrt_pay" jdbcType="DECIMAL" property="fisrtPay" />
+    <result column="first_repay" jdbcType="DECIMAL" property="firstRepay" />
+    <result column="repay_fee" jdbcType="DECIMAL" property="repayFee" />
+    <result column="amt" jdbcType="DECIMAL" property="amt" />
+    <result column="first_repay_day" jdbcType="TIMESTAMP" property="firstRepayDay" />
+    <result column="repay_day" jdbcType="TIMESTAMP" property="repayDay" />
+    <result column="repay_amt" jdbcType="DECIMAL" property="repayAmt" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="acct" jdbcType="VARCHAR" property="acct" />
+    <result column="acct_id" jdbcType="VARCHAR" property="acctId" />
+    <result column="acct_name" jdbcType="VARCHAR" property="acctName" />
+    <result column="dlv_date" jdbcType="TIMESTAMP" property="dlvDate" />
+    <result column="audit_date" jdbcType="TIMESTAMP" property="auditDate" />
+    <result column="month_rate" jdbcType="DECIMAL" property="monthRate" />
+    <result column="first_bill_date" jdbcType="TIMESTAMP" property="firstBillDate" />
+    <result column="bill_date" jdbcType="TIMESTAMP" property="billDate" />
+    <result column="pay_other" jdbcType="DECIMAL" property="payOther" />
+    <result column="insurance" jdbcType="VARCHAR" property="insurance" />
+    <result column="insurance_rate" jdbcType="DECIMAL" property="insuranceRate" />
+    <result column="flx_package" jdbcType="VARCHAR" property="flxPackage" />
+    <result column="product_id" jdbcType="VARCHAR" property="productId" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="actv_id" jdbcType="VARCHAR" property="actvId" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="ture_name" jdbcType="VARCHAR" property="tureName" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="id_type" jdbcType="VARCHAR" property="idType" />
+    <result column="identify_id" jdbcType="VARCHAR" property="identifyId" />
+    <result column="id_ava" jdbcType="TIMESTAMP" property="idAva" />
+    <result column="id_issue" jdbcType="VARCHAR" property="idIssue" />
+    <result column="res_type" jdbcType="VARCHAR" property="resType" />
+    <result column="prv" jdbcType="VARCHAR" property="prv" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="town" jdbcType="VARCHAR" property="town" />
+    <result column="str" jdbcType="VARCHAR" property="str" />
+    <result column="cmty" jdbcType="VARCHAR" property="cmty" />
+    <result column="house_no" jdbcType="VARCHAR" property="houseNo" />
+    <result column="is_add_res" jdbcType="VARCHAR" property="isAddRes" />
+    <result column="house_type" jdbcType="VARCHAR" property="houseType" />
+    <result column="crr_add_time" jdbcType="VARCHAR" property="crrAddTime" />
+    <result column="prv1" jdbcType="VARCHAR" property="prv1" />
+    <result column="city1" jdbcType="VARCHAR" property="city1" />
+    <result column="county1" jdbcType="VARCHAR" property="county1" />
+    <result column="town1" jdbcType="VARCHAR" property="town1" />
+    <result column="str1" jdbcType="VARCHAR" property="str1" />
+    <result column="cmty1" jdbcType="VARCHAR" property="cmty1" />
+    <result column="house_no1" jdbcType="VARCHAR" property="houseNo1" />
+    <result column="doc_type" jdbcType="VARCHAR" property="docType" />
+    <result column="rent_fee" jdbcType="VARCHAR" property="rentFee" />
+    <result column="race" jdbcType="VARCHAR" property="race" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="mobile_mths" jdbcType="VARCHAR" property="mobileMths" />
+    <result column="mth_bill" jdbcType="VARCHAR" property="mthBill" />
+    <result column="is_verified" jdbcType="VARCHAR" property="isVerified" />
+    <result column="add_phone" jdbcType="VARCHAR" property="addPhone" />
+    <result column="add_phone_acc" jdbcType="VARCHAR" property="addPhoneAcc" />
+    <result column="e_mail" jdbcType="VARCHAR" property="eMail" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="marr_state" jdbcType="VARCHAR" property="marrState" />
+    <result column="spouse_name" jdbcType="VARCHAR" property="spouseName" />
+    <result column="spouse_mobile" jdbcType="VARCHAR" property="spouseMobile" />
+    <result column="fml_name" jdbcType="VARCHAR" property="fmlName" />
+    <result column="relation" jdbcType="VARCHAR" property="relation" />
+    <result column="fml_contact" jdbcType="VARCHAR" property="fmlContact" />
+    <result column="is_k_flm" jdbcType="VARCHAR" property="isKFlm" />
+    <result column="is_valid2" jdbcType="VARCHAR" property="isValid2" />
+    <result column="is_fml_res" jdbcType="VARCHAR" property="isFmlRes" />
+    <result column="fml_add" jdbcType="VARCHAR" property="fmlAdd" />
+    <result column="is_spouse_ctc_true" jdbcType="VARCHAR" property="isSpouseCtcTrue" />
+    <result column="is_fml_ctc_true" jdbcType="VARCHAR" property="isFmlCtcTrue" />
+    <result column="crr_org_name" jdbcType="VARCHAR" property="crrOrgName" />
+    <result column="org_type" jdbcType="VARCHAR" property="orgType" />
+    <result column="org_phone" jdbcType="VARCHAR" property="orgPhone" />
+    <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+    <result column="dpt" jdbcType="VARCHAR" property="dpt" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="industry" jdbcType="VARCHAR" property="industry" />
+    <result column="work_time" jdbcType="VARCHAR" property="workTime" />
+    <result column="prv2" jdbcType="VARCHAR" property="prv2" />
+    <result column="city2" jdbcType="VARCHAR" property="city2" />
+    <result column="county2" jdbcType="VARCHAR" property="county2" />
+    <result column="town2" jdbcType="VARCHAR" property="town2" />
+    <result column="str2" jdbcType="VARCHAR" property="str2" />
+    <result column="str3" jdbcType="VARCHAR" property="str3" />
+    <result column="cmty2" jdbcType="VARCHAR" property="cmty2" />
+    <result column="house_no2" jdbcType="VARCHAR" property="houseNo2" />
+    <result column="is_valid" jdbcType="VARCHAR" property="isValid" />
+    <result column="org_contact" jdbcType="VARCHAR" property="orgContact" />
+    <result column="org_contact_mobile" jdbcType="VARCHAR" property="orgContactMobile" />
+    <result column="edu_type" jdbcType="VARCHAR" property="eduType" />
+    <result column="org_contact_position" jdbcType="VARCHAR" property="orgContactPosition" />
+    <result column="org_size" jdbcType="VARCHAR" property="orgSize" />
+    <result column="income" jdbcType="VARCHAR" property="income" />
+    <result column="fml_income" jdbcType="VARCHAR" property="fmlIncome" />
+    <result column="edu_level" jdbcType="VARCHAR" property="eduLevel" />
+    <result column="is_past_loan" jdbcType="VARCHAR" property="isPastLoan" />
+    <result column="past_loan_repay" jdbcType="DECIMAL" property="pastLoanRepay" />
+    <result column="is_valid3" jdbcType="VARCHAR" property="isValid3" />
+    <result column="apply_date" jdbcType="TIMESTAMP" property="applyDate" />
+    <result column="aprov_result" jdbcType="VARCHAR" property="aprovResult" />
+    <result column="aprov_remark" jdbcType="VARCHAR" property="aprovRemark" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+    <result column="aprov_reason" jdbcType="VARCHAR" property="aprovReason" />
+    <result column="regist_date" jdbcType="TIMESTAMP" property="registDate" />
+    <result column="is_back_sale" jdbcType="VARCHAR" property="isBackSale" />
+    <result column="is_back_check" jdbcType="VARCHAR" property="isBackCheck" />
+    <result column="buss_no" jdbcType="VARCHAR" property="bussNo" />
+    <result column="store_no" jdbcType="VARCHAR" property="storeNo" />
+    <result column="store_prov" jdbcType="VARCHAR" property="storeProv" />
+    <result column="store_city" jdbcType="VARCHAR" property="storeCity" />
+    <result column="store_area" jdbcType="VARCHAR" property="storeArea" />
+    <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="marques" jdbcType="VARCHAR" property="marques" />
+    <result column="aprov_duration" jdbcType="VARCHAR" property="aprovDuration" />
+    <result column="check_duration" jdbcType="VARCHAR" property="checkDuration" />
+    <result column="re_check_duration" jdbcType="VARCHAR" property="reCheckDuration" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="sale_remark" jdbcType="VARCHAR" property="saleRemark" />
+    <result column="profession" jdbcType="VARCHAR" property="profession" />
+    <result column="sign_date" jdbcType="TIMESTAMP" property="signDate" />
+    <result column="weichat" jdbcType="VARCHAR" property="weichat" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    loan_no, loan_type, good_price, fisrt_pay, first_repay, repay_fee, amt, first_repay_day, 
+    repay_day, repay_amt, period, acct, acct_id, acct_name, dlv_date, audit_date, month_rate, 
+    first_bill_date, bill_date, pay_other, insurance, insurance_rate, flx_package, product_id, 
+    channel_id, actv_id, user_type, ture_name, sex, id_type, identify_id, id_ava, id_issue, 
+    res_type, prv, city, county, town, str, cmty, house_no, is_add_res, house_type, crr_add_time, 
+    prv1, city1, county1, town1, str1, cmty1, house_no1, doc_type, rent_fee, race, mobile, 
+    mobile_mths, mth_bill, is_verified, add_phone, add_phone_acc, e_mail, qq, marr_state, 
+    spouse_name, spouse_mobile, fml_name, relation, fml_contact, is_k_flm, is_valid2, 
+    is_fml_res, fml_add, is_spouse_ctc_true, is_fml_ctc_true, crr_org_name, org_type, 
+    org_phone, org_name, dpt, position, industry, work_time, prv2, city2, county2, town2, 
+    str2, str3, cmty2, house_no2, is_valid, org_contact, org_contact_mobile, edu_type, 
+    org_contact_position, org_size, income, fml_income, edu_level, is_past_loan, past_loan_repay, 
+    is_valid3, apply_date, aprov_result, aprov_remark, file_type, aprov_reason, regist_date, 
+    is_back_sale, is_back_check, buss_no, store_no, store_prov, store_city, store_area, 
+    goods_type, brand, marques, aprov_duration, check_duration, re_check_duration, birthday, 
+    sale_remark, profession, sign_date, weichat
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjPuhuiApplyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_puhui_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_puhui_apply
+    where loan_no = #{loanNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_puhui_apply
+    where loan_no = #{loanNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjPuhuiApplyExample">
+    delete from nj_puhui_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjPuhuiApply">
+    insert into nj_puhui_apply (loan_no, loan_type, good_price, 
+      fisrt_pay, first_repay, repay_fee, 
+      amt, first_repay_day, repay_day, 
+      repay_amt, period, acct, 
+      acct_id, acct_name, dlv_date, 
+      audit_date, month_rate, first_bill_date, 
+      bill_date, pay_other, insurance, 
+      insurance_rate, flx_package, product_id, 
+      channel_id, actv_id, user_type, 
+      ture_name, sex, id_type, 
+      identify_id, id_ava, id_issue, 
+      res_type, prv, city, 
+      county, town, str, 
+      cmty, house_no, is_add_res, 
+      house_type, crr_add_time, prv1, 
+      city1, county1, town1, 
+      str1, cmty1, house_no1, 
+      doc_type, rent_fee, race, 
+      mobile, mobile_mths, mth_bill, 
+      is_verified, add_phone, add_phone_acc, 
+      e_mail, qq, marr_state, 
+      spouse_name, spouse_mobile, fml_name, 
+      relation, fml_contact, is_k_flm, 
+      is_valid2, is_fml_res, fml_add, 
+      is_spouse_ctc_true, is_fml_ctc_true, crr_org_name, 
+      org_type, org_phone, org_name, 
+      dpt, position, industry, 
+      work_time, prv2, city2, 
+      county2, town2, str2, 
+      str3, cmty2, house_no2, 
+      is_valid, org_contact, org_contact_mobile, 
+      edu_type, org_contact_position, org_size, 
+      income, fml_income, edu_level, 
+      is_past_loan, past_loan_repay, is_valid3, 
+      apply_date, aprov_result, aprov_remark, 
+      file_type, aprov_reason, regist_date, 
+      is_back_sale, is_back_check, buss_no, 
+      store_no, store_prov, store_city, 
+      store_area, goods_type, brand, 
+      marques, aprov_duration, check_duration, 
+      re_check_duration, birthday, sale_remark, 
+      profession, sign_date, weichat
+      )
+    values (#{loanNo,jdbcType=VARCHAR}, #{loanType,jdbcType=VARCHAR}, #{goodPrice,jdbcType=DECIMAL}, 
+      #{fisrtPay,jdbcType=DECIMAL}, #{firstRepay,jdbcType=DECIMAL}, #{repayFee,jdbcType=DECIMAL}, 
+      #{amt,jdbcType=DECIMAL}, #{firstRepayDay,jdbcType=TIMESTAMP}, #{repayDay,jdbcType=TIMESTAMP}, 
+      #{repayAmt,jdbcType=DECIMAL}, #{period,jdbcType=INTEGER}, #{acct,jdbcType=VARCHAR}, 
+      #{acctId,jdbcType=VARCHAR}, #{acctName,jdbcType=VARCHAR}, #{dlvDate,jdbcType=TIMESTAMP}, 
+      #{auditDate,jdbcType=TIMESTAMP}, #{monthRate,jdbcType=DECIMAL}, #{firstBillDate,jdbcType=TIMESTAMP}, 
+      #{billDate,jdbcType=TIMESTAMP}, #{payOther,jdbcType=DECIMAL}, #{insurance,jdbcType=VARCHAR}, 
+      #{insuranceRate,jdbcType=DECIMAL}, #{flxPackage,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, 
+      #{channelId,jdbcType=VARCHAR}, #{actvId,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, 
+      #{tureName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, 
+      #{identifyId,jdbcType=VARCHAR}, #{idAva,jdbcType=TIMESTAMP}, #{idIssue,jdbcType=VARCHAR}, 
+      #{resType,jdbcType=VARCHAR}, #{prv,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{county,jdbcType=VARCHAR}, #{town,jdbcType=VARCHAR}, #{str,jdbcType=VARCHAR}, 
+      #{cmty,jdbcType=VARCHAR}, #{houseNo,jdbcType=VARCHAR}, #{isAddRes,jdbcType=VARCHAR}, 
+      #{houseType,jdbcType=VARCHAR}, #{crrAddTime,jdbcType=VARCHAR}, #{prv1,jdbcType=VARCHAR}, 
+      #{city1,jdbcType=VARCHAR}, #{county1,jdbcType=VARCHAR}, #{town1,jdbcType=VARCHAR}, 
+      #{str1,jdbcType=VARCHAR}, #{cmty1,jdbcType=VARCHAR}, #{houseNo1,jdbcType=VARCHAR}, 
+      #{docType,jdbcType=VARCHAR}, #{rentFee,jdbcType=VARCHAR}, #{race,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{mobileMths,jdbcType=VARCHAR}, #{mthBill,jdbcType=VARCHAR}, 
+      #{isVerified,jdbcType=VARCHAR}, #{addPhone,jdbcType=VARCHAR}, #{addPhoneAcc,jdbcType=VARCHAR}, 
+      #{eMail,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{marrState,jdbcType=VARCHAR}, 
+      #{spouseName,jdbcType=VARCHAR}, #{spouseMobile,jdbcType=VARCHAR}, #{fmlName,jdbcType=VARCHAR}, 
+      #{relation,jdbcType=VARCHAR}, #{fmlContact,jdbcType=VARCHAR}, #{isKFlm,jdbcType=VARCHAR}, 
+      #{isValid2,jdbcType=VARCHAR}, #{isFmlRes,jdbcType=VARCHAR}, #{fmlAdd,jdbcType=VARCHAR}, 
+      #{isSpouseCtcTrue,jdbcType=VARCHAR}, #{isFmlCtcTrue,jdbcType=VARCHAR}, #{crrOrgName,jdbcType=VARCHAR}, 
+      #{orgType,jdbcType=VARCHAR}, #{orgPhone,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
+      #{dpt,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, 
+      #{workTime,jdbcType=VARCHAR}, #{prv2,jdbcType=VARCHAR}, #{city2,jdbcType=VARCHAR}, 
+      #{county2,jdbcType=VARCHAR}, #{town2,jdbcType=VARCHAR}, #{str2,jdbcType=VARCHAR}, 
+      #{str3,jdbcType=VARCHAR}, #{cmty2,jdbcType=VARCHAR}, #{houseNo2,jdbcType=VARCHAR}, 
+      #{isValid,jdbcType=VARCHAR}, #{orgContact,jdbcType=VARCHAR}, #{orgContactMobile,jdbcType=VARCHAR}, 
+      #{eduType,jdbcType=VARCHAR}, #{orgContactPosition,jdbcType=VARCHAR}, #{orgSize,jdbcType=VARCHAR}, 
+      #{income,jdbcType=VARCHAR}, #{fmlIncome,jdbcType=VARCHAR}, #{eduLevel,jdbcType=VARCHAR}, 
+      #{isPastLoan,jdbcType=VARCHAR}, #{pastLoanRepay,jdbcType=DECIMAL}, #{isValid3,jdbcType=VARCHAR}, 
+      #{applyDate,jdbcType=TIMESTAMP}, #{aprovResult,jdbcType=VARCHAR}, #{aprovRemark,jdbcType=VARCHAR}, 
+      #{fileType,jdbcType=VARCHAR}, #{aprovReason,jdbcType=VARCHAR}, #{registDate,jdbcType=TIMESTAMP}, 
+      #{isBackSale,jdbcType=VARCHAR}, #{isBackCheck,jdbcType=VARCHAR}, #{bussNo,jdbcType=VARCHAR}, 
+      #{storeNo,jdbcType=VARCHAR}, #{storeProv,jdbcType=VARCHAR}, #{storeCity,jdbcType=VARCHAR}, 
+      #{storeArea,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, 
+      #{marques,jdbcType=VARCHAR}, #{aprovDuration,jdbcType=VARCHAR}, #{checkDuration,jdbcType=VARCHAR}, 
+      #{reCheckDuration,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, #{saleRemark,jdbcType=VARCHAR}, 
+      #{profession,jdbcType=VARCHAR}, #{signDate,jdbcType=TIMESTAMP}, #{weichat,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjPuhuiApply">
+    insert into nj_puhui_apply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="loanNo != null">
+        loan_no,
+      </if>
+      <if test="loanType != null">
+        loan_type,
+      </if>
+      <if test="goodPrice != null">
+        good_price,
+      </if>
+      <if test="fisrtPay != null">
+        fisrt_pay,
+      </if>
+      <if test="firstRepay != null">
+        first_repay,
+      </if>
+      <if test="repayFee != null">
+        repay_fee,
+      </if>
+      <if test="amt != null">
+        amt,
+      </if>
+      <if test="firstRepayDay != null">
+        first_repay_day,
+      </if>
+      <if test="repayDay != null">
+        repay_day,
+      </if>
+      <if test="repayAmt != null">
+        repay_amt,
+      </if>
+      <if test="period != null">
+        period,
+      </if>
+      <if test="acct != null">
+        acct,
+      </if>
+      <if test="acctId != null">
+        acct_id,
+      </if>
+      <if test="acctName != null">
+        acct_name,
+      </if>
+      <if test="dlvDate != null">
+        dlv_date,
+      </if>
+      <if test="auditDate != null">
+        audit_date,
+      </if>
+      <if test="monthRate != null">
+        month_rate,
+      </if>
+      <if test="firstBillDate != null">
+        first_bill_date,
+      </if>
+      <if test="billDate != null">
+        bill_date,
+      </if>
+      <if test="payOther != null">
+        pay_other,
+      </if>
+      <if test="insurance != null">
+        insurance,
+      </if>
+      <if test="insuranceRate != null">
+        insurance_rate,
+      </if>
+      <if test="flxPackage != null">
+        flx_package,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="actvId != null">
+        actv_id,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="tureName != null">
+        ture_name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="idType != null">
+        id_type,
+      </if>
+      <if test="identifyId != null">
+        identify_id,
+      </if>
+      <if test="idAva != null">
+        id_ava,
+      </if>
+      <if test="idIssue != null">
+        id_issue,
+      </if>
+      <if test="resType != null">
+        res_type,
+      </if>
+      <if test="prv != null">
+        prv,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="county != null">
+        county,
+      </if>
+      <if test="town != null">
+        town,
+      </if>
+      <if test="str != null">
+        str,
+      </if>
+      <if test="cmty != null">
+        cmty,
+      </if>
+      <if test="houseNo != null">
+        house_no,
+      </if>
+      <if test="isAddRes != null">
+        is_add_res,
+      </if>
+      <if test="houseType != null">
+        house_type,
+      </if>
+      <if test="crrAddTime != null">
+        crr_add_time,
+      </if>
+      <if test="prv1 != null">
+        prv1,
+      </if>
+      <if test="city1 != null">
+        city1,
+      </if>
+      <if test="county1 != null">
+        county1,
+      </if>
+      <if test="town1 != null">
+        town1,
+      </if>
+      <if test="str1 != null">
+        str1,
+      </if>
+      <if test="cmty1 != null">
+        cmty1,
+      </if>
+      <if test="houseNo1 != null">
+        house_no1,
+      </if>
+      <if test="docType != null">
+        doc_type,
+      </if>
+      <if test="rentFee != null">
+        rent_fee,
+      </if>
+      <if test="race != null">
+        race,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="mobileMths != null">
+        mobile_mths,
+      </if>
+      <if test="mthBill != null">
+        mth_bill,
+      </if>
+      <if test="isVerified != null">
+        is_verified,
+      </if>
+      <if test="addPhone != null">
+        add_phone,
+      </if>
+      <if test="addPhoneAcc != null">
+        add_phone_acc,
+      </if>
+      <if test="eMail != null">
+        e_mail,
+      </if>
+      <if test="qq != null">
+        qq,
+      </if>
+      <if test="marrState != null">
+        marr_state,
+      </if>
+      <if test="spouseName != null">
+        spouse_name,
+      </if>
+      <if test="spouseMobile != null">
+        spouse_mobile,
+      </if>
+      <if test="fmlName != null">
+        fml_name,
+      </if>
+      <if test="relation != null">
+        relation,
+      </if>
+      <if test="fmlContact != null">
+        fml_contact,
+      </if>
+      <if test="isKFlm != null">
+        is_k_flm,
+      </if>
+      <if test="isValid2 != null">
+        is_valid2,
+      </if>
+      <if test="isFmlRes != null">
+        is_fml_res,
+      </if>
+      <if test="fmlAdd != null">
+        fml_add,
+      </if>
+      <if test="isSpouseCtcTrue != null">
+        is_spouse_ctc_true,
+      </if>
+      <if test="isFmlCtcTrue != null">
+        is_fml_ctc_true,
+      </if>
+      <if test="crrOrgName != null">
+        crr_org_name,
+      </if>
+      <if test="orgType != null">
+        org_type,
+      </if>
+      <if test="orgPhone != null">
+        org_phone,
+      </if>
+      <if test="orgName != null">
+        org_name,
+      </if>
+      <if test="dpt != null">
+        dpt,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="industry != null">
+        industry,
+      </if>
+      <if test="workTime != null">
+        work_time,
+      </if>
+      <if test="prv2 != null">
+        prv2,
+      </if>
+      <if test="city2 != null">
+        city2,
+      </if>
+      <if test="county2 != null">
+        county2,
+      </if>
+      <if test="town2 != null">
+        town2,
+      </if>
+      <if test="str2 != null">
+        str2,
+      </if>
+      <if test="str3 != null">
+        str3,
+      </if>
+      <if test="cmty2 != null">
+        cmty2,
+      </if>
+      <if test="houseNo2 != null">
+        house_no2,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+      <if test="orgContact != null">
+        org_contact,
+      </if>
+      <if test="orgContactMobile != null">
+        org_contact_mobile,
+      </if>
+      <if test="eduType != null">
+        edu_type,
+      </if>
+      <if test="orgContactPosition != null">
+        org_contact_position,
+      </if>
+      <if test="orgSize != null">
+        org_size,
+      </if>
+      <if test="income != null">
+        income,
+      </if>
+      <if test="fmlIncome != null">
+        fml_income,
+      </if>
+      <if test="eduLevel != null">
+        edu_level,
+      </if>
+      <if test="isPastLoan != null">
+        is_past_loan,
+      </if>
+      <if test="pastLoanRepay != null">
+        past_loan_repay,
+      </if>
+      <if test="isValid3 != null">
+        is_valid3,
+      </if>
+      <if test="applyDate != null">
+        apply_date,
+      </if>
+      <if test="aprovResult != null">
+        aprov_result,
+      </if>
+      <if test="aprovRemark != null">
+        aprov_remark,
+      </if>
+      <if test="fileType != null">
+        file_type,
+      </if>
+      <if test="aprovReason != null">
+        aprov_reason,
+      </if>
+      <if test="registDate != null">
+        regist_date,
+      </if>
+      <if test="isBackSale != null">
+        is_back_sale,
+      </if>
+      <if test="isBackCheck != null">
+        is_back_check,
+      </if>
+      <if test="bussNo != null">
+        buss_no,
+      </if>
+      <if test="storeNo != null">
+        store_no,
+      </if>
+      <if test="storeProv != null">
+        store_prov,
+      </if>
+      <if test="storeCity != null">
+        store_city,
+      </if>
+      <if test="storeArea != null">
+        store_area,
+      </if>
+      <if test="goodsType != null">
+        goods_type,
+      </if>
+      <if test="brand != null">
+        brand,
+      </if>
+      <if test="marques != null">
+        marques,
+      </if>
+      <if test="aprovDuration != null">
+        aprov_duration,
+      </if>
+      <if test="checkDuration != null">
+        check_duration,
+      </if>
+      <if test="reCheckDuration != null">
+        re_check_duration,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="saleRemark != null">
+        sale_remark,
+      </if>
+      <if test="profession != null">
+        profession,
+      </if>
+      <if test="signDate != null">
+        sign_date,
+      </if>
+      <if test="weichat != null">
+        weichat,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="loanNo != null">
+        #{loanNo,jdbcType=VARCHAR},
+      </if>
+      <if test="loanType != null">
+        #{loanType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodPrice != null">
+        #{goodPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="fisrtPay != null">
+        #{fisrtPay,jdbcType=DECIMAL},
+      </if>
+      <if test="firstRepay != null">
+        #{firstRepay,jdbcType=DECIMAL},
+      </if>
+      <if test="repayFee != null">
+        #{repayFee,jdbcType=DECIMAL},
+      </if>
+      <if test="amt != null">
+        #{amt,jdbcType=DECIMAL},
+      </if>
+      <if test="firstRepayDay != null">
+        #{firstRepayDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repayDay != null">
+        #{repayDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repayAmt != null">
+        #{repayAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        #{period,jdbcType=INTEGER},
+      </if>
+      <if test="acct != null">
+        #{acct,jdbcType=VARCHAR},
+      </if>
+      <if test="acctId != null">
+        #{acctId,jdbcType=VARCHAR},
+      </if>
+      <if test="acctName != null">
+        #{acctName,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvDate != null">
+        #{dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditDate != null">
+        #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monthRate != null">
+        #{monthRate,jdbcType=DECIMAL},
+      </if>
+      <if test="firstBillDate != null">
+        #{firstBillDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billDate != null">
+        #{billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payOther != null">
+        #{payOther,jdbcType=DECIMAL},
+      </if>
+      <if test="insurance != null">
+        #{insurance,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceRate != null">
+        #{insuranceRate,jdbcType=DECIMAL},
+      </if>
+      <if test="flxPackage != null">
+        #{flxPackage,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="actvId != null">
+        #{actvId,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="tureName != null">
+        #{tureName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="identifyId != null">
+        #{identifyId,jdbcType=VARCHAR},
+      </if>
+      <if test="idAva != null">
+        #{idAva,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idIssue != null">
+        #{idIssue,jdbcType=VARCHAR},
+      </if>
+      <if test="resType != null">
+        #{resType,jdbcType=VARCHAR},
+      </if>
+      <if test="prv != null">
+        #{prv,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null">
+        #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="town != null">
+        #{town,jdbcType=VARCHAR},
+      </if>
+      <if test="str != null">
+        #{str,jdbcType=VARCHAR},
+      </if>
+      <if test="cmty != null">
+        #{cmty,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNo != null">
+        #{houseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isAddRes != null">
+        #{isAddRes,jdbcType=VARCHAR},
+      </if>
+      <if test="houseType != null">
+        #{houseType,jdbcType=VARCHAR},
+      </if>
+      <if test="crrAddTime != null">
+        #{crrAddTime,jdbcType=VARCHAR},
+      </if>
+      <if test="prv1 != null">
+        #{prv1,jdbcType=VARCHAR},
+      </if>
+      <if test="city1 != null">
+        #{city1,jdbcType=VARCHAR},
+      </if>
+      <if test="county1 != null">
+        #{county1,jdbcType=VARCHAR},
+      </if>
+      <if test="town1 != null">
+        #{town1,jdbcType=VARCHAR},
+      </if>
+      <if test="str1 != null">
+        #{str1,jdbcType=VARCHAR},
+      </if>
+      <if test="cmty1 != null">
+        #{cmty1,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNo1 != null">
+        #{houseNo1,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null">
+        #{docType,jdbcType=VARCHAR},
+      </if>
+      <if test="rentFee != null">
+        #{rentFee,jdbcType=VARCHAR},
+      </if>
+      <if test="race != null">
+        #{race,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileMths != null">
+        #{mobileMths,jdbcType=VARCHAR},
+      </if>
+      <if test="mthBill != null">
+        #{mthBill,jdbcType=VARCHAR},
+      </if>
+      <if test="isVerified != null">
+        #{isVerified,jdbcType=VARCHAR},
+      </if>
+      <if test="addPhone != null">
+        #{addPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addPhoneAcc != null">
+        #{addPhoneAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="eMail != null">
+        #{eMail,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="marrState != null">
+        #{marrState,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseName != null">
+        #{spouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseMobile != null">
+        #{spouseMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="fmlName != null">
+        #{fmlName,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null">
+        #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="fmlContact != null">
+        #{fmlContact,jdbcType=VARCHAR},
+      </if>
+      <if test="isKFlm != null">
+        #{isKFlm,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid2 != null">
+        #{isValid2,jdbcType=VARCHAR},
+      </if>
+      <if test="isFmlRes != null">
+        #{isFmlRes,jdbcType=VARCHAR},
+      </if>
+      <if test="fmlAdd != null">
+        #{fmlAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="isSpouseCtcTrue != null">
+        #{isSpouseCtcTrue,jdbcType=VARCHAR},
+      </if>
+      <if test="isFmlCtcTrue != null">
+        #{isFmlCtcTrue,jdbcType=VARCHAR},
+      </if>
+      <if test="crrOrgName != null">
+        #{crrOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgType != null">
+        #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="orgPhone != null">
+        #{orgPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="dpt != null">
+        #{dpt,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null">
+        #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="prv2 != null">
+        #{prv2,jdbcType=VARCHAR},
+      </if>
+      <if test="city2 != null">
+        #{city2,jdbcType=VARCHAR},
+      </if>
+      <if test="county2 != null">
+        #{county2,jdbcType=VARCHAR},
+      </if>
+      <if test="town2 != null">
+        #{town2,jdbcType=VARCHAR},
+      </if>
+      <if test="str2 != null">
+        #{str2,jdbcType=VARCHAR},
+      </if>
+      <if test="str3 != null">
+        #{str3,jdbcType=VARCHAR},
+      </if>
+      <if test="cmty2 != null">
+        #{cmty2,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNo2 != null">
+        #{houseNo2,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgContact != null">
+        #{orgContact,jdbcType=VARCHAR},
+      </if>
+      <if test="orgContactMobile != null">
+        #{orgContactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="eduType != null">
+        #{eduType,jdbcType=VARCHAR},
+      </if>
+      <if test="orgContactPosition != null">
+        #{orgContactPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSize != null">
+        #{orgSize,jdbcType=VARCHAR},
+      </if>
+      <if test="income != null">
+        #{income,jdbcType=VARCHAR},
+      </if>
+      <if test="fmlIncome != null">
+        #{fmlIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="eduLevel != null">
+        #{eduLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="isPastLoan != null">
+        #{isPastLoan,jdbcType=VARCHAR},
+      </if>
+      <if test="pastLoanRepay != null">
+        #{pastLoanRepay,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid3 != null">
+        #{isValid3,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDate != null">
+        #{applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aprovResult != null">
+        #{aprovResult,jdbcType=VARCHAR},
+      </if>
+      <if test="aprovRemark != null">
+        #{aprovRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="aprovReason != null">
+        #{aprovReason,jdbcType=VARCHAR},
+      </if>
+      <if test="registDate != null">
+        #{registDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isBackSale != null">
+        #{isBackSale,jdbcType=VARCHAR},
+      </if>
+      <if test="isBackCheck != null">
+        #{isBackCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="bussNo != null">
+        #{bussNo,jdbcType=VARCHAR},
+      </if>
+      <if test="storeNo != null">
+        #{storeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="storeProv != null">
+        #{storeProv,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCity != null">
+        #{storeCity,jdbcType=VARCHAR},
+      </if>
+      <if test="storeArea != null">
+        #{storeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null">
+        #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="marques != null">
+        #{marques,jdbcType=VARCHAR},
+      </if>
+      <if test="aprovDuration != null">
+        #{aprovDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDuration != null">
+        #{checkDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="reCheckDuration != null">
+        #{reCheckDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleRemark != null">
+        #{saleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null">
+        #{signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weichat != null">
+        #{weichat,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjPuhuiApplyExample" resultType="java.lang.Long">
+    select count(*) from nj_puhui_apply
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_puhui_apply
+    <set>
+      <if test="record.loanNo != null">
+        loan_no = #{record.loanNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loanType != null">
+        loan_type = #{record.loanType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodPrice != null">
+        good_price = #{record.goodPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.fisrtPay != null">
+        fisrt_pay = #{record.fisrtPay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.firstRepay != null">
+        first_repay = #{record.firstRepay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repayFee != null">
+        repay_fee = #{record.repayFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amt != null">
+        amt = #{record.amt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.firstRepayDay != null">
+        first_repay_day = #{record.firstRepayDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.repayDay != null">
+        repay_day = #{record.repayDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.repayAmt != null">
+        repay_amt = #{record.repayAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.period != null">
+        period = #{record.period,jdbcType=INTEGER},
+      </if>
+      <if test="record.acct != null">
+        acct = #{record.acct,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acctId != null">
+        acct_id = #{record.acctId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acctName != null">
+        acct_name = #{record.acctName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dlvDate != null">
+        dlv_date = #{record.dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.auditDate != null">
+        audit_date = #{record.auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.monthRate != null">
+        month_rate = #{record.monthRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.firstBillDate != null">
+        first_bill_date = #{record.firstBillDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.billDate != null">
+        bill_date = #{record.billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payOther != null">
+        pay_other = #{record.payOther,jdbcType=DECIMAL},
+      </if>
+      <if test="record.insurance != null">
+        insurance = #{record.insurance,jdbcType=VARCHAR},
+      </if>
+      <if test="record.insuranceRate != null">
+        insurance_rate = #{record.insuranceRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.flxPackage != null">
+        flx_package = #{record.flxPackage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productId != null">
+        product_id = #{record.productId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelId != null">
+        channel_id = #{record.channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actvId != null">
+        actv_id = #{record.actvId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null">
+        user_type = #{record.userType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tureName != null">
+        ture_name = #{record.tureName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idType != null">
+        id_type = #{record.idType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.identifyId != null">
+        identify_id = #{record.identifyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idAva != null">
+        id_ava = #{record.idAva,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.idIssue != null">
+        id_issue = #{record.idIssue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resType != null">
+        res_type = #{record.resType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prv != null">
+        prv = #{record.prv,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.county != null">
+        county = #{record.county,jdbcType=VARCHAR},
+      </if>
+      <if test="record.town != null">
+        town = #{record.town,jdbcType=VARCHAR},
+      </if>
+      <if test="record.str != null">
+        str = #{record.str,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmty != null">
+        cmty = #{record.cmty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseNo != null">
+        house_no = #{record.houseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAddRes != null">
+        is_add_res = #{record.isAddRes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseType != null">
+        house_type = #{record.houseType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.crrAddTime != null">
+        crr_add_time = #{record.crrAddTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prv1 != null">
+        prv1 = #{record.prv1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city1 != null">
+        city1 = #{record.city1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.county1 != null">
+        county1 = #{record.county1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.town1 != null">
+        town1 = #{record.town1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.str1 != null">
+        str1 = #{record.str1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmty1 != null">
+        cmty1 = #{record.cmty1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseNo1 != null">
+        house_no1 = #{record.houseNo1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docType != null">
+        doc_type = #{record.docType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rentFee != null">
+        rent_fee = #{record.rentFee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.race != null">
+        race = #{record.race,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileMths != null">
+        mobile_mths = #{record.mobileMths,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mthBill != null">
+        mth_bill = #{record.mthBill,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isVerified != null">
+        is_verified = #{record.isVerified,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addPhone != null">
+        add_phone = #{record.addPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addPhoneAcc != null">
+        add_phone_acc = #{record.addPhoneAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eMail != null">
+        e_mail = #{record.eMail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qq != null">
+        qq = #{record.qq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marrState != null">
+        marr_state = #{record.marrState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spouseName != null">
+        spouse_name = #{record.spouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spouseMobile != null">
+        spouse_mobile = #{record.spouseMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fmlName != null">
+        fml_name = #{record.fmlName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relation != null">
+        relation = #{record.relation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fmlContact != null">
+        fml_contact = #{record.fmlContact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isKFlm != null">
+        is_k_flm = #{record.isKFlm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isValid2 != null">
+        is_valid2 = #{record.isValid2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isFmlRes != null">
+        is_fml_res = #{record.isFmlRes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fmlAdd != null">
+        fml_add = #{record.fmlAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isSpouseCtcTrue != null">
+        is_spouse_ctc_true = #{record.isSpouseCtcTrue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isFmlCtcTrue != null">
+        is_fml_ctc_true = #{record.isFmlCtcTrue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.crrOrgName != null">
+        crr_org_name = #{record.crrOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgType != null">
+        org_type = #{record.orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgPhone != null">
+        org_phone = #{record.orgPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgName != null">
+        org_name = #{record.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dpt != null">
+        dpt = #{record.dpt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null">
+        position = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industry != null">
+        industry = #{record.industry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workTime != null">
+        work_time = #{record.workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prv2 != null">
+        prv2 = #{record.prv2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city2 != null">
+        city2 = #{record.city2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.county2 != null">
+        county2 = #{record.county2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.town2 != null">
+        town2 = #{record.town2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.str2 != null">
+        str2 = #{record.str2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.str3 != null">
+        str3 = #{record.str3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cmty2 != null">
+        cmty2 = #{record.cmty2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseNo2 != null">
+        house_no2 = #{record.houseNo2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isValid != null">
+        is_valid = #{record.isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgContact != null">
+        org_contact = #{record.orgContact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgContactMobile != null">
+        org_contact_mobile = #{record.orgContactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eduType != null">
+        edu_type = #{record.eduType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgContactPosition != null">
+        org_contact_position = #{record.orgContactPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgSize != null">
+        org_size = #{record.orgSize,jdbcType=VARCHAR},
+      </if>
+      <if test="record.income != null">
+        income = #{record.income,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fmlIncome != null">
+        fml_income = #{record.fmlIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eduLevel != null">
+        edu_level = #{record.eduLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isPastLoan != null">
+        is_past_loan = #{record.isPastLoan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pastLoanRepay != null">
+        past_loan_repay = #{record.pastLoanRepay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isValid3 != null">
+        is_valid3 = #{record.isValid3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyDate != null">
+        apply_date = #{record.applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.aprovResult != null">
+        aprov_result = #{record.aprovResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aprovRemark != null">
+        aprov_remark = #{record.aprovRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileType != null">
+        file_type = #{record.fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aprovReason != null">
+        aprov_reason = #{record.aprovReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registDate != null">
+        regist_date = #{record.registDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isBackSale != null">
+        is_back_sale = #{record.isBackSale,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isBackCheck != null">
+        is_back_check = #{record.isBackCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bussNo != null">
+        buss_no = #{record.bussNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeNo != null">
+        store_no = #{record.storeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeProv != null">
+        store_prov = #{record.storeProv,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeCity != null">
+        store_city = #{record.storeCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeArea != null">
+        store_area = #{record.storeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsType != null">
+        goods_type = #{record.goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.brand != null">
+        brand = #{record.brand,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marques != null">
+        marques = #{record.marques,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aprovDuration != null">
+        aprov_duration = #{record.aprovDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkDuration != null">
+        check_duration = #{record.checkDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reCheckDuration != null">
+        re_check_duration = #{record.reCheckDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.saleRemark != null">
+        sale_remark = #{record.saleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.profession != null">
+        profession = #{record.profession,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signDate != null">
+        sign_date = #{record.signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.weichat != null">
+        weichat = #{record.weichat,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_puhui_apply
+    set loan_no = #{record.loanNo,jdbcType=VARCHAR},
+      loan_type = #{record.loanType,jdbcType=VARCHAR},
+      good_price = #{record.goodPrice,jdbcType=DECIMAL},
+      fisrt_pay = #{record.fisrtPay,jdbcType=DECIMAL},
+      first_repay = #{record.firstRepay,jdbcType=DECIMAL},
+      repay_fee = #{record.repayFee,jdbcType=DECIMAL},
+      amt = #{record.amt,jdbcType=DECIMAL},
+      first_repay_day = #{record.firstRepayDay,jdbcType=TIMESTAMP},
+      repay_day = #{record.repayDay,jdbcType=TIMESTAMP},
+      repay_amt = #{record.repayAmt,jdbcType=DECIMAL},
+      period = #{record.period,jdbcType=INTEGER},
+      acct = #{record.acct,jdbcType=VARCHAR},
+      acct_id = #{record.acctId,jdbcType=VARCHAR},
+      acct_name = #{record.acctName,jdbcType=VARCHAR},
+      dlv_date = #{record.dlvDate,jdbcType=TIMESTAMP},
+      audit_date = #{record.auditDate,jdbcType=TIMESTAMP},
+      month_rate = #{record.monthRate,jdbcType=DECIMAL},
+      first_bill_date = #{record.firstBillDate,jdbcType=TIMESTAMP},
+      bill_date = #{record.billDate,jdbcType=TIMESTAMP},
+      pay_other = #{record.payOther,jdbcType=DECIMAL},
+      insurance = #{record.insurance,jdbcType=VARCHAR},
+      insurance_rate = #{record.insuranceRate,jdbcType=DECIMAL},
+      flx_package = #{record.flxPackage,jdbcType=VARCHAR},
+      product_id = #{record.productId,jdbcType=VARCHAR},
+      channel_id = #{record.channelId,jdbcType=VARCHAR},
+      actv_id = #{record.actvId,jdbcType=VARCHAR},
+      user_type = #{record.userType,jdbcType=VARCHAR},
+      ture_name = #{record.tureName,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      id_type = #{record.idType,jdbcType=VARCHAR},
+      identify_id = #{record.identifyId,jdbcType=VARCHAR},
+      id_ava = #{record.idAva,jdbcType=TIMESTAMP},
+      id_issue = #{record.idIssue,jdbcType=VARCHAR},
+      res_type = #{record.resType,jdbcType=VARCHAR},
+      prv = #{record.prv,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      county = #{record.county,jdbcType=VARCHAR},
+      town = #{record.town,jdbcType=VARCHAR},
+      str = #{record.str,jdbcType=VARCHAR},
+      cmty = #{record.cmty,jdbcType=VARCHAR},
+      house_no = #{record.houseNo,jdbcType=VARCHAR},
+      is_add_res = #{record.isAddRes,jdbcType=VARCHAR},
+      house_type = #{record.houseType,jdbcType=VARCHAR},
+      crr_add_time = #{record.crrAddTime,jdbcType=VARCHAR},
+      prv1 = #{record.prv1,jdbcType=VARCHAR},
+      city1 = #{record.city1,jdbcType=VARCHAR},
+      county1 = #{record.county1,jdbcType=VARCHAR},
+      town1 = #{record.town1,jdbcType=VARCHAR},
+      str1 = #{record.str1,jdbcType=VARCHAR},
+      cmty1 = #{record.cmty1,jdbcType=VARCHAR},
+      house_no1 = #{record.houseNo1,jdbcType=VARCHAR},
+      doc_type = #{record.docType,jdbcType=VARCHAR},
+      rent_fee = #{record.rentFee,jdbcType=VARCHAR},
+      race = #{record.race,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      mobile_mths = #{record.mobileMths,jdbcType=VARCHAR},
+      mth_bill = #{record.mthBill,jdbcType=VARCHAR},
+      is_verified = #{record.isVerified,jdbcType=VARCHAR},
+      add_phone = #{record.addPhone,jdbcType=VARCHAR},
+      add_phone_acc = #{record.addPhoneAcc,jdbcType=VARCHAR},
+      e_mail = #{record.eMail,jdbcType=VARCHAR},
+      qq = #{record.qq,jdbcType=VARCHAR},
+      marr_state = #{record.marrState,jdbcType=VARCHAR},
+      spouse_name = #{record.spouseName,jdbcType=VARCHAR},
+      spouse_mobile = #{record.spouseMobile,jdbcType=VARCHAR},
+      fml_name = #{record.fmlName,jdbcType=VARCHAR},
+      relation = #{record.relation,jdbcType=VARCHAR},
+      fml_contact = #{record.fmlContact,jdbcType=VARCHAR},
+      is_k_flm = #{record.isKFlm,jdbcType=VARCHAR},
+      is_valid2 = #{record.isValid2,jdbcType=VARCHAR},
+      is_fml_res = #{record.isFmlRes,jdbcType=VARCHAR},
+      fml_add = #{record.fmlAdd,jdbcType=VARCHAR},
+      is_spouse_ctc_true = #{record.isSpouseCtcTrue,jdbcType=VARCHAR},
+      is_fml_ctc_true = #{record.isFmlCtcTrue,jdbcType=VARCHAR},
+      crr_org_name = #{record.crrOrgName,jdbcType=VARCHAR},
+      org_type = #{record.orgType,jdbcType=VARCHAR},
+      org_phone = #{record.orgPhone,jdbcType=VARCHAR},
+      org_name = #{record.orgName,jdbcType=VARCHAR},
+      dpt = #{record.dpt,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=VARCHAR},
+      industry = #{record.industry,jdbcType=VARCHAR},
+      work_time = #{record.workTime,jdbcType=VARCHAR},
+      prv2 = #{record.prv2,jdbcType=VARCHAR},
+      city2 = #{record.city2,jdbcType=VARCHAR},
+      county2 = #{record.county2,jdbcType=VARCHAR},
+      town2 = #{record.town2,jdbcType=VARCHAR},
+      str2 = #{record.str2,jdbcType=VARCHAR},
+      str3 = #{record.str3,jdbcType=VARCHAR},
+      cmty2 = #{record.cmty2,jdbcType=VARCHAR},
+      house_no2 = #{record.houseNo2,jdbcType=VARCHAR},
+      is_valid = #{record.isValid,jdbcType=VARCHAR},
+      org_contact = #{record.orgContact,jdbcType=VARCHAR},
+      org_contact_mobile = #{record.orgContactMobile,jdbcType=VARCHAR},
+      edu_type = #{record.eduType,jdbcType=VARCHAR},
+      org_contact_position = #{record.orgContactPosition,jdbcType=VARCHAR},
+      org_size = #{record.orgSize,jdbcType=VARCHAR},
+      income = #{record.income,jdbcType=VARCHAR},
+      fml_income = #{record.fmlIncome,jdbcType=VARCHAR},
+      edu_level = #{record.eduLevel,jdbcType=VARCHAR},
+      is_past_loan = #{record.isPastLoan,jdbcType=VARCHAR},
+      past_loan_repay = #{record.pastLoanRepay,jdbcType=DECIMAL},
+      is_valid3 = #{record.isValid3,jdbcType=VARCHAR},
+      apply_date = #{record.applyDate,jdbcType=TIMESTAMP},
+      aprov_result = #{record.aprovResult,jdbcType=VARCHAR},
+      aprov_remark = #{record.aprovRemark,jdbcType=VARCHAR},
+      file_type = #{record.fileType,jdbcType=VARCHAR},
+      aprov_reason = #{record.aprovReason,jdbcType=VARCHAR},
+      regist_date = #{record.registDate,jdbcType=TIMESTAMP},
+      is_back_sale = #{record.isBackSale,jdbcType=VARCHAR},
+      is_back_check = #{record.isBackCheck,jdbcType=VARCHAR},
+      buss_no = #{record.bussNo,jdbcType=VARCHAR},
+      store_no = #{record.storeNo,jdbcType=VARCHAR},
+      store_prov = #{record.storeProv,jdbcType=VARCHAR},
+      store_city = #{record.storeCity,jdbcType=VARCHAR},
+      store_area = #{record.storeArea,jdbcType=VARCHAR},
+      goods_type = #{record.goodsType,jdbcType=VARCHAR},
+      brand = #{record.brand,jdbcType=VARCHAR},
+      marques = #{record.marques,jdbcType=VARCHAR},
+      aprov_duration = #{record.aprovDuration,jdbcType=VARCHAR},
+      check_duration = #{record.checkDuration,jdbcType=VARCHAR},
+      re_check_duration = #{record.reCheckDuration,jdbcType=VARCHAR},
+      birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      sale_remark = #{record.saleRemark,jdbcType=VARCHAR},
+      profession = #{record.profession,jdbcType=VARCHAR},
+      sign_date = #{record.signDate,jdbcType=TIMESTAMP},
+      weichat = #{record.weichat,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjPuhuiApply">
+    update nj_puhui_apply
+    <set>
+      <if test="loanType != null">
+        loan_type = #{loanType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodPrice != null">
+        good_price = #{goodPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="fisrtPay != null">
+        fisrt_pay = #{fisrtPay,jdbcType=DECIMAL},
+      </if>
+      <if test="firstRepay != null">
+        first_repay = #{firstRepay,jdbcType=DECIMAL},
+      </if>
+      <if test="repayFee != null">
+        repay_fee = #{repayFee,jdbcType=DECIMAL},
+      </if>
+      <if test="amt != null">
+        amt = #{amt,jdbcType=DECIMAL},
+      </if>
+      <if test="firstRepayDay != null">
+        first_repay_day = #{firstRepayDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repayDay != null">
+        repay_day = #{repayDay,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repayAmt != null">
+        repay_amt = #{repayAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="period != null">
+        period = #{period,jdbcType=INTEGER},
+      </if>
+      <if test="acct != null">
+        acct = #{acct,jdbcType=VARCHAR},
+      </if>
+      <if test="acctId != null">
+        acct_id = #{acctId,jdbcType=VARCHAR},
+      </if>
+      <if test="acctName != null">
+        acct_name = #{acctName,jdbcType=VARCHAR},
+      </if>
+      <if test="dlvDate != null">
+        dlv_date = #{dlvDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditDate != null">
+        audit_date = #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monthRate != null">
+        month_rate = #{monthRate,jdbcType=DECIMAL},
+      </if>
+      <if test="firstBillDate != null">
+        first_bill_date = #{firstBillDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billDate != null">
+        bill_date = #{billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payOther != null">
+        pay_other = #{payOther,jdbcType=DECIMAL},
+      </if>
+      <if test="insurance != null">
+        insurance = #{insurance,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceRate != null">
+        insurance_rate = #{insuranceRate,jdbcType=DECIMAL},
+      </if>
+      <if test="flxPackage != null">
+        flx_package = #{flxPackage,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="actvId != null">
+        actv_id = #{actvId,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="tureName != null">
+        ture_name = #{tureName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        id_type = #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="identifyId != null">
+        identify_id = #{identifyId,jdbcType=VARCHAR},
+      </if>
+      <if test="idAva != null">
+        id_ava = #{idAva,jdbcType=TIMESTAMP},
+      </if>
+      <if test="idIssue != null">
+        id_issue = #{idIssue,jdbcType=VARCHAR},
+      </if>
+      <if test="resType != null">
+        res_type = #{resType,jdbcType=VARCHAR},
+      </if>
+      <if test="prv != null">
+        prv = #{prv,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null">
+        county = #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="town != null">
+        town = #{town,jdbcType=VARCHAR},
+      </if>
+      <if test="str != null">
+        str = #{str,jdbcType=VARCHAR},
+      </if>
+      <if test="cmty != null">
+        cmty = #{cmty,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNo != null">
+        house_no = #{houseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isAddRes != null">
+        is_add_res = #{isAddRes,jdbcType=VARCHAR},
+      </if>
+      <if test="houseType != null">
+        house_type = #{houseType,jdbcType=VARCHAR},
+      </if>
+      <if test="crrAddTime != null">
+        crr_add_time = #{crrAddTime,jdbcType=VARCHAR},
+      </if>
+      <if test="prv1 != null">
+        prv1 = #{prv1,jdbcType=VARCHAR},
+      </if>
+      <if test="city1 != null">
+        city1 = #{city1,jdbcType=VARCHAR},
+      </if>
+      <if test="county1 != null">
+        county1 = #{county1,jdbcType=VARCHAR},
+      </if>
+      <if test="town1 != null">
+        town1 = #{town1,jdbcType=VARCHAR},
+      </if>
+      <if test="str1 != null">
+        str1 = #{str1,jdbcType=VARCHAR},
+      </if>
+      <if test="cmty1 != null">
+        cmty1 = #{cmty1,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNo1 != null">
+        house_no1 = #{houseNo1,jdbcType=VARCHAR},
+      </if>
+      <if test="docType != null">
+        doc_type = #{docType,jdbcType=VARCHAR},
+      </if>
+      <if test="rentFee != null">
+        rent_fee = #{rentFee,jdbcType=VARCHAR},
+      </if>
+      <if test="race != null">
+        race = #{race,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileMths != null">
+        mobile_mths = #{mobileMths,jdbcType=VARCHAR},
+      </if>
+      <if test="mthBill != null">
+        mth_bill = #{mthBill,jdbcType=VARCHAR},
+      </if>
+      <if test="isVerified != null">
+        is_verified = #{isVerified,jdbcType=VARCHAR},
+      </if>
+      <if test="addPhone != null">
+        add_phone = #{addPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addPhoneAcc != null">
+        add_phone_acc = #{addPhoneAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="eMail != null">
+        e_mail = #{eMail,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null">
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="marrState != null">
+        marr_state = #{marrState,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseName != null">
+        spouse_name = #{spouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="spouseMobile != null">
+        spouse_mobile = #{spouseMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="fmlName != null">
+        fml_name = #{fmlName,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null">
+        relation = #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="fmlContact != null">
+        fml_contact = #{fmlContact,jdbcType=VARCHAR},
+      </if>
+      <if test="isKFlm != null">
+        is_k_flm = #{isKFlm,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid2 != null">
+        is_valid2 = #{isValid2,jdbcType=VARCHAR},
+      </if>
+      <if test="isFmlRes != null">
+        is_fml_res = #{isFmlRes,jdbcType=VARCHAR},
+      </if>
+      <if test="fmlAdd != null">
+        fml_add = #{fmlAdd,jdbcType=VARCHAR},
+      </if>
+      <if test="isSpouseCtcTrue != null">
+        is_spouse_ctc_true = #{isSpouseCtcTrue,jdbcType=VARCHAR},
+      </if>
+      <if test="isFmlCtcTrue != null">
+        is_fml_ctc_true = #{isFmlCtcTrue,jdbcType=VARCHAR},
+      </if>
+      <if test="crrOrgName != null">
+        crr_org_name = #{crrOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgType != null">
+        org_type = #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="orgPhone != null">
+        org_phone = #{orgPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="dpt != null">
+        dpt = #{dpt,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null">
+        work_time = #{workTime,jdbcType=VARCHAR},
+      </if>
+      <if test="prv2 != null">
+        prv2 = #{prv2,jdbcType=VARCHAR},
+      </if>
+      <if test="city2 != null">
+        city2 = #{city2,jdbcType=VARCHAR},
+      </if>
+      <if test="county2 != null">
+        county2 = #{county2,jdbcType=VARCHAR},
+      </if>
+      <if test="town2 != null">
+        town2 = #{town2,jdbcType=VARCHAR},
+      </if>
+      <if test="str2 != null">
+        str2 = #{str2,jdbcType=VARCHAR},
+      </if>
+      <if test="str3 != null">
+        str3 = #{str3,jdbcType=VARCHAR},
+      </if>
+      <if test="cmty2 != null">
+        cmty2 = #{cmty2,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNo2 != null">
+        house_no2 = #{houseNo2,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgContact != null">
+        org_contact = #{orgContact,jdbcType=VARCHAR},
+      </if>
+      <if test="orgContactMobile != null">
+        org_contact_mobile = #{orgContactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="eduType != null">
+        edu_type = #{eduType,jdbcType=VARCHAR},
+      </if>
+      <if test="orgContactPosition != null">
+        org_contact_position = #{orgContactPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSize != null">
+        org_size = #{orgSize,jdbcType=VARCHAR},
+      </if>
+      <if test="income != null">
+        income = #{income,jdbcType=VARCHAR},
+      </if>
+      <if test="fmlIncome != null">
+        fml_income = #{fmlIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="eduLevel != null">
+        edu_level = #{eduLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="isPastLoan != null">
+        is_past_loan = #{isPastLoan,jdbcType=VARCHAR},
+      </if>
+      <if test="pastLoanRepay != null">
+        past_loan_repay = #{pastLoanRepay,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid3 != null">
+        is_valid3 = #{isValid3,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDate != null">
+        apply_date = #{applyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aprovResult != null">
+        aprov_result = #{aprovResult,jdbcType=VARCHAR},
+      </if>
+      <if test="aprovRemark != null">
+        aprov_remark = #{aprovRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        file_type = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="aprovReason != null">
+        aprov_reason = #{aprovReason,jdbcType=VARCHAR},
+      </if>
+      <if test="registDate != null">
+        regist_date = #{registDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isBackSale != null">
+        is_back_sale = #{isBackSale,jdbcType=VARCHAR},
+      </if>
+      <if test="isBackCheck != null">
+        is_back_check = #{isBackCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="bussNo != null">
+        buss_no = #{bussNo,jdbcType=VARCHAR},
+      </if>
+      <if test="storeNo != null">
+        store_no = #{storeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="storeProv != null">
+        store_prov = #{storeProv,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCity != null">
+        store_city = #{storeCity,jdbcType=VARCHAR},
+      </if>
+      <if test="storeArea != null">
+        store_area = #{storeArea,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null">
+        goods_type = #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null">
+        brand = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="marques != null">
+        marques = #{marques,jdbcType=VARCHAR},
+      </if>
+      <if test="aprovDuration != null">
+        aprov_duration = #{aprovDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDuration != null">
+        check_duration = #{checkDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="reCheckDuration != null">
+        re_check_duration = #{reCheckDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleRemark != null">
+        sale_remark = #{saleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="signDate != null">
+        sign_date = #{signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weichat != null">
+        weichat = #{weichat,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where loan_no = #{loanNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjPuhuiApply">
+    update nj_puhui_apply
+    set loan_type = #{loanType,jdbcType=VARCHAR},
+      good_price = #{goodPrice,jdbcType=DECIMAL},
+      fisrt_pay = #{fisrtPay,jdbcType=DECIMAL},
+      first_repay = #{firstRepay,jdbcType=DECIMAL},
+      repay_fee = #{repayFee,jdbcType=DECIMAL},
+      amt = #{amt,jdbcType=DECIMAL},
+      first_repay_day = #{firstRepayDay,jdbcType=TIMESTAMP},
+      repay_day = #{repayDay,jdbcType=TIMESTAMP},
+      repay_amt = #{repayAmt,jdbcType=DECIMAL},
+      period = #{period,jdbcType=INTEGER},
+      acct = #{acct,jdbcType=VARCHAR},
+      acct_id = #{acctId,jdbcType=VARCHAR},
+      acct_name = #{acctName,jdbcType=VARCHAR},
+      dlv_date = #{dlvDate,jdbcType=TIMESTAMP},
+      audit_date = #{auditDate,jdbcType=TIMESTAMP},
+      month_rate = #{monthRate,jdbcType=DECIMAL},
+      first_bill_date = #{firstBillDate,jdbcType=TIMESTAMP},
+      bill_date = #{billDate,jdbcType=TIMESTAMP},
+      pay_other = #{payOther,jdbcType=DECIMAL},
+      insurance = #{insurance,jdbcType=VARCHAR},
+      insurance_rate = #{insuranceRate,jdbcType=DECIMAL},
+      flx_package = #{flxPackage,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
+      channel_id = #{channelId,jdbcType=VARCHAR},
+      actv_id = #{actvId,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      ture_name = #{tureName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      id_type = #{idType,jdbcType=VARCHAR},
+      identify_id = #{identifyId,jdbcType=VARCHAR},
+      id_ava = #{idAva,jdbcType=TIMESTAMP},
+      id_issue = #{idIssue,jdbcType=VARCHAR},
+      res_type = #{resType,jdbcType=VARCHAR},
+      prv = #{prv,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      county = #{county,jdbcType=VARCHAR},
+      town = #{town,jdbcType=VARCHAR},
+      str = #{str,jdbcType=VARCHAR},
+      cmty = #{cmty,jdbcType=VARCHAR},
+      house_no = #{houseNo,jdbcType=VARCHAR},
+      is_add_res = #{isAddRes,jdbcType=VARCHAR},
+      house_type = #{houseType,jdbcType=VARCHAR},
+      crr_add_time = #{crrAddTime,jdbcType=VARCHAR},
+      prv1 = #{prv1,jdbcType=VARCHAR},
+      city1 = #{city1,jdbcType=VARCHAR},
+      county1 = #{county1,jdbcType=VARCHAR},
+      town1 = #{town1,jdbcType=VARCHAR},
+      str1 = #{str1,jdbcType=VARCHAR},
+      cmty1 = #{cmty1,jdbcType=VARCHAR},
+      house_no1 = #{houseNo1,jdbcType=VARCHAR},
+      doc_type = #{docType,jdbcType=VARCHAR},
+      rent_fee = #{rentFee,jdbcType=VARCHAR},
+      race = #{race,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      mobile_mths = #{mobileMths,jdbcType=VARCHAR},
+      mth_bill = #{mthBill,jdbcType=VARCHAR},
+      is_verified = #{isVerified,jdbcType=VARCHAR},
+      add_phone = #{addPhone,jdbcType=VARCHAR},
+      add_phone_acc = #{addPhoneAcc,jdbcType=VARCHAR},
+      e_mail = #{eMail,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      marr_state = #{marrState,jdbcType=VARCHAR},
+      spouse_name = #{spouseName,jdbcType=VARCHAR},
+      spouse_mobile = #{spouseMobile,jdbcType=VARCHAR},
+      fml_name = #{fmlName,jdbcType=VARCHAR},
+      relation = #{relation,jdbcType=VARCHAR},
+      fml_contact = #{fmlContact,jdbcType=VARCHAR},
+      is_k_flm = #{isKFlm,jdbcType=VARCHAR},
+      is_valid2 = #{isValid2,jdbcType=VARCHAR},
+      is_fml_res = #{isFmlRes,jdbcType=VARCHAR},
+      fml_add = #{fmlAdd,jdbcType=VARCHAR},
+      is_spouse_ctc_true = #{isSpouseCtcTrue,jdbcType=VARCHAR},
+      is_fml_ctc_true = #{isFmlCtcTrue,jdbcType=VARCHAR},
+      crr_org_name = #{crrOrgName,jdbcType=VARCHAR},
+      org_type = #{orgType,jdbcType=VARCHAR},
+      org_phone = #{orgPhone,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      dpt = #{dpt,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      work_time = #{workTime,jdbcType=VARCHAR},
+      prv2 = #{prv2,jdbcType=VARCHAR},
+      city2 = #{city2,jdbcType=VARCHAR},
+      county2 = #{county2,jdbcType=VARCHAR},
+      town2 = #{town2,jdbcType=VARCHAR},
+      str2 = #{str2,jdbcType=VARCHAR},
+      str3 = #{str3,jdbcType=VARCHAR},
+      cmty2 = #{cmty2,jdbcType=VARCHAR},
+      house_no2 = #{houseNo2,jdbcType=VARCHAR},
+      is_valid = #{isValid,jdbcType=VARCHAR},
+      org_contact = #{orgContact,jdbcType=VARCHAR},
+      org_contact_mobile = #{orgContactMobile,jdbcType=VARCHAR},
+      edu_type = #{eduType,jdbcType=VARCHAR},
+      org_contact_position = #{orgContactPosition,jdbcType=VARCHAR},
+      org_size = #{orgSize,jdbcType=VARCHAR},
+      income = #{income,jdbcType=VARCHAR},
+      fml_income = #{fmlIncome,jdbcType=VARCHAR},
+      edu_level = #{eduLevel,jdbcType=VARCHAR},
+      is_past_loan = #{isPastLoan,jdbcType=VARCHAR},
+      past_loan_repay = #{pastLoanRepay,jdbcType=DECIMAL},
+      is_valid3 = #{isValid3,jdbcType=VARCHAR},
+      apply_date = #{applyDate,jdbcType=TIMESTAMP},
+      aprov_result = #{aprovResult,jdbcType=VARCHAR},
+      aprov_remark = #{aprovRemark,jdbcType=VARCHAR},
+      file_type = #{fileType,jdbcType=VARCHAR},
+      aprov_reason = #{aprovReason,jdbcType=VARCHAR},
+      regist_date = #{registDate,jdbcType=TIMESTAMP},
+      is_back_sale = #{isBackSale,jdbcType=VARCHAR},
+      is_back_check = #{isBackCheck,jdbcType=VARCHAR},
+      buss_no = #{bussNo,jdbcType=VARCHAR},
+      store_no = #{storeNo,jdbcType=VARCHAR},
+      store_prov = #{storeProv,jdbcType=VARCHAR},
+      store_city = #{storeCity,jdbcType=VARCHAR},
+      store_area = #{storeArea,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=VARCHAR},
+      marques = #{marques,jdbcType=VARCHAR},
+      aprov_duration = #{aprovDuration,jdbcType=VARCHAR},
+      check_duration = #{checkDuration,jdbcType=VARCHAR},
+      re_check_duration = #{reCheckDuration,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      sale_remark = #{saleRemark,jdbcType=VARCHAR},
+      profession = #{profession,jdbcType=VARCHAR},
+      sign_date = #{signDate,jdbcType=TIMESTAMP},
+      weichat = #{weichat,jdbcType=VARCHAR}
+    where loan_no = #{loanNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

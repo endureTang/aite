@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjProductPurposeMapperExtend">
+
+	<select id="getProductPurposesById" parameterType="java.lang.String"
+		resultType="java.util.HashMap">
+		SELECT njpc.id AS id, sd.label_text AS purpose 
+			FROM nj_product_scope njpc, sys_dict sd 
+			WHERE njpc.sys_id= sd.id AND njpc.product_id =#{id,jdbcType=VARCHAR}	
+	</select>
+</mapper>

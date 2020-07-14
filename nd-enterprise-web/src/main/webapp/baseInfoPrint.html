@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <style>
+        [v-cloak] {
+            display: none !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        body {
+            font-size: 14px;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        i, s, b, sub, sup {
+            font-style: normal;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .container {
+            width: 1000px;
+            margin: 10px auto;
+            border: 1px solid #eee;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 20px 30px;
+        }
+
+        .container > h1 {
+            font-size: 26px;
+            line-height: 40px;
+            margin: 15px 0;
+        }
+
+        .container > p {
+            font-size: 22px;
+        }
+
+        .container > p i {
+            display: inline-block;
+            width: 60px;
+        }
+
+        .container p span {
+            padding: 0 20px;
+            border-bottom: 1px solid #d4d4d4;
+        }
+
+        .container .info h2 {
+            font-size: 18px;
+            line-height: 30px;
+        }
+
+        .container .info p {
+            line-height: 36px;
+        }
+
+        .container .info > div {
+            margin-bottom: 10px;
+        }
+
+        .container .base-info p span,
+        .container .work-info p span,
+        .container .spouse-info p span,
+        .container .relatives-info p span,
+        .container .debt-info p span {
+            margin-right: 30px;
+        }
+
+        .container .base-info p i {
+            margin-right: 50px;
+        }
+
+        .container .base-info p label,
+        .container .usage-info label {
+            margin-right: 15px;
+            margin-left: 10px;
+        }
+
+        .container .usage-info input {
+            margin-right: 10px;
+        }
+
+        .container .pawn-info p span {
+            margin-right: 5px;
+        }
+
+        .container .statement h3 {
+            margin-bottom: 15px;
+        }
+
+        .container .statement > p {
+            text-indent: 2em;
+            line-height: 24px;
+        }
+
+        .container .statement .sign {
+            overflow: hidden;
+        }
+
+        .container .statement .sign span {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .container .statement .sign span:nth-of-type(1) {
+            float: left;
+            margin-left: 2em;
+        }
+
+        .container .statement .sign span:nth-of-type(2) {
+            float: right;
+            margin-right: 8em;
+        }
+
+        .container .statement .manager p {
+            text-align: right;
+            margin-top: 25px;
+        }
+    </style>
+    <style media="print">
+        @page {
+            size: auto;  /* auto is the initial value */
+            margin: 0mm; /* this affects the margin in the printer settings */
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="baseInfo" v-cloak>
+    <h1 class="text-center">金鼎能贷业务申请表（房产）</h1>
+    <p class="text-center">申请额度：人民币 <span>{{applyInfo.amount}}</span>元 <i></i>贷款期限： <span>{{applyInfo.auditPeriod}}</span> 月</p>
+    <div class="info">
+        <div class="base-info">
+            <h2>1.借款人基本信息</h2>
+            <p>姓名：<span>{{baseInfo.name}}</span>性别： <span>{{baseInfo.sex | judgeSex}}</span> 民族：<span>{{baseInfo.nation}}</span>年龄：<span>{{baseInfo.age}}</span>
+                身份证号码：<span>{{baseInfo.identity}}</span></p>
+            <p>婚姻状况:
+                <i>
+                    <label v-for="item in marrStatus">
+                        <input :checked="item.value == baseInfo.marrStatus" name="marrStatus" type="radio" :value="item.value"> {{item.name}}
+                    </label>
+                </i>
+                手机号码: <span>{{baseInfo.phone}}</span>
+                住宅电话: <span>{{baseInfo.telephone}}</span>
+            </p>
+            <p>
+                最高学历:
+                <label v-for="item in educations">
+                    <input :checked="item.value == baseInfo.education" name="education" type="radio" :value="item.value"> {{item.name}}
+                </label>
+            </p>
+            <p>
+                住宅地址: <span>{{baseInfo.address}}</span>
+            </p>
+            <p>
+                居住状况:
+                <label v-for="item in houseStatus">
+                    <input :checked="item.value == baseInfo.addressNature" name="houseStatus" type="radio" :value="item.value"> {{item.name}}
+                    <span v-if="item.value == 3 || item.value == 2">{{baseInfo.addressMoney}}</span>
+                </label>
+            </p>
+        </div>
+        <div class="work-info">
+            <h2>2.借款人职业及收入信息</h2>
+            <p>
+                工作单位: <span>{{workInfo.orgName}}</span>
+                部门: <span>{{workInfo.department}}</span>
+                职位: <span>{{workInfo.position}}</span>
+                公司电话: <span>{{workInfo.orgContact}}</span>
+            </p>
+            <p>公司地址: <span>{{workInfo.orgAddress}}</span></p>
+            <p>
+                年工资收入：<span>{{workInfo.annualIncome}}</span>元
+                年经营收入： <span>{{workInfo.manageIncome}}</span>元
+                年租金收入： <span>{{workInfo.rentIncome}}</span>元
+                家庭年收入合计： <span>{{workInfo.familyIncome}}</span>元
+            </p>
+        </div>
+        <div class="spouse-info">
+            <h2>3.配偶信息</h2>
+            <p>姓名：<span>{{spouseInfo.relativeName}}</span>性别： <span>{{spouseInfo.sex | judgeSex}}</span> 民族：<span>{{spouseInfo.nation}}</span>年龄：<span>{{spouseInfo.age}}</span> 身份证号码：<span>{{spouseInfo.idCardNum}}</span></p>
+            <p>住宅地址: <span>{{spouseInfo.address}}</span></p>
+            <p>工作单位: <span>{{spouseInfo.orgName}}</span></p>
+        </div>
+        <div class="relatives-info">
+            <h2>4.紧急联系人信息</h2>
+            <div class="relative01" v-for="(item,index) in relativesInfo">
+                <p>姓名：<span>{{item.relativeName}}</span>性别： <span>{{item.sex | judgeSex}}</span> 联系电话：<span>{{item.relativeMobile}}</span> 与借款人关系:<span>{{item.relativeType | judegeRelative}}</span></p>
+                <p>住宅地址: <span>{{item.address}}</span></p>
+            </div>
+        </div>
+        <div class="pawn-info">
+            <h2>5.抵押物信息</h2>
+            <p>地址: <span>{{housePawnInfo.address}}</span></p>
+            <p>
+                产权号：<span>{{housePawnInfo.warrantNo}}</span>
+                所有权人：<span>{{housePawnInfo.owner}}</span>
+                面积：<span>{{housePawnInfo.coveredArea}}</span>m <sup>2</sup>,
+                市场价格：<span>{{housePawnInfo.marketMoney}}</span> 元,
+                贷款金额：<span>{{housePawnInfo.loanMoney}}</span> 元,
+                贷款期限：<span>{{housePawnInfo.loanTerm}}</span> 年
+            </p>
+        </div>
+        <div class="userCar-info">
+            <h2>6.其他个人资产信息</h2>
+            <p>
+                车辆品牌：<span>{{carInfo.brand}}</span>
+                购车时间：<span>{{carInfo.buyDate | formatTime | formatBuyCarTime}}</span>,
+                购车价格：<span>{{carInfo.buyPrice}}</span>元
+            </p>
+            <p>房产地址: <span>{{houseInfo.address}}</span></p>
+        </div>
+        <div class="debt-info">
+            <h2>7.其他个人负债情况</h2>
+            <div class="debt" v-for="item in debtInfo">
+                <p>
+                    贷款机构：<span>{{item.orgName}}</span>
+                    金额：<span>{{item.loanMoney}}</span> 元
+                    开始日期：<span>{{item.beginTime}}</span>
+                    结束日期：<span>{{item.endTime}}</span>
+                    担保措施：<span>{{item.warrantWay}}</span>
+                </p>
+            </div>
+        </div>
+        <div class="usage-info">
+            <h2>贷款用途</h2>
+            <label :for="item.id" v-for="item in usage">
+                <input :checked="applyInfo.usageId == item.id" type="radio" name="usageId" :id="item.id"
+                       :value="item.id">{{item.labelText}}
+            </label>
+        </div>
+    </div>
+    <div class="statement">
+        <h3 class="text-center">声明</h3>
+        <p>本申请人承诺上述信息真实准确，资料真实无误，如因相关信息不实资料虚假，造成贷款提前收回或其他由此导致的任何结果（包括但不限于承担资金划转费用、贷款利息、逾期罚息等）由本人自行承担。</p>
+        <p>本申请人同意及授权金坤小额贷款有限公司（以下简称贵公司）行使以下权利：</p>
+        <p>1.贵公司可向有关征信机构查阅本申请人的信用信息，索取有关报告用作此项贷款及其相关手续的审查之用。本申请人明白及同意贵公司对本申请人信用情况的审查，以判断本申请人信贷额应否增加、减少或维持不变；</p>
+        <p>2.贵公司可收集有关本申请人的资料，用作本贷款申请之用。本申请人已获贵公司通知并同意查询存在于贵公司或征信机构的本申请人的资料；</p>
+        <p>3.贵公司有绝对权力批准或拒绝本申请人贷款申请而勿须提出任何理由，也勿须退回有关申请文件。</p>
+        <div class="sign">
+            <span>申请人及配偶签字:</span>
+            <span>时间:</span>
+        </div>
+        <div class="manager">
+            <p>
+                客户经理: <span>{{baseInfo.channelUserId | judgeManager}}</span>
+                业务来源: <span></span>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+<script src="./static/js/util.js"></script>
+<script src="./static/plugins/vue/vue.js"></script>
+<script src="./static/js/jQuery-1.9.1.min.js"></script>
+<script src="./static/AdminLTE/plugins/iCheck/icheck.min.js"></script>
+<script>
+    var baseInfo = {
+        vari: {
+            usage: {}
+        },
+        init: function () {
+            this.asyncAjax();
+            this.newVue();
+            this.getData();
+        },
+        vm: {},
+        newVue: function () {
+            var _this = this;
+            this.vm = new Vue({
+                el: '#baseInfo',
+                data: {
+                    educations: [
+                        {name: '高中',value: '1'},
+                        {name: '大专',value: '2'},
+                        {name: '大学',value: '3'},
+                        {name: '研究生',value: '4'},
+                        {name: '中专学校',value: '5'},
+                        {name: '技术学校',value: '6'},
+                        {name: '初中',value: '7'},
+                        {name: '小学',value: '8'},
+                        {name: '文盲或半文盲',value: '9'}
+                    ],
+                    sexs: [
+                        {name: '', value: ''},
+                        {name: '男', value: '1'},
+                        {name: '女', value: '0'}
+                    ],
+                    marrStatus: [
+                        {name: '已婚', value: '1'},
+                        {name: '未婚', value: '2'},
+                        {name: '离异', value: '3'},
+                        {name: '丧偶', value: '4'},
+                        {name: '再婚', value: '5'}
+                    ],
+                    orgNatures: [
+                        {name: '-请选择-', value: ''},
+                        {name: '行政机关', value: '1'},
+                        {name: '国有企业', value: '2'},
+                        {name: '事业单位', value: '3'},
+                        {name: '三资企业', value: '4'},
+                        {name: '私营企业', value: '5'},
+                        {name: '个体户', value: '6'},
+                        {name: '其他', value: '7'}
+                    ],
+                    relationship: [
+                        {name: '', value: ''},
+                        {name: '夫妻', value: 1},
+                        {name: '父母', value: 2},
+                        {name: '儿女', value: 3},
+                        {name: '兄妹', value: 4},
+                        {name: '亲戚', value: 5},
+                        {name: '朋友', value: 6},
+                        {name: '同事', value: 7},
+                        {name: '同学', value: 8}
+                    ],
+                    houseStatus: [
+                        {name: '一次性购买', value: '1'},
+                        {name: '与父母同住', value: '4'},
+                        {name: '自建', value: '5'},
+                        {name: '租赁(月租金)', value: '3'},
+                        {name: '按揭(月还款)', value: '2'},
+                        {name: '其他', value: '6'}
+                    ],
+                    usage: _this.vari.usage,
+                    baseInfo: {},
+                    applyInfo: {},
+                    spouseInfo:{},
+                    manageInfo: [],
+                    debtInfo: [
+                        {
+                            orgName: '',
+                            loanMoney: '',
+                            beginTime: '',
+                            endTime: '',
+                            warrantWay: '',
+                            id: ''
+                        },
+                        {
+                            orgName: '',
+                            loanMoney: '',
+                            beginTime: '',
+                            endTime: '',
+                            warrantWay: '',
+                            id: ''
+                        },
+                    ],
+                    spouse: {
+                        "profession": "",
+                        "relativeName": "",
+                        "address": "",
+                        "nation": "",
+                        "id": '',
+                        "sex": "",
+                        "orgName": "",
+                        "idCardNum": "",
+                        "relativeMobile": "",
+                        "age": "",
+                        "relativeType": "1"
+                    },
+                    workInfo: {
+                        "workYears": "",
+                        "orgName": "",
+                        "annualIncome": "",
+                        "orgContact": "",
+                        "familyIncome": '',
+                        "orgAddress": "",
+                        "manageIncome": '',
+                        "orgNature": "",
+                        "rentIncome": '',
+                        "monthIncome": "",
+                        "position": "'",
+                        "id": "",
+                        "department": ""
+                    },
+                    carInfo: {
+                        "id": "",
+                        "version": '',
+                        "brand": "",
+                        "buyPrice": "",
+                        "createDate": '',
+                        "delFlag": '',
+                        "userId": "",
+                        "buyDate": ''
+                    },
+                    houseInfo: {
+                        "id": "",
+                        "buyPrice": "",
+                        "address": ''
+                    },
+                    housePawnInfo: {
+                        "pawnStatus": "",
+                        "city": "",
+                        "warrantNo": "",
+                        "houseAge": '',
+                        "companyName": "",
+                        "county": "",
+                        "loanBalance": '',
+                        "isOnly": '',
+                        "houseName": "",
+                        "webOneName": "",
+                        "province": "",
+                        "loanMoney": '',
+                        "recordDate": '',
+                        "pawnBank": "",
+                        "id": "",
+                        "owner": "",
+                        "address": "",
+                        "companyPrice": '',
+                        "marketMoney": '',
+                        "coveredArea": '',
+                        "mortgageNo": '',
+                        "webOnePrice": '',
+                        "loanQuta": '',
+                        "userId": "",
+                        "webTwoName": "",
+                        "loanTerm": '',
+                        "createTime": '',
+                        "cognizancePrice": '',
+                        "webTwoPrice": '',
+                        "webThreeName": "",
+                        "webThreePrice": '',
+                        "remarks": "",
+                        "fitmentStatus": ''
+                    },
+                    relativesInfo: [
+                        {
+                            "address": "",
+                            "sex": '',
+                            "relativeName": "",
+                            "relativeMobile": "",
+                            "typeName": "",
+                            "id": "",
+                            "relativeType": ""
+                        },
+                        {
+                            "address": "",
+                            "sex": '',
+                            "relativeName": "",
+                            "relativeMobile": "",
+                            "typeName": "",
+                            "id": "",
+                            "relativeType": ""
+                        }
+                    ]
+                },
+                computed: {
+
+                },
+                filters : {
+                    formatTime : function (time) {
+                        if (time) {
+                            var date = new Date(time);
+                            return date.getFullYear() + '-' + (preZero(date.getMonth() + 1)) + '-' + preZero(date.getDate()) + ' ' + preZero(date.getHours()) + ':' + preZero(date.getMinutes()) + ':' + preZero(date.getSeconds());
+                        }
+                        function preZero(num) {
+                            num = '' + num;
+                            return num.length == 1 ? '0' + num : num;
+                        }
+                    },
+                    // 购车时间
+                    formatBuyCarTime : function(time){
+                      return time ? time.split(' ')[0] : '';
+                    },
+                    judgeSex : function (value) {
+                        for (var i = 0; i < _this.vm.sexs.length; i++) {
+                            var item = _this.vm.sexs[i];
+                            if (item.value == value) {
+                                return item.name;
+                            }
+                        }
+                    },
+                    judegeRelative : function (value) {
+                        for (var i = 0; i < _this.vm.relationship.length; i++) {
+                            var item = _this.vm.relationship[i];
+                            if (item.value == value) {
+                                return item.name;
+                            }
+                        }
+                    },
+                    judgeManager : function (value) {
+                        for (var i = 0; i < _this.vm.manageInfo.length; i++) {
+                            var item = _this.vm.manageInfo[i];
+                            if (item.id == value) {
+                                return item.user_name;
+                            }
+                        }
+                    }
+                },
+                updated : function () {
+                    window.print();
+                }
+            })
+        },
+        getData: function (cb) {
+            var _this = this;
+            $.ajax({
+                url: util.getServerUrl('/loanOrder/getOrderBaseInfo'),
+                // url: 'http://127.0.0.1:8080/nj-enterprise-web/loanOrder/getOrderBaseInfo',
+                method: 'POST',
+                data: {orderId: _this.getQueryString('orderId')},
+                success: function (res) {
+                    if (res.status == 0) {
+                        _this.vm.baseInfo = res.data.baseInfo;
+                        _this.vm.manageInfo = res.data.manageInfo;
+                        _this.vm.applyInfo = res.data.applyInfo;
+                        if (res.data.debtInfo.length != 0) {
+                            if (res.data.debtInfo.length == 1) {
+                                _this.vm.debtInfo[0] = res.data.debtInfo[0];
+                            } else {
+                                _this.vm.debtInfo = res.data.debtInfo;
+                            }
+                        }
+                        if (res.data.spouseInfo.length != 0) {
+                            _this.vm.spouseInfo = res.data.spouseInfo[0]
+                        }
+                        if (res.data.workInfo.length != 0) {
+                            _this.vm.workInfo = res.data.workInfo
+                        }
+                        if (res.data.carInfo.length != 0) {
+                            _this.vm.carInfo = res.data.carInfo
+                        }
+                        if (res.data.houseInfo.length != 0) {
+                            _this.vm.houseInfo = res.data.houseInfo[0]
+                        }
+                        if (res.data.housePawnInfo.length != 0) {
+                            _this.vm.housePawnInfo = res.data.housePawnInfo[0]
+                        }
+                        if (res.data.relativesInfo.length != 0) {
+                            _this.vm.relativesInfo = res.data.relativesInfo
+                        }
+                        cb&&cb();
+                    } else {
+                        alert('获取数据出错')
+                    }
+                },
+                error: function (error) {
+                    alert(error)
+                }
+            })
+        },
+        asyncAjax: function () {
+            var _this = this;
+            // 获取贷款用途
+            $.ajax({
+                url: util.getServerUrl('/common/getDictListByType?type=CPYTPZ'),
+                // url: 'http://127.0.0.1:8080/nj-enterprise-web/common/getDictListByType?type=CPYTPZ',
+                method: 'POST',
+                async: false,
+                success: function (res) {
+                    if (res.status == 0) {
+                        _this.vari.usage = res.data;
+                    } else {
+                        alert('获取贷款用途出错')
+                    }
+                },
+                error: function (error) {
+                    alert(error)
+                }
+            })
+        },
+        getQueryString: function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return r[2];
+            return '';
+        }
+    }
+    $(function () {
+        baseInfo.init();
+    })
+</script>
+</html>

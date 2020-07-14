@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjUserCreditMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjUserCredit">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="agent_count" jdbcType="INTEGER" property="agentCount" />
+    <result column="person_count" jdbcType="INTEGER" property="personCount" />
+    <result column="overdue_month6" jdbcType="INTEGER" property="overdueMonth6" />
+    <result column="overdue_month12" jdbcType="INTEGER" property="overdueMonth12" />
+    <result column="credit_card_amt" jdbcType="INTEGER" property="creditCardAmt" />
+    <result column="mortage_balance" jdbcType="DECIMAL" property="mortageBalance" />
+    <result column="credit_balance" jdbcType="DECIMAL" property="creditBalance" />
+    <result column="balance_avr" jdbcType="DECIMAL" property="balanceAvr" />
+    <result column="overdue_status" jdbcType="VARCHAR" property="overdueStatus" />
+    <result column="account_status" jdbcType="VARCHAR" property="accountStatus" />
+    <result column="overdue_month24" jdbcType="INTEGER" property="overdueMonth24" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, user_id, agent_count, person_count, overdue_month6, overdue_month12, 
+    credit_card_amt, mortage_balance, credit_balance, balance_avr, overdue_status, account_status, 
+    overdue_month24
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjUserCreditExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_user_credit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_user_credit
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_user_credit
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjUserCreditExample">
+    delete from nj_user_credit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjUserCredit">
+    insert into nj_user_credit (id, order_id, user_id, 
+      agent_count, person_count, overdue_month6, 
+      overdue_month12, credit_card_amt, mortage_balance, 
+      credit_balance, balance_avr, overdue_status, 
+      account_status, overdue_month24)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{agentCount,jdbcType=INTEGER}, #{personCount,jdbcType=INTEGER}, #{overdueMonth6,jdbcType=INTEGER}, 
+      #{overdueMonth12,jdbcType=INTEGER}, #{creditCardAmt,jdbcType=INTEGER}, #{mortageBalance,jdbcType=DECIMAL}, 
+      #{creditBalance,jdbcType=DECIMAL}, #{balanceAvr,jdbcType=DECIMAL}, #{overdueStatus,jdbcType=VARCHAR}, 
+      #{accountStatus,jdbcType=VARCHAR}, #{overdueMonth24,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjUserCredit">
+    insert into nj_user_credit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="agentCount != null">
+        agent_count,
+      </if>
+      <if test="personCount != null">
+        person_count,
+      </if>
+      <if test="overdueMonth6 != null">
+        overdue_month6,
+      </if>
+      <if test="overdueMonth12 != null">
+        overdue_month12,
+      </if>
+      <if test="creditCardAmt != null">
+        credit_card_amt,
+      </if>
+      <if test="mortageBalance != null">
+        mortage_balance,
+      </if>
+      <if test="creditBalance != null">
+        credit_balance,
+      </if>
+      <if test="balanceAvr != null">
+        balance_avr,
+      </if>
+      <if test="overdueStatus != null">
+        overdue_status,
+      </if>
+      <if test="accountStatus != null">
+        account_status,
+      </if>
+      <if test="overdueMonth24 != null">
+        overdue_month24,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCount != null">
+        #{agentCount,jdbcType=INTEGER},
+      </if>
+      <if test="personCount != null">
+        #{personCount,jdbcType=INTEGER},
+      </if>
+      <if test="overdueMonth6 != null">
+        #{overdueMonth6,jdbcType=INTEGER},
+      </if>
+      <if test="overdueMonth12 != null">
+        #{overdueMonth12,jdbcType=INTEGER},
+      </if>
+      <if test="creditCardAmt != null">
+        #{creditCardAmt,jdbcType=INTEGER},
+      </if>
+      <if test="mortageBalance != null">
+        #{mortageBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="creditBalance != null">
+        #{creditBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="balanceAvr != null">
+        #{balanceAvr,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueStatus != null">
+        #{overdueStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null">
+        #{accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="overdueMonth24 != null">
+        #{overdueMonth24,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjUserCreditExample" resultType="java.lang.Long">
+    select count(*) from nj_user_credit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_user_credit
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.agentCount != null">
+        agent_count = #{record.agentCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.personCount != null">
+        person_count = #{record.personCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.overdueMonth6 != null">
+        overdue_month6 = #{record.overdueMonth6,jdbcType=INTEGER},
+      </if>
+      <if test="record.overdueMonth12 != null">
+        overdue_month12 = #{record.overdueMonth12,jdbcType=INTEGER},
+      </if>
+      <if test="record.creditCardAmt != null">
+        credit_card_amt = #{record.creditCardAmt,jdbcType=INTEGER},
+      </if>
+      <if test="record.mortageBalance != null">
+        mortage_balance = #{record.mortageBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.creditBalance != null">
+        credit_balance = #{record.creditBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.balanceAvr != null">
+        balance_avr = #{record.balanceAvr,jdbcType=DECIMAL},
+      </if>
+      <if test="record.overdueStatus != null">
+        overdue_status = #{record.overdueStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountStatus != null">
+        account_status = #{record.accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.overdueMonth24 != null">
+        overdue_month24 = #{record.overdueMonth24,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_user_credit
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      agent_count = #{record.agentCount,jdbcType=INTEGER},
+      person_count = #{record.personCount,jdbcType=INTEGER},
+      overdue_month6 = #{record.overdueMonth6,jdbcType=INTEGER},
+      overdue_month12 = #{record.overdueMonth12,jdbcType=INTEGER},
+      credit_card_amt = #{record.creditCardAmt,jdbcType=INTEGER},
+      mortage_balance = #{record.mortageBalance,jdbcType=DECIMAL},
+      credit_balance = #{record.creditBalance,jdbcType=DECIMAL},
+      balance_avr = #{record.balanceAvr,jdbcType=DECIMAL},
+      overdue_status = #{record.overdueStatus,jdbcType=VARCHAR},
+      account_status = #{record.accountStatus,jdbcType=VARCHAR},
+      overdue_month24 = #{record.overdueMonth24,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjUserCredit">
+    update nj_user_credit
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="agentCount != null">
+        agent_count = #{agentCount,jdbcType=INTEGER},
+      </if>
+      <if test="personCount != null">
+        person_count = #{personCount,jdbcType=INTEGER},
+      </if>
+      <if test="overdueMonth6 != null">
+        overdue_month6 = #{overdueMonth6,jdbcType=INTEGER},
+      </if>
+      <if test="overdueMonth12 != null">
+        overdue_month12 = #{overdueMonth12,jdbcType=INTEGER},
+      </if>
+      <if test="creditCardAmt != null">
+        credit_card_amt = #{creditCardAmt,jdbcType=INTEGER},
+      </if>
+      <if test="mortageBalance != null">
+        mortage_balance = #{mortageBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="creditBalance != null">
+        credit_balance = #{creditBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="balanceAvr != null">
+        balance_avr = #{balanceAvr,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueStatus != null">
+        overdue_status = #{overdueStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null">
+        account_status = #{accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="overdueMonth24 != null">
+        overdue_month24 = #{overdueMonth24,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjUserCredit">
+    update nj_user_credit
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      agent_count = #{agentCount,jdbcType=INTEGER},
+      person_count = #{personCount,jdbcType=INTEGER},
+      overdue_month6 = #{overdueMonth6,jdbcType=INTEGER},
+      overdue_month12 = #{overdueMonth12,jdbcType=INTEGER},
+      credit_card_amt = #{creditCardAmt,jdbcType=INTEGER},
+      mortage_balance = #{mortageBalance,jdbcType=DECIMAL},
+      credit_balance = #{creditBalance,jdbcType=DECIMAL},
+      balance_avr = #{balanceAvr,jdbcType=DECIMAL},
+      overdue_status = #{overdueStatus,jdbcType=VARCHAR},
+      account_status = #{accountStatus,jdbcType=VARCHAR},
+      overdue_month24 = #{overdueMonth24,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

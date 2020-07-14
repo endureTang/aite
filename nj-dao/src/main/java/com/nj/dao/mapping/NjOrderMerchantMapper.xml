@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjOrderMerchantMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjOrderMerchant">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="merchant_no" jdbcType="VARCHAR" property="merchantNo" />
+    <result column="merchant_name" jdbcType="VARCHAR" property="merchantName" />
+    <result column="merchant_province" jdbcType="VARCHAR" property="merchantProvince" />
+    <result column="merchant_city" jdbcType="VARCHAR" property="merchantCity" />
+    <result column="merchant_county" jdbcType="VARCHAR" property="merchantCounty" />
+    <result column="merchant_address" jdbcType="VARCHAR" property="merchantAddress" />
+    <result column="consociation_date" jdbcType="TIMESTAMP" property="consociationDate" />
+    <result column="transaction_no" jdbcType="VARCHAR" property="transactionNo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, merchant_no, merchant_name, merchant_province, merchant_city, merchant_county, 
+    merchant_address, consociation_date, transaction_no
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjOrderMerchantExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_order_merchant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_order_merchant
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_order_merchant
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjOrderMerchantExample">
+    delete from nj_order_merchant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjOrderMerchant">
+    insert into nj_order_merchant (id, order_id, merchant_no, 
+      merchant_name, merchant_province, merchant_city, 
+      merchant_county, merchant_address, consociation_date, 
+      transaction_no)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{merchantNo,jdbcType=VARCHAR}, 
+      #{merchantName,jdbcType=VARCHAR}, #{merchantProvince,jdbcType=VARCHAR}, #{merchantCity,jdbcType=VARCHAR}, 
+      #{merchantCounty,jdbcType=VARCHAR}, #{merchantAddress,jdbcType=VARCHAR}, #{consociationDate,jdbcType=TIMESTAMP}, 
+      #{transactionNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjOrderMerchant">
+    insert into nj_order_merchant
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="merchantNo != null">
+        merchant_no,
+      </if>
+      <if test="merchantName != null">
+        merchant_name,
+      </if>
+      <if test="merchantProvince != null">
+        merchant_province,
+      </if>
+      <if test="merchantCity != null">
+        merchant_city,
+      </if>
+      <if test="merchantCounty != null">
+        merchant_county,
+      </if>
+      <if test="merchantAddress != null">
+        merchant_address,
+      </if>
+      <if test="consociationDate != null">
+        consociation_date,
+      </if>
+      <if test="transactionNo != null">
+        transaction_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNo != null">
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantName != null">
+        #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantProvince != null">
+        #{merchantProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCity != null">
+        #{merchantCity,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCounty != null">
+        #{merchantCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantAddress != null">
+        #{merchantAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="consociationDate != null">
+        #{consociationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transactionNo != null">
+        #{transactionNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjOrderMerchantExample" resultType="java.lang.Long">
+    select count(*) from nj_order_merchant
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_order_merchant
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantNo != null">
+        merchant_no = #{record.merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantName != null">
+        merchant_name = #{record.merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantProvince != null">
+        merchant_province = #{record.merchantProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantCity != null">
+        merchant_city = #{record.merchantCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantCounty != null">
+        merchant_county = #{record.merchantCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantAddress != null">
+        merchant_address = #{record.merchantAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.consociationDate != null">
+        consociation_date = #{record.consociationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.transactionNo != null">
+        transaction_no = #{record.transactionNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_order_merchant
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      merchant_no = #{record.merchantNo,jdbcType=VARCHAR},
+      merchant_name = #{record.merchantName,jdbcType=VARCHAR},
+      merchant_province = #{record.merchantProvince,jdbcType=VARCHAR},
+      merchant_city = #{record.merchantCity,jdbcType=VARCHAR},
+      merchant_county = #{record.merchantCounty,jdbcType=VARCHAR},
+      merchant_address = #{record.merchantAddress,jdbcType=VARCHAR},
+      consociation_date = #{record.consociationDate,jdbcType=TIMESTAMP},
+      transaction_no = #{record.transactionNo,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjOrderMerchant">
+    update nj_order_merchant
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNo != null">
+        merchant_no = #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantName != null">
+        merchant_name = #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantProvince != null">
+        merchant_province = #{merchantProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCity != null">
+        merchant_city = #{merchantCity,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCounty != null">
+        merchant_county = #{merchantCounty,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantAddress != null">
+        merchant_address = #{merchantAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="consociationDate != null">
+        consociation_date = #{consociationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transactionNo != null">
+        transaction_no = #{transactionNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjOrderMerchant">
+    update nj_order_merchant
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      merchant_no = #{merchantNo,jdbcType=VARCHAR},
+      merchant_name = #{merchantName,jdbcType=VARCHAR},
+      merchant_province = #{merchantProvince,jdbcType=VARCHAR},
+      merchant_city = #{merchantCity,jdbcType=VARCHAR},
+      merchant_county = #{merchantCounty,jdbcType=VARCHAR},
+      merchant_address = #{merchantAddress,jdbcType=VARCHAR},
+      consociation_date = #{consociationDate,jdbcType=TIMESTAMP},
+      transaction_no = #{transactionNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

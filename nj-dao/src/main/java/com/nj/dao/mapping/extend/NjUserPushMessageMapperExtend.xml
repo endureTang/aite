@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjUserPushMessageMapperExtend">
+  
+	<select id="selectListByUserId" resultType="com.nj.model.generate.NjUserPushMessage">
+		SELECT
+			id,
+			push_name,
+			receive_name,
+			push_date,
+			title,
+			CASE type WHEN 3 THEN '1' ELSE '0' END as type,
+			content
+		FROM
+			nj_user_push_message
+			<where>
+				<if test="userId != null and userId != ''">
+					receive_id = #{userId}
+				</if>
+			</where>
+		ORDER BY
+			push_date DESC
+	</select>
+	
+	<select id="selectById" resultType="java.util.Map">
+		SELECT
+			msg.title,
+			DATE_FORMAT(msg.push_date,'%Y-%m-%d %H:%i:%s') as pushDate,
+			msg.content,
+			msg.push_name pushName,
+			msg.receive_name receiveName ,
+			msg.type,
+			us.true_name nickName
+		FROM
+			nj_user_push_message msg
+		LEFT JOIN nj_app_user us ON msg.receive_id = us.id
+		where msg.id = #{id}
+	</select>
+	
+	<select id="selectUnreadMessage" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			nj_user_push_message
+		where is_read = 0 and receive_id = #{userId}
+	</select>
+	
+	<select id="selectLatelyMessage" resultType="java.lang.String">
+		SELECT
+			title
+		FROM
+			nj_user_push_message
+		WHERE
+			is_read = 0
+		AND receive_id = #{userId}
+		ORDER BY
+			push_date DESC
+		LIMIT 1
+	</select>
+	
+	<select id="updateUserMessageReadStatus">
+		UPDATE 
+			nj_user_push_message set is_read = 1
+		where receive_id = #{userId}
+	</select>
+</mapper>

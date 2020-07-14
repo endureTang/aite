@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <style>
+        [v-cloak] {
+            display: none !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        ul, li {
+            list-style: none;
+        }
+
+        body {
+            font-size: 14px;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        i, s, b, sub, sup {
+            font-style: normal;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .container {
+            width: 1000px;
+            margin: 10px auto;
+            border: 1px solid #eee;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 20px 30px;
+        }
+
+        .container > h1 {
+            font-size: 26px;
+            line-height: 40px;
+            margin: 15px 0;
+        }
+        .container > p span {
+            padding: 0 20px;
+            border-bottom: 1px solid #afafaf;
+        }
+        .container > p > i {
+            margin: 0 5px;
+        }
+        .container table {
+            width: 100%;
+            margin-top: 20px;
+        }
+        .container table.mt0 {
+            margin-top: 0;
+        }
+        .container table td {
+            border: 1px solid #afafaf;
+            line-height: 24px;
+            text-align: center;
+        }
+        .container table td.title {
+            text-align: center;
+        }
+        .container table td.fitment > label {
+            margin: 0 5px;
+        }
+        .container table td > label {
+            margin: 0 20px;
+        }
+        .container table td span {
+            padding: 0 20px;
+            border-bottom: 1px solid #afafaf;
+        }
+        .container table td p i {
+            margin-right: 20px;
+        }
+        .text-left {text-align: left!important;}
+        .text-right {text-align: right!important;}
+        .ml20{margin-left:20px}
+        .pl20{padding-left:20px}
+        .w5 {width:5%;}
+        .w10 {width:10%;}
+        .w20 {width:20%;}
+        .w30 {width:30%;}
+        .w40 {width:40%;}
+        .w50 {width:50%;}
+    </style>
+    <style media="print">
+        @page {
+            size: auto;  /* auto is the initial value */
+            margin: 0mm; /* this affects the margin in the printer settings */
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="baseInfo" v-cloak>
+    <h1 id="test" class="text-center">金鼎能贷业务调查表（房产）</h1>
+    <p class="text-center">
+        <i>公司名称: <span></span></i>
+        <i>申报部门: <span>{{businessSurveyInfo.department}}</span> 部</i>
+        <i>日期: <span>{{businessSurveyInfo.createTime | formatTime}}</span></i>
+        <i>编号: <span>{{businessSurveyInfo.businessNo}}</span></i>
+    </p>
+    <table :style="pageBreakAfter">
+        <!--借款人基本信息-->
+        <tr>
+            <td rowspan="7" class="title" style="width: 5%;">借款人基本信息</td>
+            <td class="w10" colspan="2"></td>
+            <td class="title w10" colspan="2">姓名</td>
+            <td class="title w10" colspan="2">电话</td>
+            <td class="title w10" colspan="2">身份证号码</td>
+        </tr>
+        <tr>
+            <td class="title" colspan="2">主借人</td>
+            <td colspan="2">{{baseInfo.name}}</td>
+            <td colspan="2">{{baseInfo.phone}}</td>
+            <td colspan="2">{{baseInfo.identity}}</td>
+        </tr>
+        <tr>
+            <td class="title" colspan="2">主借人配偶</td>
+            <td colspan="2">{{spouseInfo[0].relativeName}}</td>
+            <td colspan="2">{{spouseInfo[0].relativeMobile}}</td>
+            <td colspan="2">{{spouseInfo[0].idCardNum}}</td>
+        </tr>
+        <tr>
+            <td class="title" colspan="2">共借人</td>
+            <td colspan="2">{{businessSurveyInfo.togetherName}}</td>
+            <td colspan="2">{{businessSurveyInfo.togetherMobile}}</td>
+            <td colspan="2">{{businessSurveyInfo.togetherIdentity}}</td>
+        </tr>
+        <tr>
+            <td class="title" colspan="2">主借人常住地址</td>
+            <td colspan="6">{{baseInfo.address}}</td>
+        </tr>
+        <tr>
+            <td class="title" colspan="2">主借人工作单位及部门</td>
+            <td colspan="6">{{workInfo.department}}</td>
+        </tr>
+        <tr>
+            <td class="title" colspan="2">主借人职位</td>
+            <td colspan="2">{{workInfo.position}}</td>
+            <td colspan="2" class="title">单位联系电话</td>
+            <td colspan="2">{{workInfo.orgContact}}</td>
+        </tr>
+        <!--贷款要素-->
+        <tr>
+            <td rowspan="6">贷款要素</td>
+            <td class="title" colspan="2">贷款金额（元）</td>
+            <td colspan="2">{{applyInfo.amount}}</td>
+            <td colspan="2" class="title">贷款期限（月）</td>
+            <td colspan="2">{{applyInfo.period}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">产品类型</td>
+            <td colspan="6" class="text-left pl20">
+                <label v-for="item in productType">
+                    <input :checked="item.value == businessSurveyInfo.productType" type="radio" name="productType" :value="item.value">{{item.name}}
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">抵押物类型</td>
+            <td colspan="6" class="text-left pl20">
+                <label v-for="item in pawnType">
+                    <input :checked="item.value == businessSurveyInfo.pawnType" type="radio" name="pawnType" :value="item.value">{{item.name}}
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">抵押物区域</td>
+            <td colspan="6" class="text-left pl20">
+                <label v-for="item in pawnArea">
+                    <input :checked="item.value == businessSurveyInfo.pawnArea" type="radio" name="pawnArea" :value="item.value">{{item.name}}
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">还款方式及利率</td>
+            <td colspan="3" v-for="item in payType">
+                <label>
+                    <input :checked="item.value == businessSurveyInfo.repayWay" type="radio" name="payType" :value="item.value">{{item.name}}
+                </label>
+                月利率: <span><i v-show="item.value == businessSurveyInfo.repayWay">{{businessSurveyInfo.rating}}</i></span>%
+            </td>
+
+        </tr>
+        <tr>
+            <td colspan="2">贷款用途:</td>
+            <td colspan="3" v-for="item in borrowFor">
+                <label>
+                    <input :checked="item.value == businessSurveyInfo.loanType" type="radio" name="borrowFor" :value="item.value">{{item.name}}
+                </label>
+                {{item.value == 0 ? '用于' : '购买'}}: <span><i v-show="item.value == businessSurveyInfo.loanType">{{businessSurveyInfo.usageDesc}}</i></span>
+            </td>
+        </tr>
+        <!--借款人综合情况调查-->
+        <tr>
+            <td rowspan="32">借款人综合情况调查</td>
+            <td colspan="8" class="text-left pl20">1、抵押物情况（小区名称 <span>{{housePawnInfo.houseName}}</span> ）：</td>
+        </tr>
+        <tr>
+            <td colspan="2">地理位置</td>
+            <td colspan="6">{{housePawnInfo.address}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">所有权人</td>
+            <td colspan="1">{{housePawnInfo.owner}}</td>
+            <td colspan="1">权证号</td>
+            <td colspan="2">{{housePawnInfo.warrantNo}}</td>
+            <td>建筑面积(㎡)</td>
+            <td>{{housePawnInfo.coveredArea}}</td>
+        </tr>
+        <tr>
+            <td>首次登记日期</td>
+            <td>{{housePawnInfo.recordDate}}</td>
+            <td>房龄</td>
+            <td>{{housePawnInfo.houseAge}}</td>
+            <td>装修情况</td>
+            <td class="fitment" colspan="3">
+                <label v-for="item in fitmentStatus">
+                    <input :checked="item.value == housePawnInfo.fitmentStatus" type="radio" name="fitmentStatus" :value="item.value">{{item.name}}
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">抵押情况</td>
+            <td colspan="6" class="text-left">
+                <label v-for="item in pawnStatus">
+                    <input :checked="item.value == housePawnInfo.pawnStatus" type="radio" name="pawnStatus" :value="item.value">{{item.name}} <span v-show="item.value == 1">{{housePawnInfo.pawnBank}}</span>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">唯一住房情况</td>
+            <td colspan="6" class="text-left">
+                <label v-for="item in isOnly">
+                    <input :checked="item.value == housePawnInfo.isOnly" type="radio" name="isOnly" :value="item.value">{{item.name}}
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8">评估价值及贷款额度计算（单位：元）</td>
+        </tr>
+        <tr>
+            <td colspan="2">网站1名称：<span>{{housePawnInfo.webOneName}}</span></td>
+            <td colspan="2">网站2名称：<span>{{housePawnInfo.webTwoName}}</span></td>
+            <td colspan="2">网站3名称：<span>{{housePawnInfo.webThreeName}}</span></td>
+            <td colspan="2">评估公司名称：<span>{{housePawnInfo.companyName}}</span></td>
+        </tr>
+        <tr>
+            <td colspan="2">网站1价格：<span>{{housePawnInfo.webOnePrice}}</span></td>
+            <td colspan="2">网站2价格：<span>{{housePawnInfo.webTwoPrice}}</span></td>
+            <td colspan="2">网站3价格：<span>{{housePawnInfo.webThreePrice}}</span></td>
+            <td>价格</td>
+            <td>{{housePawnInfo.companyPrice}}</td>
+        </tr>
+        <tr>
+            <td>抵押物认定价格</td>
+            <td>{{housePawnInfo.cognizancePrice}}</td>
+            <td>抵押成数</td>
+            <td>{{housePawnInfo.mortgageNo}}</td>
+            <td>房贷余额</td>
+            <td>{{housePawnInfo.loanBalance}}</td>
+            <td>可贷额度</td>
+            <td>{{housePawnInfo.loanQuta}}</td>
+        </tr>
+        <tr>
+            <td colspan="8" class="text-left pl20">备注：1）抵押物认定价格为网评均值*0.9或评估公司估值；2）可贷额度=认定价值*抵押类型成数-房贷余额；</td>
+        </tr>
+        <tr>
+            <td colspan="8" class="text-left pl20">2、征信情况：</td>
+        </tr>
+        <tr>
+            <td rowspan="3">主借人</td>
+            <td>贷款</td>
+            <td colspan="6" class="text-left pl20">近两年连续逾期 <span>{{businessSurveyInfo.overdue | showLine}}</span>次，累计逾期 <span>{{businessSurveyInfo.overdueTotal | showLine}}</span> 次</td>
+        </tr>
+        <tr>
+            <td>信用卡</td>
+            <td colspan="6" class="text-left pl20">近两年连续逾期 <span>{{businessSurveyInfo.creditOverdue | showLine}}</span> 次，累计逾期<span>{{businessSurveyInfo.creditOverdueTotal | showLine}}</span> 次</td>
+        </tr>
+        <tr>
+            <td>综述</td>
+            <td colspan="6" class="text-left pl20">
+                <label v-for="item in userReview">
+                    <input :checked="item.value == businessSurveyInfo.userReview" type="radio" name="userReview" :value="item.value">{{item.name}}
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="3">共借人</td>
+            <td>贷款</td>
+            <td colspan="6" class="text-left pl20">近两年连续逾期 <span>{{businessSurveyInfo.togetherOverdue | showLine}}</span>次，累计逾期 <span>{{businessSurveyInfo.togetherOverdueTotal | showLine}}</span> 次</td>
+        </tr>
+        <tr>
+            <td>信用卡</td>
+            <td colspan="6" class="text-left pl20">近两年连续逾期 <span>{{businessSurveyInfo.togetherCreditOverdue | showLine}}</span> 次，累计逾期<span>{{businessSurveyInfo.togetherCreditOverdueTotal | showLine}}</span> 次</td>
+        </tr>
+        <tr>
+            <td>综述</td>
+            <td colspan="6" class="text-left pl20">
+                <label v-for="item in userTogetherReview">
+                    <input :checked="item.value == businessSurveyInfo.userTogetherReview" type="radio" name="userTogetherReview" :value="item.value">{{item.name}}
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" class="text-left pl20">3、涉诉查询情况：</td>
+        </tr>
+        <tr>
+            <td colspan="2">被执行人网查询</td>
+            <td colspan="2" class="text-left pl20">
+                <label v-for="item in netQuery">
+                    <input :checked="item.value == businessSurveyInfo.netQuery" type="radio" name="netQuery" :value="item.value">{{item.name}}
+                </label>
+            </td>
+            <td colspan="2">失信被执行人网查询</td>
+            <td colspan="2" class="text-left pl20">
+                <label v-for="item in creditNetQuery">
+                    <input :checked="item.value == businessSurveyInfo.creditNetQuery" type="radio" name="creditNetQuery" :value="item.value">{{item.name}}
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8" class="text-left pl20">4、家庭情况：</td>
+        </tr>
+        <tr>
+            <td>婚姻状况</td>
+            <td>{{businessSurveyInfo.marrStatus}}</td>
+            <td>婚姻年限</td>
+            <td>{{businessSurveyInfo.marrYear}}</td>
+            <td>是否有子女</td>
+            <td>{{businessSurveyInfo.haveChildren | haveChildren}}</td>
+            <td>赡养人口</td>
+            <td>{{businessSurveyInfo.supportNumber}}</td>
+        </tr>
+        <tr>
+            <td colspan="8" class="text-left pl20">5、家庭负债情况（单位：元）</td>
+        </tr>
+        <tr>
+            <td colspan="3">当前负债总额 <br>含（信用卡、贷款等）</td>
+            <td>{{businessSurveyInfo.familyDebt | showLine}}</td>
+            <td colspan="3">月还款额</td>
+            <td>{{businessSurveyInfo.monthRepay | showLine}}</td>
+        </tr>
+        <tr>
+            <td colspan="8" class="text-left pl20">6、家庭资产情况（单位：元）</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>房产1</td>
+            <td>房产2</td>
+            <td>汽车</td>
+            <td>股票</td>
+            <td>理财</td>
+            <td>其它</td>
+            <td>合计</td>
+        </tr>
+        <tr>
+            <td>价值</td>
+            <td>{{businessSurveyInfo.houseOnePrice | showLine}}</td>
+            <td>{{businessSurveyInfo.houseTwoPrice | showLine}}</td>
+            <td>{{businessSurveyInfo.carPrice | showLine}}</td>
+            <td>{{businessSurveyInfo.stockPrice | showLine}}</td>
+            <td>{{businessSurveyInfo.financialPrice | showLine}}</td>
+            <td>{{businessSurveyInfo.otherPrice | showLine}}</td>
+            <td>{{businessSurveyInfo.houseOnePrice | totalMoney(
+                businessSurveyInfo.houseTwoPrice,
+                businessSurveyInfo.carPrice,
+                businessSurveyInfo.stockPrice,
+                businessSurveyInfo.financialPrice,
+                businessSurveyInfo.otherPrice
+                )}}</td>
+        </tr>
+        <tr>
+            <td colspan="8" class="text-left pl20">7、借款人及共借人银行账户近六个月流水：（提供主要结算银行流水）</td>
+        </tr>
+        <tr>
+            <td colspan="3">贷方合计</td>
+            <td>{{businessSurveyInfo.bankDetail | showLine}}</td>
+            <td colspan="3">月均</td>
+            <td>{{businessSurveyInfo.bankDetail | monthAvg}}</td>
+        </tr>
+        <tr>
+            <td colspan="8" class="text-left pl20">8、第一还款来源：</td>
+        </tr>
+        <tr>
+            <td>月工资收入</td>
+            <td>月经营收入</td>
+            <td>月租金收入</td>
+            <td>月其他收入</td>
+            <td colspan="4">家庭月收入合计</td>
+        </tr>
+        <tr>
+            <td>{{businessSurveyInfo.monthIncome | showLine}}</td>
+            <td>{{businessSurveyInfo.manageIncome | showLine}}</td>
+            <td>{{businessSurveyInfo.rentIncome | showLine}}</td>
+            <td>{{businessSurveyInfo.otherIncome | showLine}}</td>
+            <td colspan="4">{{businessSurveyInfo.monthIncome | totalMoney(businessSurveyInfo.manageIncome,businessSurveyInfo.rentIncome,businessSurveyInfo.otherIncome)}}</td>
+        </tr>
+    </table>
+    <table>
+        <!--业务部-->
+        <tr v-show="processInfo.length != 0">
+            <td rowspan="3">业务部</td>
+        </tr>
+        <tr v-for="item in processInfo" v-if="item.processId == 21 || item.processId == 5">
+            <td colspan="8" style="padding: 5px 0;">
+                <p class="pl20 text-left">{{item.processId == 21 ? '调查结论' : '部门负责人意见'}}: <span>{{item.updateReason}}</span></p>
+                <p class="pl20 text-left">
+                    <i>额度: <span>{{item.auditAmount}}</span>元,</i>
+                    <i>期限: <span>{{item.auditPeriod}}</span>月,</i>
+                    <i>月利率: <span>{{item.auditMonthRate | monthRating}}</span>%,</i>
+                    <i>还款方式: <span>{{item.repayWay | repayWay}}</span></i>
+                </p>
+                <p class="text-right" v-show="item.processId == 21">
+                    <i>主办: <span>{{item.userName}}</span></i>
+                    <i>协办: <span></span></i>
+                    <i>日期: <span>{{item.updateDate}}</span></i>
+                </p>
+                <p class="text-right" v-show="item.processId == 5">
+                    <i>签名: <span> </span></i>
+                    <i>日期: <span>{{item.updateDate}}</span></i>
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<script src="./static/js/util.js"></script>
+<script src="./static/plugins/vue/vue.js"></script>
+<script src="./static/js/jQuery-1.9.1.min.js"></script>
+<script src="./static/js/myOrderCommon.js"></script>
+<script>
+    var investigate = {
+        init: function () {
+            this.newVue();
+            this.getData();
+        },
+        vm: {},
+        newVue: function () {
+            var _this = this;
+            this.vm = new Vue({
+                el: '#baseInfo',
+                data: {
+                    productType : [
+                        {name:'一抵产品',value:'1'},
+                        {name:'二抵产品',value:'2'}
+                    ],
+                    pawnType : [
+                        {name:'一类房产',value:'0'},
+                        {name:'二类房产',value:'1'},
+                        {name:'三类房产',value:'2'}
+                    ],
+                    pawnArea : [
+                        {name:'一类区域',value:'0'},
+                        {name:'二类区域',value:'1'},
+                        {name:'三类区域',value:'2'}
+                    ],
+                    payType : [
+                        {name:'等本等息',value:'10101'},
+                        {name:'先息后本',value:'10110'}
+                    ],
+                    repayWay : [],
+                    borrowFor : [
+                        {name:'个人经营性贷款',value:'0'},
+                        {name:'个人消费贷款',value:'1'}
+                    ],
+                    fitmentStatus : [
+                        {name:'精装',value:'0'},
+                        {name:'简装',value:'1'},
+                        {name:'清水',value:'2'},
+                        {name:'其他',value:'3'}
+                    ],
+                    pawnStatus : [
+                        {name:'未办理抵押',value:'0'},
+                        {name:'已办理抵押，抵押银行',value:'1'}
+                    ],
+                    isOnly : [
+                        {name:'否',value:'0'},
+                        {name:'是',value:'1'}
+                    ],
+                    userReview : [
+                        {name:'A类',value:'0'},
+                        {name:'B类',value:'1'},
+                        {name:'C类',value:'2'}
+                    ],
+                    userTogetherReview : [
+                        {name:'A类',value:'0'},
+                        {name:'B类',value:'1'},
+                        {name:'C类',value:'2'}
+                    ],
+                    netQuery : [
+                        {name:'否',value:'0'},
+                        {name:'是',value:'1'}
+                    ],
+                    creditNetQuery : [
+                        {name:'否',value:'0'},
+                        {name:'是',value:'1'}
+                    ],
+                    haveChildren : [
+                        {name:'是',value:'1'},
+                        {name:'否',value:'0'}
+                    ],
+                    applyInfo : {},
+                    baseInfo : {},
+                    workInfo : {},
+                    housePawnInfo : {},
+                    businessSurveyInfo : {},
+                    manageInfo : [{}],
+                    spouseInfo : [{}],
+                    processInfo : [],
+                },
+                computed: {
+                    pageBreakAfter : function () {
+                        return {
+                            pageBreakAfter : this.processInfo.length != 0 ? 'always' : 'auto'
+                        }
+                    }
+                },
+                filters : {
+                    formatTime : function (time) {
+                        if (time) {
+                            var date = new Date(time);
+                            return date.getFullYear() + '-' + (preZero(date.getMonth() + 1)) + '-' + preZero(date.getDate()) + ' ' + preZero(date.getHours()) + ':' + preZero(date.getMinutes()) + ':' + preZero(date.getSeconds());
+                        }
+                        function preZero(num) {
+                            num = '' + num;
+                            return num.length == 1 ? '0' + num : num;
+                        }
+                    },
+                    // 贷方合计(银行流水)的月均
+                    monthAvg : function (value) {
+                        if(value){
+                            return Number(value).div(6).toFixed(3);
+                        }else {
+                            return '';
+                        }
+                    },
+                    // 是否有子女
+                    haveChildren : function (value) {
+                        try {
+                            for (var i = 0; i < _this.vm.haveChildren.length; i++) {
+                                var hasChild = _this.vm.haveChildren[i];
+                                if(value == hasChild.value){
+                                    return hasChild.name;
+                                }
+                            }
+                        }catch (e) {
+                        }
+                    },
+                    monthRating : function (value) {
+                        return Number(value).div(12).toFixed(6);
+                    },
+                    // 合计
+                    totalMoney : function () {
+                        var money = 0;
+                        for (var i = 0; i < arguments.length; i++) {
+                            var argument = arguments[i] == '' || arguments[i] == undefined ? 0 : Number(arguments[i]);
+                            money += argument;
+                        }
+                        return money;
+                    },
+                    // 还款方式
+                    repayWay : function (value) {
+                        try {
+                            for (var i = 0; i < _this.vm.repayWay.length; i++) {
+                                var repayWay = _this.vm.repayWay[i];
+                                if(value == repayWay.value){
+                                    return repayWay.text;
+                                }
+                            }
+                        }catch (e) {
+                        }
+                    },
+                    // 为0显示/
+                    showLine : function (value) {
+                        return value == 0 ? '/' : value;
+                    }
+                },
+                updated : function () {
+                    window.print();
+                }
+            })
+        },
+        getData: function (cb) {
+            var _this = this;
+            $.ajax({
+                url: util.getServerUrl('/loanOrder/getBusinessSurvey'),
+                // url: 'http://127.0.0.1:8080/nj-enterprise-web/loanOrder/getBusinessSurvey',
+                method: 'POST',
+                data: {orderId: _this.getQueryString('orderId')},
+                success: function (res) {
+                    if (res.status == 0) {
+                        _this.vm.applyInfo = res.data.applyInfo;
+                        _this.vm.businessSurveyInfo = res.data.businessSurveyInfo;
+                        _this.vm.manageInfo = res.data.manageInfo;
+                        _this.vm.baseInfo = res.data.baseInfo;
+                        _this.vm.repayWay = res.data.repayWayInfo;
+                        _this.vm.housePawnInfo = res.data.housePawnInfo == ''?_this.vm.housePawnInfo : res.data.housePawnInfo;
+                        _this.vm.workInfo = res.data.workInfo;
+                        _this.vm.spouseInfo = res.data.spouseInfo.length ==0?_this.vm.spouseInfo:res.data.spouseInfo;
+                        _this.vm.processInfo = res.data.processInfo;
+                        _this.vm.productPeriodInfo = res.data.productPeriodInfo;
+                        cb&&cb();
+                    } else {
+                        alert('获取数据出错')
+                    }
+                },
+                error: function (error) {
+                    alert(error)
+                }
+            })
+        },
+        getQueryString: function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return r[2];
+            return '';
+        }
+    }
+    $(function () {
+        investigate.init();
+    })
+</script>
+</html>

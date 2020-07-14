@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjOrderAttachmentMapperExtend">
+  
+  <delete id="deleteAttach" parameterType="java.util.Map">
+   	delete from nj_order_attachment  WHERE order_id = #{orderId} and attach_id = #{attachId}
+  </delete>
+</mapper>

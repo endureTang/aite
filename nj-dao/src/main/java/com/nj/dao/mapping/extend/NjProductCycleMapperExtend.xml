@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjProductCycleMapperExtend">
+
+  <!-- 根据产品id删除借贷信息 -->
+  <delete id="deleteByProductId" parameterType="java.lang.String">
+  	delete from nj_product_cycle where product_id = #{productId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 根据产品ID获取产品贷款期数 -->
+  <select id="getByProductId" parameterType="java.lang.String" resultType="com.nj.model.generate.SysDict">
+  	SELECT
+		dict.id,
+		dict.`value`,
+		dict.label_text
+	FROM
+		nj_product_cycle prod LEFT JOIN sys_dict dict ON prod.sys_id = dict.id
+	WHERE
+		prod.product_id = #{productId}
+	ORDER BY dict.sort ASC
+  </select>
+  
+  <!-- 根据数据字典贷款期数ID获取产品贷款期数 -->
+  <select id="getBySysCycleId" resultType="com.nj.model.generate.NjProductCycle">
+  	SELECT
+		prod.*
+	FROM
+		nj_product_cycle prod LEFT JOIN sys_dict dict ON prod.sys_id = dict.id
+	WHERE prod.sys_id = #{cycleId} and prod.product_id = #{productId}
+  </select>
+</mapper>

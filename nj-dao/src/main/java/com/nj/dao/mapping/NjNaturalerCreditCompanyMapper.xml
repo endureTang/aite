@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjNaturalerCreditCompanyMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjNaturalerCreditCompany">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="xykzhs" jdbcType="VARCHAR" property="xykzhs" />
+    <result column="xykwjqwxhzhs" jdbcType="VARCHAR" property="xykwjqwxhzhs" />
+    <result column="xykfsgyqzhs" jdbcType="VARCHAR" property="xykfsgyqzhs" />
+    <result column="xykfsg90tysyqdzhs" jdbcType="VARCHAR" property="xykfsg90tysyqdzhs" />
+    <result column="fdzhs" jdbcType="VARCHAR" property="fdzhs" />
+    <result column="fdwjqwxhzhs" jdbcType="VARCHAR" property="fdwjqwxhzhs" />
+    <result column="fdfsgyqzhs" jdbcType="VARCHAR" property="fdfsgyqzhs" />
+    <result column="fdfsg90tysyqdzhs" jdbcType="VARCHAR" property="fdfsg90tysyqdzhs" />
+    <result column="qtdkzhs" jdbcType="VARCHAR" property="qtdkzhs" />
+    <result column="qtdkwjqwxhzhs" jdbcType="VARCHAR" property="qtdkwjqwxhzhs" />
+    <result column="qtdkfsgyqzhs" jdbcType="VARCHAR" property="qtdkfsgyqzhs" />
+    <result column="qtdkfsg90tysyqdzhs" jdbcType="VARCHAR" property="qtdkfsg90tysyqdzhs" />
+    <result column="j3gygrcxcs" jdbcType="VARCHAR" property="j3gygrcxcs" />
+    <result column="j3gyjgcxcs" jdbcType="VARCHAR" property="j3gyjgcxcs" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, xykzhs, xykwjqwxhzhs, xykfsgyqzhs, xykfsg90tysyqdzhs, fdzhs, fdwjqwxhzhs, 
+    fdfsgyqzhs, fdfsg90tysyqdzhs, qtdkzhs, qtdkwjqwxhzhs, qtdkfsgyqzhs, qtdkfsg90tysyqdzhs, 
+    j3gygrcxcs, j3gyjgcxcs
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjNaturalerCreditCompanyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_naturaler_credit_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_naturaler_credit_company
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_naturaler_credit_company
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjNaturalerCreditCompanyExample">
+    delete from nj_naturaler_credit_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjNaturalerCreditCompany">
+    insert into nj_naturaler_credit_company (id, order_id, xykzhs, 
+      xykwjqwxhzhs, xykfsgyqzhs, xykfsg90tysyqdzhs, 
+      fdzhs, fdwjqwxhzhs, fdfsgyqzhs, 
+      fdfsg90tysyqdzhs, qtdkzhs, qtdkwjqwxhzhs, 
+      qtdkfsgyqzhs, qtdkfsg90tysyqdzhs, j3gygrcxcs, 
+      j3gyjgcxcs)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{xykzhs,jdbcType=VARCHAR}, 
+      #{xykwjqwxhzhs,jdbcType=VARCHAR}, #{xykfsgyqzhs,jdbcType=VARCHAR}, #{xykfsg90tysyqdzhs,jdbcType=VARCHAR}, 
+      #{fdzhs,jdbcType=VARCHAR}, #{fdwjqwxhzhs,jdbcType=VARCHAR}, #{fdfsgyqzhs,jdbcType=VARCHAR}, 
+      #{fdfsg90tysyqdzhs,jdbcType=VARCHAR}, #{qtdkzhs,jdbcType=VARCHAR}, #{qtdkwjqwxhzhs,jdbcType=VARCHAR}, 
+      #{qtdkfsgyqzhs,jdbcType=VARCHAR}, #{qtdkfsg90tysyqdzhs,jdbcType=VARCHAR}, #{j3gygrcxcs,jdbcType=VARCHAR}, 
+      #{j3gyjgcxcs,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjNaturalerCreditCompany">
+    insert into nj_naturaler_credit_company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="xykzhs != null">
+        xykzhs,
+      </if>
+      <if test="xykwjqwxhzhs != null">
+        xykwjqwxhzhs,
+      </if>
+      <if test="xykfsgyqzhs != null">
+        xykfsgyqzhs,
+      </if>
+      <if test="xykfsg90tysyqdzhs != null">
+        xykfsg90tysyqdzhs,
+      </if>
+      <if test="fdzhs != null">
+        fdzhs,
+      </if>
+      <if test="fdwjqwxhzhs != null">
+        fdwjqwxhzhs,
+      </if>
+      <if test="fdfsgyqzhs != null">
+        fdfsgyqzhs,
+      </if>
+      <if test="fdfsg90tysyqdzhs != null">
+        fdfsg90tysyqdzhs,
+      </if>
+      <if test="qtdkzhs != null">
+        qtdkzhs,
+      </if>
+      <if test="qtdkwjqwxhzhs != null">
+        qtdkwjqwxhzhs,
+      </if>
+      <if test="qtdkfsgyqzhs != null">
+        qtdkfsgyqzhs,
+      </if>
+      <if test="qtdkfsg90tysyqdzhs != null">
+        qtdkfsg90tysyqdzhs,
+      </if>
+      <if test="j3gygrcxcs != null">
+        j3gygrcxcs,
+      </if>
+      <if test="j3gyjgcxcs != null">
+        j3gyjgcxcs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="xykzhs != null">
+        #{xykzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="xykwjqwxhzhs != null">
+        #{xykwjqwxhzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="xykfsgyqzhs != null">
+        #{xykfsgyqzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="xykfsg90tysyqdzhs != null">
+        #{xykfsg90tysyqdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="fdzhs != null">
+        #{fdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="fdwjqwxhzhs != null">
+        #{fdwjqwxhzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="fdfsgyqzhs != null">
+        #{fdfsgyqzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="fdfsg90tysyqdzhs != null">
+        #{fdfsg90tysyqdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="qtdkzhs != null">
+        #{qtdkzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="qtdkwjqwxhzhs != null">
+        #{qtdkwjqwxhzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="qtdkfsgyqzhs != null">
+        #{qtdkfsgyqzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="qtdkfsg90tysyqdzhs != null">
+        #{qtdkfsg90tysyqdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="j3gygrcxcs != null">
+        #{j3gygrcxcs,jdbcType=VARCHAR},
+      </if>
+      <if test="j3gyjgcxcs != null">
+        #{j3gyjgcxcs,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjNaturalerCreditCompanyExample" resultType="java.lang.Integer">
+    select count(*) from nj_naturaler_credit_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_naturaler_credit_company
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xykzhs != null">
+        xykzhs = #{record.xykzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xykwjqwxhzhs != null">
+        xykwjqwxhzhs = #{record.xykwjqwxhzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xykfsgyqzhs != null">
+        xykfsgyqzhs = #{record.xykfsgyqzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xykfsg90tysyqdzhs != null">
+        xykfsg90tysyqdzhs = #{record.xykfsg90tysyqdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fdzhs != null">
+        fdzhs = #{record.fdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fdwjqwxhzhs != null">
+        fdwjqwxhzhs = #{record.fdwjqwxhzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fdfsgyqzhs != null">
+        fdfsgyqzhs = #{record.fdfsgyqzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fdfsg90tysyqdzhs != null">
+        fdfsg90tysyqdzhs = #{record.fdfsg90tysyqdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qtdkzhs != null">
+        qtdkzhs = #{record.qtdkzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qtdkwjqwxhzhs != null">
+        qtdkwjqwxhzhs = #{record.qtdkwjqwxhzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qtdkfsgyqzhs != null">
+        qtdkfsgyqzhs = #{record.qtdkfsgyqzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qtdkfsg90tysyqdzhs != null">
+        qtdkfsg90tysyqdzhs = #{record.qtdkfsg90tysyqdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.j3gygrcxcs != null">
+        j3gygrcxcs = #{record.j3gygrcxcs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.j3gyjgcxcs != null">
+        j3gyjgcxcs = #{record.j3gyjgcxcs,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_naturaler_credit_company
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      xykzhs = #{record.xykzhs,jdbcType=VARCHAR},
+      xykwjqwxhzhs = #{record.xykwjqwxhzhs,jdbcType=VARCHAR},
+      xykfsgyqzhs = #{record.xykfsgyqzhs,jdbcType=VARCHAR},
+      xykfsg90tysyqdzhs = #{record.xykfsg90tysyqdzhs,jdbcType=VARCHAR},
+      fdzhs = #{record.fdzhs,jdbcType=VARCHAR},
+      fdwjqwxhzhs = #{record.fdwjqwxhzhs,jdbcType=VARCHAR},
+      fdfsgyqzhs = #{record.fdfsgyqzhs,jdbcType=VARCHAR},
+      fdfsg90tysyqdzhs = #{record.fdfsg90tysyqdzhs,jdbcType=VARCHAR},
+      qtdkzhs = #{record.qtdkzhs,jdbcType=VARCHAR},
+      qtdkwjqwxhzhs = #{record.qtdkwjqwxhzhs,jdbcType=VARCHAR},
+      qtdkfsgyqzhs = #{record.qtdkfsgyqzhs,jdbcType=VARCHAR},
+      qtdkfsg90tysyqdzhs = #{record.qtdkfsg90tysyqdzhs,jdbcType=VARCHAR},
+      j3gygrcxcs = #{record.j3gygrcxcs,jdbcType=VARCHAR},
+      j3gyjgcxcs = #{record.j3gyjgcxcs,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjNaturalerCreditCompany">
+    update nj_naturaler_credit_company
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="xykzhs != null">
+        xykzhs = #{xykzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="xykwjqwxhzhs != null">
+        xykwjqwxhzhs = #{xykwjqwxhzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="xykfsgyqzhs != null">
+        xykfsgyqzhs = #{xykfsgyqzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="xykfsg90tysyqdzhs != null">
+        xykfsg90tysyqdzhs = #{xykfsg90tysyqdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="fdzhs != null">
+        fdzhs = #{fdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="fdwjqwxhzhs != null">
+        fdwjqwxhzhs = #{fdwjqwxhzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="fdfsgyqzhs != null">
+        fdfsgyqzhs = #{fdfsgyqzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="fdfsg90tysyqdzhs != null">
+        fdfsg90tysyqdzhs = #{fdfsg90tysyqdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="qtdkzhs != null">
+        qtdkzhs = #{qtdkzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="qtdkwjqwxhzhs != null">
+        qtdkwjqwxhzhs = #{qtdkwjqwxhzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="qtdkfsgyqzhs != null">
+        qtdkfsgyqzhs = #{qtdkfsgyqzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="qtdkfsg90tysyqdzhs != null">
+        qtdkfsg90tysyqdzhs = #{qtdkfsg90tysyqdzhs,jdbcType=VARCHAR},
+      </if>
+      <if test="j3gygrcxcs != null">
+        j3gygrcxcs = #{j3gygrcxcs,jdbcType=VARCHAR},
+      </if>
+      <if test="j3gyjgcxcs != null">
+        j3gyjgcxcs = #{j3gyjgcxcs,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjNaturalerCreditCompany">
+    update nj_naturaler_credit_company
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      xykzhs = #{xykzhs,jdbcType=VARCHAR},
+      xykwjqwxhzhs = #{xykwjqwxhzhs,jdbcType=VARCHAR},
+      xykfsgyqzhs = #{xykfsgyqzhs,jdbcType=VARCHAR},
+      xykfsg90tysyqdzhs = #{xykfsg90tysyqdzhs,jdbcType=VARCHAR},
+      fdzhs = #{fdzhs,jdbcType=VARCHAR},
+      fdwjqwxhzhs = #{fdwjqwxhzhs,jdbcType=VARCHAR},
+      fdfsgyqzhs = #{fdfsgyqzhs,jdbcType=VARCHAR},
+      fdfsg90tysyqdzhs = #{fdfsg90tysyqdzhs,jdbcType=VARCHAR},
+      qtdkzhs = #{qtdkzhs,jdbcType=VARCHAR},
+      qtdkwjqwxhzhs = #{qtdkwjqwxhzhs,jdbcType=VARCHAR},
+      qtdkfsgyqzhs = #{qtdkfsgyqzhs,jdbcType=VARCHAR},
+      qtdkfsg90tysyqdzhs = #{qtdkfsg90tysyqdzhs,jdbcType=VARCHAR},
+      j3gygrcxcs = #{j3gygrcxcs,jdbcType=VARCHAR},
+      j3gyjgcxcs = #{j3gyjgcxcs,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

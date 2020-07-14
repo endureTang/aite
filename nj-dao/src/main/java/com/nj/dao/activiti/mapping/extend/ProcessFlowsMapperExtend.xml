@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.activiti.mapper.extend.ProcessFlowsMapperExtend">
+
+	<select id="getLinkByProcessId" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT 
+			pf.id id,
+			pf.sourceref sourceref,
+			pf.targetref targetref,
+			pn1.node_name sourcename,
+			pn2.node_name targetname,
+			pf.temp_condition tempCondition
+		FROM
+		 	process_flows pf,
+		  	process_node pn1,
+		  	process_node pn2
+		WHERE 
+			pf.sourceref = pn1.node_key
+			and pf.targetref = pn2.node_key
+			and pf.process_id = #{processId,jdbcType=VARCHAR}
+			order by id
+	</select>
+	
+	<select id="getProductProcessSysVar" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT DISTINCT 
+			pc.`var` var 
+		FROM 
+			process_flows pf,process_condition pc
+		WHERE pf.`process_id`=#{processId,jdbcType=VARCHAR}
+			AND pf.id=pc.`process_flows_id`
+	</select>
+	
+	<select id="getListByTaskinsidOut" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT 
+			pf.id id,
+			pf.`flow_key` flowkey,
+			pf.`flow_name` name,
+			pf.`sourceref` sourceref,
+			pf.`targetref` targetref,
+			pf.`temp_condition` tempcondition
+		FROM 
+			act_ru_task art,process_flows pf
+		WHERE 
+			art.`ID_`=#{taskinsid,jdbcType=VARCHAR}
+			AND art.`TASK_DEF_KEY_`=pf.`sourceref`
+	</select>
+	
+	<select id="getListById" parameterType="java.util.List" resultType="com.nj.model.activiti.base.ProcessFlows">
+		select * from process_flows
+		where id in
+		<foreach collection="idList" open="(" close=")" separator="," item="id">
+			#{id,jdbcType=VARCHAR}
+		</foreach>
+	</select>
+</mapper>

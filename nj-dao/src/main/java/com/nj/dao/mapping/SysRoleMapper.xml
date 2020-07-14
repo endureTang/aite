@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.SysRoleMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.SysRole">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="office_id" jdbcType="VARCHAR" property="officeId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="enname" jdbcType="VARCHAR" property="enname" />
+    <result column="role_type" jdbcType="VARCHAR" property="roleType" />
+    <result column="data_scope" jdbcType="CHAR" property="dataScope" />
+    <result column="is_sys" jdbcType="VARCHAR" property="isSys" />
+    <result column="useable" jdbcType="VARCHAR" property="useable" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, type, office_id, name, enname, role_type, data_scope, is_sys, useable, create_by, 
+    create_date, update_by, update_date, remarks, del_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.SysRoleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_role
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_role
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.SysRoleExample">
+    delete from sys_role
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.SysRole">
+    insert into sys_role (id, type, office_id, 
+      name, enname, role_type, 
+      data_scope, is_sys, useable, 
+      create_by, create_date, update_by, 
+      update_date, remarks, del_flag
+      )
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{officeId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{enname,jdbcType=VARCHAR}, #{roleType,jdbcType=VARCHAR}, 
+      #{dataScope,jdbcType=CHAR}, #{isSys,jdbcType=VARCHAR}, #{useable,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.SysRole">
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="officeId != null">
+        office_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="enname != null">
+        enname,
+      </if>
+      <if test="roleType != null">
+        role_type,
+      </if>
+      <if test="dataScope != null">
+        data_scope,
+      </if>
+      <if test="isSys != null">
+        is_sys,
+      </if>
+      <if test="useable != null">
+        useable,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="officeId != null">
+        #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enname != null">
+        #{enname,jdbcType=VARCHAR},
+      </if>
+      <if test="roleType != null">
+        #{roleType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataScope != null">
+        #{dataScope,jdbcType=CHAR},
+      </if>
+      <if test="isSys != null">
+        #{isSys,jdbcType=VARCHAR},
+      </if>
+      <if test="useable != null">
+        #{useable,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.SysRoleExample" resultType="java.lang.Long">
+    select count(*) from sys_role
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_role
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.officeId != null">
+        office_id = #{record.officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enname != null">
+        enname = #{record.enname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleType != null">
+        role_type = #{record.roleType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataScope != null">
+        data_scope = #{record.dataScope,jdbcType=CHAR},
+      </if>
+      <if test="record.isSys != null">
+        is_sys = #{record.isSys,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useable != null">
+        useable = #{record.useable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_role
+    set id = #{record.id,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      office_id = #{record.officeId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      enname = #{record.enname,jdbcType=VARCHAR},
+      role_type = #{record.roleType,jdbcType=VARCHAR},
+      data_scope = #{record.dataScope,jdbcType=CHAR},
+      is_sys = #{record.isSys,jdbcType=VARCHAR},
+      useable = #{record.useable,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.SysRole">
+    update sys_role
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="officeId != null">
+        office_id = #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="enname != null">
+        enname = #{enname,jdbcType=VARCHAR},
+      </if>
+      <if test="roleType != null">
+        role_type = #{roleType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataScope != null">
+        data_scope = #{dataScope,jdbcType=CHAR},
+      </if>
+      <if test="isSys != null">
+        is_sys = #{isSys,jdbcType=VARCHAR},
+      </if>
+      <if test="useable != null">
+        useable = #{useable,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.SysRole">
+    update sys_role
+    set type = #{type,jdbcType=INTEGER},
+      office_id = #{officeId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      enname = #{enname,jdbcType=VARCHAR},
+      role_type = #{roleType,jdbcType=VARCHAR},
+      data_scope = #{dataScope,jdbcType=CHAR},
+      is_sys = #{isSys,jdbcType=VARCHAR},
+      useable = #{useable,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+	<select id="selectRoleList" parameterType="java.util.Map"  resultType="java.util.HashMap">
+		SELECT
+			sr.id  as  id,
+			sr.type  as  type,
+			sr.office_id as officeId,
+			sr.name  as  name,
+			sr.enname  as  enname,
+			sr.role_type as roleType,
+			sr.data_scope as dataScope,
+			sr.is_sys AS isSys,
+			sr.useable  as useable ,
+			sr.create_by as createBy,
+			sr.create_date  as createDate,
+			sr.update_by  as  updateBy,
+			sr.update_date  as  updateDate,
+			sr.remarks  as  remarks,
+			sr.del_flag  as  delFlag,
+			nc.compan_name  as  companName
+		FROM
+			sys_role sr
+		left  join nj_coporate  nc  on  nc.id = sr.office_id
+		where  sr.del_flag=0
+		<if test="name != null">
+			and (sr.name  like  "%"#{name,jdbcType=VARCHAR}"%"   or  sr.role_type  like "%"#{name,jdbcType=VARCHAR}"%")
+		</if>
+		<if test="coporateId != null">
+			and nc.id = #{coporateId,jdbcType=VARCHAR}
+		</if>
+		<if test="type != null">
+			and sr.type = #{type,jdbcType=VARCHAR}
+		</if>
+		order by  sr.create_date desc  limit #{start},#{length}
+	</select>
+	
+	
+	<select id="selectRoleListCount" parameterType="java.util.Map"  resultType="java.lang.Long">
+		SELECT
+			count(1)
+		FROM
+			sys_role sr
+		left  join nj_coporate  nc  on  nc.id = sr.office_id
+		where sr.del_flag=0
+		<if test="name != null">
+			and (sr.name  like  "%"#{name,jdbcType=VARCHAR}"%"   or  sr.role_type  like "%"#{name,jdbcType=VARCHAR}"%")
+		</if>
+		<if test="coporateId != null">
+			and nc.id = #{coporateId,jdbcType=VARCHAR}
+		</if>
+		<if test="type != null">
+			and sr.type = #{type,jdbcType=VARCHAR}
+		</if>
+		
+	</select>
+	
+
+</mapper>

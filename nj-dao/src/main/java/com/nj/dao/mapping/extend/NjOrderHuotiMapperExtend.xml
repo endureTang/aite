@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjOrderHuotiMapperExtend">  
+
+  
+<!-- 张海添加，获取最近的联系人信息 -->
+	<select id="getHuotiByOrderId" parameterType="java.lang.String"
+		resultType="java.util.HashMap">
+		SELECT t2.file_path AS url
+		,t2.business_type AS type
+		FROM nj_order_huoti t1
+		INNER JOIN nj_user_attachment t2 ON t1.attachment_Id = t2.id
+		WHERE t1.order_id = #{orderId,jdbcType=VARCHAR}
+	</select>
+	
+	<delete id="deleteHuotiByOrderId" parameterType="java.lang.String">
+		delete from nj_order_huoti 
+		WHERE order_id = #{orderId}
+	</delete>	
+</mapper>

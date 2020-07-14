@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.activiti.mapper.extend.ProcessRoleMapperExtend">
+  <resultMap id="processRole" type="com.nj.model.activiti.base.ProcessRole">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  
+  <select id="getRoleByProcessId" parameterType="string" resultMap="processRole">
+  	SELECT distinct
+		pr.id id,pr.name name,pr.remark remark
+	FROM
+		process_node pn,process_usertask_role pur,process_role pr
+	WHERE 
+		pn.process_id = #{processId,jdbcType=VARCHAR}
+		AND pn.node_type='org.activiti.bpmn.model.UserTask'
+		AND pn.id=pur.process_node_id
+		AND pur.roleid=pr.id
+  </select>
+</mapper>

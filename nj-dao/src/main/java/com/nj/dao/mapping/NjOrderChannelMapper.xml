@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjOrderChannelMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjOrderChannel">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="channel_product_id" jdbcType="VARCHAR" property="channelProductId" />
+    <result column="channel_type" jdbcType="SMALLINT" property="channelType" />
+    <result column="bond_type" jdbcType="TINYINT" property="bondType" />
+    <result column="bond_value" jdbcType="VARCHAR" property="bondValue" />
+    <result column="bond_fee" jdbcType="VARCHAR" property="bondFee" />
+    <result column="operate_fee_type" jdbcType="INTEGER" property="operateFeeType" />
+    <result column="operate_fee" jdbcType="VARCHAR" property="operateFee" />
+    <result column="is_rate_contract" jdbcType="BIT" property="isRateContract" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, channel_id, channel_product_id, channel_type, bond_type, bond_value, 
+    bond_fee, operate_fee_type, operate_fee, is_rate_contract
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjOrderChannelExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_order_channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_order_channel
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_order_channel
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjOrderChannelExample">
+    delete from nj_order_channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjOrderChannel">
+    insert into nj_order_channel (id, order_id, channel_id, 
+      channel_product_id, channel_type, bond_type, 
+      bond_value, bond_fee, operate_fee_type, 
+      operate_fee, is_rate_contract)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{channelId,jdbcType=VARCHAR}, 
+      #{channelProductId,jdbcType=VARCHAR}, #{channelType,jdbcType=SMALLINT}, #{bondType,jdbcType=TINYINT}, 
+      #{bondValue,jdbcType=VARCHAR}, #{bondFee,jdbcType=VARCHAR}, #{operateFeeType,jdbcType=INTEGER}, 
+      #{operateFee,jdbcType=VARCHAR}, #{isRateContract,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjOrderChannel">
+    insert into nj_order_channel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="channelProductId != null">
+        channel_product_id,
+      </if>
+      <if test="channelType != null">
+        channel_type,
+      </if>
+      <if test="bondType != null">
+        bond_type,
+      </if>
+      <if test="bondValue != null">
+        bond_value,
+      </if>
+      <if test="bondFee != null">
+        bond_fee,
+      </if>
+      <if test="operateFeeType != null">
+        operate_fee_type,
+      </if>
+      <if test="operateFee != null">
+        operate_fee,
+      </if>
+      <if test="isRateContract != null">
+        is_rate_contract,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelProductId != null">
+        #{channelProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null">
+        #{channelType,jdbcType=SMALLINT},
+      </if>
+      <if test="bondType != null">
+        #{bondType,jdbcType=TINYINT},
+      </if>
+      <if test="bondValue != null">
+        #{bondValue,jdbcType=VARCHAR},
+      </if>
+      <if test="bondFee != null">
+        #{bondFee,jdbcType=VARCHAR},
+      </if>
+      <if test="operateFeeType != null">
+        #{operateFeeType,jdbcType=INTEGER},
+      </if>
+      <if test="operateFee != null">
+        #{operateFee,jdbcType=VARCHAR},
+      </if>
+      <if test="isRateContract != null">
+        #{isRateContract,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjOrderChannelExample" resultType="java.lang.Integer">
+    select count(*) from nj_order_channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_order_channel
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelId != null">
+        channel_id = #{record.channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelProductId != null">
+        channel_product_id = #{record.channelProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelType != null">
+        channel_type = #{record.channelType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.bondType != null">
+        bond_type = #{record.bondType,jdbcType=TINYINT},
+      </if>
+      <if test="record.bondValue != null">
+        bond_value = #{record.bondValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bondFee != null">
+        bond_fee = #{record.bondFee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateFeeType != null">
+        operate_fee_type = #{record.operateFeeType,jdbcType=INTEGER},
+      </if>
+      <if test="record.operateFee != null">
+        operate_fee = #{record.operateFee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isRateContract != null">
+        is_rate_contract = #{record.isRateContract,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_order_channel
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      channel_id = #{record.channelId,jdbcType=VARCHAR},
+      channel_product_id = #{record.channelProductId,jdbcType=VARCHAR},
+      channel_type = #{record.channelType,jdbcType=SMALLINT},
+      bond_type = #{record.bondType,jdbcType=TINYINT},
+      bond_value = #{record.bondValue,jdbcType=VARCHAR},
+      bond_fee = #{record.bondFee,jdbcType=VARCHAR},
+      operate_fee_type = #{record.operateFeeType,jdbcType=INTEGER},
+      operate_fee = #{record.operateFee,jdbcType=VARCHAR},
+      is_rate_contract = #{record.isRateContract,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjOrderChannel">
+    update nj_order_channel
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelProductId != null">
+        channel_product_id = #{channelProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelType != null">
+        channel_type = #{channelType,jdbcType=SMALLINT},
+      </if>
+      <if test="bondType != null">
+        bond_type = #{bondType,jdbcType=TINYINT},
+      </if>
+      <if test="bondValue != null">
+        bond_value = #{bondValue,jdbcType=VARCHAR},
+      </if>
+      <if test="bondFee != null">
+        bond_fee = #{bondFee,jdbcType=VARCHAR},
+      </if>
+      <if test="operateFeeType != null">
+        operate_fee_type = #{operateFeeType,jdbcType=INTEGER},
+      </if>
+      <if test="operateFee != null">
+        operate_fee = #{operateFee,jdbcType=VARCHAR},
+      </if>
+      <if test="isRateContract != null">
+        is_rate_contract = #{isRateContract,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjOrderChannel">
+    update nj_order_channel
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      channel_id = #{channelId,jdbcType=VARCHAR},
+      channel_product_id = #{channelProductId,jdbcType=VARCHAR},
+      channel_type = #{channelType,jdbcType=SMALLINT},
+      bond_type = #{bondType,jdbcType=TINYINT},
+      bond_value = #{bondValue,jdbcType=VARCHAR},
+      bond_fee = #{bondFee,jdbcType=VARCHAR},
+      operate_fee_type = #{operateFeeType,jdbcType=INTEGER},
+      operate_fee = #{operateFee,jdbcType=VARCHAR},
+      is_rate_contract = #{isRateContract,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

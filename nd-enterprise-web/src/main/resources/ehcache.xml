@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">  
+     
+    <diskStore path="java.io.tmpdir" /> <!-- 缓存存放目录(此目录为放入系统默认缓存目录),也可以是”D:/cache“ java.io.tmpdir -->
+    <defaultCache  
+            maxElementsInMemory="10000"  
+            eternal="false"  
+            timeToIdleSeconds="120"  
+            timeToLiveSeconds="120"  
+            overflowToDisk="true"  
+            maxElementsOnDisk="10000000"  
+            diskPersistent="false"  
+            diskExpiryThreadIntervalSeconds="120"  
+            memoryStoreEvictionPolicy="LRU"  
+            /> 
+     <cache name="com.nj.cache2" maxElementsInMemory="150" eternal="false" timeToLiveSeconds="36000" timeToIdleSeconds="3600" overflowToDisk="true"/> 
+     <cache name="sys_area" maxElementsInMemory="150" eternal="true"  overflowToDisk="true"/>    
+  <cache name="repayway" maxElementsInMemory="150" eternal="false" timeToLiveSeconds="600" timeToIdleSeconds="600" overflowToDisk="true" />
+  
+  <!-- 登录记录缓存锁定10分钟 -->
+    <cache name="passwordRetryCache"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="600"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           statistics="true">
+    </cache>
+</ehcache>  

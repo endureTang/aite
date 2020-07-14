@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.esign.mapper.extend.EsignAccountSealMapperExtend">
+
+	<resultMap id="BaseResultMap" type="com.nj.model.esign.base.EsignAccountSeal">
+		<result column="account_id" jdbcType="VARCHAR" property="accountId" />
+		<result column="is_default" jdbcType="INTEGER" property="isDefault" />
+		<result column="id" jdbcType="VARCHAR" property="id" />
+		<result column="seal_data" jdbcType="LONGVARCHAR" property="sealData" />
+		<result column="file_name" jdbcType="VARCHAR" property="fileName" />
+	</resultMap>
+
+	<sql id="base_column">
+		id,account_id,seal_data,is_default,file_name
+	</sql>
+
+	<select id="getPerSeal" parameterType="string" resultMap="BaseResultMap">
+		SELECT
+			eas.id as id,
+			eas.account_id as account_id,
+			eas.seal_data as seal_data,
+			eas.is_default as is_default,
+			eas.file_name as file_name
+		FROM
+			esign_person_account pa
+		inner JOIN
+			esign_account_seal eas
+		ON
+			pa.account_id = eas.account_id
+		where
+			pa.user_id=#{userId.jdbcType=VARCHAR}
+	</select>
+
+	<select id="getCopoSeal" resultMap="BaseResultMap">
+		SELECT 
+			eas.id as id,
+			eas.account_id as account_id,
+			eas.seal_data as seal_data,
+			eas.is_default as is_default,
+			eas.file_name as file_name
+		FROM
+			esign_coporate_account ca
+		inner JOIN 
+			esign_account_seal eas
+		ON 
+			ca.account_id = eas.account_id
+		WHERE 
+			ca.coporate_id=#{coporateId,jdbcType=VARCHAR}
+			AND ca.account_type=#{acctType,jdbcType=INTEGER}
+	</select>
+</mapper>

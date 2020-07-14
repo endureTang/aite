@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjPuhuiApplyMapperExtend">
+  <resultMap id="BaseResultMap" type="com.nj.model.decision.PuhuiModel">
+    <id column="loan_no" jdbcType="VARCHAR" property="loanNo" />
+    <result column="good_price" jdbcType="DECIMAL" property="goodPrice" />
+    <result column="fisrt_pay" jdbcType="DECIMAL" property="fisrtPay" />
+    <result column="first_repay" jdbcType="DECIMAL" property="firstRepay" />
+    <result column="amt" jdbcType="DECIMAL" property="amt" />
+    <result column="repay_day" jdbcType="TIMESTAMP" property="repayDay" />
+    <result column="repay_amt" jdbcType="DECIMAL" property="repayAmt" />
+    <result column="period" jdbcType="INTEGER" property="period" />
+    <result column="acct_name" jdbcType="VARCHAR" property="acctName" />
+    <result column="dlv_date" jdbcType="TIMESTAMP" property="dlvDate" />
+    <result column="audit_date" jdbcType="TIMESTAMP" property="auditDate" />
+    <result column="insurance" jdbcType="VARCHAR" property="insurance" />
+    <result column="flx_package" jdbcType="VARCHAR" property="flxPackage" />
+    <result column="product_id" jdbcType="VARCHAR" property="productId" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="id_ava" jdbcType="TIMESTAMP" property="idAva" />
+    <result column="id_issue" jdbcType="VARCHAR" property="idIssue" />
+    <result column="res_type" jdbcType="VARCHAR" property="resType" />
+    <result column="prv" jdbcType="VARCHAR" property="prv" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="is_add_res" jdbcType="VARCHAR" property="isAddRes" />
+    <result column="house_type" jdbcType="VARCHAR" property="houseType" />
+    <result column="crr_add_time" jdbcType="INTEGER" property="crrAddTime" />
+    <result column="prv1" jdbcType="VARCHAR" property="prv1" />
+    <result column="city1" jdbcType="VARCHAR" property="city1" />
+    <result column="doc_type" jdbcType="VARCHAR" property="docType" />
+    <result column="rent_fee" jdbcType="DECIMAL" property="rentFee" />
+    <result column="race" jdbcType="VARCHAR" property="race" />
+    <result column="mobile_mths" jdbcType="INTEGER" property="mobileMths" />
+    <result column="mth_bill" jdbcType="DECIMAL" property="mthBill" />
+    <result column="is_verified" jdbcType="VARCHAR" property="isVerified" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="marr_state" jdbcType="VARCHAR" property="marrState" />
+    <result column="spouse_mobile" jdbcType="VARCHAR" property="spouseMobile" />
+    <result column="crr_org_name" jdbcType="VARCHAR" property="crrOrgName" />
+    <result column="org_type" jdbcType="VARCHAR" property="orgType" />
+    <result column="org_phone" jdbcType="VARCHAR" property="orgPhone" />
+    <result column="dpt" jdbcType="VARCHAR" property="dpt" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="industry" jdbcType="VARCHAR" property="industry" />
+    <result column="work_time" jdbcType="INTEGER" property="workTime" />
+    <result column="prv2" jdbcType="VARCHAR" property="prv2" />
+    <result column="city2" jdbcType="VARCHAR" property="city2" />
+    <result column="org_contact_mobile" jdbcType="VARCHAR" property="orgContactMobile" />
+    <result column="edu_type" jdbcType="VARCHAR" property="eduType" />
+    <result column="org_contact_position" jdbcType="VARCHAR" property="orgContactPosition" />
+    <result column="org_size" jdbcType="INTEGER" property="orgSize" />
+    <result column="income" jdbcType="DECIMAL" property="income" />
+    <result column="edu_level" jdbcType="VARCHAR" property="eduLevel" />
+    <result column="is_past_loan" jdbcType="VARCHAR" property="isPastLoan" />
+    <result column="apply_date" jdbcType="TIMESTAMP" property="applyDate" />
+    <result column="aprov_result" jdbcType="VARCHAR" property="aprovResult" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+    <result column="aprov_reason" jdbcType="VARCHAR" property="aprovReason" />
+    <result column="regist_date" jdbcType="TIMESTAMP" property="registDate" />
+    <result column="is_back_sale" jdbcType="VARCHAR" property="isBackSale" />
+    <result column="is_back_check" jdbcType="VARCHAR" property="isBackCheck" />
+    <result column="store_prov" jdbcType="VARCHAR" property="storeProv" />
+    <result column="store_city" jdbcType="VARCHAR" property="storeCity" />
+    <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="aprov_duration" jdbcType="VARCHAR" property="aprovDuration" />
+    <result column="check_duration" jdbcType="VARCHAR" property="checkDuration" />
+    <result column="re_check_duration" jdbcType="VARCHAR" property="reCheckDuration" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="profession" jdbcType="VARCHAR" property="profession" />
+    <result column="sign_date" jdbcType="TIMESTAMP" property="signDate" />
+    <result column="weichat" jdbcType="VARCHAR" property="weichat" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    loan_no, good_price, fisrt_pay, first_repay, repay_fee, amt, repay_amt, period, acct_name, dlv_date,
+    audit_date, insurance, flx_package, product_id,
+    channel_id, user_type,  sex,id_ava, id_issue,
+    res_type, prv, city, is_add_res, house_type, crr_add_time,
+    prv1, city1, doc_type, rent_fee, race, mobile,
+    mobile_mths, mth_bill, is_verified, qq, marr_state,
+   spouse_mobile, crr_org_name, org_type,org_phone, dpt, position, industry, work_time, prv2, city2, org_contact_mobile, edu_type,
+    org_contact_position, org_size, income,  edu_level, is_past_loan,
+     apply_date, aprov_result, file_type, aprov_reason, regist_date,
+    is_back_sale, is_back_check, store_prov, store_city,
+    goods_type, brand,  aprov_duration, check_duration, re_check_duration, birthday,
+     profession, sign_date, weichat
+  </sql>
+  <select id="selectModelByLoanNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_puhui_apply
+    where loan_no = #{loanNo,jdbcType=VARCHAR}
+  </select>
+</mapper>

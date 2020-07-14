@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.SysOutsideApiMapperExtend">
+
+    <select id="getAllThirdPartByGroup" resultType="java.util.HashMap">
+        select supplier_name as supplierName from sys_outside_api GROUP BY supplier_name
+    </select>
+
+    <select id="getAPiBySupplierName" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select api_name as apiName from sys_outside_api where supplier_name = #{supplierName,jdbcType=VARCHAR}
+    </select>
+</mapper>

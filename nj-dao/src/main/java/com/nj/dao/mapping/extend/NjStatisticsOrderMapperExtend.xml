@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjStatisticsOrderMapperExtend">
+
+    <select id="getOrder" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+        company_id as companyId,
+        company_name as companyName,
+        SUM(order_num) as orderNum,
+        SUM(order_amount) as orderAmount,
+        SUM(pass_num) as passNum,
+        SUM(pass_amount) as passAmount,
+        SUM(refuse_num) as refuseNum,
+        SUM(loan_amount) as loanAmount,
+        cast(SUM(pass_num)/SUM(order_num) as decimal(18,2)) as passRate
+        from nj_statistics_order
+        where time between  #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR} GROUP by company_id
+    </select>
+
+    <select id="getOrderByCompany" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+        company_id as companyId,
+        company_name as companyName,
+        product_id as productId,
+        product_name as productName,
+        SUM(order_num) as orderNum,
+        SUM(order_amount) as orderAmount,
+        SUM(pass_num) as passNum,
+        SUM(pass_amount) as passAmount,
+        SUM(refuse_num) as refuseNum,
+        SUM(loan_amount) as loanAmount,
+        cast(SUM(pass_num)/SUM(order_num) as decimal(18,2)) as passRate
+        from nj_statistics_order
+        where time between  #{startTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR} and company_id = #{companyId,jdbcType=VARCHAR} GROUP by product_id
+    </select>
+    
+     <select id="countOrderStastis" resultType="com.nj.model.generate.NjStatisticsOrder">
+        SELECT 
+        	o.time,
+        	SUM(o.loan_amount) loanAmount,
+        	SUM(o.loan_num) loanNum,
+        	SUM(o.avg_match_hourse)  avgMatchHourse
+        FROM 
+        	nj_statistics_order o
+		WHERE o.company_id=#{coporateId}
+		AND o.time BETWEEN #{beginDate} and #{endDate}
+		GROUP BY o.time
+		ORDER BY o.time
+    </select>
+
+</mapper>

@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+/* 我的审核页面 */
+.verify-title{ width: 100%; overflow: hidden; }
+.verify-title>h2,.verify-title>h3{ float: left; width: 60%; color: #8a8db0;font-family: "微软雅黑"; padding-bottom: 5px; font-size: 16px;}
+/*.verify-title>h3{font-size: 24px;}*/
+.verify-title>span{float: right; width: 40%; text-align: right; color: #878ca2; padding-top: 25px;}
+.verify-title>span>a{ color: #878ca2; }
+.verify-title>span>a:hover{ color: #4D98F6; text-decoration: underline;}
+.checkbox-all{ float: left; height: 30px; line-height: 30px; }
+.checkbox-all>span{ font-size: 14px; padding-left: 5px; color: #878ca2}
+.btns{ float: right; }
+.iconfont.icon-save-s{ font-size: 12px; color: #ffaa8e;}
+.btn-danger{background-color: #fc6111 !important;border-color: #fc6111 !important;}
+.btn-danger:hover{background-color: #fa5105 !important;border-color: #fa5105 !important;}
+.iconfont.icon-add{font-size: 12px !important;color: #ffaa8e !important;}
+.clear{ clear: both; }
+
+.form-group > label {
+  display: inline-block;
+  width: 150px;
+}
+.form-group label > div {
+  margin-right: 10px;
+}
+.form-group > div > label {
+  display: inline-block;
+  margin-right: 15px;
+  width: 130px;
+}
+
+.form-group > label.copy-name {
+  width: auto;
+  max-width: 235px;
+}
+.modal-footer p {
+  display: inline-block;
+  float: left;
+  margin-left: 20px;
+  margin-top: 5px;
+}
+span.company-name {
+  margin: 0 5px;
+  color: #ff340e;
+  font-weight: 700;
+}
+.box-header.data-picker .form-control {
+  float: right;
+  display: inline-block;
+  width: 200px;
+  height: 30px;
+  margin-right: 10px;
+}
+.box-header.data-picker button {
+  padding: 5px 16px !important;
+}
+
+
+
+

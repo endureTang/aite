@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjChannelMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjChannel">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="repay_account_id" jdbcType="VARCHAR" property="repayAccountId" />
+    <result column="repee_account_id" jdbcType="VARCHAR" property="repeeAccountId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="company_id" jdbcType="VARCHAR" property="companyId" />
+    <result column="funds_limit" jdbcType="DOUBLE" property="fundsLimit" />
+    <result column="user_info_id" jdbcType="VARCHAR" property="userInfoId" />
+    <result column="callback_url" jdbcType="VARCHAR" property="callbackUrl" />
+    <result column="diduction_callback_url" jdbcType="VARCHAR" property="diductionCallbackUrl" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="common_callback_url" jdbcType="VARCHAR" property="commonCallbackUrl" />
+    <result column="activate_callback_url" jdbcType="VARCHAR" property="activateCallbackUrl" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, type, code, name, repay_account_id, repee_account_id, create_date, del_flag, 
+    create_by, update_date, update_by, mobile, company_id, funds_limit, user_info_id, 
+    callback_url, diduction_callback_url, remark, common_callback_url, activate_callback_url
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjChannelExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_channel
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_channel
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjChannelExample">
+    delete from nj_channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjChannel">
+    insert into nj_channel (id, type, code, 
+      name, repay_account_id, repee_account_id, 
+      create_date, del_flag, create_by, 
+      update_date, update_by, mobile, 
+      company_id, funds_limit, user_info_id, 
+      callback_url, diduction_callback_url, remark, 
+      common_callback_url, activate_callback_url)
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, #{code,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{repayAccountId,jdbcType=VARCHAR}, #{repeeAccountId,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{delFlag,jdbcType=BIT}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=VARCHAR}, #{fundsLimit,jdbcType=DOUBLE}, #{userInfoId,jdbcType=VARCHAR}, 
+      #{callbackUrl,jdbcType=VARCHAR}, #{diductionCallbackUrl,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{commonCallbackUrl,jdbcType=VARCHAR}, #{activateCallbackUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjChannel">
+    insert into nj_channel
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="repayAccountId != null">
+        repay_account_id,
+      </if>
+      <if test="repeeAccountId != null">
+        repee_account_id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="fundsLimit != null">
+        funds_limit,
+      </if>
+      <if test="userInfoId != null">
+        user_info_id,
+      </if>
+      <if test="callbackUrl != null">
+        callback_url,
+      </if>
+      <if test="diductionCallbackUrl != null">
+        diduction_callback_url,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="commonCallbackUrl != null">
+        common_callback_url,
+      </if>
+      <if test="activateCallbackUrl != null">
+        activate_callback_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="repayAccountId != null">
+        #{repayAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="repeeAccountId != null">
+        #{repeeAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsLimit != null">
+        #{fundsLimit,jdbcType=DOUBLE},
+      </if>
+      <if test="userInfoId != null">
+        #{userInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackUrl != null">
+        #{callbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="diductionCallbackUrl != null">
+        #{diductionCallbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="commonCallbackUrl != null">
+        #{commonCallbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="activateCallbackUrl != null">
+        #{activateCallbackUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjChannelExample" resultType="java.lang.Long">
+    select count(*) from nj_channel
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_channel
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=SMALLINT},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repayAccountId != null">
+        repay_account_id = #{record.repayAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repeeAccountId != null">
+        repee_account_id = #{record.repeeAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=BIT},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundsLimit != null">
+        funds_limit = #{record.fundsLimit,jdbcType=DOUBLE},
+      </if>
+      <if test="record.userInfoId != null">
+        user_info_id = #{record.userInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.callbackUrl != null">
+        callback_url = #{record.callbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.diductionCallbackUrl != null">
+        diduction_callback_url = #{record.diductionCallbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commonCallbackUrl != null">
+        common_callback_url = #{record.commonCallbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activateCallbackUrl != null">
+        activate_callback_url = #{record.activateCallbackUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_channel
+    set id = #{record.id,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=SMALLINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      repay_account_id = #{record.repayAccountId,jdbcType=VARCHAR},
+      repee_account_id = #{record.repeeAccountId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      del_flag = #{record.delFlag,jdbcType=BIT},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      company_id = #{record.companyId,jdbcType=VARCHAR},
+      funds_limit = #{record.fundsLimit,jdbcType=DOUBLE},
+      user_info_id = #{record.userInfoId,jdbcType=VARCHAR},
+      callback_url = #{record.callbackUrl,jdbcType=VARCHAR},
+      diduction_callback_url = #{record.diductionCallbackUrl,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      common_callback_url = #{record.commonCallbackUrl,jdbcType=VARCHAR},
+      activate_callback_url = #{record.activateCallbackUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjChannel">
+    update nj_channel
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="repayAccountId != null">
+        repay_account_id = #{repayAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="repeeAccountId != null">
+        repee_account_id = #{repeeAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsLimit != null">
+        funds_limit = #{fundsLimit,jdbcType=DOUBLE},
+      </if>
+      <if test="userInfoId != null">
+        user_info_id = #{userInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="callbackUrl != null">
+        callback_url = #{callbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="diductionCallbackUrl != null">
+        diduction_callback_url = #{diductionCallbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="commonCallbackUrl != null">
+        common_callback_url = #{commonCallbackUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="activateCallbackUrl != null">
+        activate_callback_url = #{activateCallbackUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjChannel">
+    update nj_channel
+    set type = #{type,jdbcType=SMALLINT},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      repay_account_id = #{repayAccountId,jdbcType=VARCHAR},
+      repee_account_id = #{repeeAccountId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      del_flag = #{delFlag,jdbcType=BIT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      funds_limit = #{fundsLimit,jdbcType=DOUBLE},
+      user_info_id = #{userInfoId,jdbcType=VARCHAR},
+      callback_url = #{callbackUrl,jdbcType=VARCHAR},
+      diduction_callback_url = #{diductionCallbackUrl,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      common_callback_url = #{commonCallbackUrl,jdbcType=VARCHAR},
+      activate_callback_url = #{activateCallbackUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

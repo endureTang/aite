@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjProcessMapperExtend">
+	<select id="statShunt" resultType="com.nj.model.datamodel.ExamineUserDO">
+		select ui.id,ui.user_name as userName,count(pof.id) as totalNumber from nj_user_info as ui
+		INNER JOIN sys_user_role as ur on ui.id=ur.user_id and ur.role_id=3
+		INNER JOIN nj_product_user as pu on pu.user_id = ui.id and pu.product_id = #{productId}
+		LEFT JOIN nj_process_order_flows as pof on ui.id=pof.user_id and create_time>=#{beginTime}
+		group by ui.id
+		order by totalNumber
+	</select>
+
+	<select id="selectProcessFlowsByOrderId" parameterType="java.lang.String" resultType="com.nj.model.generate.NjProcessTemplateFlows">
+		select ptf.* from nj_loan_order as lo INNER JOIN nj_product_temp as pt on lo.product_id=pt.product_id
+		INNER JOIN nj_process_template_flows as ptf on pt.process_template_id=ptf.template_id
+		where lo.id=#{orderId}
+		order by ptf.exec_orders
+	</select>
+	
+	<select id='selectProcessTemplateByOrderProcess' resultType="com.nj.model.generate.NjProcessTemplateFlows">
+		select pnptf.* from  nj_process_template_flows as pnptf 
+		INNER JOIN nj_product_temp as npt on npt.process_template_id=pnptf.template_id
+		INNER JOIN nj_loan_order as nlo on npt.product_id=nlo.product_id
+		where nlo.id=#{orderId} and process_id=#{processId}
+	</select>
+	
+	<select id="selectCurrentProcess" resultType="com.nj.model.generate.NjProcessTemplateFlows">
+		<![CDATA[select nptf.* from nj_process_order_flows as npof
+		INNER JOIN nj_process_template_flows as nptf on npof.process_id=nptf.process_id and nptf.template_id=#{templateId}
+		where order_id=#{orderId} and status<2 
+		order by nptf.exec_orders LIMIT 1]]>
+	</select>
+	
+	<select id="selectCurrentProcessByOrderId" resultType="com.nj.model.generate.NjProcessOrderFlows">
+		select 
+			* 
+		from 
+			nj_process_order_flows  
+		where 
+			order_id=#{orderId} 
+			and status<![CDATA[<]]>2 
+		order by exec_orders LIMIT 1
+	</select>
+	
+	<select id="selectCheckRecord" resultType="java.util.HashMap">
+		select nlocr.*,nui.user_name from nj_loan_order_check_record as nlocr 
+		left JOIN nj_user_info as nui on nui.id=nlocr.check_user_id
+		where order_id=#{orderId} and data_type=#{dateType}
+	</select>
+	<select id="selectCheckProcessByProductId" resultType="com.nj.model.generate.NjProcessTemplateFlows">
+		select nptf.* from nj_process_template_flows nptf
+		INNER JOIN nj_product_temp npt on nptf.template_id=npt.process_template_id
+		where npt.product_id=#{productId} and process_id in(
+			SELECT process_id FROM nj_process_order_flows WHERE FIND_IN_SET(process_id,#{processIds}) 
+		)
+		order by nptf.exec_orders 
+	</select>
+	<select id="selectOrderProcessByOrderId" resultType="java.lang.Integer">
+		SELECT COUNT(*)  from nj_process_order_flows where order_id=#{orderId}
+	</select>
+</mapper>

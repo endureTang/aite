@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjContactCompanyMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjContactCompany">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="true_control_name" jdbcType="VARCHAR" property="trueControlName" />
+    <result column="true_control_idcard" jdbcType="VARCHAR" property="trueControlIdcard" />
+    <result column="true_control_mobile" jdbcType="VARCHAR" property="trueControlMobile" />
+    <result column="legal_man_name" jdbcType="VARCHAR" property="legalManName" />
+    <result column="legal_man_idcard" jdbcType="VARCHAR" property="legalManIdcard" />
+    <result column="legal_man_mobile" jdbcType="VARCHAR" property="legalManMobile" />
+    <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
+    <result column="contact_mobile" jdbcType="VARCHAR" property="contactMobile" />
+    <result column="max_shareholder_name" jdbcType="VARCHAR" property="maxShareholderName" />
+    <result column="max_shareholder_idcard" jdbcType="VARCHAR" property="maxShareholderIdcard" />
+    <result column="max_shareholder_mobile" jdbcType="VARCHAR" property="maxShareholderMobile" />
+    <result column="max_legal_man_name" jdbcType="VARCHAR" property="maxLegalManName" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, true_control_name, true_control_idcard, true_control_mobile, legal_man_name, 
+    legal_man_idcard, legal_man_mobile, contact_name, contact_mobile, max_shareholder_name, 
+    max_shareholder_idcard, max_shareholder_mobile, max_legal_man_name, create_date, 
+    user_id
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjContactCompanyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_contact_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_contact_company
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_contact_company
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjContactCompanyExample">
+    delete from nj_contact_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjContactCompany">
+    insert into nj_contact_company (id, true_control_name, true_control_idcard, 
+      true_control_mobile, legal_man_name, legal_man_idcard, 
+      legal_man_mobile, contact_name, contact_mobile, 
+      max_shareholder_name, max_shareholder_idcard, 
+      max_shareholder_mobile, max_legal_man_name, 
+      create_date, user_id)
+    values (#{id,jdbcType=VARCHAR}, #{trueControlName,jdbcType=VARCHAR}, #{trueControlIdcard,jdbcType=VARCHAR}, 
+      #{trueControlMobile,jdbcType=VARCHAR}, #{legalManName,jdbcType=VARCHAR}, #{legalManIdcard,jdbcType=VARCHAR}, 
+      #{legalManMobile,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactMobile,jdbcType=VARCHAR}, 
+      #{maxShareholderName,jdbcType=VARCHAR}, #{maxShareholderIdcard,jdbcType=VARCHAR}, 
+      #{maxShareholderMobile,jdbcType=VARCHAR}, #{maxLegalManName,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjContactCompany">
+    insert into nj_contact_company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="trueControlName != null">
+        true_control_name,
+      </if>
+      <if test="trueControlIdcard != null">
+        true_control_idcard,
+      </if>
+      <if test="trueControlMobile != null">
+        true_control_mobile,
+      </if>
+      <if test="legalManName != null">
+        legal_man_name,
+      </if>
+      <if test="legalManIdcard != null">
+        legal_man_idcard,
+      </if>
+      <if test="legalManMobile != null">
+        legal_man_mobile,
+      </if>
+      <if test="contactName != null">
+        contact_name,
+      </if>
+      <if test="contactMobile != null">
+        contact_mobile,
+      </if>
+      <if test="maxShareholderName != null">
+        max_shareholder_name,
+      </if>
+      <if test="maxShareholderIdcard != null">
+        max_shareholder_idcard,
+      </if>
+      <if test="maxShareholderMobile != null">
+        max_shareholder_mobile,
+      </if>
+      <if test="maxLegalManName != null">
+        max_legal_man_name,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="trueControlName != null">
+        #{trueControlName,jdbcType=VARCHAR},
+      </if>
+      <if test="trueControlIdcard != null">
+        #{trueControlIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="trueControlMobile != null">
+        #{trueControlMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="legalManName != null">
+        #{legalManName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalManIdcard != null">
+        #{legalManIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="legalManMobile != null">
+        #{legalManMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null">
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null">
+        #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="maxShareholderName != null">
+        #{maxShareholderName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxShareholderIdcard != null">
+        #{maxShareholderIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="maxShareholderMobile != null">
+        #{maxShareholderMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="maxLegalManName != null">
+        #{maxLegalManName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjContactCompanyExample" resultType="java.lang.Long">
+    select count(*) from nj_contact_company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_contact_company
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trueControlName != null">
+        true_control_name = #{record.trueControlName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trueControlIdcard != null">
+        true_control_idcard = #{record.trueControlIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trueControlMobile != null">
+        true_control_mobile = #{record.trueControlMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalManName != null">
+        legal_man_name = #{record.legalManName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalManIdcard != null">
+        legal_man_idcard = #{record.legalManIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalManMobile != null">
+        legal_man_mobile = #{record.legalManMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactName != null">
+        contact_name = #{record.contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactMobile != null">
+        contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxShareholderName != null">
+        max_shareholder_name = #{record.maxShareholderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxShareholderIdcard != null">
+        max_shareholder_idcard = #{record.maxShareholderIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxShareholderMobile != null">
+        max_shareholder_mobile = #{record.maxShareholderMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxLegalManName != null">
+        max_legal_man_name = #{record.maxLegalManName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_contact_company
+    set id = #{record.id,jdbcType=VARCHAR},
+      true_control_name = #{record.trueControlName,jdbcType=VARCHAR},
+      true_control_idcard = #{record.trueControlIdcard,jdbcType=VARCHAR},
+      true_control_mobile = #{record.trueControlMobile,jdbcType=VARCHAR},
+      legal_man_name = #{record.legalManName,jdbcType=VARCHAR},
+      legal_man_idcard = #{record.legalManIdcard,jdbcType=VARCHAR},
+      legal_man_mobile = #{record.legalManMobile,jdbcType=VARCHAR},
+      contact_name = #{record.contactName,jdbcType=VARCHAR},
+      contact_mobile = #{record.contactMobile,jdbcType=VARCHAR},
+      max_shareholder_name = #{record.maxShareholderName,jdbcType=VARCHAR},
+      max_shareholder_idcard = #{record.maxShareholderIdcard,jdbcType=VARCHAR},
+      max_shareholder_mobile = #{record.maxShareholderMobile,jdbcType=VARCHAR},
+      max_legal_man_name = #{record.maxLegalManName,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjContactCompany">
+    update nj_contact_company
+    <set>
+      <if test="trueControlName != null">
+        true_control_name = #{trueControlName,jdbcType=VARCHAR},
+      </if>
+      <if test="trueControlIdcard != null">
+        true_control_idcard = #{trueControlIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="trueControlMobile != null">
+        true_control_mobile = #{trueControlMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="legalManName != null">
+        legal_man_name = #{legalManName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalManIdcard != null">
+        legal_man_idcard = #{legalManIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="legalManMobile != null">
+        legal_man_mobile = #{legalManMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null">
+        contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null">
+        contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="maxShareholderName != null">
+        max_shareholder_name = #{maxShareholderName,jdbcType=VARCHAR},
+      </if>
+      <if test="maxShareholderIdcard != null">
+        max_shareholder_idcard = #{maxShareholderIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="maxShareholderMobile != null">
+        max_shareholder_mobile = #{maxShareholderMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="maxLegalManName != null">
+        max_legal_man_name = #{maxLegalManName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjContactCompany">
+    update nj_contact_company
+    set true_control_name = #{trueControlName,jdbcType=VARCHAR},
+      true_control_idcard = #{trueControlIdcard,jdbcType=VARCHAR},
+      true_control_mobile = #{trueControlMobile,jdbcType=VARCHAR},
+      legal_man_name = #{legalManName,jdbcType=VARCHAR},
+      legal_man_idcard = #{legalManIdcard,jdbcType=VARCHAR},
+      legal_man_mobile = #{legalManMobile,jdbcType=VARCHAR},
+      contact_name = #{contactName,jdbcType=VARCHAR},
+      contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+      max_shareholder_name = #{maxShareholderName,jdbcType=VARCHAR},
+      max_shareholder_idcard = #{maxShareholderIdcard,jdbcType=VARCHAR},
+      max_shareholder_mobile = #{maxShareholderMobile,jdbcType=VARCHAR},
+      max_legal_man_name = #{maxLegalManName,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

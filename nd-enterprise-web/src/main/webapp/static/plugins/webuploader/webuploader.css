@@ -1,0 +1,121 @@
+.webuploader-container {
+	position: relative;
+}
+.webuploader-element-invisible {
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px,1px,1px,1px);
+}
+.webuploader-pick {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	background: #00b7ee;
+	padding: 8px 15px;
+	color: #fff;
+	text-align: center;
+	border-radius: 3px;
+	overflow: hidden;
+}
+.webuploader-pick-hover {
+	background: #00a2d4;
+}
+
+.webuploader-pick-disable {
+	opacity: 0.6;
+	pointer-events:none;
+}
+
+/**/
+.upload-control #uploadProve {
+	float: left;
+	margin-right: 15px;
+}
+.upload-control > div#filePicker {
+	float: left;
+	margin-right: 15px;
+}
+.upload-control > button {
+	float: left;
+	margin-right: 15px;
+	padding: 7px 14px;
+	border-color: transparent;
+}
+.clearfix::after {
+	content: '';
+	height: 0;
+	line-height: 0;
+	visibility: hidden;
+	display: block;
+	clear: both;
+}
+.uploader-list {
+	width: 100%;
+	min-height: 240px;
+	border: 1px solid #efefef;
+	padding: 10px;
+	margin-top: 15px;
+}
+.uploader-list .file-item {
+	float: left;
+	margin-right: 15px;
+	width: 160px;
+  padding-bottom: 10px;
+  position: relative;
+}
+.uploader-list .file-item img {
+	margin-bottom: 10px;
+}
+.uploader-list .file-item .info {
+	line-height: 28px;
+	width: 100%;
+	overflow-x: hidden;
+}
+.uploader-list .file-item .progress {
+  position: absolute;
+  left: 0;
+  top: 152px;
+	width: 100%;
+	background-color: transparent;
+
+}
+.uploader-list .file-item .progress span {
+	display: inline-block;
+	height: 3px;
+	background-color: #008bff;
+}
+.uploader-list .file-item .remove-this {
+	font-size: 14px;
+	color: #ff3c1d;
+  width: 14px;
+  height: 14px;
+	cursor: pointer;
+	position: relative;
+}
+
+.uploader-list .file-item.upload-state-done .fa-check {
+	color: #2dc808 !important;
+}
+.uploader-list .file-item.upload-state-done .progress span {
+  background-color: #2dc808 !important;
+}
+.uploader-list .file-item.upload-state-failed .fa-minus-circle {
+	color: #ff3c1d !important;
+}
+.uploader-list .file-item.upload-state-failed .progress span {
+  background-color: #ff3c1d !important;
+}
+
+.uploader-list .file-item .result {
+	position: absolute;
+	right: 3px;
+	bottom: 10px;
+	width: 14px;
+	height: 14px;
+	font-size: 14px;
+}
+.thumbnail {
+	margin-bottom: 0!important;
+}
+
+

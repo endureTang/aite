@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjProductTypeMapperExtend">
+  <!-- 根据产品id删除借贷信息 -->
+  <delete id="deleteByProductId" parameterType="java.lang.String">
+  	delete from nj_product_type where product_id = #{productId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 根据产品id获取产品类型列表 -->
+  <select id="getByProductId" parameterType="java.lang.String" resultType="com.nj.model.generate.SysDict">
+  	SELECT
+		dict.id,
+		dict.`value`,
+		dict.label_text
+		FROM
+			nj_product_type prod LEFT JOIN sys_dict dict ON prod.type_id = dict.id
+	WHERE
+		prod.product_id = #{productId}
+  </select>
+</mapper>

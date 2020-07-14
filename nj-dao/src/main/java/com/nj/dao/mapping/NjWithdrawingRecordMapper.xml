@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjWithdrawingRecordMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjWithdrawingRecord">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="current_period" jdbcType="INTEGER" property="currentPeriod" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="withdrawing_capital" jdbcType="DECIMAL" property="withdrawingCapital" />
+    <result column="withdrawing_interest" jdbcType="DECIMAL" property="withdrawingInterest" />
+    <result column="default_interest" jdbcType="DECIMAL" property="defaultInterest" />
+    <result column="is_overdue" jdbcType="BIT" property="isOverdue" />
+    <result column="overdue_day" jdbcType="INTEGER" property="overdueDay" />
+    <result column="withdrawing_date" jdbcType="TIMESTAMP" property="withdrawingDate" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="rate" jdbcType="DECIMAL" property="rate" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="channel_fee" jdbcType="VARCHAR" property="channelFee"/>
+    <result column="type" jdbcType="INTEGER" property="type"/>
+    <result column="coporate_id" jdbcType="VARCHAR" property="coporateId"/>
+
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_no, current_period, create_date, withdrawing_capital, withdrawing_interest, 
+    default_interest, is_overdue, overdue_day, withdrawing_date, status, rate, product_name, channel_fee,type,coporate_id
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjWithdrawingRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_withdrawing_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_withdrawing_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_withdrawing_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjWithdrawingRecordExample">
+    delete from nj_withdrawing_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjWithdrawingRecord">
+    insert into nj_withdrawing_record (id, order_no, current_period, 
+      create_date, withdrawing_capital, withdrawing_interest, 
+      default_interest, is_overdue, overdue_day, 
+      withdrawing_date, status, rate, 
+        product_name, channel_fee,type,coporate_id)
+    values (#{id,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{currentPeriod,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{withdrawingCapital,jdbcType=DECIMAL}, #{withdrawingInterest,jdbcType=DECIMAL}, 
+      #{defaultInterest,jdbcType=DECIMAL}, #{isOverdue,jdbcType=BIT}, #{overdueDay,jdbcType=INTEGER}, 
+      #{withdrawingDate,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{rate,jdbcType=DECIMAL}, 
+      #{productName,jdbcType=VARCHAR},  #{channelFee,jdbcType=DECIMAL},#{type,jdbcType=INTEGER},#{coporateId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjWithdrawingRecord">
+    insert into nj_withdrawing_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="currentPeriod != null">
+        current_period,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="withdrawingCapital != null">
+        withdrawing_capital,
+      </if>
+      <if test="withdrawingInterest != null">
+        withdrawing_interest,
+      </if>
+      <if test="defaultInterest != null">
+        default_interest,
+      </if>
+      <if test="isOverdue != null">
+        is_overdue,
+      </if>
+      <if test="overdueDay != null">
+        overdue_day,
+      </if>
+      <if test="withdrawingDate != null">
+        withdrawing_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="rate != null">
+        rate,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currentPeriod != null">
+        #{currentPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="withdrawingCapital != null">
+        #{withdrawingCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="withdrawingInterest != null">
+        #{withdrawingInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="defaultInterest != null">
+        #{defaultInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="isOverdue != null">
+        #{isOverdue,jdbcType=BIT},
+      </if>
+      <if test="overdueDay != null">
+        #{overdueDay,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawingDate != null">
+        #{withdrawingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="rate != null">
+        #{rate,jdbcType=DECIMAL},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjWithdrawingRecordExample" resultType="java.lang.Long">
+    select count(*) from nj_withdrawing_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_withdrawing_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentPeriod != null">
+        current_period = #{record.currentPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.withdrawingCapital != null">
+        withdrawing_capital = #{record.withdrawingCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="record.withdrawingInterest != null">
+        withdrawing_interest = #{record.withdrawingInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="record.defaultInterest != null">
+        default_interest = #{record.defaultInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isOverdue != null">
+        is_overdue = #{record.isOverdue,jdbcType=BIT},
+      </if>
+      <if test="record.overdueDay != null">
+        overdue_day = #{record.overdueDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.withdrawingDate != null">
+        withdrawing_date = #{record.withdrawingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.rate != null">
+        rate = #{record.rate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productName != null">
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_withdrawing_record
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      current_period = #{record.currentPeriod,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      withdrawing_capital = #{record.withdrawingCapital,jdbcType=DECIMAL},
+      withdrawing_interest = #{record.withdrawingInterest,jdbcType=DECIMAL},
+      default_interest = #{record.defaultInterest,jdbcType=DECIMAL},
+      is_overdue = #{record.isOverdue,jdbcType=BIT},
+      overdue_day = #{record.overdueDay,jdbcType=INTEGER},
+      withdrawing_date = #{record.withdrawingDate,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=TINYINT},
+      rate = #{record.rate,jdbcType=DECIMAL},
+      product_name = #{record.productName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjWithdrawingRecord">
+    update nj_withdrawing_record
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="currentPeriod != null">
+        current_period = #{currentPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="withdrawingCapital != null">
+        withdrawing_capital = #{withdrawingCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="withdrawingInterest != null">
+        withdrawing_interest = #{withdrawingInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="defaultInterest != null">
+        default_interest = #{defaultInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="isOverdue != null">
+        is_overdue = #{isOverdue,jdbcType=BIT},
+      </if>
+      <if test="overdueDay != null">
+        overdue_day = #{overdueDay,jdbcType=INTEGER},
+      </if>
+      <if test="withdrawingDate != null">
+        withdrawing_date = #{withdrawingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="rate != null">
+        rate = #{rate,jdbcType=DECIMAL},
+      </if>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjWithdrawingRecord">
+    update nj_withdrawing_record
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      current_period = #{currentPeriod,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      withdrawing_capital = #{withdrawingCapital,jdbcType=DECIMAL},
+      withdrawing_interest = #{withdrawingInterest,jdbcType=DECIMAL},
+      default_interest = #{defaultInterest,jdbcType=DECIMAL},
+      is_overdue = #{isOverdue,jdbcType=BIT},
+      overdue_day = #{overdueDay,jdbcType=INTEGER},
+      withdrawing_date = #{withdrawingDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      rate = #{rate,jdbcType=DECIMAL},
+      product_name = #{productName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

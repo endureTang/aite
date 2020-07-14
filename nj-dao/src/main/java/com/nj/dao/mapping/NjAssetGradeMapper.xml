@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjAssetGradeMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjAssetGrade">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="descption" jdbcType="VARCHAR" property="descption" />
+    <result column="screen_rate" jdbcType="INTEGER" property="screenRate" />
+    <result column="is_default" jdbcType="BIT" property="isDefault" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, grade, descption, screen_rate, is_default
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjAssetGradeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_asset_grade
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_asset_grade
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_asset_grade
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjAssetGradeExample">
+    delete from nj_asset_grade
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjAssetGrade">
+    insert into nj_asset_grade (id, grade, descption, 
+      screen_rate, is_default)
+    values (#{id,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}, #{descption,jdbcType=VARCHAR}, 
+      #{screenRate,jdbcType=INTEGER}, #{isDefault,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjAssetGrade">
+    insert into nj_asset_grade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="descption != null">
+        descption,
+      </if>
+      <if test="screenRate != null">
+        screen_rate,
+      </if>
+      <if test="isDefault != null">
+        is_default,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="descption != null">
+        #{descption,jdbcType=VARCHAR},
+      </if>
+      <if test="screenRate != null">
+        #{screenRate,jdbcType=INTEGER},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjAssetGradeExample" resultType="java.lang.Long">
+    select count(*) from nj_asset_grade
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_asset_grade
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grade != null">
+        grade = #{record.grade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.descption != null">
+        descption = #{record.descption,jdbcType=VARCHAR},
+      </if>
+      <if test="record.screenRate != null">
+        screen_rate = #{record.screenRate,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDefault != null">
+        is_default = #{record.isDefault,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_asset_grade
+    set id = #{record.id,jdbcType=VARCHAR},
+      grade = #{record.grade,jdbcType=VARCHAR},
+      descption = #{record.descption,jdbcType=VARCHAR},
+      screen_rate = #{record.screenRate,jdbcType=INTEGER},
+      is_default = #{record.isDefault,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjAssetGrade">
+    update nj_asset_grade
+    <set>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=VARCHAR},
+      </if>
+      <if test="descption != null">
+        descption = #{descption,jdbcType=VARCHAR},
+      </if>
+      <if test="screenRate != null">
+        screen_rate = #{screenRate,jdbcType=INTEGER},
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjAssetGrade">
+    update nj_asset_grade
+    set grade = #{grade,jdbcType=VARCHAR},
+      descption = #{descption,jdbcType=VARCHAR},
+      screen_rate = #{screenRate,jdbcType=INTEGER},
+      is_default = #{isDefault,jdbcType=BIT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

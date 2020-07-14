@@ -1,0 +1,1003 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjUserBusinessSurveyMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjUserBusinessSurvey">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="pawn_id" jdbcType="VARCHAR" property="pawnId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="business_no" jdbcType="VARCHAR" property="businessNo" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="channel_user_id" jdbcType="VARCHAR" property="channelUserId" />
+    <result column="product_type" jdbcType="VARCHAR" property="productType" />
+    <result column="pawn_type" jdbcType="VARCHAR" property="pawnType" />
+    <result column="pawn_area" jdbcType="VARCHAR" property="pawnArea" />
+    <result column="repay_way" jdbcType="VARCHAR" property="repayWay" />
+    <result column="rating" jdbcType="VARCHAR" property="rating" />
+    <result column="loan_type" jdbcType="VARCHAR" property="loanType" />
+    <result column="usage_desc" jdbcType="VARCHAR" property="usageDesc" />
+    <result column="overdue" jdbcType="INTEGER" property="overdue" />
+    <result column="overdue_total" jdbcType="INTEGER" property="overdueTotal" />
+    <result column="credit_overdue" jdbcType="INTEGER" property="creditOverdue" />
+    <result column="credit_overdue_total" jdbcType="INTEGER" property="creditOverdueTotal" />
+    <result column="user_review" jdbcType="VARCHAR" property="userReview" />
+    <result column="together_overdue" jdbcType="INTEGER" property="togetherOverdue" />
+    <result column="together_overdue_total" jdbcType="INTEGER" property="togetherOverdueTotal" />
+    <result column="together_credit_overdue" jdbcType="INTEGER" property="togetherCreditOverdue" />
+    <result column="together_credit_overdue_total" jdbcType="INTEGER" property="togetherCreditOverdueTotal" />
+    <result column="user_together_review" jdbcType="VARCHAR" property="userTogetherReview" />
+    <result column="net_query" jdbcType="BIT" property="netQuery" />
+    <result column="credit_net_query" jdbcType="BIT" property="creditNetQuery" />
+    <result column="marr_status" jdbcType="VARCHAR" property="marrStatus" />
+    <result column="marr_year" jdbcType="INTEGER" property="marrYear" />
+    <result column="have_children" jdbcType="BIT" property="haveChildren" />
+    <result column="support_number" jdbcType="INTEGER" property="supportNumber" />
+    <result column="family_debt" jdbcType="DECIMAL" property="familyDebt" />
+    <result column="other_debt" jdbcType="DECIMAL" property="otherDebt" />
+    <result column="month_repay" jdbcType="DECIMAL" property="monthRepay" />
+    <result column="house_one_name" jdbcType="VARCHAR" property="houseOneName" />
+    <result column="house_one_price" jdbcType="DECIMAL" property="houseOnePrice" />
+    <result column="house_two_name" jdbcType="VARCHAR" property="houseTwoName" />
+    <result column="house_two_price" jdbcType="DECIMAL" property="houseTwoPrice" />
+    <result column="car_price" jdbcType="DECIMAL" property="carPrice" />
+    <result column="stock_price" jdbcType="DECIMAL" property="stockPrice" />
+    <result column="financial_price" jdbcType="DECIMAL" property="financialPrice" />
+    <result column="other_price" jdbcType="DECIMAL" property="otherPrice" />
+    <result column="bank_detail" jdbcType="DECIMAL" property="bankDetail" />
+    <result column="month_income" jdbcType="VARCHAR" property="monthIncome" />
+    <result column="manage_income" jdbcType="DECIMAL" property="manageIncome" />
+    <result column="rent_income" jdbcType="DECIMAL" property="rentIncome" />
+    <result column="other_income" jdbcType="DECIMAL" property="otherIncome" />
+    <result column="is_del" jdbcType="BIT" property="isDel" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="together_name" jdbcType="VARCHAR" property="togetherName" />
+    <result column="together_mobile" jdbcType="VARCHAR" property="togetherMobile" />
+    <result column="together_identity" jdbcType="VARCHAR" property="togetherIdentity" />
+    <result column="pic_file" jdbcType="VARCHAR" property="picFile" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, pawn_id, order_id, user_id, business_no, department, channel_user_id, product_type, 
+    pawn_type, pawn_area, repay_way, rating, loan_type, usage_desc, overdue, overdue_total, 
+    credit_overdue, credit_overdue_total, user_review, together_overdue, together_overdue_total, 
+    together_credit_overdue, together_credit_overdue_total, user_together_review, net_query, 
+    credit_net_query, marr_status, marr_year, have_children, support_number, family_debt, 
+    other_debt, month_repay, house_one_name, house_one_price, house_two_name, house_two_price, 
+    car_price, stock_price, financial_price, other_price, bank_detail, month_income, 
+    manage_income, rent_income, other_income, is_del, create_time, create_by, update_time, 
+    update_by, together_name, together_mobile, together_identity, pic_file
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjUserBusinessSurveyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_user_business_survey
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_user_business_survey
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_user_business_survey
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjUserBusinessSurveyExample">
+    delete from nj_user_business_survey
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjUserBusinessSurvey">
+    insert into nj_user_business_survey (id, pawn_id, order_id, 
+      user_id, business_no, department, 
+      channel_user_id, product_type, pawn_type, 
+      pawn_area, repay_way, rating, 
+      loan_type, usage_desc, overdue, 
+      overdue_total, credit_overdue, credit_overdue_total, 
+      user_review, together_overdue, together_overdue_total, 
+      together_credit_overdue, together_credit_overdue_total, 
+      user_together_review, net_query, credit_net_query, 
+      marr_status, marr_year, have_children, 
+      support_number, family_debt, other_debt, 
+      month_repay, house_one_name, house_one_price, 
+      house_two_name, house_two_price, car_price, 
+      stock_price, financial_price, other_price, 
+      bank_detail, month_income, manage_income, 
+      rent_income, other_income, is_del, 
+      create_time, create_by, update_time, 
+      update_by, together_name, together_mobile, 
+      together_identity, pic_file)
+    values (#{id,jdbcType=VARCHAR}, #{pawnId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{businessNo,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
+      #{channelUserId,jdbcType=VARCHAR}, #{productType,jdbcType=VARCHAR}, #{pawnType,jdbcType=VARCHAR}, 
+      #{pawnArea,jdbcType=VARCHAR}, #{repayWay,jdbcType=VARCHAR}, #{rating,jdbcType=VARCHAR}, 
+      #{loanType,jdbcType=VARCHAR}, #{usageDesc,jdbcType=VARCHAR}, #{overdue,jdbcType=INTEGER}, 
+      #{overdueTotal,jdbcType=INTEGER}, #{creditOverdue,jdbcType=INTEGER}, #{creditOverdueTotal,jdbcType=INTEGER}, 
+      #{userReview,jdbcType=VARCHAR}, #{togetherOverdue,jdbcType=INTEGER}, #{togetherOverdueTotal,jdbcType=INTEGER}, 
+      #{togetherCreditOverdue,jdbcType=INTEGER}, #{togetherCreditOverdueTotal,jdbcType=INTEGER}, 
+      #{userTogetherReview,jdbcType=VARCHAR}, #{netQuery,jdbcType=BIT}, #{creditNetQuery,jdbcType=BIT}, 
+      #{marrStatus,jdbcType=VARCHAR}, #{marrYear,jdbcType=INTEGER}, #{haveChildren,jdbcType=BIT}, 
+      #{supportNumber,jdbcType=INTEGER}, #{familyDebt,jdbcType=DECIMAL}, #{otherDebt,jdbcType=DECIMAL}, 
+      #{monthRepay,jdbcType=DECIMAL}, #{houseOneName,jdbcType=VARCHAR}, #{houseOnePrice,jdbcType=DECIMAL}, 
+      #{houseTwoName,jdbcType=VARCHAR}, #{houseTwoPrice,jdbcType=DECIMAL}, #{carPrice,jdbcType=DECIMAL}, 
+      #{stockPrice,jdbcType=DECIMAL}, #{financialPrice,jdbcType=DECIMAL}, #{otherPrice,jdbcType=DECIMAL}, 
+      #{bankDetail,jdbcType=DECIMAL}, #{monthIncome,jdbcType=VARCHAR}, #{manageIncome,jdbcType=DECIMAL}, 
+      #{rentIncome,jdbcType=DECIMAL}, #{otherIncome,jdbcType=DECIMAL}, #{isDel,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{togetherName,jdbcType=VARCHAR}, #{togetherMobile,jdbcType=VARCHAR}, 
+      #{togetherIdentity,jdbcType=VARCHAR}, #{picFile,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjUserBusinessSurvey">
+    insert into nj_user_business_survey
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pawnId != null">
+        pawn_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="businessNo != null">
+        business_no,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="channelUserId != null">
+        channel_user_id,
+      </if>
+      <if test="productType != null">
+        product_type,
+      </if>
+      <if test="pawnType != null">
+        pawn_type,
+      </if>
+      <if test="pawnArea != null">
+        pawn_area,
+      </if>
+      <if test="repayWay != null">
+        repay_way,
+      </if>
+      <if test="rating != null">
+        rating,
+      </if>
+      <if test="loanType != null">
+        loan_type,
+      </if>
+      <if test="usageDesc != null">
+        usage_desc,
+      </if>
+      <if test="overdue != null">
+        overdue,
+      </if>
+      <if test="overdueTotal != null">
+        overdue_total,
+      </if>
+      <if test="creditOverdue != null">
+        credit_overdue,
+      </if>
+      <if test="creditOverdueTotal != null">
+        credit_overdue_total,
+      </if>
+      <if test="userReview != null">
+        user_review,
+      </if>
+      <if test="togetherOverdue != null">
+        together_overdue,
+      </if>
+      <if test="togetherOverdueTotal != null">
+        together_overdue_total,
+      </if>
+      <if test="togetherCreditOverdue != null">
+        together_credit_overdue,
+      </if>
+      <if test="togetherCreditOverdueTotal != null">
+        together_credit_overdue_total,
+      </if>
+      <if test="userTogetherReview != null">
+        user_together_review,
+      </if>
+      <if test="netQuery != null">
+        net_query,
+      </if>
+      <if test="creditNetQuery != null">
+        credit_net_query,
+      </if>
+      <if test="marrStatus != null">
+        marr_status,
+      </if>
+      <if test="marrYear != null">
+        marr_year,
+      </if>
+      <if test="haveChildren != null">
+        have_children,
+      </if>
+      <if test="supportNumber != null">
+        support_number,
+      </if>
+      <if test="familyDebt != null">
+        family_debt,
+      </if>
+      <if test="otherDebt != null">
+        other_debt,
+      </if>
+      <if test="monthRepay != null">
+        month_repay,
+      </if>
+      <if test="houseOneName != null">
+        house_one_name,
+      </if>
+      <if test="houseOnePrice != null">
+        house_one_price,
+      </if>
+      <if test="houseTwoName != null">
+        house_two_name,
+      </if>
+      <if test="houseTwoPrice != null">
+        house_two_price,
+      </if>
+      <if test="carPrice != null">
+        car_price,
+      </if>
+      <if test="stockPrice != null">
+        stock_price,
+      </if>
+      <if test="financialPrice != null">
+        financial_price,
+      </if>
+      <if test="otherPrice != null">
+        other_price,
+      </if>
+      <if test="bankDetail != null">
+        bank_detail,
+      </if>
+      <if test="monthIncome != null">
+        month_income,
+      </if>
+      <if test="manageIncome != null">
+        manage_income,
+      </if>
+      <if test="rentIncome != null">
+        rent_income,
+      </if>
+      <if test="otherIncome != null">
+        other_income,
+      </if>
+      <if test="isDel != null">
+        is_del,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="togetherName != null">
+        together_name,
+      </if>
+      <if test="togetherMobile != null">
+        together_mobile,
+      </if>
+      <if test="togetherIdentity != null">
+        together_identity,
+      </if>
+      <if test="picFile != null">
+        pic_file,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnId != null">
+        #{pawnId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessNo != null">
+        #{businessNo,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="channelUserId != null">
+        #{channelUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnType != null">
+        #{pawnType,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnArea != null">
+        #{pawnArea,jdbcType=VARCHAR},
+      </if>
+      <if test="repayWay != null">
+        #{repayWay,jdbcType=VARCHAR},
+      </if>
+      <if test="rating != null">
+        #{rating,jdbcType=VARCHAR},
+      </if>
+      <if test="loanType != null">
+        #{loanType,jdbcType=VARCHAR},
+      </if>
+      <if test="usageDesc != null">
+        #{usageDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="overdue != null">
+        #{overdue,jdbcType=INTEGER},
+      </if>
+      <if test="overdueTotal != null">
+        #{overdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="creditOverdue != null">
+        #{creditOverdue,jdbcType=INTEGER},
+      </if>
+      <if test="creditOverdueTotal != null">
+        #{creditOverdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="userReview != null">
+        #{userReview,jdbcType=VARCHAR},
+      </if>
+      <if test="togetherOverdue != null">
+        #{togetherOverdue,jdbcType=INTEGER},
+      </if>
+      <if test="togetherOverdueTotal != null">
+        #{togetherOverdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="togetherCreditOverdue != null">
+        #{togetherCreditOverdue,jdbcType=INTEGER},
+      </if>
+      <if test="togetherCreditOverdueTotal != null">
+        #{togetherCreditOverdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="userTogetherReview != null">
+        #{userTogetherReview,jdbcType=VARCHAR},
+      </if>
+      <if test="netQuery != null">
+        #{netQuery,jdbcType=BIT},
+      </if>
+      <if test="creditNetQuery != null">
+        #{creditNetQuery,jdbcType=BIT},
+      </if>
+      <if test="marrStatus != null">
+        #{marrStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="marrYear != null">
+        #{marrYear,jdbcType=INTEGER},
+      </if>
+      <if test="haveChildren != null">
+        #{haveChildren,jdbcType=BIT},
+      </if>
+      <if test="supportNumber != null">
+        #{supportNumber,jdbcType=INTEGER},
+      </if>
+      <if test="familyDebt != null">
+        #{familyDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="otherDebt != null">
+        #{otherDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="monthRepay != null">
+        #{monthRepay,jdbcType=DECIMAL},
+      </if>
+      <if test="houseOneName != null">
+        #{houseOneName,jdbcType=VARCHAR},
+      </if>
+      <if test="houseOnePrice != null">
+        #{houseOnePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="houseTwoName != null">
+        #{houseTwoName,jdbcType=VARCHAR},
+      </if>
+      <if test="houseTwoPrice != null">
+        #{houseTwoPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="carPrice != null">
+        #{carPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="stockPrice != null">
+        #{stockPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="financialPrice != null">
+        #{financialPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="otherPrice != null">
+        #{otherPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="bankDetail != null">
+        #{bankDetail,jdbcType=DECIMAL},
+      </if>
+      <if test="monthIncome != null">
+        #{monthIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="manageIncome != null">
+        #{manageIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="rentIncome != null">
+        #{rentIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="otherIncome != null">
+        #{otherIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="togetherName != null">
+        #{togetherName,jdbcType=VARCHAR},
+      </if>
+      <if test="togetherMobile != null">
+        #{togetherMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="togetherIdentity != null">
+        #{togetherIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="picFile != null">
+        #{picFile,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjUserBusinessSurveyExample" resultType="java.lang.Long">
+    select count(*) from nj_user_business_survey
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_user_business_survey
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pawnId != null">
+        pawn_id = #{record.pawnId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessNo != null">
+        business_no = #{record.businessNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.department != null">
+        department = #{record.department,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelUserId != null">
+        channel_user_id = #{record.channelUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productType != null">
+        product_type = #{record.productType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pawnType != null">
+        pawn_type = #{record.pawnType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pawnArea != null">
+        pawn_area = #{record.pawnArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repayWay != null">
+        repay_way = #{record.repayWay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rating != null">
+        rating = #{record.rating,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loanType != null">
+        loan_type = #{record.loanType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usageDesc != null">
+        usage_desc = #{record.usageDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.overdue != null">
+        overdue = #{record.overdue,jdbcType=INTEGER},
+      </if>
+      <if test="record.overdueTotal != null">
+        overdue_total = #{record.overdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.creditOverdue != null">
+        credit_overdue = #{record.creditOverdue,jdbcType=INTEGER},
+      </if>
+      <if test="record.creditOverdueTotal != null">
+        credit_overdue_total = #{record.creditOverdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.userReview != null">
+        user_review = #{record.userReview,jdbcType=VARCHAR},
+      </if>
+      <if test="record.togetherOverdue != null">
+        together_overdue = #{record.togetherOverdue,jdbcType=INTEGER},
+      </if>
+      <if test="record.togetherOverdueTotal != null">
+        together_overdue_total = #{record.togetherOverdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.togetherCreditOverdue != null">
+        together_credit_overdue = #{record.togetherCreditOverdue,jdbcType=INTEGER},
+      </if>
+      <if test="record.togetherCreditOverdueTotal != null">
+        together_credit_overdue_total = #{record.togetherCreditOverdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.userTogetherReview != null">
+        user_together_review = #{record.userTogetherReview,jdbcType=VARCHAR},
+      </if>
+      <if test="record.netQuery != null">
+        net_query = #{record.netQuery,jdbcType=BIT},
+      </if>
+      <if test="record.creditNetQuery != null">
+        credit_net_query = #{record.creditNetQuery,jdbcType=BIT},
+      </if>
+      <if test="record.marrStatus != null">
+        marr_status = #{record.marrStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marrYear != null">
+        marr_year = #{record.marrYear,jdbcType=INTEGER},
+      </if>
+      <if test="record.haveChildren != null">
+        have_children = #{record.haveChildren,jdbcType=BIT},
+      </if>
+      <if test="record.supportNumber != null">
+        support_number = #{record.supportNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.familyDebt != null">
+        family_debt = #{record.familyDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.otherDebt != null">
+        other_debt = #{record.otherDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthRepay != null">
+        month_repay = #{record.monthRepay,jdbcType=DECIMAL},
+      </if>
+      <if test="record.houseOneName != null">
+        house_one_name = #{record.houseOneName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseOnePrice != null">
+        house_one_price = #{record.houseOnePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.houseTwoName != null">
+        house_two_name = #{record.houseTwoName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseTwoPrice != null">
+        house_two_price = #{record.houseTwoPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.carPrice != null">
+        car_price = #{record.carPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stockPrice != null">
+        stock_price = #{record.stockPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.financialPrice != null">
+        financial_price = #{record.financialPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.otherPrice != null">
+        other_price = #{record.otherPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bankDetail != null">
+        bank_detail = #{record.bankDetail,jdbcType=DECIMAL},
+      </if>
+      <if test="record.monthIncome != null">
+        month_income = #{record.monthIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manageIncome != null">
+        manage_income = #{record.manageIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rentIncome != null">
+        rent_income = #{record.rentIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="record.otherIncome != null">
+        other_income = #{record.otherIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isDel != null">
+        is_del = #{record.isDel,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.togetherName != null">
+        together_name = #{record.togetherName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.togetherMobile != null">
+        together_mobile = #{record.togetherMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.togetherIdentity != null">
+        together_identity = #{record.togetherIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picFile != null">
+        pic_file = #{record.picFile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_user_business_survey
+    set id = #{record.id,jdbcType=VARCHAR},
+      pawn_id = #{record.pawnId,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      business_no = #{record.businessNo,jdbcType=VARCHAR},
+      department = #{record.department,jdbcType=VARCHAR},
+      channel_user_id = #{record.channelUserId,jdbcType=VARCHAR},
+      product_type = #{record.productType,jdbcType=VARCHAR},
+      pawn_type = #{record.pawnType,jdbcType=VARCHAR},
+      pawn_area = #{record.pawnArea,jdbcType=VARCHAR},
+      repay_way = #{record.repayWay,jdbcType=VARCHAR},
+      rating = #{record.rating,jdbcType=VARCHAR},
+      loan_type = #{record.loanType,jdbcType=VARCHAR},
+      usage_desc = #{record.usageDesc,jdbcType=VARCHAR},
+      overdue = #{record.overdue,jdbcType=INTEGER},
+      overdue_total = #{record.overdueTotal,jdbcType=INTEGER},
+      credit_overdue = #{record.creditOverdue,jdbcType=INTEGER},
+      credit_overdue_total = #{record.creditOverdueTotal,jdbcType=INTEGER},
+      user_review = #{record.userReview,jdbcType=VARCHAR},
+      together_overdue = #{record.togetherOverdue,jdbcType=INTEGER},
+      together_overdue_total = #{record.togetherOverdueTotal,jdbcType=INTEGER},
+      together_credit_overdue = #{record.togetherCreditOverdue,jdbcType=INTEGER},
+      together_credit_overdue_total = #{record.togetherCreditOverdueTotal,jdbcType=INTEGER},
+      user_together_review = #{record.userTogetherReview,jdbcType=VARCHAR},
+      net_query = #{record.netQuery,jdbcType=BIT},
+      credit_net_query = #{record.creditNetQuery,jdbcType=BIT},
+      marr_status = #{record.marrStatus,jdbcType=VARCHAR},
+      marr_year = #{record.marrYear,jdbcType=INTEGER},
+      have_children = #{record.haveChildren,jdbcType=BIT},
+      support_number = #{record.supportNumber,jdbcType=INTEGER},
+      family_debt = #{record.familyDebt,jdbcType=DECIMAL},
+      other_debt = #{record.otherDebt,jdbcType=DECIMAL},
+      month_repay = #{record.monthRepay,jdbcType=DECIMAL},
+      house_one_name = #{record.houseOneName,jdbcType=VARCHAR},
+      house_one_price = #{record.houseOnePrice,jdbcType=DECIMAL},
+      house_two_name = #{record.houseTwoName,jdbcType=VARCHAR},
+      house_two_price = #{record.houseTwoPrice,jdbcType=DECIMAL},
+      car_price = #{record.carPrice,jdbcType=DECIMAL},
+      stock_price = #{record.stockPrice,jdbcType=DECIMAL},
+      financial_price = #{record.financialPrice,jdbcType=DECIMAL},
+      other_price = #{record.otherPrice,jdbcType=DECIMAL},
+      bank_detail = #{record.bankDetail,jdbcType=DECIMAL},
+      month_income = #{record.monthIncome,jdbcType=VARCHAR},
+      manage_income = #{record.manageIncome,jdbcType=DECIMAL},
+      rent_income = #{record.rentIncome,jdbcType=DECIMAL},
+      other_income = #{record.otherIncome,jdbcType=DECIMAL},
+      is_del = #{record.isDel,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      together_name = #{record.togetherName,jdbcType=VARCHAR},
+      together_mobile = #{record.togetherMobile,jdbcType=VARCHAR},
+      together_identity = #{record.togetherIdentity,jdbcType=VARCHAR},
+      pic_file = #{record.picFile,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjUserBusinessSurvey">
+    update nj_user_business_survey
+    <set>
+      <if test="pawnId != null">
+        pawn_id = #{pawnId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessNo != null">
+        business_no = #{businessNo,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="channelUserId != null">
+        channel_user_id = #{channelUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="productType != null">
+        product_type = #{productType,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnType != null">
+        pawn_type = #{pawnType,jdbcType=VARCHAR},
+      </if>
+      <if test="pawnArea != null">
+        pawn_area = #{pawnArea,jdbcType=VARCHAR},
+      </if>
+      <if test="repayWay != null">
+        repay_way = #{repayWay,jdbcType=VARCHAR},
+      </if>
+      <if test="rating != null">
+        rating = #{rating,jdbcType=VARCHAR},
+      </if>
+      <if test="loanType != null">
+        loan_type = #{loanType,jdbcType=VARCHAR},
+      </if>
+      <if test="usageDesc != null">
+        usage_desc = #{usageDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="overdue != null">
+        overdue = #{overdue,jdbcType=INTEGER},
+      </if>
+      <if test="overdueTotal != null">
+        overdue_total = #{overdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="creditOverdue != null">
+        credit_overdue = #{creditOverdue,jdbcType=INTEGER},
+      </if>
+      <if test="creditOverdueTotal != null">
+        credit_overdue_total = #{creditOverdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="userReview != null">
+        user_review = #{userReview,jdbcType=VARCHAR},
+      </if>
+      <if test="togetherOverdue != null">
+        together_overdue = #{togetherOverdue,jdbcType=INTEGER},
+      </if>
+      <if test="togetherOverdueTotal != null">
+        together_overdue_total = #{togetherOverdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="togetherCreditOverdue != null">
+        together_credit_overdue = #{togetherCreditOverdue,jdbcType=INTEGER},
+      </if>
+      <if test="togetherCreditOverdueTotal != null">
+        together_credit_overdue_total = #{togetherCreditOverdueTotal,jdbcType=INTEGER},
+      </if>
+      <if test="userTogetherReview != null">
+        user_together_review = #{userTogetherReview,jdbcType=VARCHAR},
+      </if>
+      <if test="netQuery != null">
+        net_query = #{netQuery,jdbcType=BIT},
+      </if>
+      <if test="creditNetQuery != null">
+        credit_net_query = #{creditNetQuery,jdbcType=BIT},
+      </if>
+      <if test="marrStatus != null">
+        marr_status = #{marrStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="marrYear != null">
+        marr_year = #{marrYear,jdbcType=INTEGER},
+      </if>
+      <if test="haveChildren != null">
+        have_children = #{haveChildren,jdbcType=BIT},
+      </if>
+      <if test="supportNumber != null">
+        support_number = #{supportNumber,jdbcType=INTEGER},
+      </if>
+      <if test="familyDebt != null">
+        family_debt = #{familyDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="otherDebt != null">
+        other_debt = #{otherDebt,jdbcType=DECIMAL},
+      </if>
+      <if test="monthRepay != null">
+        month_repay = #{monthRepay,jdbcType=DECIMAL},
+      </if>
+      <if test="houseOneName != null">
+        house_one_name = #{houseOneName,jdbcType=VARCHAR},
+      </if>
+      <if test="houseOnePrice != null">
+        house_one_price = #{houseOnePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="houseTwoName != null">
+        house_two_name = #{houseTwoName,jdbcType=VARCHAR},
+      </if>
+      <if test="houseTwoPrice != null">
+        house_two_price = #{houseTwoPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="carPrice != null">
+        car_price = #{carPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="stockPrice != null">
+        stock_price = #{stockPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="financialPrice != null">
+        financial_price = #{financialPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="otherPrice != null">
+        other_price = #{otherPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="bankDetail != null">
+        bank_detail = #{bankDetail,jdbcType=DECIMAL},
+      </if>
+      <if test="monthIncome != null">
+        month_income = #{monthIncome,jdbcType=VARCHAR},
+      </if>
+      <if test="manageIncome != null">
+        manage_income = #{manageIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="rentIncome != null">
+        rent_income = #{rentIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="otherIncome != null">
+        other_income = #{otherIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="isDel != null">
+        is_del = #{isDel,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="togetherName != null">
+        together_name = #{togetherName,jdbcType=VARCHAR},
+      </if>
+      <if test="togetherMobile != null">
+        together_mobile = #{togetherMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="togetherIdentity != null">
+        together_identity = #{togetherIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="picFile != null">
+        pic_file = #{picFile,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjUserBusinessSurvey">
+    update nj_user_business_survey
+    set pawn_id = #{pawnId,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      business_no = #{businessNo,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      channel_user_id = #{channelUserId,jdbcType=VARCHAR},
+      product_type = #{productType,jdbcType=VARCHAR},
+      pawn_type = #{pawnType,jdbcType=VARCHAR},
+      pawn_area = #{pawnArea,jdbcType=VARCHAR},
+      repay_way = #{repayWay,jdbcType=VARCHAR},
+      rating = #{rating,jdbcType=VARCHAR},
+      loan_type = #{loanType,jdbcType=VARCHAR},
+      usage_desc = #{usageDesc,jdbcType=VARCHAR},
+      overdue = #{overdue,jdbcType=INTEGER},
+      overdue_total = #{overdueTotal,jdbcType=INTEGER},
+      credit_overdue = #{creditOverdue,jdbcType=INTEGER},
+      credit_overdue_total = #{creditOverdueTotal,jdbcType=INTEGER},
+      user_review = #{userReview,jdbcType=VARCHAR},
+      together_overdue = #{togetherOverdue,jdbcType=INTEGER},
+      together_overdue_total = #{togetherOverdueTotal,jdbcType=INTEGER},
+      together_credit_overdue = #{togetherCreditOverdue,jdbcType=INTEGER},
+      together_credit_overdue_total = #{togetherCreditOverdueTotal,jdbcType=INTEGER},
+      user_together_review = #{userTogetherReview,jdbcType=VARCHAR},
+      net_query = #{netQuery,jdbcType=BIT},
+      credit_net_query = #{creditNetQuery,jdbcType=BIT},
+      marr_status = #{marrStatus,jdbcType=VARCHAR},
+      marr_year = #{marrYear,jdbcType=INTEGER},
+      have_children = #{haveChildren,jdbcType=BIT},
+      support_number = #{supportNumber,jdbcType=INTEGER},
+      family_debt = #{familyDebt,jdbcType=DECIMAL},
+      other_debt = #{otherDebt,jdbcType=DECIMAL},
+      month_repay = #{monthRepay,jdbcType=DECIMAL},
+      house_one_name = #{houseOneName,jdbcType=VARCHAR},
+      house_one_price = #{houseOnePrice,jdbcType=DECIMAL},
+      house_two_name = #{houseTwoName,jdbcType=VARCHAR},
+      house_two_price = #{houseTwoPrice,jdbcType=DECIMAL},
+      car_price = #{carPrice,jdbcType=DECIMAL},
+      stock_price = #{stockPrice,jdbcType=DECIMAL},
+      financial_price = #{financialPrice,jdbcType=DECIMAL},
+      other_price = #{otherPrice,jdbcType=DECIMAL},
+      bank_detail = #{bankDetail,jdbcType=DECIMAL},
+      month_income = #{monthIncome,jdbcType=VARCHAR},
+      manage_income = #{manageIncome,jdbcType=DECIMAL},
+      rent_income = #{rentIncome,jdbcType=DECIMAL},
+      other_income = #{otherIncome,jdbcType=DECIMAL},
+      is_del = #{isDel,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      together_name = #{togetherName,jdbcType=VARCHAR},
+      together_mobile = #{togetherMobile,jdbcType=VARCHAR},
+      together_identity = #{togetherIdentity,jdbcType=VARCHAR},
+      pic_file = #{picFile,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

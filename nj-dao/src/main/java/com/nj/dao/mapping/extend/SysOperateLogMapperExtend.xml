@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.SysOperateLogMapperExtend">
+
+  <select id="selectList" parameterType="java.util.Map" resultType="com.nj.model.generate.SysOperateLog">
+  	SELECT * FROM sys_operate_log 
+  	<where>
+  		<if test="keyword != null">
+  			and (user_name LIKE CONCAT('%',#{keyword},'%') OR operate_function LIKE CONCAT('%',#{keyword},'%') OR operate_content LIKE CONCAT('%',#{keyword},'%'))
+  		</if>
+  	</where>
+  	<if test="start != null and length != null">
+      limit #{start},#{length}
+    </if>
+  </select>
+  
+  <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT count(*) FROM sys_operate_log 
+  	<where>
+  		<if test="keyword != null">
+  			and (user_name LIKE CONCAT('%',#{keyword},'%') OR operate_function LIKE CONCAT('%',#{keyword},'%') OR operate_content LIKE CONCAT('%',#{keyword},'%'))
+  		</if>
+  	</where>
+  </select>
+</mapper>

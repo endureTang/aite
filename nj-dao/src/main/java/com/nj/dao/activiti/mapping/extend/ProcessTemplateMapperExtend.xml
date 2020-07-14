@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.activiti.mapper.extend.ProcessTemplateMapperExtend">
+  
+  <select id="getByProcessId" parameterType="java.lang.String" resultType="com.nj.model.activiti.base.ProcessTemplate">
+  	SELECT 
+  		pt.* 
+  	FROM 
+  		process_template pt,PROCESS p
+	WHERE 
+		pt.`id`=p.`process_template_id`
+		AND p.`id`=#{processId,jdbcType=VARCHAR};
+  </select>
+</mapper>

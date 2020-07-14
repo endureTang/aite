@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjUserInfoMapperExtend">
+
+	<select id="selectUserByRole" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select DISTINCT nui.id,nui.user_name as userName, nui.user_mobile as userMobile
+		from sys_user_role sur
+		inner join nj_user_info nui
+		on 1 = 1
+		<if test="roleId != null">
+			and sur.role_id = #{roleId,jdbcType=VARCHAR}
+		</if>
+		and sur.user_id = nui.id 
+		inner join nj_coporate_user ncu
+		on ncu.user_id = nui.id
+		<if test="coporateId != null">
+			and ncu.coporate_id = #{coporateId,jdbcType=VARCHAR}
+		</if>
+		<if test="info != null">
+			and (nui.user_name like #{info} or nui.user_mobile like #{info})
+		</if>
+	</select>
+	
+	<select id="selectUserByRoleType" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT
+			t.id,
+			t.user_name,
+			t.user_mobile
+		FROM
+			nj_user_info t
+		LEFT JOIN sys_user_role t1 ON t.id = t1.user_id
+		LEFT JOIN sys_role t2 ON t1.role_id = t2.id
+		WHERE t.del_flag = 0 and
+			t2.role_type = #{roleType}
+			<if test="coporateId != null and coporateId != ''">
+				 AND t1.coporate_id = #{coporateId}
+			</if>
+	</select>
+
+	<select id="selectJoinedCompany" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select
+		nui.id as userId,
+		nui.user_name as userName,
+		nui.email as email,
+		nui.user_mobile as userMobile,
+		nui.remarks,ncu.coporate_id as coporateId,
+		ifnull(ncu.is_default_login,false) as isDefaultLogin ,
+		nui.create_date as createDate,
+		nc.compan_name as companName,
+		IFNULL(cpc.count,0) as count,
+		ncu.state,
+		ncu.apply_date as applyDate,
+		case
+		when ncu.state = 0 then '待审核'
+		when ncu.state = 1 then '审核通过'
+		when ncu.state = 2 then '审核不通过'
+		when ncu.state = 3 then '取消申请'
+		else '待审核'
+		end as stateLabel,
+		case
+		 when nc.create_by = #{userMobile,jdbcType=VARCHAR} then '我创建的公司'
+		 else '我加入的公司'
+		 end as relation
+		from nj_user_info nui
+		inner join nj_coporate_user ncu
+		on 1 =1
+		<if test="userMobile != null">
+			and nui.user_mobile = #{userMobile,jdbcType=VARCHAR}
+		</if>
+		and ncu.user_id = nui.id
+		inner join nj_coporate nc
+		on nc.id = ncu.coporate_id
+		inner join
+		(select count(1) count,coporate_id from nj_coporate_user group by
+		coporate_id) cpc
+		on nc.id = cpc.coporate_id
+		order by ncu.is_default_login desc
+	</select>
+
+	<select id="selectJoinAbleCompany" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select nc.* from nj_coporate nc
+		where nc.id not in
+		(
+		select ncu.coporate_id from nj_coporate_user ncu
+		where 1=1 
+		<if test="userId != null">
+			and user_id = #{userId,jdbcType=VARCHAR}
+		</if>
+		and <![CDATA[IFNULL(ncu.state,0) < 3 ]]>
+		)
+	</select>
+
+	<select id="selectByCondition" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select userInfo.*
+		,ncu.coporate_id
+		as coporateId,sur.role_id as
+		roleId,nc.compan_name as companName
+		from
+		(select nui.id as
+		id,nui.user_name as userName,nui.user_mobile as mobile
+		from
+		nj_user_info nui where 1 = 1
+		<if test="userMobile != null">
+			and nui.user_mobile = #{userMobile,jdbcType=VARCHAR}
+		</if>
+		<if test="id != null">
+			and nui.id = #{id,jdbcType=VARCHAR}
+		</if>
+		) userInfo
+		left join nj_coporate_user ncu on userInfo.id = ncu.user_id
+		left join sys_user_role sur on userInfo.id = sur.user_id
+		left join
+		nj_coporate nc on nc.id = ncu.coporate_id
+	</select>
+
+	<select id="getUserAttachments" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select 
+			nua.file_path as filePath,
+			nua.business_type as buinessType 
+		from nj_order_attachment noa
+		inner join nj_user_attachment nua
+		on noa.attach_id = nua.id
+		<if test="orderId != null">
+			and nua.id = #{orderId,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<select id="selectVerifiedAccount" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select mt.*,group_concat(mt.roleName separator ',') as roleNames from
+			(
+			select 
+				nui.apply_reason as applyReason,nui.id,nui.user_name as userName, nui.user_mobile as userMobile,
+				nui.last_login_date as lastLoginDate, nui.remarks,nui.state, sr.name as roleName,
+				case
+					when ncu.state = 0 then '待审核'
+					when ncu.state = 1 then '审核通过'
+					when ncu.state = 2 then '审核不通过'
+					when ncu.state = 3 then '取消申请'
+				else '待审核'
+				end 
+				as stateLabel
+			from
+				nj_user_info nui
+			inner join 
+				nj_coporate_user ncu
+			on
+				ncu.state = 1
+				<if test="id != null">
+					and <![CDATA[ nui.id <>#{id,jdbcType=VARCHAR} and ]]>
+				</if>
+				nui.id = ncu.user_id
+				<if test="coporateId != null">
+					and ncu.coporate_id = #{coporateId,jdbcType=VARCHAR}
+				</if>
+			left join 
+				sys_user_role sur
+			on 
+				sur.user_id = nui.id 
+				<if test="coporateId != null">
+					and sur.coporate_id = #{coporateId,jdbcType=VARCHAR}
+				</if>
+			left join 
+				sys_role sr
+			on 
+				sur.role_id = sr.id
+			) mt
+		group by mt.id limit #{start},#{length}
+	</select>
+	
+	<select id="selectVerifiedAccountCount" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select count(mt.id) from
+			(
+			select 
+				nui.apply_reason as applyReason,nui.id,nui.user_name as userName, nui.user_mobile as userMobile,
+				nui.last_login_date as lastLoginDate, nui.remarks,nui.state, sr.name as roleName,
+				case
+					when ncu.state = 0 then '待审核'
+					when ncu.state = 1 then '审核通过'
+					when ncu.state = 2 then '审核不通过'
+					when ncu.state = 3 then '取消申请'
+				else '待审核'
+				end 
+				as stateLabel
+			from
+				nj_user_info nui
+			inner join 
+				nj_coporate_user ncu
+			on
+				ncu.state = 1
+				<if test="id != null">
+					and <![CDATA[ nui.id <>#{id,jdbcType=VARCHAR} and ]]>
+				</if>
+				nui.id = ncu.user_id
+				<if test="coporateId != null">
+					and ncu.coporate_id = #{coporateId,jdbcType=VARCHAR}
+				</if>
+			left join 
+				sys_user_role sur
+			on 
+				sur.user_id = nui.id 
+				<if test="coporateId != null">
+					and sur.coporate_id = #{coporateId,jdbcType=VARCHAR}
+				</if>
+			left join 
+				sys_role sr
+			on 
+				sur.role_id = sr.id
+			) mt
+		group by mt.id
+	</select>
+
+	<select id="selectVerifiedAccountListPage" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select mt.*,GROUP_CONCAT(mt.roleName separator ','),group_concat(mt.roleName separator ',') as roleNames from
+		(
+			select nui.apply_reason as applyReason,nui.id,nui.user_name as userName, nui.user_mobile as
+			userMobile,
+			nui.last_login_date as lastLoginDate, nui.remarks,nui.state, sr.name as
+			roleName,
+			case
+				when ncu.state = 0 then '待审核'
+				when ncu.state = 1 then '审核通过'
+				when ncu.state = 2 then '审核不通过'
+				when ncu.state = 3 then '取消申请'
+			else '待审核'
+			end as stateLabel
+			from
+			nj_user_info nui
+			inner join nj_coporate_user ncu
+			on
+			ncu.state = 1
+			<if test="id != null">
+				and <![CDATA[ nui.id <>#{id,jdbcType=VARCHAR} and ]]>
+			</if>
+			nui.id = ncu.user_id
+			<if test="coporateId != null">
+				and ncu.coporate_id = #{coporateId,jdbcType=VARCHAR}
+			</if>
+			left join sys_user_role sur
+			on sur.user_id = nui.id
+			left join sys_role
+			sr
+			on sur.role_id = sr.id
+			) mt
+			group by mt.id
+	</select>
+	
+	<select id="selectAllAccount" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select 
+			ncu.id as ncuId,
+			nui.id,
+			nui.user_name as userName, 
+			nui.user_mobile as userMobile, 
+			nui.last_login_date as lastLoginDate, 
+			nui.remarks,
+			ncu.state, 
+			ncu.apply_reason as applyReason
+		from
+			nj_user_info nui,
+			nj_coporate_user ncu
+		where 
+			nui.id = ncu.user_id
+			<if test="id != null">
+				and <![CDATA[ nui.id <>#{id,jdbcType=VARCHAR} ]]>
+			</if>
+			<if test="coporateId != null">
+				and ncu.coporate_id = #{coporateId,jdbcType=VARCHAR}
+			</if>
+			<if test="info != null">
+				and (nui.user_name like #{info} or nui.user_mobile like #{info})
+			</if>
+			limit #{start},#{length}
+	</select>
+	
+	<select id="selectAllAccountCount" parameterType="java.util.Map"
+		resultType="java.lang.Integer">
+		select count(nui.id)
+		from
+		nj_user_info nui,
+		nj_coporate_user ncu
+		where nui.id = ncu.user_id
+		and nui.id =
+		ncu.user_id
+		<if test="id != null">
+			and <![CDATA[ nui.id <>#{id,jdbcType=VARCHAR} ]]>
+		</if>
+		<if test="coporateId != null">
+			and ncu.coporate_id = #{coporateId,jdbcType=VARCHAR}
+		</if>
+		<if test="info != null">
+			and (nui.user_name like #{info} or nui.user_mobile like #{info})
+		</if>
+	</select>
+
+	<select id="selectAllAccountListPage" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select ncu.id as ncuId,nui.id,nui.user_name as userName, nui.user_mobile as
+		userMobile, nui.last_login_date as lastLoginDate, nui.remarks
+		,ncu.state, ncu.apply_reason as applyReason
+		from
+		nj_user_info nui,
+		nj_coporate_user ncu
+		where nui.id = ncu.user_id
+		and nui.id =
+		ncu.user_id
+		<if test="id != null">
+			and <![CDATA[ nui.id <>#{id,jdbcType=VARCHAR} ]]>
+		</if>
+		<if test="coporateId != null">
+			and ncu.coporate_id = #{coporateId,jdbcType=VARCHAR}
+		</if>
+		<if test="info != null">
+			and (nui.user_name like #{info} or nui.user_mobile like #{info})
+		</if>
+	</select>
+	
+	<select id="selectCoporateAccount" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select nui.id,nui.user_name as userName, nui.user_mobile as
+		userMobile, nui.last_login_date as lastLoginDate, nui.remarks
+		,nui.state
+		from
+		nj_user_info nui,
+		nj_coporate_user ncu
+		where nui.id = ncu.user_id
+		and ncu.coporate_id
+		= #{coporateId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectUserAccount" parameterType="java.util.Map"
+		resultType="java.util.HashMap">
+		select user.id as id, user.user_mobile as userMobile, user.user_name as userName, 
+		group_concat(distinct role.name) as roleNames, user.remarks as remarks,
+		user.apply_reason as applyReason,
+		case
+			when user.state = 0 then '待审核'
+			when user.state = 1 then '审核通过'
+			when user.state = 2 then '审核不通过'
+			when user.state = 3 then '取消申请'
+		else '待审核'
+		end as stateLabel,
+		nc.compan_name  as  companName,
+		nc.id  as  coporateId
+		from 
+		nj_user_info as user 
+		left join sys_user_role as user_role on user.id = user_role.user_id 
+		left join sys_role as role on user_role.role_id = role.id 
+		left  join  nj_coporate_user  ncu  on  ncu.user_id =  user.id
+		left join nj_coporate  nc  on   nc.id= ncu.coporate_id
+		<![CDATA[
+		where ( user.del_flag = 0 or user.del_flag is null)
+		]]>
+		<if test="search != null">
+			and (user.user_mobile like "%"#{search,jdbcType=VARCHAR}"%" 
+			or user.user_name like "%"#{search,jdbcType=VARCHAR}"%"
+			or role.name like "%"#{search,jdbcType=VARCHAR}"%")
+		</if>
+		<if test="coporateId != null">
+				and ncu.coporate_id = #{coporateId,jdbcType=VARCHAR}
+		</if>
+		group by user_mobile limit #{start},#{length};
+	</select>
+	
+	
+	<select id="selectUserAccountCount" parameterType="java.util.Map"
+		resultType="java.lang.Long">
+		select  count(1)  from(
+		select
+			count(*)
+		from 
+			nj_user_info user
+			left join sys_user_role as user_role on user.id = user_role.user_id 
+		    left join sys_role as role on user_role.role_id = role.id 
+		    left  join  nj_coporate_user  ncu  on  ncu.user_id =  user.id
+		    left join nj_coporate  nc  on   nc.id= ncu.coporate_id
+		    <![CDATA[
+			where ( user.del_flag = 0 or user.del_flag is null)
+			]]>
+			<if test="search != null">
+				and (user.user_mobile like "%"#{search,jdbcType=VARCHAR}"%" 
+				or user.user_name like "%"#{search,jdbcType=VARCHAR}"%"
+				or role.name like "%"#{search,jdbcType=VARCHAR}"%")
+			</if>
+			
+			<if test="coporateId != null">
+				and ncu.coporate_id = #{coporateId,jdbcType=VARCHAR}
+			</if>
+			group  by  user_mobile
+			)  tt
+	</select>
+	<select id="selectUserRoles" parameterType="java.lang.String"
+		resultType="java.util.HashMap">
+		select sys_role.role_type as roleType
+		from
+		sys_role
+		left join sys_user_role on sys_role.id = sys_user_role.role_id 
+		left join nj_user_info on sys_user_role.user_id = nj_user_info.id 
+		where nj_user_info.id = #{userId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectPwdByUserId" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select password
+		from
+		nj_user_info
+		where id = #{userId,jdbcType=VARCHAR}
+	</select>
+	
+
+	<!-- 账户审核和角色分配 -->
+	<update id="decline" parameterType="java.util.List">
+		update nj_coporate_user set
+		state = 2
+		where
+
+		id in
+		<foreach collection="list" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="accept" parameterType="java.util.List">
+		update nj_coporate_user set
+		state = 1
+		where
+
+		id in
+		<foreach collection="list" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<update id="updateDefaultLogin" parameterType="java.util.Map">
+		update
+		nj_coporate_user ncu set ncu.is_default_login = (
+		case when
+		ncu.coporate_id = #{coporateId,jdbcType=VARCHAR}
+		then TRUE
+		else
+		FALSE
+		end
+		)
+		where ncu.user_id = #{userId,jdbcType=VARCHAR}
+	</update>
+
+  <update id="updateByPrimaryKeySelective" parameterType="java.util.Map">
+    <!--
+      WARNING - @mbg.generated
+      This element is automatically generated by MyBatis Generator, do not modify.
+      This element was generated on Sat Apr 01 17:18:47 CST 2017.
+    -->
+    update nj_user_info
+    <set>
+      <if test="applyReason != null">
+        apply_reason = #{applyReason,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        user_name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        user_mobile = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="authToken != null">
+        auth_token = #{authToken,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLoginDate != null">
+        last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="openUserId != null">
+        open_user_id = #{openUserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 判断用户权限 -->
+  <select id="getAuthority" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT count(*) FROM sys_resource WHERE id in(
+	SELECT menu_id FROM sys_role_resource WHERE role_id in (
+	SELECT role_id FROM sys_user_role WHERE user_id = #{userId})) AND href = #{keyword}
+  </select>
+  
+  <select id="getByMobile" parameterType="java.lang.String" resultType="com.nj.model.generate.NjUserInfo">
+  	select id,del_flag from nj_user_info where user_mobile = #{userMobile} 
+  </select>
+  
+  <select id="getCopoUserForAcctManagePage" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select 
+			u.id,
+			u.user_mobile as userMobile, 
+			u.user_name as userName, 
+			urs.roleName roleName,
+			u.remarks,
+			u.state
+		from
+			nj_coporate_user cu
+		inner join 
+			nj_user_info u
+		on
+			cu.user_id=u.id
+			and cu.coporate_id = #{coporateId,jdbcType=VARCHAR}
+			and u.del_flag = 0
+		left join
+			(SELECT 
+				ur.user_id,
+				GROUP_CONCAT(r.name SEPARATOR ',') roleName
+			FROM 
+				sys_user_role ur 
+	    	LEFT JOIN 
+	    		sys_role r 
+	    	ON 
+	    		ur.role_id = r.id 
+	    	WHERE 
+	    		ur.coporate_id = #{coporateId,jdbcType=VARCHAR}
+	    	GROUP BY ur.user_id) urs
+	    on
+	    	cu.user_id = urs.user_id
+		<where>
+			1=1
+			<if test="queryCondition != null">
+				and (
+					u.user_mobile like concat('%',#{queryCondition,jdbcType=VARCHAR},'%')
+					or u.user_name like concat('%',#{queryCondition,jdbcType=VARCHAR},'%')
+					or urs.roleName like concat('%',#{queryCondition,jdbcType=VARCHAR},'%')
+				)
+			</if>
+		</where>
+	</select>
+
+  <select id="selectListByCompanyId" parameterType="java.util.Map" resultType="com.nj.model.generate.NjUserInfo">
+  
+  	SELECT
+  		DISTINCT
+		a.id,
+		a.user_name
+	FROM
+		nj_user_info a
+	INNER JOIN sys_user_role b ON a.id = b.user_id
+	INNER JOIN sys_role c ON b.role_id = c.id
+	AND b.coporate_id = #{companyId}
+	AND c.role_type = #{roleType}
+  </select>
+  
+  <select id="selectUserByOrderId" parameterType="String" resultType="com.nj.model.generate.NjUserInfo">
+  	select nui.id,nui.user_name, nui.parent_id from nj_user_info nui
+	INNER JOIN nj_app_user nau on nui.id=nau.channel_user_id 
+	INNER JOIN nj_loan_order nlo on nlo.user_id=nau.id and nlo.company_id=nau.company_id
+	and nlo.id=#{orderId}
+  </select>
+  
+  <select id="getUserRoleInfo" parameterType="java.lang.String" resultType="java.util.Map" >
+  	SELECT 
+  		u.id,
+  		u.user_name userName,
+  		GROUP_CONCAT(DISTINCT ur.role_id SEPARATOR ',') roleIds,
+  		GROUP_CONCAT(DISTINCT pu.product_id SEPARATOR ',') productIds,
+  		GROUP_CONCAT(DISTINCT cu.channel_id SEPARATOR ',') channelIds,
+  		u.parent_id parentId,
+  		u.user_mobile userMobile,
+  		u.password,
+ 	 	u.remarks,
+  		u.state 
+	FROM
+  		nj_user_info u 
+ 	LEFT JOIN 
+ 		sys_user_role ur 
+	ON 	
+		u.id = ur.user_id
+	left join 
+		nj_product_user pu
+	on 
+		pu.user_id = u.id 
+	left join 
+		nj_channel_user cu
+	on
+		cu.user_info_id = u.id 
+    WHERE u.id = #{userId,jdbcType=VARCHAR}
+     
+  </select>
+  
+  <select id="getUserInfoAll"  resultType="java.util.Map">
+  select DISTINCT t.coporate_id coporateId,t.user_id userId,t1.user_name userName,t1.user_mobile userMobile,t3.name roleName from  nj_coporate_user t  left join  nj_user_info t1 on t.user_id = t1.id
+   left join sys_user_role t2 on t1.id = t2.user_id  left join sys_role t3 on t2.role_id =t3.id  where t1.user_mobile is not null and t1.user_mobile != "" and t3.role_type = "businessCommissioner" and t1.del_flag=0
+  </select>
+</mapper>

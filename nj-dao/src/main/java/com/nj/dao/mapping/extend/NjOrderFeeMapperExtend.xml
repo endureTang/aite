@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjOrderFeeMapperExtend">
+  		  <!-- 批量插入 -->
+	  <insert id="insertOrderFee" parameterType="java.util.List">
+	  	   INSERT INTO nj_order_fee (
+	  	   id, 
+	  	   product_id, 
+	  	   order_id, 
+	  	   business_fee_code, 
+	  	   business_fee_code_name, 
+	  	   amount,
+	  	   create_date, 
+	  	   create_by, 
+	  	   update_date, 
+	  	   update_by 
+	  	   )
+	      VALUES
+	      <foreach collection="list" item="model" separator=",">
+            (
+            #{model.id},
+            #{model.productId},
+            #{model.orderId},
+            #{model.businessFeeCode},
+             #{model.businessFeeCodeName},
+            #{model.amount},
+            #{model.createDate},
+            #{model.createBy},
+            #{model.updateDate},
+            #{model.updateBy}
+            
+            )
+         </foreach>
+	  </insert>
+
+	<select id='selectOrderFeeByOrderId' resultType="com.nj.model.generate.NjOrderFee">
+		select * from  nj_order_fee where order_id=#{orderId}
+	</select>
+</mapper>

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjProductTransactionMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjProductTransaction">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="product_id" jdbcType="VARCHAR" property="productId" />
+    <result column="repayment_plan_way" jdbcType="TINYINT" property="repaymentPlanWay" />
+    <result column="repayment_plan_day_offset" jdbcType="INTEGER" property="repaymentPlanDayOffset" />
+    <result column="fixed_interest_rate" jdbcType="DECIMAL" property="fixedInterestRate" />
+    <result column="service_charge" jdbcType="DECIMAL" property="serviceCharge" />
+    <result column="drawing_control" jdbcType="BIT" property="drawingControl" />
+    <result column="is_online_sign" jdbcType="BIT" property="isOnlineSign" />
+    <result column="is_prepay_sup" jdbcType="BIT" property="isPrepaySup" />
+    <result column="is_penalty_sup" jdbcType="BIT" property="isPenaltySup" />
+    <result column="contract_generation_type" jdbcType="TINYINT" property="contractGenerationType" />
+    <result column="service_rate_term" jdbcType="DECIMAL" property="serviceRateTerm" />
+    <result column="term_money" jdbcType="DECIMAL" property="termMoney" />
+    <result column="own_loan_type" jdbcType="SMALLINT" property="ownLoanType" />
+    <result column="channel_loan_type" jdbcType="SMALLINT" property="channelLoanType" />
+    <result column="own_payback_type" jdbcType="SMALLINT" property="ownPaybackType" />
+    <result column="channel_payback_type" jdbcType="SMALLINT" property="channelPaybackType" />
+    <result column="fee_float" jdbcType="TINYINT" property="feeFloat" />
+    <result column="is_deduct" jdbcType="BIT" property="isDeduct" />
+    <result column="max_amount" jdbcType="DECIMAL" property="maxAmount" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, product_id, repayment_plan_way, repayment_plan_day_offset, fixed_interest_rate, 
+    service_charge, drawing_control, is_online_sign, is_prepay_sup, is_penalty_sup, contract_generation_type, 
+    service_rate_term, term_money, own_loan_type, channel_loan_type, own_payback_type, 
+    channel_payback_type, fee_float, is_deduct, max_amount
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjProductTransactionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_product_transaction
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_product_transaction
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_product_transaction
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjProductTransactionExample">
+    delete from nj_product_transaction
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjProductTransaction">
+    insert into nj_product_transaction (id, product_id, repayment_plan_way, 
+      repayment_plan_day_offset, fixed_interest_rate, 
+      service_charge, drawing_control, is_online_sign, 
+      is_prepay_sup, is_penalty_sup, contract_generation_type, 
+      service_rate_term, term_money, own_loan_type, 
+      channel_loan_type, own_payback_type, channel_payback_type, 
+      fee_float, is_deduct, max_amount
+      )
+    values (#{id,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{repaymentPlanWay,jdbcType=TINYINT}, 
+      #{repaymentPlanDayOffset,jdbcType=INTEGER}, #{fixedInterestRate,jdbcType=DECIMAL}, 
+      #{serviceCharge,jdbcType=DECIMAL}, #{drawingControl,jdbcType=BIT}, #{isOnlineSign,jdbcType=BIT}, 
+      #{isPrepaySup,jdbcType=BIT}, #{isPenaltySup,jdbcType=BIT}, #{contractGenerationType,jdbcType=TINYINT}, 
+      #{serviceRateTerm,jdbcType=DECIMAL}, #{termMoney,jdbcType=DECIMAL}, #{ownLoanType,jdbcType=SMALLINT}, 
+      #{channelLoanType,jdbcType=SMALLINT}, #{ownPaybackType,jdbcType=SMALLINT}, #{channelPaybackType,jdbcType=SMALLINT}, 
+      #{feeFloat,jdbcType=TINYINT}, #{isDeduct,jdbcType=BIT}, #{maxAmount,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjProductTransaction">
+    insert into nj_product_transaction
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="repaymentPlanWay != null">
+        repayment_plan_way,
+      </if>
+      <if test="repaymentPlanDayOffset != null">
+        repayment_plan_day_offset,
+      </if>
+      <if test="fixedInterestRate != null">
+        fixed_interest_rate,
+      </if>
+      <if test="serviceCharge != null">
+        service_charge,
+      </if>
+      <if test="drawingControl != null">
+        drawing_control,
+      </if>
+      <if test="isOnlineSign != null">
+        is_online_sign,
+      </if>
+      <if test="isPrepaySup != null">
+        is_prepay_sup,
+      </if>
+      <if test="isPenaltySup != null">
+        is_penalty_sup,
+      </if>
+      <if test="contractGenerationType != null">
+        contract_generation_type,
+      </if>
+      <if test="serviceRateTerm != null">
+        service_rate_term,
+      </if>
+      <if test="termMoney != null">
+        term_money,
+      </if>
+      <if test="ownLoanType != null">
+        own_loan_type,
+      </if>
+      <if test="channelLoanType != null">
+        channel_loan_type,
+      </if>
+      <if test="ownPaybackType != null">
+        own_payback_type,
+      </if>
+      <if test="channelPaybackType != null">
+        channel_payback_type,
+      </if>
+      <if test="feeFloat != null">
+        fee_float,
+      </if>
+      <if test="isDeduct != null">
+        is_deduct,
+      </if>
+      <if test="maxAmount != null">
+        max_amount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentPlanWay != null">
+        #{repaymentPlanWay,jdbcType=TINYINT},
+      </if>
+      <if test="repaymentPlanDayOffset != null">
+        #{repaymentPlanDayOffset,jdbcType=INTEGER},
+      </if>
+      <if test="fixedInterestRate != null">
+        #{fixedInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceCharge != null">
+        #{serviceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="drawingControl != null">
+        #{drawingControl,jdbcType=BIT},
+      </if>
+      <if test="isOnlineSign != null">
+        #{isOnlineSign,jdbcType=BIT},
+      </if>
+      <if test="isPrepaySup != null">
+        #{isPrepaySup,jdbcType=BIT},
+      </if>
+      <if test="isPenaltySup != null">
+        #{isPenaltySup,jdbcType=BIT},
+      </if>
+      <if test="contractGenerationType != null">
+        #{contractGenerationType,jdbcType=TINYINT},
+      </if>
+      <if test="serviceRateTerm != null">
+        #{serviceRateTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="termMoney != null">
+        #{termMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="ownLoanType != null">
+        #{ownLoanType,jdbcType=SMALLINT},
+      </if>
+      <if test="channelLoanType != null">
+        #{channelLoanType,jdbcType=SMALLINT},
+      </if>
+      <if test="ownPaybackType != null">
+        #{ownPaybackType,jdbcType=SMALLINT},
+      </if>
+      <if test="channelPaybackType != null">
+        #{channelPaybackType,jdbcType=SMALLINT},
+      </if>
+      <if test="feeFloat != null">
+        #{feeFloat,jdbcType=TINYINT},
+      </if>
+      <if test="isDeduct != null">
+        #{isDeduct,jdbcType=BIT},
+      </if>
+      <if test="maxAmount != null">
+        #{maxAmount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjProductTransactionExample" resultType="java.lang.Long">
+    select count(*) from nj_product_transaction
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_product_transaction
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productId != null">
+        product_id = #{record.productId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repaymentPlanWay != null">
+        repayment_plan_way = #{record.repaymentPlanWay,jdbcType=TINYINT},
+      </if>
+      <if test="record.repaymentPlanDayOffset != null">
+        repayment_plan_day_offset = #{record.repaymentPlanDayOffset,jdbcType=INTEGER},
+      </if>
+      <if test="record.fixedInterestRate != null">
+        fixed_interest_rate = #{record.fixedInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.serviceCharge != null">
+        service_charge = #{record.serviceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="record.drawingControl != null">
+        drawing_control = #{record.drawingControl,jdbcType=BIT},
+      </if>
+      <if test="record.isOnlineSign != null">
+        is_online_sign = #{record.isOnlineSign,jdbcType=BIT},
+      </if>
+      <if test="record.isPrepaySup != null">
+        is_prepay_sup = #{record.isPrepaySup,jdbcType=BIT},
+      </if>
+      <if test="record.isPenaltySup != null">
+        is_penalty_sup = #{record.isPenaltySup,jdbcType=BIT},
+      </if>
+      <if test="record.contractGenerationType != null">
+        contract_generation_type = #{record.contractGenerationType,jdbcType=TINYINT},
+      </if>
+      <if test="record.serviceRateTerm != null">
+        service_rate_term = #{record.serviceRateTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="record.termMoney != null">
+        term_money = #{record.termMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ownLoanType != null">
+        own_loan_type = #{record.ownLoanType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.channelLoanType != null">
+        channel_loan_type = #{record.channelLoanType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.ownPaybackType != null">
+        own_payback_type = #{record.ownPaybackType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.channelPaybackType != null">
+        channel_payback_type = #{record.channelPaybackType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.feeFloat != null">
+        fee_float = #{record.feeFloat,jdbcType=TINYINT},
+      </if>
+      <if test="record.isDeduct != null">
+        is_deduct = #{record.isDeduct,jdbcType=BIT},
+      </if>
+      <if test="record.maxAmount != null">
+        max_amount = #{record.maxAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_product_transaction
+    set id = #{record.id,jdbcType=VARCHAR},
+      product_id = #{record.productId,jdbcType=VARCHAR},
+      repayment_plan_way = #{record.repaymentPlanWay,jdbcType=TINYINT},
+      repayment_plan_day_offset = #{record.repaymentPlanDayOffset,jdbcType=INTEGER},
+      fixed_interest_rate = #{record.fixedInterestRate,jdbcType=DECIMAL},
+      service_charge = #{record.serviceCharge,jdbcType=DECIMAL},
+      drawing_control = #{record.drawingControl,jdbcType=BIT},
+      is_online_sign = #{record.isOnlineSign,jdbcType=BIT},
+      is_prepay_sup = #{record.isPrepaySup,jdbcType=BIT},
+      is_penalty_sup = #{record.isPenaltySup,jdbcType=BIT},
+      contract_generation_type = #{record.contractGenerationType,jdbcType=TINYINT},
+      service_rate_term = #{record.serviceRateTerm,jdbcType=DECIMAL},
+      term_money = #{record.termMoney,jdbcType=DECIMAL},
+      own_loan_type = #{record.ownLoanType,jdbcType=SMALLINT},
+      channel_loan_type = #{record.channelLoanType,jdbcType=SMALLINT},
+      own_payback_type = #{record.ownPaybackType,jdbcType=SMALLINT},
+      channel_payback_type = #{record.channelPaybackType,jdbcType=SMALLINT},
+      fee_float = #{record.feeFloat,jdbcType=TINYINT},
+      is_deduct = #{record.isDeduct,jdbcType=BIT},
+      max_amount = #{record.maxAmount,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjProductTransaction">
+    update nj_product_transaction
+    <set>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="repaymentPlanWay != null">
+        repayment_plan_way = #{repaymentPlanWay,jdbcType=TINYINT},
+      </if>
+      <if test="repaymentPlanDayOffset != null">
+        repayment_plan_day_offset = #{repaymentPlanDayOffset,jdbcType=INTEGER},
+      </if>
+      <if test="fixedInterestRate != null">
+        fixed_interest_rate = #{fixedInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceCharge != null">
+        service_charge = #{serviceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="drawingControl != null">
+        drawing_control = #{drawingControl,jdbcType=BIT},
+      </if>
+      <if test="isOnlineSign != null">
+        is_online_sign = #{isOnlineSign,jdbcType=BIT},
+      </if>
+      <if test="isPrepaySup != null">
+        is_prepay_sup = #{isPrepaySup,jdbcType=BIT},
+      </if>
+      <if test="isPenaltySup != null">
+        is_penalty_sup = #{isPenaltySup,jdbcType=BIT},
+      </if>
+      <if test="contractGenerationType != null">
+        contract_generation_type = #{contractGenerationType,jdbcType=TINYINT},
+      </if>
+      <if test="serviceRateTerm != null">
+        service_rate_term = #{serviceRateTerm,jdbcType=DECIMAL},
+      </if>
+      <if test="termMoney != null">
+        term_money = #{termMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="ownLoanType != null">
+        own_loan_type = #{ownLoanType,jdbcType=SMALLINT},
+      </if>
+      <if test="channelLoanType != null">
+        channel_loan_type = #{channelLoanType,jdbcType=SMALLINT},
+      </if>
+      <if test="ownPaybackType != null">
+        own_payback_type = #{ownPaybackType,jdbcType=SMALLINT},
+      </if>
+      <if test="channelPaybackType != null">
+        channel_payback_type = #{channelPaybackType,jdbcType=SMALLINT},
+      </if>
+      <if test="feeFloat != null">
+        fee_float = #{feeFloat,jdbcType=TINYINT},
+      </if>
+      <if test="isDeduct != null">
+        is_deduct = #{isDeduct,jdbcType=BIT},
+      </if>
+      <if test="maxAmount != null">
+        max_amount = #{maxAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjProductTransaction">
+    update nj_product_transaction
+    set product_id = #{productId,jdbcType=VARCHAR},
+      repayment_plan_way = #{repaymentPlanWay,jdbcType=TINYINT},
+      repayment_plan_day_offset = #{repaymentPlanDayOffset,jdbcType=INTEGER},
+      fixed_interest_rate = #{fixedInterestRate,jdbcType=DECIMAL},
+      service_charge = #{serviceCharge,jdbcType=DECIMAL},
+      drawing_control = #{drawingControl,jdbcType=BIT},
+      is_online_sign = #{isOnlineSign,jdbcType=BIT},
+      is_prepay_sup = #{isPrepaySup,jdbcType=BIT},
+      is_penalty_sup = #{isPenaltySup,jdbcType=BIT},
+      contract_generation_type = #{contractGenerationType,jdbcType=TINYINT},
+      service_rate_term = #{serviceRateTerm,jdbcType=DECIMAL},
+      term_money = #{termMoney,jdbcType=DECIMAL},
+      own_loan_type = #{ownLoanType,jdbcType=SMALLINT},
+      channel_loan_type = #{channelLoanType,jdbcType=SMALLINT},
+      own_payback_type = #{ownPaybackType,jdbcType=SMALLINT},
+      channel_payback_type = #{channelPaybackType,jdbcType=SMALLINT},
+      fee_float = #{feeFloat,jdbcType=TINYINT},
+      is_deduct = #{isDeduct,jdbcType=BIT},
+      max_amount = #{maxAmount,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

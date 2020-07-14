@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjOrderUpdateLogMapperExtend">
+	<sql id="select_order_log">
+		select oul.process_id,oul.update_status ,IFNULL(ui.user_name,oul.user_id) as
+		userName,oul.update_date ,oul.update_reason,oul.remark
+		from nj_order_update_log as oul
+		LEFT JOIN nj_user_info as ui on oul.user_id=ui.id
+	</sql>
+	<select id="selectLogByOrderNo" resultType="com.nj.model.vo.OrderUpdateLogVO">
+		<include refid="select_order_log" />
+		where oul.order_id=#{orderNo}
+		order by oul.update_date desc
+	</select>
+	<select id="selectOrderLogByStatus" resultType="com.nj.model.vo.OrderUpdateLogVO">
+		<include refid="select_order_log" />
+		where oul.order_id=#{orderNo}
+		and oul.update_status in
+		<foreach collection="list" index="index" item="item" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		order by oul.update_date desc
+	</select>
+
+	<insert id="batchInsertByOrderInfo">
+		INSERT INTO nj_order_update_log()
+		SELECT
+		REPLACE(UUID(),'-',''), 10,'SYSTEM',t.order_no,t.`status`,#{newStatus,jdbcType=INTEGER},
+		NULL,'自动发标', NOW(), NULL,NULL
+		FROM nj_loan_order t
+		WHERE t.asset_grade=#{grade,jdbcType=VARCHAR}
+		AND t.`status`=#{oldStatus,jdbcType=INTEGER}
+		ORDER BY t.create_date
+		LIMIT #{size,jdbcType=INTEGER}
+	</insert>
+
+	<select id="updateLogStatus">
+		update nj_process_order_flows set status=0 where order_id=#{orderId}
+		<![CDATA[and exec_orders>#{execOrders}]]>
+	</select>
+	
+	<select id="getProcessListByOrderId" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+	
+		select * from(			
+		 select  
+		 npt.process_template_id  processTemplateId,
+		 npof.exec_orders execOrders,
+		 noul.update_date updateDate,
+		 noul.update_reason updateReason,
+		 npof.process_id  as  processId, 
+		npof.status  as  status ,
+		noul.remark   as  remark,
+		noul.remark2  as  remark2,
+		nlo.audit_rating  as  auditRating,
+		nlo.audit_period  as  auditPeriod,
+		nlo.audit_amount  as  auditAmount,
+		nlo.repay_way   as  repayWay,
+		nlo.middle_amount  as  middleAmout,
+		nlo.actual_amount  as  actualAmount,
+		nlo.is_company_payed  as  isOnliePayed,
+		nlo.is_capital_channel_payed  as  isOfflinePayed
+		 from  nj_loan_order  nlo 
+		 LEFT   join nj_product_temp  npt  on  npt.product_id=nlo.product_id
+		 RIGHT  join  nj_process_order_flows  npof  on  npof.order_id =  nlo.id
+		 Right  join nj_process_template_flows  nptf on  <![CDATA[nptf.type =1  and ]]>   nptf.template_id= npt.process_template_id  and  npof.process_id=nptf.process_id 
+		 Left   join   nj_order_update_log  noul  on  noul.order_id  = nlo.order_no  and noul.process_id = npof.process_id
+		where  1=1
+		<if test="orderId != null">
+			and 	nlo.id=   #{orderId,jdbcType=VARCHAR}
+		</if>
+		order  by  npof.exec_orders  asc,noul.update_date desc)
+		t  GROUP BY  t.processId 
+		order  by  t.execOrders
+
+		
+	</select>
+	
+	
+		<select id="getCapticalChannelListByOrderId" parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+	
+			SELECT
+			 npc.nj_channel_id  as  njchannelId,
+			 npc.product_id  as  productId,
+			 npc.channel_id  as  channelId,
+			 npc.channel_name  as channelName ,
+			 COALESCE(nlocc.amount,0)  as  amount
+			FROM  nj_loan_order nlo
+			RIGHT JOIN nj_product_channel npc ON npc.product_id = nlo.product_id  and  npc.type='2'    and npc.del_flag=0
+			
+			left  join  nj_loan_order_capital_channel  nlocc  on  nlocc.order_id = nlo.id
+		where  1=1
+		<if test="orderId != null">
+			and 	nlo.id=   #{orderId,jdbcType=VARCHAR}
+		</if>
+		
+
+		
+	</select>
+	
+	
+	   <select id="getProductPeriods" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	
+		select  sd.value  as  periodId,
+			    sd.label_text  as  periodValue
+		from  nj_loan_order   nlo
+		RIGHT JOIN  nj_product_cycle  npc  on  npc.product_id =  nlo.product_id
+		RIGHT JOIN  sys_dict  sd  on  sd.id=  npc.sys_id  and  sd.del_flag=0
+		where  nlo.id=#{orderId,jdbcType=VARCHAR}
+		order  by  cast(sd.value  as SIGNED INTEGER)
+	</select>
+	
+	
+	<select id="getOrderFeeListByOrderId" parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+	
+		SELECT
+			 npfc.business_fee_code as  businessFeeCode,
+			 npfc.product_id  as  productId,
+			 npfc.algorithm_code  as  algorithmCode
+			FROM  nj_loan_order  t
+			RIGHT JOIN nj_product_fee_cfg npfc ON npfc.product_id = t.product_id   
+			where  1=1
+		<if test="orderId != null">
+			and 	t.id=   #{orderId,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+
+		<select id="getCapticalChannelId" parameterType="java.util.HashMap"  resultType="java.util.HashMap">
+	
+			select npc.nj_channel_id  as  njchannelId
+			from nj_loan_order  nlo  
+			left  join  nj_product_channel  npc  on  npc.product_id = nlo.product_id  and  type=2
+			where  nlo.id= #{orderId,jdbcType=VARCHAR};
+		</select>
+		
+	
+	
+</mapper>

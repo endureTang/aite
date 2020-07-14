@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjAssetGradeMapperExtend">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjAssetGrade">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="grade" jdbcType="VARCHAR" property="grade" />
+    <result column="descption" jdbcType="VARCHAR" property="descption" />
+    <result column="screen_rate" jdbcType="INTEGER" property="screenRate" />
+    <result column="is_default" jdbcType="BIT" property="isDefault" />
+  </resultMap>
+  
+  <select id="selectDistinctGrade" resultType="java.util.HashMap">
+  	SELECT DISTINCT t.grade
+	FROM nj_asset_grade t
+	ORDER BY t.grade
+  </select>
+  <select id="getDefaultGrade" resultType="com.nj.model.generate.NjAssetGrade">
+  	SELECT DISTINCT t.grade
+	FROM nj_asset_grade t 
+	where is_default = 1
+  </select>
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="120 seconds" debug="false">
+	<contextName>Task</contextName>
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder charset="UTF-8">
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+		<SMTPHost>smtp.qq.com</SMTPHost>
+		<To>511702280@qq.com,ch@cycon.cn</To>
+		<From>test@cycon.cn</From>
+		<password>Xyz963</password>
+		<subject>%logger{20} - %m</subject>
+		<asynchronousSending>false</asynchronousSending>
+		<layout class="ch.qos.logback.classic.html.HTMLLayout">
+			<pattern>%d{HH:mm:ss.SSS}%level%threadlogger%file%line%msg</pattern>
+		</layout>
+	</appender>
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/root/nj_admin/log/log.%d{yyyy-MM-dd}.out</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<!-- 开发环境 -->
+		<!-- <file>E:\ocean\pic\log.out</file>-->
+		<!-- 测试环境 -->
+		<!--  <file>/root/nj_api/log/log.out</file>-->
+		<!-- 正式环境 -->
+		<file>/root/nj_admin/log/log.out</file>
+		<append>true</append>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	<logger name="monitor" additivity="false" level="ERROR">
+		<appender-ref ref="EMAIL" />
+	</logger>
+	<logger name="com.nj" additivity="true" level="DEBUG">
+		<appender-ref ref="FILE" />
+	</logger>
+	<root level="WARN">
+		<appender-ref ref="stdout" />
+	</root>
+
+</configuration>   

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjAppUserMapperExtend">
+
+	<select id="getLoanBeforeAntiFraidData" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+  			u.id,
+  			u.true_name name,
+  			u.mobile,
+  			u.identify_id identifyId,
+		  	u.fraud_type fraudType
+		FROM
+		  nj_app_user u 
+		WHERE 
+			u.channel_user_id = #{channelUserId,jdbcType=VARCHAR}
+		  	AND u.company_id = #{coporateId,jdbcType=VARCHAR}
+		<if test="queryCondition != null">
+			and(
+				 u.true_name like concat('%',#{queryCondition,jdbcType=VARCHAR},'%')
+				or u.mobile like concat('%',#{queryCondition,jdbcType=VARCHAR},'%')
+				or u.identify_id like concat('%',#{queryCondition,jdbcType=VARCHAR},'%')
+			)
+		</if>
+		order by u.id
+	</select>
+	
+	<select id="getCustomerRelationListVo" parameterType="java.util.Map" resultType="com.nj.model.vo.CustomerRelationListVo">
+		SELECT 
+			au.id id,
+			au.true_name customerName,
+			au.mobile mobile,
+			au.identify_id identityNo,
+			auc.card_number bankCardNo,
+			ui.user_name accountManagerName 
+		FROM 
+			nj_app_user  au
+		LEFT JOIN 
+			nj_user_bank_card auc
+		ON 
+			au.id=auc.user_id
+			AND auc.del_flag=0
+		LEFT JOIN 
+			nj_user_info ui
+		ON 
+			au.channel_user_id=ui.id
+		WHERE 
+			au.company_id=#{coporateId,jdbcType=VARCHAR}
+			<if test="keyword != null and keyword != ''">
+                and
+                (  au.true_name like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+                or au.mobile like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+                or au.identify_id like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+                or ui.user_name like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+                )
+            </if>
+	</select>
+</mapper>

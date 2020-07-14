@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjProductTransactionMapperExtend">
+  
+  <resultMap id="BaseResultMap" type="java.util.Map">
+    <id column="id" jdbcType="VARCHAR" property="pdTransactionId" />
+    <result column="product_id" jdbcType="VARCHAR" property="productId" />
+    <result column="repayment_plan_way" jdbcType="TINYINT" property="repaymentPlanWay" />
+    <result column="repayment_plan_day_offset" jdbcType="INTEGER" property="repaymentPlanDayOffset" />
+    <result column="fee_type" jdbcType="TINYINT" property="feeType" />
+    <result column="fee_value" jdbcType="VARCHAR" property="feeValue" />
+    <result column="bond_type" jdbcType="TINYINT" property="bondType" />
+    <result column="bond_value" jdbcType="VARCHAR" property="bondValue" />
+    <result column="fixed_interest_rate" jdbcType="DECIMAL" property="fixedInterestRate" />
+    <result column="service_charge" jdbcType="DECIMAL" property="serviceCharge" />
+    <result column="service_rate_term" jdbcType="DECIMAL" property="serviceChargeTerm" />
+    <result column="drawing_control" jdbcType="BIT" property="drawingControl" />
+    <result column="is_online_sign" jdbcType="BIT" property="isOnlineSign" />
+    <result column="is_prepay_sup" jdbcType="BIT" property="isPrepaySup" />
+    <result column="is_penalty_sup" jdbcType="BIT" property="isPenaltySup" />
+    <result column="contract_generation_type" jdbcType="TINYINT" property="contractGenerationType" />
+    <result column="own_loan_type" jdbcType="SMALLINT" property="ownLoanType" />
+    <result column="channel_loan_type" jdbcType="SMALLINT" property="channelLoanType" />
+    <result column="own_payback_type" jdbcType="SMALLINT" property="ownPaybackType" />
+    <result column="channel_payback_type" jdbcType="SMALLINT" property="channelPaybackType" />
+    <result column="repay_way" jdbcType="VARCHAR" property="repayWay" />
+    
+  </resultMap>
+  
+  <!-- 根据产品ID获取产品交易配置信息 -->
+  <select id="selectByProductId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT
+		transaction.*, 
+		product.repay_way
+	FROM
+		nj_product_transaction transaction
+	LEFT JOIN nj_product product ON transaction.product_id = product.id
+	WHERE
+		transaction.product_id = #{productId}
+  </select>
+  <!-- 根据产品ID获取利率 -->
+  <select id="getRateByProductId" resultType="com.nj.model.generate.NjProductTransaction">
+  	SELECT 
+  		fixed_interest_rate,
+  		service_charge 
+  	FROM 
+  		nj_product_transaction 
+  	WHERE product_id = #{productId}
+  </select>
+  <select id="selectByProductCode" resultType="com.nj.model.generate.NjProductTransaction">
+  	select npt.* from nj_product np 
+	INNER JOIN nj_product_transaction npt on np.id=npt.product_id
+	where np.product_code=#{productCode} and np.del_flag=0
+  </select>
+
+  <select id="selectByProduct" resultType="java.util.HashMap">
+    select npt.fixed_interest_rate as fixedInterestRate,
+    npt.service_charge as serviceCharge,np.repay_way as repayWay,npt.service_rate_term serviceRateTerm,npt.fee_float as feeFloat from nj_product np
+    INNER JOIN nj_product_transaction npt on np.id=npt.product_id
+    where np.product_code=#{productCode} and np.del_flag=0
+  </select>
+</mapper>

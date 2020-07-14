@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.NjLoanOrderCapitalChannelMapperExtend">
+  		  <!-- 批量插入 -->
+	  <insert id="insertBathCapitalChannel" parameterType="java.util.List">
+	  	   INSERT INTO nj_loan_order_capital_channel (
+	  	   id, 
+	  	   product_id, 
+	  	   order_id, 
+	  	   channel_id, 
+	  	   amount, 
+	  	   create_date, 
+	  	   create_by, 
+	  	   update_date, 
+	  	   update_by 
+	  	   )
+	      VALUES
+	      <foreach collection="list" item="model" separator=",">
+            (
+            #{model.id},
+            #{model.productId},
+            #{model.orderId},
+            #{model.channelId},
+            #{model.amount},
+            #{model.createDate},
+            #{model.createBy},
+            #{model.updateDate},
+            #{model.updateBy}
+            
+            )
+         </foreach>
+	  </insert>
+</mapper>

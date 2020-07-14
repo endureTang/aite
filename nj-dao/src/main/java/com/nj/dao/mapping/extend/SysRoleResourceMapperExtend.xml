@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nj.dao.extend.SysRoleResourceMapperExtend">
+
+	<delete id="deleteSysAuth">
+		DELETE FROM sys_role_resource WHERE role_id = #{roleId}
+	</delete>
+	
+	<insert id="batchInsert" parameterType="list">
+		insert into sys_role_resource (role_id,menu_id)
+		values
+		<foreach collection="list" item="item" separator="," index="index">
+			(#{item.roleId,jdbcType=VARCHAR},#{item.menuId,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+	
+	
+		<insert id="freshBatchInsert" parameterType="list">
+		insert into sys_role_resource (id,role_id,menu_id)
+		values
+		<foreach collection="list" item="item" separator="," index="index">
+			(#{item.id,jdbcType=VARCHAR},#{item.roleId,jdbcType=VARCHAR},#{item.menuId,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+	
+	
+
+</mapper>

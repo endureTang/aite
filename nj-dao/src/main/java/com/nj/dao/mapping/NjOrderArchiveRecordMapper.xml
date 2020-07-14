@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.NjOrderArchiveRecordMapper">
+  <resultMap id="BaseResultMap" type="com.nj.model.generate.NjOrderArchiveRecord">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="certificate" jdbcType="INTEGER" property="certificate" />
+    <result column="car_warranty" jdbcType="INTEGER" property="carWarranty" />
+    <result column="car_invoice" jdbcType="INTEGER" property="carInvoice" />
+    <result column="gps_photo" jdbcType="INTEGER" property="gpsPhoto" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, certificate, car_warranty, car_invoice, gps_photo, create_time
+  </sql>
+  <select id="selectByExample" parameterType="com.nj.model.generate.NjOrderArchiveRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from nj_order_archive_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from nj_order_archive_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from nj_order_archive_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.nj.model.generate.NjOrderArchiveRecordExample">
+    delete from nj_order_archive_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.nj.model.generate.NjOrderArchiveRecord">
+    insert into nj_order_archive_record (id, order_id, certificate, 
+      car_warranty, car_invoice, gps_photo, 
+      create_time)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{certificate,jdbcType=INTEGER}, 
+      #{carWarranty,jdbcType=INTEGER}, #{carInvoice,jdbcType=INTEGER}, #{gpsPhoto,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nj.model.generate.NjOrderArchiveRecord">
+    insert into nj_order_archive_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="certificate != null">
+        certificate,
+      </if>
+      <if test="carWarranty != null">
+        car_warranty,
+      </if>
+      <if test="carInvoice != null">
+        car_invoice,
+      </if>
+      <if test="gpsPhoto != null">
+        gps_photo,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null">
+        #{certificate,jdbcType=INTEGER},
+      </if>
+      <if test="carWarranty != null">
+        #{carWarranty,jdbcType=INTEGER},
+      </if>
+      <if test="carInvoice != null">
+        #{carInvoice,jdbcType=INTEGER},
+      </if>
+      <if test="gpsPhoto != null">
+        #{gpsPhoto,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.nj.model.generate.NjOrderArchiveRecordExample" resultType="java.lang.Long">
+    select count(*) from nj_order_archive_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update nj_order_archive_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.certificate != null">
+        certificate = #{record.certificate,jdbcType=INTEGER},
+      </if>
+      <if test="record.carWarranty != null">
+        car_warranty = #{record.carWarranty,jdbcType=INTEGER},
+      </if>
+      <if test="record.carInvoice != null">
+        car_invoice = #{record.carInvoice,jdbcType=INTEGER},
+      </if>
+      <if test="record.gpsPhoto != null">
+        gps_photo = #{record.gpsPhoto,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update nj_order_archive_record
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      certificate = #{record.certificate,jdbcType=INTEGER},
+      car_warranty = #{record.carWarranty,jdbcType=INTEGER},
+      car_invoice = #{record.carInvoice,jdbcType=INTEGER},
+      gps_photo = #{record.gpsPhoto,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nj.model.generate.NjOrderArchiveRecord">
+    update nj_order_archive_record
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null">
+        certificate = #{certificate,jdbcType=INTEGER},
+      </if>
+      <if test="carWarranty != null">
+        car_warranty = #{carWarranty,jdbcType=INTEGER},
+      </if>
+      <if test="carInvoice != null">
+        car_invoice = #{carInvoice,jdbcType=INTEGER},
+      </if>
+      <if test="gpsPhoto != null">
+        gps_photo = #{gpsPhoto,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nj.model.generate.NjOrderArchiveRecord">
+    update nj_order_archive_record
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      certificate = #{certificate,jdbcType=INTEGER},
+      car_warranty = #{carWarranty,jdbcType=INTEGER},
+      car_invoice = #{carInvoice,jdbcType=INTEGER},
+      gps_photo = #{gpsPhoto,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -23,7 +23,6 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header" id="boxHeader">
-					<select class="form-control coporate-name" name="coporateId" id="coporateId"></select>
 					<shiro:hasPermission name="role/add">
 						<button type="button" data-url="role/add" data-model="dialog"
 							class="btn btn-sm btn-primary role-add">
@@ -38,20 +37,7 @@
 						</button>
 					</shiro:hasPermission>
 
-                    <div class="dropdown clearfix">
-                        <!-- <span class="input-group-addon">菜单分类</span> -->
-                        <button type="button" class="btn dropdown-toggle menu-dropdown" id="dropdownMenu1" data-toggle="dropdown">管理后台
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="menuDropdown">
-                           <%-- <li role="presentation">
-                                <a role="menuitem" id="management" tabindex="-1">管理后台</a>
-                            </li>--%>
-                           <%-- <li role="presentation">
-                                <a role="menuitem" id="business" tabindex="-1">业务后台</a>
-                            </li>--%>
-                        </ul>
-                    </div>
+
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -87,7 +73,6 @@
             method:'POST',
             success : function (res) {
                 if(res.status==0){
-                    renderSelect(res.data);
                     defTable = $('#default_table').DataTable( {
                         "ordering": false,
                         "pagingType": "simple_numbers",
@@ -95,12 +80,11 @@
                         "autoWidth": false,
                         "serverSide": true,
                         "ajax": {
-                            "url" : "role/list?type=2",
+                            "url" : "role/list?type=1",
                             "type" : "post",
                             "data": function (data) {
                                 data.roleName = $("#roleName").val();
                                 data.keyword = $("#keyword").val();
-                                data.coporateId = $("#coporateId").val();
                             }
                         },
                         "language": {
@@ -160,13 +144,6 @@
             }
         })
 	});
-    function renderSelect(data) {
-        var str='<option value="">-请选择企业名称-</option>';
-        $.each(data,function (k, v) {
-            str += '<option value="'+v.id+'">'+v.companName+'</option>';
-        })
-        $('#coporateId').html(str);
-    }
     var dropDwonBtn = $('#dropdownMenu1');
     $("#management").on("click", function () {
         dropDwonBtn.html('管理后台 <span class="caret">');

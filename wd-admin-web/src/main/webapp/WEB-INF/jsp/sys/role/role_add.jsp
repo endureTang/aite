@@ -41,14 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="col-sm-7">
                     <select name="type" id="type" class="form-control">
                         <option value="1">管理后台</option>
-                        <option value="2">业务后台</option>
                     </select>
-                </div>
-            </div>
-            <div class="form-group" id="companyName">
-                <label for="coporate" class="col-sm-2 control-label">企业名称</label>
-                <div class="col-sm-7">
-                    <select name="coporateId" id="coporate" class="form-control"></select>
                 </div>
             </div>
             <div class="form-group">
@@ -69,22 +62,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </form>
 <script type="text/javascript">
     $(function () {
-        $.ajax({
-            url: '<%=basePath%>coporate/list',
-            method: 'POST',
-            success: function (res) {
-                if (res.status == 0) {
-                    renderSelect(res.data);
-                    judgeHasDom();
-
-                } else {
-                    alert('企业列表获取失败');
-                }
-            },
-            error: function (error) {
-                alert(error);
-            }
-        })
         $('#type').change(function () {
             judgeHasDom();
         })

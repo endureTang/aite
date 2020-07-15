@@ -77,13 +77,7 @@ public class TemplateController extends BaseController {
 	@Resource(name = "templateService")
 	private TemplateService templateService;
 	
-	@ResourcesAnnotion(uri="/template/page",name="模板列表",resourceType=1,parentId="3")
-	@RequestMapping(value="/page")
-	public ModelAndView page(){
-		ModelAndView mv = super.getModelAndView();
-		mv.setViewName("sys/template/template_list");
-		return mv;
-	}
+
 	@RequestMapping(value="/list")
 	@ResponseBody
 	public DataTableResult list(HttpServletRequest request){
@@ -114,14 +108,7 @@ public class TemplateController extends BaseController {
 		
 		return result;
 	}
-	
-	@ResourcesAnnotion(uri="/template/add",name="企业用户",resourceType=1,parentId="1")
-	@RequestMapping(value="/add", method=RequestMethod.GET)
-	public ModelAndView toAdd(){
-		ModelAndView mv = super.getModelAndView();
-		mv.setViewName("sys/template/template_add");
-		return mv;
-	}
+
 	
 	@RequestMapping(value = { "upload" })
 	@ResponseBody

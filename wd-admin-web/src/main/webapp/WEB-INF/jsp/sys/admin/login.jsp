@@ -51,7 +51,6 @@ String basePath = request.getScheme() + "://"
 
                 <div style="margin-top:-15%" class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-md-2 col-lg-2 col-sm-4 col-xs-3"></div>
-                    <img class="col-md-8 col-lg-8 col-sm-4 col-xs-6" src="${ctx}/static/img/logo.jpg" alt=""/>
                 </div>
                 <h2 style="text-align:center">用户登录</h2>
                 <div class="panel-body" id="loginbox">

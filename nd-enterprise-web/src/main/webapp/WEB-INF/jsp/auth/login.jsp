@@ -14,7 +14,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<meta name="renderer" content="webkit|ie-comp|ie-stand">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
 	<title>${title}用户登录</title>
-	<link id="favicon" type="image/png" href="${ctx}${logo}"
+	<%--<link id="favicon" type="image/png" href="${ctx}${logo}"--%>
 		  rel="shortcut icon">
 	<!-- Bootstrap 3.3.4 -->
 	<link href="${ctx}/static/AdminLTE/bootstrap/css/bootstrap.min.css"

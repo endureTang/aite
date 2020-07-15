@@ -43,12 +43,7 @@
 					        <li role="presentation">
 					            <a role="menuitem" id="sysMenu" tabindex="-1">系统后台菜单</a>
 					        </li>
-					        <li role="presentation">
-					            <a role="menuitem" id="bussMenu" tabindex="-1">业务后台菜单</a>
-					        </li>
-					        <li role="presentation">
-					            <a role="menuitem" id="bussRes" tabindex="-1">业务后台资源</a>
-					        </li>
+
 					    </ul>
 					</div>
 					

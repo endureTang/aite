@@ -46,17 +46,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</select>
 				</div>
 			</div>
-			<div class="form-group" id="companyName">
-				<label for="coporate" class="col-sm-2 control-label">企业名称</label>
-				<div class="col-sm-7">
-					<select name="coporateId" id="coporate" class="form-control">
-                        <option value="" selected>-请选择企业名称-</option>
-                        <c:forEach items="${coporateList}" var ="li" varStatus="coporateStatus">
-                            <option value="${li.id}" <c:if test="${li.id == role.officeId}" >selected</c:if>>${li.companName}</option>
-                        </c:forEach>
-                    </select>
-				</div>
-			</div>
 			<div class="form-group">
 				<label for="remarks" class="col-sm-2 control-label">描述</label>
 				<div class="col-sm-7">
@@ -82,13 +71,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
         $("#defForm").validate();
 
-        function renderSelect(data) {
-            var str = '<option value="">-请选择企业名称-</option>';
-            $.each(data, function (k, v) {
-                str += '<option value="' + v.id + '">' + v.companName + '</option>';
-            })
-            $('#coporate').html(str);
-        }
 
         function judgeHasDom() {
             if($('#type').val() == 1){

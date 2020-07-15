@@ -65,15 +65,6 @@ public class CoporateController extends BaseController {
 
 	@Resource(name = "roleService")
 	private RoleService njRoleService;
-	
-
-	@GetMapping(value="list")
-	@ResourcesAnnotion(uri="/coporate/list",name="企业列表",resourceType=1,parentId="1")
-	public ModelAndView page() {
-		ModelAndView mv = super.getModelAndView();
-		mv.setViewName("sys/coporate/list");
-		return mv;
-	}
 
 	@PostMapping(value = "/list")
 	@ResponseBody

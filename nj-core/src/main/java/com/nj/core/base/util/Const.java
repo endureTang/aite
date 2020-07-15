@@ -59,8 +59,8 @@ public class Const {
 	public static final String PAGE	   = "admin/config/PAGE.txt";		//分页条数配置路径
 	public static final String EMAIL   = "admin/config/EMAIL.txt";		//邮箱服务器配置路径 TODO: email配置
 	
-//	public static final String FILEPATHIMG = "C:\\imgs";
-	public static final String FILEPATHIMG = "/root/nj_enterprise_web/uploadImgs/";	//图片上传路径
+	public static final String FILEPATHIMG = "D:\\imgs";
+//	public static final String FILEPATHIMG = "/root/nj_enterprise_web/uploadImgs/";	//图片上传路径
 	public static final String FILEPATHFILE = "/root/nj_enterprise_web/uploadFiles/file/";		//文件上传路径
 
 	/**

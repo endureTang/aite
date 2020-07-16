@@ -15,9 +15,7 @@
 
 package com.nj.service.base.system;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.Resource;
 
@@ -323,5 +321,11 @@ public class DictService extends BaseCachesService {
 		SysDictMapperExtend dictMapperExtend = dao.getMapper(SysDictMapperExtend.class);
 		return dictMapperExtend.getByValue(repayWay);
 	}
-	
+
+	public List<SysDict> selectAll() throws Exception {
+		SysDictMapper sysDictMapper = dao.getMapper(SysDictMapper.class);
+		Map<String,Object> condition = new HashMap<>();
+		condition.put("orderByClause", "sort asc");
+		return sysDictMapper.selectAllDict(condition);
+	}
 }

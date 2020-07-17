@@ -15,6 +15,7 @@
 
 package com.nj.admin.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.nj.core.base.controller.BaseController;
 import com.nj.core.base.entity.ResourcesAnnotion;
 import com.nj.core.base.util.Const;
@@ -76,11 +77,11 @@ public class StrategyController extends BaseController {
 		try {
 			PageData pd = super.getPageData();
 			List<NjStrategy> list = strategyService.list(pd);
-			int count = strategyService.listAllCount(pd);
+			Long count = strategyService.listAllCount(pd);
 			logger.info("");
 			if(list != null && list.size() > 0){
 				result.insertDataList(list);
-				result.setTotalCount(count);
+				result.setTotalCount(count.intValue());
 				result.put(Const.DRAW, pd.getString(Const.DRAW));
 				result.put(Const.RECORDSTOTAL, count);
 				result.put(Const.RECORDSFILTERED, count);
@@ -105,6 +106,20 @@ public class StrategyController extends BaseController {
 		mv.setViewName("sys/strategy/strategy_add");
 		return mv;
 	}
+	@RequestMapping(value="/add", method=RequestMethod.POST)
+	@ResponseBody
+	public PageData add(NjStrategy njStrategy){
+		PageData result = new PageData();
+		try {
+			strategyService.add(njStrategy);
+			result.put("status", 1);
+		} catch (Exception e) {
+			logger.error("add njStrategy error", e);
+			result.put("status", 0);
+			result.put("msg", "新增失败");
+		}
+		return result;
+	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView toEdit(@RequestParam String id) {
@@ -113,13 +128,46 @@ public class StrategyController extends BaseController {
 		List<SysDict> dictList = null;
 		try {
 			pd = strategyService.getById(id);
-			dictList = dictService.selectAll();
 		} catch (Exception e) {
 			logger.error("get role error", e);
 		}
 		mv.addObject("pd", pd);
-		mv.addObject("dictList", dictList);
 		mv.setViewName("sys/strategy/strategy_edit");
 		return mv;
+	}
+
+	@RequestMapping(value="/edit", method=RequestMethod.POST)
+	@ResponseBody
+	public PageData edit(NjStrategy njStrategy){
+		PageData result = new PageData();
+		try {
+			strategyService.edit(njStrategy);
+			result.put("status", 1);
+		} catch (Exception e) {
+			logger.error("add njStrategy error", e);
+			result.put("status", 0);
+			result.put("msg", "新增失败");
+		}
+		return result;
+	}
+
+	@RequestMapping(value="/delete")
+	@ResponseBody
+	public PageData delete(@RequestParam String id){
+		PageData result = new PageData();
+		try {
+			Integer line = strategyService.delete(id);
+			if(line>0){
+				result.put("status", 1);
+			}else{
+				result.put("status", 0);
+				result.put("msg", "删除失败");
+			}
+		} catch (Exception e) {
+			logger.error("delete njStrategy error", e);
+			result.put("status", 0);
+			result.put("msg", "删除失败");
+		}
+		return result;
 	}
 }

@@ -17,15 +17,17 @@ package com.nj.service.base.system;
 
 import com.nj.core.base.dao.BaseDao;
 import com.nj.core.base.util.PageData;
+import com.nj.core.base.util.UuidUtil;
 import com.nj.dao.NjStrategyMapper;
+import com.nj.dao.SysDictMapper;
+import com.nj.dao.extend.NjStrategyMapperExtend;
 import com.nj.model.generate.NjStrategy;
-import org.springframework.boot.autoconfigure.web.ResourceProperties;
+import com.nj.model.generate.SysDictExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * @FileName RoleService.java
@@ -45,15 +47,33 @@ public class StrategyService {
     @Resource
     private NjStrategyMapper njStrategyMapper;
 
-    public List<NjStrategy> list(PageData pd){
-		return njStrategyMapper.selectByExample(null);
+	@Resource
+	private NjStrategyMapperExtend njStrategyMapperExtend;
+
+    public List<NjStrategy> list(PageData pd) throws Exception{
+		pd.put("start", pd.getInteger("start"));
+		pd.put("length", pd.getInteger("length"));
+		return njStrategyMapperExtend.selectPage(pd);
 	}
 
-	public int listAllCount(PageData pd) {
+	public long listAllCount(PageData pd) throws Exception{
 		return njStrategyMapper.countByExample(null);
 	}
 
-	public NjStrategy getById(String id) {
+	public NjStrategy getById(String id) throws Exception{
 		return njStrategyMapper.selectByPrimaryKey(id);
+	}
+
+	public void add(NjStrategy njStrategy) throws Exception{
+    	njStrategy.setId(UuidUtil.get32UUID());
+		njStrategyMapper.insertSelective(njStrategy);
+	}
+
+    public void edit(NjStrategy njStrategy) {
+		njStrategyMapper.updateByPrimaryKeySelective(njStrategy);
+    }
+
+	public Integer delete(String id) {
+		return njStrategyMapper.deleteByPrimaryKey(id);
 	}
 }

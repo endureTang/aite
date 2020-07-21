@@ -1,6 +1,7 @@
 package com.nj.dao.extend;
 
 import com.nj.core.base.mapper.BaseMapper;
+import com.nj.model.generate.ErpOrder;
 import com.nj.model.generate.NjStrategy;
 import com.nj.model.generate.NjStrategyExample;
 import com.nj.model.generate.SysDict;
@@ -13,4 +14,7 @@ public interface NjStrategyMapperExtend extends BaseMapper {
 
     List<NjStrategy> selectPage(Map<?, ?> condition);
 
+    List<ErpOrder> selectPageErpOrder(Map<?, ?> condition);
+
+    List<ErpOrder> getErpOrderBySourceNo(String souruceNo);
 }

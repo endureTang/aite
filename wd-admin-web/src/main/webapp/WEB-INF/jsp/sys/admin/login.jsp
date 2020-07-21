@@ -143,6 +143,14 @@ String basePath = request.getScheme() + "://"
                         });
                         
                         $("#password").focus();
+                    }else if("用户名或密码错误" == data.result){
+                        $("#loginName").tips({
+                            side: 1,
+                            msg: "用户名或密码有误",
+                            bg: '#FF5080',
+                            time: 15
+                        });
+                        $("#loginName").focus();
                     }else {
                         $("#loginName").tips({
                             side: 1,

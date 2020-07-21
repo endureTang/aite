@@ -31,4 +31,16 @@
       limit #{start},#{length}
     </if>
   </select>
+
+  <select id="selectPageErpOrder" resultType="com.nj.model.generate.ErpOrder">
+    select
+    *
+    from erp_order
+    <if test="start != null and length != null">
+      limit #{start},#{length}
+    </if>
+  </select>
+    <select id="getErpOrderBySourceNo" resultType="com.nj.model.generate.ErpOrder">
+      select * from erp_order where source_order_no = #{sourceNo}
+    </select>
 </mapper>

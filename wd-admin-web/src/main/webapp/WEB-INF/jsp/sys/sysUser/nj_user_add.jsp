@@ -51,16 +51,6 @@
 					<c:forEach var="role" items="${roleList }">
 						<label ><input name="roleItem" class="item" id="${role.id }" type="checkbox" value="${role.id }">${role.name }</label>&nbsp;
 					</c:forEach>
-					<!-- <label for="assignment"><input id="assignment" name="assignment" type="checkbox" value="1">系统管理员</label>&nbsp; 
-					<label for="busiAudit"><input id="busiAudit" name="busiAudit" type="checkbox" value="2">业务审批</label>&nbsp;
-					<label><input id="approvalSupervisor" name="approvalSupervisor" type="checkbox" value="10">审批主管</label>&nbsp;
-					<label for="riskAudit"><input id="riskAudit" name="riskAudit" type="checkbox" value="3">审批专员</label>&nbsp;
-					<label for="cAdmin"><input id="cAdmin" name="cAdmin" type="checkbox" value="4">企业管理员</label>&nbsp;
-					<label for="businessReception"><input id="businessReception" name="businessReception" type="checkbox" value="5">业务接待</label>&nbsp;
-					<label for="backgroundManager"><input id="backgroundManager" name="backgroundManager" type="checkbox" value="6">贷后管理</label>&nbsp;
-					<label for="businessExecutive"><input id="businessExecutive" name="businessExecutive" type="checkbox" value="7">业务主管</label>&nbsp;
-					<label for="loanOfficer"><input id="loanOfficer" name="loanOfficer" type="checkbox" value="8">放款专员</label>&nbsp; -->
-					
 				</div>
 			</div>
 			<div class="form-group">

@@ -51,8 +51,10 @@ public class StrategyService {
 	private NjStrategyMapperExtend njStrategyMapperExtend;
 
     public List<NjStrategy> list(PageData pd) throws Exception{
-		pd.put("start", pd.getInteger("start"));
-		pd.put("length", pd.getInteger("length"));
+		if(pd != null){
+			pd.put("start", pd.getInteger("start"));
+			pd.put("length", pd.getInteger("length"));
+		}
 		return njStrategyMapperExtend.selectPage(pd);
 	}
 

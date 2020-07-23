@@ -95,7 +95,9 @@ public class ErpOrderController extends BaseController {
 		ModelAndView mv = super.getModelAndView();
 		try {
 			List<NjStrategy> strategyList = strategyService.list(null);
+			List<StrategyOrder> strategyOrders = erpOrderService.selectStrategyOrderList();
 			mv.addObject("strategyList", strategyList);
+			mv.addObject("strategyOrders", strategyOrders);
 			mv.setViewName("business/order/order_add");
 			return mv;
 		} catch (Exception e) {

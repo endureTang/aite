@@ -1,17 +1,32 @@
 package com.nj.core.utils.excel;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Excel工具类
@@ -91,14 +106,14 @@ public class ExcelUtil {
 			return String.valueOf(xssfCell.getStringCellValue());
 		 }
 	}	
-/**
- * 自定义xssf日期工具类
- * @author lp
- *
- */
-static class XSSFDateUtil extends DateUtil{
-	protected static int absoluteDay(Calendar cal, boolean use1904windowing) {  
-        return DateUtil.absoluteDay(cal, use1904windowing);  
-    } 
-}
+	/**
+	 * 自定义xssf日期工具类
+	 * @author lp
+	 *
+	 */
+	static class XSSFDateUtil extends DateUtil{
+		protected static int absoluteDay(Calendar cal, boolean use1904windowing) {
+			return DateUtil.absoluteDay(cal, use1904windowing);
+		}
+	}
 }

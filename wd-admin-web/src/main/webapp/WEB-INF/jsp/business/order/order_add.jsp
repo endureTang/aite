@@ -10,32 +10,44 @@
                  style='display: block;'>
                 <button class='close' data-dismiss='modal' aria-label='Close'>×</button>
             </div>
-            <div class='bootstrap-dialog-title'>选择填充表格</div>
+            <div class='bootstrap-dialog-title'>选择填充表格，策略请勿重复选择</div>
         </div>
     </div>
     <div class="modal-body">
         <div class="container-fluid" id="programMain">
+            <c:forEach items="${strategyOrders}" var="strategyOder">
             <div class="form-group">
                 <label class="col-sm-3 control-label">策略选择</label>
-                <label class="col-sm-3 control-label" style="text-align: left;">标时字段-XXX渠道</label>
+                <label class="col-sm-3 control-label" style="text-align: left;">选择待填充渠道订单</label>
+                <label class="col-sm-3 control-label" style="text-align: left;"></label>
                 <label class="col-sm-3 control-label" style="text-align: left;"></label>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">
-                    <select id="strategyId" name="strategyId">
-                        <c:forEach items="${strategyList}" var="strategy">
-                            <option value="${strategy.id}">${strategy.name}</option>
-                        </c:forEach>
-                    </select>
-                </label>
-                <label class="col-sm-3 control-label">
-                    <input class="file" type="file" name="file"/>
-                </label>
-                <label class="col-sm-3 control-label">
-                    <input type="button" name="导入" value="导入" onclick="uploadFile(this)"/>
-                </label>
-            </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">
+                        <select id="strategyId" name="strategyId">
+                            <c:forEach items="${strategyList}" var="strategy">
+                                <c:if test="${strategyOder.strategyId == strategy.id}">
+                                    <option value="${strategy.id}" selected>${strategy.name}</option>
+                                </c:if>
+                                <c:if test="${strategyOder.strategyId != strategy.id}">
+                                    <option value="${strategy.id}">${strategy.name}</option>
+                                </c:if>
+                            </c:forEach>
+                        </select>
+                    </label>
+                    <label class="col-sm-3 control-label">
+                        <input class="file" type="file" name="file"/>
+                    </label>
+                    <label class="col-sm-3 control-label">
+                        <input type="hidden" id ="id" name="id" value="${strategyOder.id}">
+                        <a title="${strategyOder.fileName}，点击下载，重复上传将覆盖之前的文件" href="${strategyOder.filePath}" style="color: red">已上传过</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    </label>
+                    <label class="col-sm-3 control-label">
+                        <input type="button" name="导入" value="导入" onclick="uploadFile(this)"/>
 
+                    </label>
+                </div>
+            </c:forEach>
         </div>
     </div>
     <div class="modal-footer">
@@ -65,7 +77,7 @@
             "                <label class=\"col-sm-3 control-label\">\n" +
             "                    <input class='file' type=\"file\"/>\n" +
             "                </label>\n" +
-            "                <label class=\"col-sm-3 control-label\">\n" +
+            "                <label class=\"col-sm-6 control-label\">\n" +
             "                    <input type=\"button\" name=\"导入\" value=\"导入\"/ onclick='uploadFile(this)'>\n" +
             "                </label>\n" +
             "            </div></div>";
@@ -77,19 +89,21 @@
             return;
         }
         var deleteDiv = programDivs[programDivs.length-1];
-        // if($(obj).parent().parent().find("#strategyId").is(":disabled")){
-        //     BootstrapDialog.show({
-        //         type: BootstrapDialog.TYPE_WARNING,
-        //         title: '提示',
-        //         message: "渠道订单已上传，如需重新编辑",
-        //     });
-        //     return ;
-        // }
+        console.log($(deleteDiv).find());
+        if($(deleteDiv).find("#strategyId").is(":disabled")){
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_WARNING,
+                title: '提示',
+                message: "填充渠道订单已上传，如需重新上传，请关闭当前弹窗重新打开",
+            });
+            return ;
+        }
         deleteDiv.remove();
     }
 
     function uploadFile(obj){
         var strategyId = $(obj).parent().parent().find("#strategyId").val();
+        var id = $(obj).parent().parent().find("#id").val();
         var file = $(obj).parent().parent().find(".file")[0].files[0];
         if(!file){
             BootstrapDialog.show({
@@ -102,6 +116,11 @@
         var formData = new FormData();
         formData.append("file",file);
         formData.append("strategyId", strategyId);
+        if(id){
+            formData.append("id", id);
+        }else{
+            formData.append("id", 0);
+        }
         $.ajax({
             url:'/file/uploadReturnFile',
             dataType:'json',
@@ -125,7 +144,7 @@
                     BootstrapDialog.show({
                         type: BootstrapDialog.TYPE_WARNING,
                         title: '操作结果提示',
-                        message: "上传失败"+data.msg,
+                        message: "上传失败，"+data.msg,
                     });
                 }
             },

@@ -65,7 +65,9 @@ public class TFileController extends BaseController {
         try {
             String realPath = request.getSession().getServletContext().getRealPath("upload" + File.separator + "excelFile" + File.separator);
             File dir = new File(realPath);
-            deleteFolder(dir);
+            if(dir.exists()){
+                deleteFolder(dir);
+            }
             PageData pd = super.getPageData();
             if (file.isEmpty()) {
                 result.put("msg", "上传失败");
@@ -118,6 +120,46 @@ public class TFileController extends BaseController {
                     XSSFSheet xssfSheet = wb.getSheetAt(0);
                     int totalRows; //sheet中总行数
                     totalRows = xssfSheet.getLastRowNum();
+                    if(totalRows == 0){
+                        result.put("status", 0);
+                        result.put("msg", "请勿上传空文件");
+                        return result;
+                    }
+                    //标题行
+                    XSSFRow titleRow = xssfSheet.getRow(0);
+                    InputStream inputTemp = null;
+                    XSSFWorkbook wbTemp = null;
+                    try {
+                        int totalCell = titleRow.getLastCellNum();
+                        String realPath1 = request.getSession().getServletContext().getRealPath("upload" + File.separator);
+                        File erpFile = new File(realPath1 + File.separator + "ERP模板.xlsx");
+
+                        inputTemp = new FileInputStream(erpFile);
+                        wbTemp = new XSSFWorkbook(inputTemp);
+                        XSSFRow modelTitleRow = wbTemp.getSheetAt(0).getRow(0);
+                        int totalCell2 = modelTitleRow.getLastCellNum();
+                        if(totalCell2 != totalCell2){
+                            result.put("status", 0);
+                            result.put("msg", "请上传正确格式文件");
+                            return result;
+                        }
+                        for (int i = 0; i < totalCell; i++) {
+                            String one = ExcelUtil.getXValue(titleRow.getCell(i));
+                            String two = ExcelUtil.getXValue(modelTitleRow.getCell(i));
+                            if(!one.equals(two)){
+                                result.put("status", 0);
+                                int errorIndex = i +1;
+                                result.put("msg", "上传文件与模板格式有出入：第"+errorIndex+"行，标题："+one);
+                                return result;
+                            }
+                        }
+                    } catch (IOException e) {
+                        result.put("status", 0);
+                        result.put("msg", "文件读取出错");
+                        return result;
+                    } finally {
+                        inputTemp.close();
+                    }
                     //读取Row,从第二行开始
                     for (int rowNum = 1; rowNum <= totalRows; rowNum++) {
                         XSSFRow xssfRow = xssfSheet.getRow(rowNum);
@@ -192,6 +234,11 @@ public class TFileController extends BaseController {
                                 }
                             }
                         }
+                    }
+                    if(erpOrderList.size() == 0){
+                        result.put("status", 0);
+                        result.put("msg", "请勿上传空文件");
+                        return result;
                     }
                     erpOrderService.insertBath(erpOrderList);
                 } catch (IOException e) {
@@ -289,7 +336,8 @@ public class TFileController extends BaseController {
                 String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
                 if(suffix.equals("xls")){
                     result.put("status", 0);
-                    result.put("msg", "请修改文件后缀为xlsx");
+                    result.put("msg", "暂时只支持office2007以后的版本，请打开文件另存为xlsx格式");
+                    return result;
                 }
                 String basePath = reqst.getContextPath();
                 basePath = reqst.getScheme() + "://" + reqst.getServerName() + ":" + reqst.getServerPort() + basePath + "/";

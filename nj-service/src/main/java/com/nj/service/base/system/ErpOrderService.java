@@ -254,9 +254,11 @@ public class ErpOrderService {
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
+			throw new RuntimeException("文件读取出错");
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
+			throw new RuntimeException("系统错误"+e.getMessage());
 		}finally {
 			try {
 				input.close();

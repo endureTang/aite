@@ -51,7 +51,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="returnBtn">返回</button>
         <button type="button" class="btn btn-primary btn-edit" onclick="addProgram()">新增导入项目</button>
         <button type="button" class="btn btn-primary btn-edit" onclick="deleteProgram()">删除导入项目</button>
         <shiro:hasPermission name="dict/add">
@@ -63,6 +63,24 @@
     </div>
 </form>
 <script type="text/javascript">
+
+
+    $(function () {
+        if("${message}"){
+            BootstrapDialog.show({
+                type: BootstrapDialog.TYPE_WARNING,
+                title: '操作结果提示',
+                message: "${message}"
+            });
+
+            $("button").attr("disabled","disabled");
+            $("#returnBtn").attr("disabled",false);
+            $(".close").attr("disabled",false);
+
+        }
+
+    });
+
     function addProgram() {
         var html = "<div class='programDiv'><div class=\"form-group\">\n" +
             "                <label class=\"col-sm-3 control-label\">策略选择</label>\n" +

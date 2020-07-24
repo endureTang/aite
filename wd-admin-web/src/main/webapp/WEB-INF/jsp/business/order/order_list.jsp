@@ -24,19 +24,22 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header" id="boxHeader">
+
 					<shiro:hasPermission name="file/upload">
-						<button type="button" data-url="erpOrder/add" data-model="dialog"
-								class="btn btn-sm btn-primary">
-							<i class="fa fa-fw fa-plus"></i>选择填充表
-						</button>
-					</shiro:hasPermission>
-					<shiro:hasPermission name="file/upload">
-						<button type="button" onclick="easyUpload()" id="import"class="btn btn-sm btn-primary">
+						<a type="button" onclick="easyUpload()" id="import"class="btn btn-sm btn-primary">
 							<i class="fa fa-fw fa-plus"></i>导入ERP表格
-						</button>
+						</a>
 					</shiro:hasPermission>
+					<a class="btn btn-sm btn-primary" href="/upload/ERP模板.xlsx">
+						<i class="fa fa-fw fa-plus"></i>下载ERP模板
+					</a>
 
-
+					<shiro:hasPermission name="file/upload">
+						<a type="button" data-url="erpOrder/add" data-model="dialog"
+						   class="btn btn-sm btn-primary">
+							<i class="fa fa-fw fa-plus"></i>选择填充表
+						</a>
+					</shiro:hasPermission>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -145,7 +148,7 @@
 						BootstrapDialog.show({
 							type: BootstrapDialog.TYPE_WARNING,
 							title: '操作结果提示',
-							message: "ERP订单上传出错",
+							message: "ERP订单上传出错，"+resultObj.msg,
 						});
 					}
 					removeload();

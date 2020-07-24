@@ -94,6 +94,10 @@ public class ErpOrderController extends BaseController {
 	public ModelAndView toAdd() {
 		ModelAndView mv = super.getModelAndView();
 		try {
+			int count = erpOrderService.listAllCount(null);
+			if(count == 0){
+				mv.addObject("message", "请先上传ERP数据，否则无法匹配");
+			}
 			List<NjStrategy> strategyList = strategyService.list(null);
 			List<StrategyOrder> strategyOrders = erpOrderService.selectStrategyOrderList();
 			mv.addObject("strategyList", strategyList);
@@ -130,4 +134,6 @@ public class ErpOrderController extends BaseController {
 		return  mv;
 
 	}
+
+	
 }

@@ -1,10 +1,8 @@
 package com.nj.dao.extend;
 
 import com.nj.core.base.mapper.BaseMapper;
-import com.nj.model.generate.ErpOrder;
-import com.nj.model.generate.NjStrategy;
-import com.nj.model.generate.NjStrategyExample;
-import com.nj.model.generate.SysDict;
+import com.nj.core.base.util.PageData;
+import com.nj.model.generate.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,4 +15,6 @@ public interface NjStrategyMapperExtend extends BaseMapper {
     List<ErpOrder> selectPageErpOrder(Map<?, ?> condition);
 
     List<ErpOrder> getErpOrderBySourceNo(String souruceNo);
+
+    List<StockFormat> selectPageStockFormat(PageData pd);
 }

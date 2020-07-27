@@ -26,7 +26,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages={"com.nj.core","com.nj.service","com.nj.admin","com.nj.dao"})
 @EnableFeignClients(basePackages={"com.nj.service"})
 @ServletComponentScan
-@EnableDiscoveryClient
 @SpringBootApplication(exclude = {MongoAutoConfiguration.class,MongoDataAutoConfiguration.class})
 public class AdminwebApplication extends SpringBootServletInitializer{ 
 	@Override

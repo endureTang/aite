@@ -53,4 +53,15 @@
         limit #{start},#{length}
       </if>
     </select>
+    <select id="selectPageStockBase" resultType="com.nj.model.generate.StockBase">
+      select
+      *
+      from stock_base
+      <if test="keyword != null">
+        where stock_no  like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+      </if>
+      <if test="start != null and length != null">
+        limit #{start},#{length}
+      </if>
+    </select>
 </mapper>

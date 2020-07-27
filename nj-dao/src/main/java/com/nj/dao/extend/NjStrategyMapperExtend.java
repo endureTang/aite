@@ -17,4 +17,6 @@ public interface NjStrategyMapperExtend extends BaseMapper {
     List<ErpOrder> getErpOrderBySourceNo(String souruceNo);
 
     List<StockFormat> selectPageStockFormat(PageData pd);
+
+    List<StockBase> selectPageStockBase(PageData pd);
 }

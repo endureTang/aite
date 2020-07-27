@@ -10,6 +10,9 @@ import com.nj.model.generate.StrategyOrder;
 import com.nj.service.base.system.ErpOrderService;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -73,7 +76,7 @@ public class TFileController extends BaseController {
                 result.put("msg", "上传失败");
             } else {
                 InputStream input = null;
-                XSSFWorkbook wb = null;
+                Workbook wb = null;
                 List<Map<String, Object>> transModelList = null;
                 ArrayList<ErpOrder> erpOrderList = new ArrayList<>();
                 try {
@@ -117,7 +120,7 @@ public class TFileController extends BaseController {
                     // 创建文档
                     wb = new XSSFWorkbook(input);
                     //读取sheet(页)
-                    XSSFSheet xssfSheet = wb.getSheetAt(0);
+                    Sheet xssfSheet = wb.getSheetAt(0);
                     int totalRows; //sheet中总行数
                     totalRows = xssfSheet.getLastRowNum();
                     if(totalRows == 0){
@@ -126,9 +129,9 @@ public class TFileController extends BaseController {
                         return result;
                     }
                     //标题行
-                    XSSFRow titleRow = xssfSheet.getRow(0);
+                    Row titleRow = xssfSheet.getRow(0);
                     InputStream inputTemp = null;
-                    XSSFWorkbook wbTemp = null;
+                    Workbook wbTemp = null;
                     try {
                         int totalCell = titleRow.getLastCellNum();
                         String realPath1 = request.getSession().getServletContext().getRealPath("upload" + File.separator);
@@ -136,7 +139,7 @@ public class TFileController extends BaseController {
 
                         inputTemp = new FileInputStream(erpFile);
                         wbTemp = new XSSFWorkbook(inputTemp);
-                        XSSFRow modelTitleRow = wbTemp.getSheetAt(0).getRow(0);
+                        Row modelTitleRow = wbTemp.getSheetAt(0).getRow(0);
                         int totalCell2 = modelTitleRow.getLastCellNum();
                         if(totalCell2 != totalCell2){
                             result.put("status", 0);
@@ -162,7 +165,7 @@ public class TFileController extends BaseController {
                     }
                     //读取Row,从第二行开始
                     for (int rowNum = 1; rowNum <= totalRows; rowNum++) {
-                        XSSFRow xssfRow = xssfSheet.getRow(rowNum);
+                        Row xssfRow = xssfSheet.getRow(rowNum);
                         if (xssfRow != null) {
                             //读取列，从第一列开始
                             String sourceOrderNos = ExcelUtil.getXValue(xssfRow.getCell(22)).trim();//获取原始订单号
@@ -282,14 +285,14 @@ public class TFileController extends BaseController {
 
     private List<Map<String, Object>> getTransModel(HttpServletRequest request) {
         InputStream input = null;
-        XSSFWorkbook wb = null;
+        Workbook wb = null;
         List<Map<String, Object>> mapList = new ArrayList<>();
         String realPath = request.getSession().getServletContext().getRealPath("upload" + File.separator);
         File file = new File(realPath + File.separator + "运费模板 （成都耐克）.xlsx");
         try {
             input = new FileInputStream(file);
             wb = new XSSFWorkbook(input);
-            XSSFSheet xssfSheet = wb.getSheetAt(0);
+            Sheet xssfSheet = wb.getSheetAt(0);
             if (xssfSheet == null || xssfSheet.getPhysicalNumberOfRows() == 0) {
                 logger.error("模板数据为空");
             }
@@ -298,7 +301,7 @@ public class TFileController extends BaseController {
             //读取row，从第三行开始
             for (int rowNum = 2; rowNum <= totalRows; rowNum++) {
                 Map<String, Object> map = new HashMap<>();
-                XSSFRow xssfRow = xssfSheet.getRow(rowNum);
+                Row xssfRow = xssfSheet.getRow(rowNum);
                 if (xssfRow != null) {
                     String provinceKey = ExcelUtil.getXValue(xssfRow.getCell(0)).trim();
                     String baseMoney = ExcelUtil.getXValue(xssfRow.getCell(1)).trim();
@@ -333,12 +336,12 @@ public class TFileController extends BaseController {
                 result.put("msg", "文件为空");
             } else {
                 String fileName = file.getOriginalFilename();
-                String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-                if(suffix.equals("xls")){
-                    result.put("status", 0);
-                    result.put("msg", "暂时只支持office2007以后的版本，请打开文件另存为xlsx格式");
-                    return result;
-                }
+//                String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+//                if(suffix.equals("xls")){
+//                    result.put("status", 0);
+//                    result.put("msg", "暂时只支持office2007以后的版本，请打开文件另存为xlsx格式");
+//                    return result;
+//                }
                 String basePath = reqst.getContextPath();
                 basePath = reqst.getScheme() + "://" + reqst.getServerName() + ":" + reqst.getServerPort() + basePath + "/";
                 String realPath = reqst.getSession().getServletContext().getRealPath("upload" + File.separator + "excelFile" + File.separator);

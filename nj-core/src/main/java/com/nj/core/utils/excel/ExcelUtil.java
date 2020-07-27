@@ -85,7 +85,7 @@ public class ExcelUtil {
 	 * @param xssfCell
 	 * @return
 	 */
-	public static String getXValue(XSSFCell xssfCell){
+	public static String getXValue(Cell xssfCell){
 		 if (xssfCell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {
 			 return String.valueOf(xssfCell.getBooleanCellValue());
 		 } else if (xssfCell.getCellType() == Cell.CELL_TYPE_NUMERIC) {

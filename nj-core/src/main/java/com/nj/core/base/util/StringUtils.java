@@ -16,6 +16,7 @@
 package com.nj.core.base.util;
 
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -271,6 +272,16 @@ public class StringUtils {
 			}
 		}
 		return sex;
+	}
+
+	public static boolean isNumeric(String str) {
+		String bigStr;
+		try {
+			bigStr = new BigDecimal(str).toString();
+		} catch (Exception e) {
+			return false;//异常 说明包含非数字。
+		}
+		return true;
 	}
 
 }

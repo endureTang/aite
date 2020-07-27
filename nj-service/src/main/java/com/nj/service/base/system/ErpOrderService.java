@@ -29,6 +29,10 @@ import com.nj.model.generate.NjStrategy;
 import com.nj.model.generate.StrategyOrder;
 import com.nj.model.generate.StrategyOrderExample;
 import com.sun.tools.internal.xjc.reader.gbind.SourceNode;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -143,18 +147,18 @@ public class ErpOrderService {
 	private List<Map<String,Object>> completeExcel(File file,NjStrategy njStrategy,HttpServletRequest request,String fileName) throws BaseException {
 		InputStream input = null;
 		OutputStream out = null;
-		XSSFWorkbook wb = null;
+		Workbook wb = null;
 		List<Map<String,Object>> errorData = new ArrayList<>();
 		try {
 			input = new FileInputStream(file);
 			// 创建文档
 			wb = new XSSFWorkbook(input);
 			//读取sheet(页)
-			XSSFSheet xssfSheet = wb.getSheetAt(0);
+			Sheet xssfSheet = wb.getSheetAt(0);
 			int totalRows = xssfSheet.getLastRowNum(); //总行数
 			int totalCells;//总列数
 			//读取excel标题，默认第一行为标题
-			XSSFRow titleRow = xssfSheet.getRow(0);
+			Row titleRow = xssfSheet.getRow(0);
 			totalCells = titleRow.getPhysicalNumberOfCells(); //总列数
 			List<Map<String,Object>> completeInfo = new ArrayList<>();
 			Integer sourceNoCellIndex = null;
@@ -195,7 +199,7 @@ public class ErpOrderService {
 			//读取Row,从第二行开始
 
 			for (int rowNum = 1; rowNum <= totalRows; rowNum++) {
-				XSSFRow xssfRow = xssfSheet.getRow(rowNum);
+				Row xssfRow = xssfSheet.getRow(rowNum);
 				if (xssfRow != null) {
 					try {
 						String sourceNo = ExcelUtil.getXValue(xssfRow.getCell(sourceNoCellIndex)).trim();//获取原始订单号
@@ -233,7 +237,7 @@ public class ErpOrderService {
 								cellValue = erpOrder.getAmount();
 							}
 							if(cellValue != null && !cellValue.equals("")){
-								XSSFCell cell= xssfSheet.getRow(rowNum).getCell(cellIndex);
+								Cell cell= xssfSheet.getRow(rowNum).getCell(cellIndex);
 								if(cell == null){
 									cell = xssfSheet.getRow(rowNum).createCell(cellIndex);
 								}

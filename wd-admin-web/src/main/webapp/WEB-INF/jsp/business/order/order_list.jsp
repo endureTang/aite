@@ -13,8 +13,8 @@
 <section class="content-header">
 	<ol class="breadcrumb">
 		<li><a href="./"><i class="fa fa-dashboard"></i> 主页</a></li>
-		<li class="active">系统设置</li>
-		<li><a href="/strategy/page" data-target="navTab">策略列表</a></li>
+		<li class="active">业务管理</li>
+		<li><a href="/strategy/page" data-target="navTab">ERP订单拆分</a></li>
 	</ol>
 </section>
 <!-- Main content -->
@@ -27,7 +27,7 @@
 
 					<shiro:hasPermission name="file/upload">
 						<a type="button" onclick="easyUpload()" id="import"class="btn btn-sm btn-primary">
-							<i class="fa fa-fw fa-plus"></i>导入ERP表格
+							<i class="fa fa-fw fa-plus"></i>导入ERP订单
 						</a>
 					</shiro:hasPermission>
 					<a class="btn btn-sm btn-primary" href="/upload/ERP模板.xlsx">
@@ -83,7 +83,7 @@
 				"url" : "erpOrder/list",
 				"type" : "post",
 				"data": function (data) {
-					data.type = $("#type").val();
+					data.type = 1;
 					data.keyword = $("#keyword").val();
 				}
 			},

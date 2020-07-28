@@ -97,7 +97,7 @@ public class ExportUtil {
 			XSSFSheet sheet = workbook.createSheet(sheetname);
 			
 			//创建标题行
-			rowIndex = createTitle(columnNum, rowIndex, sheet ,titlename);
+//			rowIndex = createTitle(columnNum, rowIndex, sheet ,titlename);
 			
 			//创建表头行
 			rowIndex = createHeader(columnNum, rowIndex, tableHeaderArray, sheet);

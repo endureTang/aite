@@ -14,7 +14,7 @@
 	<ol class="breadcrumb">
 		<li><a href="./"><i class="fa fa-dashboard"></i> 主页</a></li>
 		<li class="active">业务管理</li>
-		<li><a href="/stockBase/page" data-target="navTab">库存档案</a></li>
+		<li><a href="/channelStock/page" data-target="navTab">渠道基础库存</a></li>
 	</ol>
 </section>
 <!-- Main content -->
@@ -23,11 +23,61 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header" id="boxHeader">
-					<shiro:hasPermission name="stockBase/add">
-						<a type="button" onclick="easyUpload()" id="import"class="btn btn-sm btn-primary">
-							<i class="fa fa-fw fa-plus"></i>导入库存档案
-						</a>
+					<shiro:hasPermission name="channelStock/add">
+						<button type="button" onclick="easyUpload2()"
+								class="btn -sm btn-default role-del">
+							<i class="fa fa-fw fa-plus"></i>导入增补库存
+						</button>
+						<button type="button" onclick="easyUpload()"
+								class="btn btn-sm btn-primary role-add">
+							<i class="fa fa-fw fa-plus"></i>导入ERP库存
+						</button>
+
+
+
 					</shiro:hasPermission>
+					<div class="dropdown clearfix">
+						<!-- <span class="input-group-addon">菜单分类</span> -->
+						<button type="button" class="btn dropdown-toggle menu-dropdown" id="dropdownMenu1" data-toggle="dropdown">渠道基础数据列表
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="menuDropdown">
+							<li role="presentation">
+								<a role="menuitem" id="channelBaseList" tabindex="-1">渠道基础数据列表</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" id="errorList" tabindex="-1">问题数据列表</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" id="newDataList" tabindex="-1">疑似新品列表</a>
+							</li>
+						</ul>
+
+					</div>
+				</div>
+				<div class="box-header">
+					<div class="dropdown clearfix">
+						渠道基础数据${baseCount}条，问题数据${errorCount}条，疑似新品${newCount}条
+					</div>
+
+					<button type="button" onclick="clearData()"
+							class="btn btn-sm btn-custom role-del">
+						<i class="fa fa-fw fa-plus"></i>清空数据
+					</button>
+					<button type="button" onclick="exportNewData()"
+							class="btn btn-sm btn-primary role-add">
+						<i class="fa fa-fw fa-plus"></i>导出疑似新品数据
+					</button>
+					<button type="button" onclick="exportErrorData()"
+							class="btn btn-sm btn-primary role-add">
+						<i class="fa fa-fw fa-plus"></i>导入问题数据
+					</button>
+					<button type="button" onclick="easyUpload2()"
+							class="btn btn-sm btn-primary role-add">
+						<i class="fa fa-fw fa-plus"></i>导出渠道基础数据
+					</button>
+
+
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -39,9 +89,8 @@
 							<th>货号</th>
 							<th>尺码</th>
 							<th>数量</th>
-							<th>折扣</th>
-							<th>吊牌价</th>
 							<th>渠道价</th>
+							<th>品牌</th>
 							<th>操作</th>
 						</tr>
 						</thead>
@@ -66,10 +115,9 @@
 			"autoWidth": false,
 			"serverSide": true,
 			"ajax": {
-				"url" : "stockBase/list",
+				"url" : "channelStock/list?type=1",
 				"type" : "post",
 				"data": function (data) {
-					data.type = $("#type").val();
 					data.keyword = $("#keyword").val();
 				}
 			},
@@ -84,20 +132,19 @@
 				{ "data": "stockNo" },
 				{ "data": "specification" },
 				{ "data": "amount" },
-				{ "data": "discount" },
 				{ "data": "channelPrice" },
-				{ "data": "basePrice" },
+				{ "data": "brand" },
 				{ "data": null }
 			],
 			"columnDefs": [{
-				"targets": 7,
+				"targets": 6,
 				"render": function(data, type, row) {
 					var html = htmlTpl.dropdown.prefix
 							<shiro:hasPermission name="strategy/edit">
-							+ '  <li><a href="stockBase/edit?id='+row.id+'" data-model="dialog"><i class="fa fa-pencil"></i>编辑</a></li>'
+							+ '  <li><a href="channelStock/edit?id='+row.id+'" data-model="dialog"><i class="fa fa-pencil"></i>编辑</a></li>'
 							</shiro:hasPermission>
-							<shiro:hasPermission name="stockBase/delete">
-							+ '  <li><a href="stockBase/delete?id='+row.id+'" data-msg="确定删除吗？" data-model="ajaxToDo" data-callback="refreshTable"><i class="fa fa-trash-o"></i>删除</a></li>'
+							<shiro:hasPermission name="channelStock/delete">
+							+ '  <li><a href="channelStock/delete?id='+row.id+'" data-msg="确定删除吗？" data-model="ajaxToDo" data-callback="refreshTable"><i class="fa fa-trash-o"></i>删除</a></li>'
 							</shiro:hasPermission>
 							+ htmlTpl.dropdown.suffix;
 					return html;
@@ -121,6 +168,26 @@
 		}
 	}
 
+	var dropDwonBtn = $('#dropdownMenu1');
+	$("#channelBaseList").on("click", function () {
+		dropDwonBtn.html('渠道基础数据列表 <span class="caret">');
+		var table = $('#default_table').DataTable();
+		table.ajax.url('channelStock/list?type=1').load();
+	});
+
+
+	$("#errorList").on("click", function () {
+		dropDwonBtn.html('问题数据列表 <span class="caret">');
+		var table = $('#default_table').DataTable();
+		table.ajax.url('channelStock/list?type=2').load();
+	});
+
+	$("#newDataList").on("click", function () {
+		dropDwonBtn.html('疑似新品列表 <span class="caret">');
+		var table = $('#default_table').DataTable();
+		table.ajax.url('channelStock/list?type=3').load();
+	});
+
 	function easyUpload(){
 		var input = document.createElement("input");
 		input.type = "file";
@@ -132,7 +199,7 @@
 			form.append("file", file); //第一个参数是后台读取的请求key值
 			form.append("fileName", file.name);
 			var xhr = new XMLHttpRequest();
-			var action = "stockBase/uploadStock"; //上传服务的接口地址
+			var action = "channelStock/uploadChannelStock"; //上传服务的接口地址
 			xhr.open("POST", action);
 			xhr.send(form); //发送表单数据
 			xhr.onreadystatechange = function(){
@@ -143,13 +210,51 @@
 						BootstrapDialog.show({
 							type: BootstrapDialog.TYPE_SUCCESS,
 							title: '操作结果提示',
-							message: "库存档案上传完毕",
+							message: "ERP库存上传完毕",
 						});
 					}else{
 						BootstrapDialog.show({
 							type: BootstrapDialog.TYPE_WARNING,
 							title: '操作结果提示',
-							message: "库存档案上传出错，"+resultObj.msg,
+							message: "ERP库存上传出错，"+resultObj.msg,
+						});
+					}
+					removeload();
+				}
+			}
+		}
+	}
+
+
+	function easyUpload2(){
+		var input = document.createElement("input");
+		input.type = "file";
+		input.click();
+		input.onchange = function(){
+			onloading();
+			var file = input.files[0];
+			var form = new FormData();
+			form.append("file", file); //第一个参数是后台读取的请求key值
+			form.append("fileName", file.name);
+			var xhr = new XMLHttpRequest();
+			var action = "channelStock/uploadChannelStockAndBaseStock"; //上传服务的接口地址
+			xhr.open("POST", action);
+			xhr.send(form); //发送表单数据
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState==4 && xhr.status==200){
+					var resultObj = JSON.parse(xhr.responseText);
+					if(resultObj.status== 1){
+						refreshTable(true);
+						BootstrapDialog.show({
+							type: BootstrapDialog.TYPE_SUCCESS,
+							title: '操作结果提示',
+							message: "ERP库存上传完毕",
+						});
+					}else{
+						BootstrapDialog.show({
+							type: BootstrapDialog.TYPE_WARNING,
+							title: '操作结果提示',
+							message: "ERP库存上传出错，"+resultObj.msg,
 						});
 					}
 					removeload();
@@ -184,6 +289,47 @@
 				$("#_loadMsg").hide();
 			}
 		}
+	}
+	
+	function clearData() {
+		if(confirm("确认清空数据？")){
+			$.ajax({
+				url:'/channelStock/clearData',
+				dataType:'json',
+				type:'POST',
+				async: false,
+				processData : false, // 使数据不做处理
+				contentType : false, // 不要设置Content-Type请求头
+				success: function(data){
+					console.log(data);
+					if (data.status == '1') {
+						refreshTable(true);
+						BootstrapDialog.show({
+							type: BootstrapDialog.TYPE_SUCCESS,
+							title: '操作结果提示',
+							message: "数据已清空",
+						});
+					}else{
+						BootstrapDialog.show({
+							type: BootstrapDialog.TYPE_WARNING,
+							title: '操作结果提示',
+							message: "数据清空失败，"+data.msg,
+						});
+					}
+				},
+				error:function(response){
+					console.log(response);
+				}
+			});
+		}
+
+	}
+	
+	function exportNewData() {
+		window.open("/channelStock/exportNewData");
+	}
+	function exportErrorData() {
+		window.open("/channelStock/exportErrorData");
 	}
 </script>
 <style>

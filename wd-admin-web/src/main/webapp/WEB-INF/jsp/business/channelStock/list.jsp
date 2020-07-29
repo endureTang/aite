@@ -5,16 +5,12 @@
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<!-- Content Header (Page header) -->
-<!--<section class="content-header">-->
-<!--<cycon:navigater path="role"></cycon:navigater>-->
-<!--</section>-->
-<!-- Content Header (Page header) -->
+
 <section class="content-header">
 	<ol class="breadcrumb">
 		<li><a href="./"><i class="fa fa-dashboard"></i> 主页</a></li>
 		<li class="active">业务管理</li>
-		<li><a href="/channelStock/page" data-target="navTab">渠道基础库存</a></li>
+		<li><a href="channelStock/page" data-target="navTab">渠道基础库存</a></li>
 	</ol>
 </section>
 <!-- Main content -->
@@ -32,6 +28,12 @@
 								class="btn btn-sm btn-primary role-add">
 							<i class="fa fa-fw fa-plus"></i>导入ERP库存
 						</button>
+						<a class="btn btn-sm btn-primary" href="upload/ERP库存模板.xlsx">
+							<i class="fa fa-fw fa-plus"></i>下载ERP库存模板
+						</a>
+						<a class="btn btn-sm btn-primary" href="upload/库存档案.xlsx">
+							<i class="fa fa-fw fa-plus"></i>下载增补库存模板
+						</a>
 
 
 
@@ -70,9 +72,9 @@
 					</button>
 					<button type="button" onclick="exportErrorData()"
 							class="btn btn-sm btn-primary role-add">
-						<i class="fa fa-fw fa-plus"></i>导入问题数据
+						<i class="fa fa-fw fa-plus"></i>导出问题数据
 					</button>
-					<button type="button" onclick="easyUpload2()"
+					<button type="button" data-url="channelStock/goExportChannel" data-model="dialog"
 							class="btn btn-sm btn-primary role-add">
 						<i class="fa fa-fw fa-plus"></i>导出渠道基础数据
 					</button>
@@ -294,7 +296,7 @@
 	function clearData() {
 		if(confirm("确认清空数据？")){
 			$.ajax({
-				url:'/channelStock/clearData',
+				url:'channelStock/clearData',
 				dataType:'json',
 				type:'POST',
 				async: false,
@@ -326,10 +328,10 @@
 	}
 	
 	function exportNewData() {
-		window.open("/channelStock/exportNewData");
+		window.open("channelStock/exportNewData");
 	}
 	function exportErrorData() {
-		window.open("/channelStock/exportErrorData");
+		window.open("channelStock/exportErrorData");
 	}
 </script>
 <style>

@@ -413,7 +413,7 @@ public class ExportUtil {
 	/**
 	 * 下载
 	 */
-	private static void download(String fileDirpath, String filename, HttpServletResponse response)
+	public static void download(String fileDirpath, String filename, HttpServletResponse response)
 			throws Exception, IOException {
 		response.setHeader("Content-disposition", "attachment;filename=" + java.net.URLEncoder.encode(filename, "UTF-8"));
 		response.setContentType("application/vnd.ms-excel");

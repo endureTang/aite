@@ -52,7 +52,7 @@ public class DictController extends BaseController {
 	@Resource(name = "dictService")
 	private DictService dictService;
 	
-	@ResourcesAnnotion(uri="/dict/page",name="字典列表",resourceType=1,parentId="3")
+//	@ResourcesAnnotion(uri="/dict/page",name="字典列表",resourceType=1,parentId="3")
 	@RequestMapping(value="/page")
 	public ModelAndView page(){
 		ModelAndView mv = super.getModelAndView();

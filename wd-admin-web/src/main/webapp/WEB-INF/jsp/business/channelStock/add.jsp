@@ -140,7 +140,7 @@
             formData.append("id", 0);
         }
         $.ajax({
-            url:'/file/uploadReturnFile',
+            url:'file/uploadReturnFile',
             dataType:'json',
             type:'POST',
             async: false,
@@ -175,7 +175,7 @@
     
     function doSubmit() {
         $.ajax({
-            url:'/erpOrder/doSplit',
+            url:'erpOrder/doSplit',
             dataType:'json',
             type:'POST',
             async: false,

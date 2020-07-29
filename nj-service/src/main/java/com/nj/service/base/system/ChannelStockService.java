@@ -19,22 +19,34 @@ import com.nj.core.base.dao.BaseDao;
 import com.nj.core.base.util.PageData;
 import com.nj.core.base.util.StringUtils;
 import com.nj.core.base.util.UuidUtil;
+import com.nj.core.utils.excel.ExportUtil;
 import com.nj.dao.ChannelStockMapper;
 import com.nj.dao.StockBaseMapper;
+import com.nj.dao.StockFormatMapper;
+import com.nj.dao.SysDictMapper;
 import com.nj.dao.extend.NjStrategyMapperExtend;
 import com.nj.model.datamodel.ChannelStockModel;
 import com.nj.model.datamodel.ChannelStockModelNew;
-import com.nj.model.generate.ChannelStock;
-import com.nj.model.generate.ChannelStockExample;
-import com.nj.model.generate.StockBase;
-import com.nj.model.generate.StockBaseExample;
+import com.nj.model.generate.*;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @FileName RoleService.java
@@ -57,6 +69,10 @@ public class ChannelStockService {
     private StockBaseMapper stockBaseMapper;
 	@Resource
 	private NjStrategyMapperExtend njStrategyMapperExtend;
+	@Resource
+	private SysDictMapper sysDictMapper;
+	@Resource
+	private StockFormatMapper stockFormatMapper;
 
 	public List<ChannelStock> list(PageData pd) {
 		if(pd != null){
@@ -139,5 +155,61 @@ public class ChannelStockService {
 
 	public List<ChannelStockModelNew> listModelNew(PageData pd) {
 		return njStrategyMapperExtend.selectPageChannelStockModelNew(pd);
+	}
+
+	public void exportChannelData(List<StockFormatDict> stockFormatDicts, HttpServletRequest reqst, HttpServletResponse response,String formatId) {
+		String basePath = reqst.getContextPath();
+		basePath = reqst.getScheme() + "://" + reqst.getServerName() + ":" + reqst.getServerPort() + basePath + "/";
+		String realPath = reqst.getSession().getServletContext().getRealPath("upload" + File.separator + "excelFile" + File.separator);
+		String filename = "";
+		StockFormat stockFormat = stockFormatMapper.selectByPrimaryKey(formatId);
+		filename = stockFormat.getName()+".xlsx";
+		XSSFWorkbook wb = new XSSFWorkbook();
+		FileOutputStream fileOut = null;
+		XSSFSheet sheet = wb.createSheet(stockFormat.getName());
+		XSSFRow row = sheet.createRow(0);
+		//创建表头
+		Map<Integer, String> cellMap = new HashMap<>();
+		for (int i = 0; i < stockFormatDicts.size(); i++) {
+			StockFormatDict stockFormatDict = stockFormatDicts.get(i);
+			XSSFCell cell = row.createCell(i);
+			cell.setCellValue(stockFormatDict.getColumName());
+			SysDict sysDict = sysDictMapper.selectByPrimaryKey(stockFormatDict.getDictId());
+			cellMap.put(i, sysDict.getValue());
+		}
+		try {
+			ChannelStockExample channelStockExample = new ChannelStockExample();
+			channelStockExample.createCriteria().andTypeEqualTo(1);
+			List<ChannelStock> channelStockList = channelStockMapper.selectByExample(channelStockExample);
+			//设置数据
+			for (int i = 0; i < channelStockList.size(); i++) {
+				ChannelStock channelStock  = channelStockList.get(i);
+				XSSFRow rowTemp = sheet.createRow(i+1);
+				for (Integer key : cellMap.keySet()) {
+					XSSFCell cell = rowTemp.createCell(key);
+					String columName = cellMap.get(key);
+					Class<ChannelStock> clz = ChannelStock.class;
+					Field field = clz.getDeclaredField(columName);
+					String fileValue = field.get(channelStock)+"";
+					cell.setCellValue(fileValue);
+				}
+			}
+			File dir = new File(realPath);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+			fileOut = new FileOutputStream(realPath+File.separator+filename);
+			wb.write(fileOut);
+			ExportUtil.download(realPath, filename, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				fileOut.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 }

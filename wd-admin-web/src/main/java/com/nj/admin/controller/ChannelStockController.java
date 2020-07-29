@@ -23,11 +23,10 @@ import com.nj.core.utils.excel.ExportUtil;
 import com.nj.model.datamodel.ChannelStockModel;
 import com.nj.model.datamodel.ChannelStockModelNew;
 import com.nj.model.datamodel.NjUserContactModel;
-import com.nj.model.generate.ChannelStock;
-import com.nj.model.generate.StockBase;
-import com.nj.model.generate.SysDict;
+import com.nj.model.generate.*;
 import com.nj.service.base.system.ChannelStockService;
 import com.nj.service.base.system.StockBaseService;
+import com.nj.service.base.system.StockFormatService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -70,6 +69,9 @@ public class ChannelStockController extends BaseController {
 	
 	@Resource(name = "channelStockService")
 	private ChannelStockService channelStockService;
+
+    @Resource(name = "stockFormatService")
+    private StockFormatService stockFormatService;
 
 	@ResourcesAnnotion(uri="/channelStock/page",name="渠道基础库存",resourceType=1,parentId="2")
 	@RequestMapping(value="/page")
@@ -133,6 +135,20 @@ public class ChannelStockController extends BaseController {
 		}
 		mv.addObject("pd", pd);
 		mv.setViewName("business/channelStock/edit");
+		return mv;
+	}
+
+	@RequestMapping(value = "/goExportChannel", method = RequestMethod.GET)
+	public ModelAndView goExportChannel() {
+		ModelAndView mv = super.getModelAndView();
+        List<StockFormat> list = null;
+		try {
+            list = stockFormatService.list(null);
+		} catch (Exception e) {
+			logger.error("get role error", e);
+		}
+		mv.addObject("list", list);
+		mv.setViewName("business/channelStock/channelExport");
 		return mv;
 	}
 
@@ -232,6 +248,22 @@ public class ChannelStockController extends BaseController {
 		return result;
 	}
 
+    @RequestMapping(value="/exportChannelData", method=RequestMethod.GET)
+    @ResponseBody
+    public PageData exportChannelData(HttpServletRequest reqst, HttpServletResponse response){
+        PageData result = new PageData();
+        try {
+            PageData pd = super.getPageData();
+            List<StockFormatDict> stockFormatDicts = stockFormatService.getDictByFormatId(pd.getString("id"));
+            channelStockService.exportChannelData(stockFormatDicts,reqst,response,pd.getString("id"));
+            result.put("status", 1);
+        } catch (Exception e) {
+            logger.error("add ChannelStock error", e);
+            result.put("status", 0);
+            result.put("msg", "清空失败");
+        }
+        return result;
+    }
 	@RequestMapping(value = "/uploadChannelStock", method = RequestMethod.POST)
 	@ResponseBody
 	public PageData uploadStock(@RequestParam("file") MultipartFile file, HttpServletRequest request) {

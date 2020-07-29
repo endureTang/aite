@@ -30,7 +30,7 @@
 							<i class="fa fa-fw fa-plus"></i>导入ERP订单
 						</a>
 					</shiro:hasPermission>
-					<a class="btn btn-sm btn-primary" href="/upload/ERP模板.xlsx">
+					<a class="btn btn-sm btn-primary" href="upload/ERP模板.xlsx">
 						<i class="fa fa-fw fa-plus"></i>下载ERP模板
 					</a>
 

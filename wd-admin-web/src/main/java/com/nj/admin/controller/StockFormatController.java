@@ -22,6 +22,7 @@ import com.nj.core.base.util.DataTableResult;
 import com.nj.core.base.util.PageData;
 import com.nj.model.datamodel.StockFormatForm;
 import com.nj.model.generate.StockFormat;
+import com.nj.model.generate.StockFormatDict;
 import com.nj.model.generate.SysDict;
 import com.nj.service.base.system.DictService;
 import com.nj.service.base.system.StockFormatService;
@@ -117,7 +118,39 @@ public class StockFormatController extends BaseController {
 		}
 		return result;
 	}
-
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView toEdit(@RequestParam String id) {
+		ModelAndView mv = super.getModelAndView();
+		List<SysDict> dictList = null;
+		StockFormat pd = null;
+		List<StockFormatDict> stockFormatDicts = null;
+		try {
+			pd = stockFormatService.getById(id);
+			stockFormatDicts = stockFormatService.getDictByFormatId(id);
+			dictList = dictService.selectAll();
+		} catch (Exception e) {
+			logger.error("get role error", e);
+		}
+		mv.addObject("dictList", dictList);
+		mv.addObject("stockFormatDicts", stockFormatDicts);
+		mv.addObject("pd", pd);
+		mv.setViewName("sys/stockFormat/edit");
+		return mv;
+	}
+	@RequestMapping(value="/edit", method=RequestMethod.POST)
+	@ResponseBody
+	public PageData edit(StockFormatForm stockFormatForm){
+		PageData result = new PageData();
+		try {
+			stockFormatService.edit(stockFormatForm);
+			result.put("status", 1);
+		} catch (Exception e) {
+			logger.error("add StockFormat error", e);
+			result.put("status", 0);
+			result.put("msg", "新增失败");
+		}
+		return result;
+	}
 
 
 	@RequestMapping(value="/delete")

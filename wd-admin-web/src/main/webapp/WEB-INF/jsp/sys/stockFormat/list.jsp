@@ -14,7 +14,7 @@
 	<ol class="breadcrumb">
 		<li><a href="./"><i class="fa fa-dashboard"></i> 主页</a></li>
 		<li class="active">系统设置</li>
-		<li><a href="/stockFormat/page" data-target="navTab">策略列表</a></li>
+		<li><a href="stockFormat/page" data-target="navTab">策略列表</a></li>
 	</ol>
 </section>
 <!-- Main content -->
@@ -85,6 +85,7 @@
 				"render": function(data, type, row) {
 					var html = htmlTpl.dropdown.prefix
 							<shiro:hasPermission name="stockFormat/delete">
+							+ '  <li><a href="stockFormat/edit?id='+row.id+'" data-model="dialog"><i class="fa fa-pencil"></i>编辑</a></li>'
 							+ '  <li><a href="stockFormat/delete?id='+row.id+'" data-msg="确定删除吗？" data-model="ajaxToDo" data-callback="refreshTable"><i class="fa fa-trash-o"></i>删除</a></li>'
 							</shiro:hasPermission>
 							+ htmlTpl.dropdown.suffix;

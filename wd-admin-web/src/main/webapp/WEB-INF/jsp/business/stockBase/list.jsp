@@ -14,7 +14,7 @@
 	<ol class="breadcrumb">
 		<li><a href="./"><i class="fa fa-dashboard"></i> 主页</a></li>
 		<li class="active">业务管理</li>
-		<li><a href="/stockBase/page" data-target="navTab">库存档案</a></li>
+		<li><a href="stockBase/page" data-target="navTab">库存档案</a></li>
 	</ol>
 </section>
 <!-- Main content -->
@@ -26,6 +26,9 @@
 					<shiro:hasPermission name="stockBase/add">
 						<a type="button" onclick="easyUpload()" id="import"class="btn btn-sm btn-primary">
 							<i class="fa fa-fw fa-plus"></i>导入库存档案
+						</a>
+						<a class="btn btn-sm btn-primary" href="upload/库存档案.xlsx">
+							<i class="fa fa-fw fa-plus"></i>下载库存档案模板
 						</a>
 					</shiro:hasPermission>
 				</div>

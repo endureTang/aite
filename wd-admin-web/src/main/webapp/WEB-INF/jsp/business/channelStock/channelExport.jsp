@@ -10,23 +10,21 @@
                  style='display: block;'>
                 <button class='close' data-dismiss='modal' aria-label='Close'>×</button>
             </div>
-            <div class='bootstrap-dialog-title'>渠道反馈订单</div>
+            <div class='bootstrap-dialog-title'>渠道数据导出</div>
             <label class="col-sm-4 control-label"></label>
         </div>
     </div>
     <div class="modal-body">
         <div class="container-fluid" id="programMain">
-            <c:forEach items="${strategyOrders}" var="strategy">
+            <c:forEach items="${list}" var="stockFormat">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label">${strategy.fileName}</label>
-                    <label class="col-sm-3 control-label"> <a href="${strategy.filePath}" class="btn btn-primary btn-edit downLoad">下载</a></label>
+                    <label class="col-sm-3 control-label"> <a href="channelStock/exportChannelData?id=${stockFormat.id}" class="btn btn-primary btn-edit downLoad">${stockFormat.name}</a></label>
                 </div>
             </c:forEach>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-        <button type="button" class="btn btn-primary btn-edit" onclick="downLoadAdd()">一键下载</button>
     </div>
 
 </form>

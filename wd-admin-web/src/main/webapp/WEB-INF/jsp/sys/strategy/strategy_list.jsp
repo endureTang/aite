@@ -14,7 +14,7 @@
 	<ol class="breadcrumb">
 		<li><a href="./"><i class="fa fa-dashboard"></i> 主页</a></li>
 		<li class="active">系统设置</li>
-		<li><a href="/strategy/page" data-target="navTab">策略列表</a></li>
+		<li><a href="strategy/page" data-target="navTab">策略列表</a></li>
 	</ol>
 </section>
 <!-- Main content -->

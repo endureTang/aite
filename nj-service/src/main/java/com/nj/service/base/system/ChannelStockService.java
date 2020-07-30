@@ -113,6 +113,8 @@ public class ChannelStockService {
 		for (ChannelStock channelStock : channelStocks) {
 			if(channelStock.getType() != null && channelStock.getType() == 2){ // 如果导入表格中存在空数据，默认为问题数据
 				channelStock.setChannelPrice("");
+				channelStock.setBasePrice("");
+				channelStock.setDiscount("");
 				continue;
 			}else{
 				//根据货号+规格获取档案库信息
@@ -125,13 +127,19 @@ public class ChannelStockService {
 					StockBase stockBase = stockBases.get(0);
 					channelStock.setType(1);
 					channelStock.setChannelPrice(stockBase.getChannelPrice());
+					channelStock.setBasePrice(stockBase.getBasePrice());
+					channelStock.setDiscount(stockBase.getDiscount());
 				}else{ //否则根据数量判断是否为疑似新增库存：大于3，是，小于3，否
 					if(Integer.parseInt(channelStock.getAmount()) >= 3){
 						channelStock.setChannelPrice("");
+						channelStock.setBasePrice("");
+						channelStock.setDiscount("");
 						channelStock.setType(3);
 					}else{
 						channelStock.setType(2);
 						channelStock.setChannelPrice("");
+						channelStock.setBasePrice("");
+						channelStock.setDiscount("");
 						channelStock.setRemark("根据货号、规格匹配库存档案失败");
 					}
 				}
@@ -160,7 +168,7 @@ public class ChannelStockService {
 	public void exportChannelData(List<StockFormatDict> stockFormatDicts, HttpServletRequest reqst, HttpServletResponse response,String formatId) {
 		String basePath = reqst.getContextPath();
 		basePath = reqst.getScheme() + "://" + reqst.getServerName() + ":" + reqst.getServerPort() + basePath + "/";
-		String realPath = reqst.getSession().getServletContext().getRealPath("upload" + File.separator + "excelFile" + File.separator);
+		String realPath = reqst.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator + "excelFile" + File.separator);
 		String filename = "";
 		StockFormat stockFormat = stockFormatMapper.selectByPrimaryKey(formatId);
 		filename = stockFormat.getName()+".xlsx";

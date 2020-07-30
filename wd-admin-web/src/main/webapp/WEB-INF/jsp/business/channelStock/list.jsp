@@ -28,10 +28,10 @@
 								class="btn btn-sm btn-primary role-add">
 							<i class="fa fa-fw fa-plus"></i>导入ERP库存
 						</button>
-						<a class="btn btn-sm btn-primary" href="upload/ERP库存模板.xlsx">
+						<a class="btn btn-sm btn-primary" href="static/upload/ERP库存模板.xlsx">
 							<i class="fa fa-fw fa-plus"></i>下载ERP库存模板
 						</a>
-						<a class="btn btn-sm btn-primary" href="upload/库存档案.xlsx">
+						<a class="btn btn-sm btn-primary" href="static/upload/库存档案.xlsx">
 							<i class="fa fa-fw fa-plus"></i>下载增补库存模板
 						</a>
 
@@ -92,6 +92,8 @@
 							<th>尺码</th>
 							<th>数量</th>
 							<th>渠道价</th>
+							<th>吊牌价</th>
+							<th>折扣</th>
 							<th>品牌</th>
 							<th>操作</th>
 						</tr>
@@ -135,11 +137,13 @@
 				{ "data": "specification" },
 				{ "data": "amount" },
 				{ "data": "channelPrice" },
+				{ "data": "basePrice" },
+				{ "data": "discount" },
 				{ "data": "brand" },
 				{ "data": null }
 			],
 			"columnDefs": [{
-				"targets": 6,
+				"targets": 8,
 				"render": function(data, type, row) {
 					var html = htmlTpl.dropdown.prefix
 							<shiro:hasPermission name="strategy/edit">

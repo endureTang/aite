@@ -30,7 +30,7 @@
 							<i class="fa fa-fw fa-plus"></i>导入ERP订单
 						</a>
 					</shiro:hasPermission>
-					<a class="btn btn-sm btn-primary" href="upload/ERP模板.xlsx">
+					<a class="btn btn-sm btn-primary" href="static/upload/ERP模板.xlsx">
 						<i class="fa fa-fw fa-plus"></i>下载ERP模板
 					</a>
 
@@ -40,6 +40,10 @@
 							<i class="fa fa-fw fa-plus"></i>选择填充表
 						</a>
 					</shiro:hasPermission>
+					<a onclick="clearData()"
+							class="btn btn-sm btn-custom role-del">
+						<i class="fa fa-fw fa-plus"></i>清空数据
+					</a>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -138,12 +142,23 @@
 				if(xhr.readyState==4 && xhr.status==200){
 					var resultObj = JSON.parse(xhr.responseText);
 					if(resultObj.status== 1){
-						refreshTable(true);
-						BootstrapDialog.show({
-							type: BootstrapDialog.TYPE_SUCCESS,
-							title: '操作结果提示',
-							message: "ERP订单上传完毕",
-						});
+						if(resultObj.errData == 1){
+							refreshTable(true);
+							BootstrapDialog.show({
+								type: BootstrapDialog.TYPE_SUCCESS,
+								title: '操作结果提示',
+								message: "ERP订单上传完毕，导入失败数据请查看Excel",
+							});
+							window.open("file/errorErpData");
+						}else{
+							refreshTable(true);
+							BootstrapDialog.show({
+								type: BootstrapDialog.TYPE_SUCCESS,
+								title: '操作结果提示',
+								message: "ERP订单上传完毕",
+							});
+						}
+
 					}else{
 						BootstrapDialog.show({
 							type: BootstrapDialog.TYPE_WARNING,
@@ -155,6 +170,40 @@
 				}
 			}
 		}
+	}
+
+	function clearData() {
+		if(confirm("确认清空数据？")){
+			$.ajax({
+				url:'erpOrder/clearData',
+				dataType:'json',
+				type:'POST',
+				async: false,
+				processData : false, // 使数据不做处理
+				contentType : false, // 不要设置Content-Type请求头
+				success: function(data){
+					console.log(data);
+					if (data.status == '1') {
+						refreshTable(true);
+						BootstrapDialog.show({
+							type: BootstrapDialog.TYPE_SUCCESS,
+							title: '操作结果提示',
+							message: "数据已清空",
+						});
+					}else{
+						BootstrapDialog.show({
+							type: BootstrapDialog.TYPE_WARNING,
+							title: '操作结果提示',
+							message: "数据清空失败，"+data.msg,
+						});
+					}
+				},
+				error:function(response){
+					console.log(response);
+				}
+			});
+		}
+
 	}
 
 	function onloading(){

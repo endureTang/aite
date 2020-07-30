@@ -4,8 +4,8 @@ import com.nj.core.base.mapper.BaseMapper;
 import com.nj.core.base.util.PageData;
 import com.nj.model.datamodel.ChannelStockModel;
 import com.nj.model.datamodel.ChannelStockModelNew;
+import com.nj.model.datamodel.ErrorErpModel;
 import com.nj.model.generate.*;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,4 +30,6 @@ public interface NjStrategyMapperExtend extends BaseMapper {
     List<ChannelStockModel> selectPageChannelStockModel(PageData pd);
 
     List<ChannelStockModelNew> selectPageChannelStockModelNew(PageData pd);
+
+    List<ErrorErpModel> listErrorErp();
 }

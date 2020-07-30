@@ -2,19 +2,16 @@ package com.nj.admin.controller;
 
 import com.jd.core.util.StringUtil;
 import com.nj.core.base.controller.BaseController;
-import com.nj.core.base.exception.BaseException;
 import com.nj.core.base.util.PageData;
 import com.nj.core.utils.excel.ExcelUtil;
+import com.nj.core.utils.excel.ExportUtil;
+import com.nj.model.datamodel.ErrorErpModel;
 import com.nj.model.generate.ErpOrder;
+import com.nj.model.generate.ErrorErpOrderModel;
 import com.nj.model.generate.StrategyOrder;
 import com.nj.service.base.system.ErpOrderService;
 import org.apache.commons.io.FileUtils;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.*;
 
@@ -63,10 +61,10 @@ public class TFileController extends BaseController {
     }
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
-    public PageData add(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    public PageData add(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         PageData result = new PageData();
         try {
-            String realPath = request.getSession().getServletContext().getRealPath("upload" + File.separator + "excelFile" + File.separator);
+            String realPath = request.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator + "excelFile" + File.separator);
             File dir = new File(realPath);
             if(dir.exists()){
                 deleteFolder(dir);
@@ -118,7 +116,7 @@ public class TFileController extends BaseController {
 
                     input = file.getInputStream();
                     // 创建文档
-                    wb = new XSSFWorkbook(input);
+                    wb = WorkbookFactory.create(input);
                     //读取sheet(页)
                     Sheet xssfSheet = wb.getSheetAt(0);
                     int totalRows; //sheet中总行数
@@ -134,7 +132,7 @@ public class TFileController extends BaseController {
                     Workbook wbTemp = null;
                     try {
                         int totalCell = titleRow.getLastCellNum();
-                        String realPath1 = request.getSession().getServletContext().getRealPath("upload" + File.separator);
+                        String realPath1 = request.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator);
                         File erpFile = new File(realPath1 + File.separator + "ERP模板.xlsx");
 
                         inputTemp = new FileInputStream(erpFile);
@@ -163,6 +161,7 @@ public class TFileController extends BaseController {
                     } finally {
                         inputTemp.close();
                     }
+                    List<ErrorErpOrderModel> errorErpOrderModels = new ArrayList<>();
                     //读取Row,从第二行开始
                     for (int rowNum = 1; rowNum <= totalRows; rowNum++) {
                         Row xssfRow = xssfSheet.getRow(rowNum);
@@ -175,6 +174,10 @@ public class TFileController extends BaseController {
                                     ErpOrder erpOrder = new ErpOrder();
                                     String orderNo = ExcelUtil.getXValue(xssfRow.getCell(0));
                                     if(StringUtil.isBlank(orderNo)){
+                                        ErrorErpOrderModel em = new ErrorErpOrderModel();
+                                        em.setRownumber(rowNum+1);
+                                        em.setMessage("订单编号为空");
+                                        errorErpOrderModels.add(em);
                                         logger.error("订单编号为空");
                                         continue;
                                     }
@@ -183,18 +186,30 @@ public class TFileController extends BaseController {
                                     String transWay = ExcelUtil.getXValue(xssfRow.getCell(20));
                                     if(StringUtil.isBlank(transWay)){
                                         logger.error("物流方式为空");
+                                        ErrorErpOrderModel em = new ErrorErpOrderModel();
+                                        em.setRownumber(rowNum+1);
+                                        em.setMessage("物流方式为空");
+                                        errorErpOrderModels.add(em);
                                         continue;
                                     }
                                     erpOrder.setTransWay(ExcelUtil.getXValue(xssfRow.getCell(20)));
                                     String transNo = ExcelUtil.getXValue(xssfRow.getCell(19));
                                     if(StringUtil.isBlank(transNo)){
                                         logger.error("物流单号为空");
+                                        ErrorErpOrderModel em = new ErrorErpOrderModel();
+                                        em.setRownumber(rowNum+1);
+                                        em.setMessage("物流单号为空");
+                                        errorErpOrderModels.add(em);
                                         continue;
                                     }
                                     erpOrder.setTransNo(ExcelUtil.getXValue(xssfRow.getCell(19)));
                                     String address = ExcelUtil.getXValue(xssfRow.getCell(18));
                                     if(StringUtil.isBlank(address)){
                                         logger.error("地址为空");
+                                        ErrorErpOrderModel em = new ErrorErpOrderModel();
+                                        em.setRownumber(rowNum+1);
+                                        em.setMessage("地址为空");
+                                        errorErpOrderModels.add(em);
                                         continue;
                                     }
                                     String amount = ExcelUtil.getXValue(xssfRow.getCell(10));
@@ -227,6 +242,10 @@ public class TFileController extends BaseController {
                                             erpOrder.setTransMoney(transMoney);
                                         }
                                     } catch (Exception e) {
+                                        ErrorErpOrderModel em = new ErrorErpOrderModel();
+                                        em.setRownumber(rowNum+1);
+                                        em.setMessage("计算运费出错");
+                                        errorErpOrderModels.add(em);
                                         logger.error("订单号,{}系统错误，错误信息{}",erpOrder.getOrderNo(),e);
                                         continue;
                                     }
@@ -235,15 +254,20 @@ public class TFileController extends BaseController {
                                     erpOrder.setRemark(ExcelUtil.getXValue(xssfRow.getCell(30)));
                                     erpOrderList.add(erpOrder);
                                 }
+                            }else{
+                                ErrorErpOrderModel em = new ErrorErpOrderModel();
+                                em.setRownumber(rowNum+1);
+                                em.setMessage("原始单号为空");
+                                errorErpOrderModels.add(em);
                             }
                         }
                     }
-                    if(erpOrderList.size() == 0){
-                        result.put("status", 0);
-                        result.put("msg", "请勿上传空文件");
-                        return result;
+                    if(errorErpOrderModels!= null && errorErpOrderModels.size() > 0){
+                        result.put("errData", 1);
+                    }else{
+                        result.put("errData", 0);
                     }
-                    erpOrderService.insertBath(erpOrderList);
+                    erpOrderService.insertBath(erpOrderList,errorErpOrderModels);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
@@ -287,11 +311,11 @@ public class TFileController extends BaseController {
         InputStream input = null;
         Workbook wb = null;
         List<Map<String, Object>> mapList = new ArrayList<>();
-        String realPath = request.getSession().getServletContext().getRealPath("upload" + File.separator);
+        String realPath = request.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator);
         File file = new File(realPath + File.separator + "运费模板 （成都耐克）.xlsx");
         try {
             input = new FileInputStream(file);
-            wb = new XSSFWorkbook(input);
+            wb = WorkbookFactory.create(input);
             Sheet xssfSheet = wb.getSheetAt(0);
             if (xssfSheet == null || xssfSheet.getPhysicalNumberOfRows() == 0) {
                 logger.error("模板数据为空");
@@ -315,7 +339,9 @@ public class TFileController extends BaseController {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
             try {
                 input.close();
             } catch (IOException e) {
@@ -343,8 +369,8 @@ public class TFileController extends BaseController {
 //                    return result;
 //                }
                 String basePath = reqst.getContextPath();
-                basePath = reqst.getScheme() + "://" + reqst.getServerName() + ":" + reqst.getServerPort() + basePath + "/";
-                String realPath = reqst.getSession().getServletContext().getRealPath("upload" + File.separator + "excelFile" + File.separator);
+                basePath = reqst.getScheme() + "://" + reqst.getServerName() + ":" + reqst.getServerPort() + basePath + File.separator;
+                String realPath = reqst.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator + "excelFile" + File.separator);
                 File dir = new File(realPath);
                 if (!dir.exists()) {
                     dir.mkdirs();
@@ -356,7 +382,7 @@ public class TFileController extends BaseController {
                 StrategyOrder strategyOrder = new StrategyOrder();
                 strategyOrder.setId(id);
                 strategyOrder.setFileName(fileName);
-                strategyOrder.setFilePath(basePath + "upload/excelFile/" + fileName);
+                strategyOrder.setFilePath(basePath + "static/upload/excelFile/" + fileName);
                 strategyOrder.setStrategyId(strategyId);
                 strategyOrder.setCreateDate(new Date());
                 erpOrderService.insertStrategyOrder(strategyOrder);
@@ -370,5 +396,20 @@ public class TFileController extends BaseController {
             result.put("msg", "上传失败");
         }
         return result;
+    }
+
+    @RequestMapping(value="/errorErpData", method=RequestMethod.GET)
+    @ResponseBody
+    public void errorErpData(HttpServletRequest reqst, HttpServletResponse response){
+        PageData result = new PageData();
+        try {
+            List<ErrorErpModel> channelStocks = erpOrderService.listErrorErp();
+            //设置文件名称和文件存放位置
+            StringBuilder tempfilename = new StringBuilder();
+            tempfilename.append("ERP订单导入失败数据.xlsx");
+            ExportUtil.baseExport(channelStocks, ErrorErpModel.class, tempfilename.toString(), "ERP订单导入失败数据", "ERP订单导入失败数据", response);
+        } catch (Exception e) {
+            logger.error("add ChannelStock error", e);
+        }
     }
 }

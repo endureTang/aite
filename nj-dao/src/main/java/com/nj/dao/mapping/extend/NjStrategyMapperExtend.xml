@@ -21,11 +21,13 @@
   <insert id="insertBath" parameterType="list">
     insert into channel_stock (id, type, stock_no,
     specification, amount, channel_price,
-    brand, remark)
+    base_price, discount, brand,
+    remark)
     values
     <foreach collection="list" item="item" separator="," index="index">
       (#{item.id,jdbcType=VARCHAR}, #{item.type,jdbcType=INTEGER}, #{item.stockNo,jdbcType=VARCHAR},
       #{item.specification,jdbcType=VARCHAR}, #{item.amount,jdbcType=VARCHAR}, #{item.channelPrice,jdbcType=VARCHAR},
+      #{item.basePrice,jdbcType=VARCHAR}, #{item.discount,jdbcType=VARCHAR},
       #{item.brand,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR})
     </foreach>
   </insert>
@@ -101,4 +103,7 @@
     from channel_stock
     where type = #{type}
   </select>
+    <select id="listErrorErp" resultType="com.nj.model.datamodel.ErrorErpModel">
+      select * from error_erp_order_model
+    </select>
 </mapper>

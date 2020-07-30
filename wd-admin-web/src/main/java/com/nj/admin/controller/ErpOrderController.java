@@ -20,6 +20,7 @@ import com.nj.core.base.entity.ResourcesAnnotion;
 import com.nj.core.base.util.Const;
 import com.nj.core.base.util.DataTableResult;
 import com.nj.core.base.util.PageData;
+import com.nj.dao.ErpOrderMapper;
 import com.nj.model.generate.ErpOrder;
 import com.nj.model.generate.NjStrategy;
 import com.nj.model.generate.StrategyOrder;
@@ -38,6 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -60,6 +62,8 @@ public class ErpOrderController extends BaseController {
 
 	@Resource(name = "strategyService")
 	private StrategyService strategyService;
+	@Resource
+	private ErpOrderMapper erpOrderMapper;
 
 	@ResourcesAnnotion(uri="/erpOrder/page",name="ERP订单拆分",resourceType=1,parentId="2")
 	@RequestMapping(value="/page")
@@ -134,6 +138,47 @@ public class ErpOrderController extends BaseController {
 		return  mv;
 
 	}
+	@RequestMapping(value="/clearData", method = RequestMethod.POST)
+	@ResponseBody
+	public PageData clearData(HttpServletRequest request){
+		PageData result = new PageData();
+		try {
+			//清理之前的数据
+			erpOrderMapper.deleteByExample(null);
+			String realPath = request.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator + "excelFile" + File.separator);
+			File dir = new File(realPath);
+			if(dir.exists()){
+				deleteFolder(dir);
+			}
+			result.put("status", 1);
+		} catch (Exception e) {
+			logger.error("add role error", e);
+			result.put("status", 0);
+			result.put("msg", "清空失败");
+		}
+		return result;
+	}
 
+	//需要注意的是当删除某一目录时，必须保证该目录下没有其他文件才能正确删除，否则将删除失败。
+	private void deleteFolder(File folder) throws Exception {
+		if (!folder.exists()) {
+			throw new Exception("文件不存在");
+		}
+		File[] files = folder.listFiles();
+		if (files != null) {
+			for (File file : files) {
+				if (file.isDirectory()) {
+					//递归直到目录下没有文件
+					deleteFolder(file);
+				} else {
+					//删除
+					file.delete();
+				}
+			}
+		}
+		//删除
+		folder.delete();
+
+	}
 	
 }

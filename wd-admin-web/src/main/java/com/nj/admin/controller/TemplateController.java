@@ -116,7 +116,7 @@ public class TemplateController extends BaseController {
 			ModelMap model, RedirectAttributes redirectAttributes) {
 		PageData result = new PageData();
 		
-		String path = request.getSession().getServletContext().getRealPath("upload");
+		String path = request.getSession().getServletContext().getRealPath("static"+File.separator +"upload");
 		String fileName = file.getOriginalFilename();
 		if(fileName.indexOf(".xml") == -1){
 			result.put("status", 0);

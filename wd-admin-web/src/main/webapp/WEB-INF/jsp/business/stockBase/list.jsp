@@ -27,7 +27,7 @@
 						<a type="button" onclick="easyUpload()" id="import"class="btn btn-sm btn-primary">
 							<i class="fa fa-fw fa-plus"></i>导入库存档案
 						</a>
-						<a class="btn btn-sm btn-primary" href="upload/库存档案.xlsx">
+						<a class="btn btn-sm btn-primary" href="static/upload/库存档案.xlsx">
 							<i class="fa fa-fw fa-plus"></i>下载库存档案模板
 						</a>
 					</shiro:hasPermission>

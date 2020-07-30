@@ -297,7 +297,7 @@ public class ChannelStockController extends BaseController {
 					XSSFWorkbook wbTemp = null;
 					try {
 						int totalCell = titleRow.getLastCellNum();
-						String realPath1 = request.getSession().getServletContext().getRealPath("upload" + File.separator);
+						String realPath1 = request.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator);
 						File erpFile = new File(realPath1 + File.separator + "ERP库存模板.xlsx");
 
 						inputTemp = new FileInputStream(erpFile);
@@ -430,7 +430,7 @@ public class ChannelStockController extends BaseController {
 					XSSFWorkbook wbTemp = null;
 					try {
 						int totalCell = titleRow.getLastCellNum();
-						String realPath1 = request.getSession().getServletContext().getRealPath("upload" + File.separator);
+						String realPath1 = request.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator);
 						File erpFile = new File(realPath1 + File.separator + "库存档案.xlsx");
 
 						inputTemp = new FileInputStream(erpFile);

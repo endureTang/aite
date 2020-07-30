@@ -15,6 +15,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -65,29 +66,29 @@ public class ExcelReadUtil {
 		List<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
 	    // IO流读取文件
 	    InputStream input = null;
-	    XSSFWorkbook wb = null;
+	    Workbook wb = null;
 	    ArrayList<String> rowList = null;
 		try {
 			input = file.getInputStream();
 		    // 创建文档
-		    wb = new XSSFWorkbook(input);           		    
+		    wb = WorkbookFactory.create(input);
 	        //读取sheet(页)
 	        for(int numSheet=0;numSheet<wb.getNumberOfSheets();numSheet++){
-	        	XSSFSheet xssfSheet = wb.getSheetAt(numSheet);
+	        	Sheet xssfSheet = wb.getSheetAt(numSheet);
 	        	if(xssfSheet == null){
 	        		continue;
 	        	}
 	        	totalRows = xssfSheet.getLastRowNum();	        	
 	        	//读取Row,从第二行开始
 	        	for(int rowNum = 2;rowNum <= totalRows;rowNum++){
-	        		XSSFRow xssfRow = xssfSheet.getRow(rowNum);
+	        		Row xssfRow = xssfSheet.getRow(rowNum);
 	        		if(xssfRow!=null){
 	        			rowList = new ArrayList<String>();
 //	        			totalCells = xssfRow.getLastCellNum();
 	        			totalCells = 7;
 	        			//读取列，从第一列开始
 	        			for(int c=0;c<totalCells;c++){
-	        				XSSFCell cell = xssfRow.getCell(c);
+	        				Cell cell = xssfRow.getCell(c);
 	        				if(cell==null){
 	        					rowList.add(ExcelUtil.EMPTY);
 	        					continue;
@@ -101,7 +102,9 @@ public class ExcelReadUtil {
 	        return list;
 		} catch (IOException e) {			
 			e.printStackTrace();
-		} finally{
+		} catch (Exception e){
+			e.printStackTrace();
+		}finally{
 			try {
 				input.close();
 			} catch (IOException e) {

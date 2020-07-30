@@ -21,18 +21,13 @@ import com.nj.core.base.util.PageData;
 import com.nj.core.base.util.UuidUtil;
 import com.nj.core.utils.excel.ExcelUtil;
 import com.nj.dao.ErpOrderMapper;
+import com.nj.dao.ErrorErpOrderModelMapper;
 import com.nj.dao.NjStrategyMapper;
 import com.nj.dao.StrategyOrderMapper;
 import com.nj.dao.extend.NjStrategyMapperExtend;
-import com.nj.model.generate.ErpOrder;
-import com.nj.model.generate.NjStrategy;
-import com.nj.model.generate.StrategyOrder;
-import com.nj.model.generate.StrategyOrderExample;
-import com.sun.tools.internal.xjc.reader.gbind.SourceNode;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import com.nj.model.datamodel.ErrorErpModel;
+import com.nj.model.generate.*;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -73,6 +68,8 @@ public class ErpOrderService {
 	private NjStrategyMapper njStrategyMapper;
 	@Resource
 	private  StrategyOrderMapper strategyOrderMapper;
+	@Resource
+	private ErrorErpOrderModelMapper errorErpOrderModelMapper;
 
 	private static Logger logger = LoggerFactory.getLogger(ErpOrderService.class);
 
@@ -87,14 +84,22 @@ public class ErpOrderService {
 	}
 
 	@Transactional(rollbackFor = { Throwable.class }, readOnly = false)
-	public void insertBath(ArrayList<ErpOrder> erpOrderList) throws Exception{
+	public void insertBath(ArrayList<ErpOrder> erpOrderList, List<ErrorErpOrderModel> errorErpOrderModels) throws Exception{
 		//导入ERP基础订单前，清理之前的数据
 		erpOrderMapper.deleteByExample(null);
 		strategyOrderMapper.deleteByExample(null);
+		errorErpOrderModelMapper.deleteByExample(null);
 		for (ErpOrder erpOrder : erpOrderList) {
 			erpOrder.setId(UuidUtil.get32UUID());
 			erpOrderMapper.insertSelective(erpOrder);
 		}
+		if(errorErpOrderModels != null && errorErpOrderModels.size() > 0){
+			for (ErrorErpOrderModel errorErpOrderModel : errorErpOrderModels) {
+				errorErpOrderModel.setId(UuidUtil.get32UUID());
+				errorErpOrderModelMapper.insertSelective(errorErpOrderModel);
+			}
+		}
+
 	}
 	@Transactional(rollbackFor = { Throwable.class }, readOnly = false)
 	public void insertStrategyOrder(StrategyOrder strategyOrder) throws Exception{
@@ -124,7 +129,7 @@ public class ErpOrderService {
 		List<Map<String,Object>> errorData = new ArrayList<>();
 		for (StrategyOrder strategyOrder : strategyOrders) {
 			NjStrategy njStrategy = njStrategyMapper.selectByPrimaryKey(strategyOrder.getStrategyId());
-			String realPath=request.getSession().getServletContext().getRealPath("upload"+File.separator+"excelFile"+File.separator);
+			String realPath=request.getSession().getServletContext().getRealPath("static"+File.separator +"upload"+File.separator+"excelFile"+File.separator);
 			File file = new File(realPath+File.separator+strategyOrder.getFileName());
 			List<Map<String,Object>> retErrorData = completeExcel(file,njStrategy,request,strategyOrder.getFileName());
 			if(retErrorData != null){
@@ -152,7 +157,7 @@ public class ErpOrderService {
 		try {
 			input = new FileInputStream(file);
 			// 创建文档
-			wb = new XSSFWorkbook(input);
+			wb = WorkbookFactory.create(input);
 			//读取sheet(页)
 			Sheet xssfSheet = wb.getSheetAt(0);
 			int totalRows = xssfSheet.getLastRowNum(); //总行数
@@ -203,6 +208,7 @@ public class ErpOrderService {
 				if (xssfRow != null) {
 					try {
 						String sourceNo = ExcelUtil.getXValue(xssfRow.getCell(sourceNoCellIndex)).trim();//获取原始订单号
+
 						List<ErpOrder> erpOrders = njStrategyMapperExtend.getErpOrderBySourceNo(sourceNo);
 						if(erpOrders == null || erpOrders.size() ==0){
 							Map<String,Object> map = new HashMap<>();
@@ -298,7 +304,7 @@ public class ErpOrderService {
 		try {
 			String basePath = reqst.getContextPath();
 			basePath = reqst.getScheme() + "://" + reqst.getServerName() + ":" + reqst.getServerPort() + basePath + "/";
-			String realPath = reqst.getSession().getServletContext().getRealPath("upload" + File.separator + "excelFile" + File.separator);
+			String realPath = reqst.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator + "excelFile" + File.separator);
 			File dir = new File(realPath);
 			if (!dir.exists()) {
 				dir.mkdirs();
@@ -324,5 +330,9 @@ public class ErpOrderService {
 
 	public List<StrategyOrder> selectStrategyOrderList() {
 		return strategyOrderMapper.selectByExample(null);
+	}
+
+	public List<ErrorErpModel> listErrorErp() {
+		return njStrategyMapperExtend.listErrorErp();
 	}
 }

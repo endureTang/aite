@@ -19,10 +19,8 @@ import com.nj.core.base.dao.BaseDao;
 import com.nj.core.base.util.PageData;
 import com.nj.core.base.util.UuidUtil;
 import com.nj.dao.NjStrategyMapper;
-import com.nj.dao.SysDictMapper;
 import com.nj.dao.extend.NjStrategyMapperExtend;
 import com.nj.model.generate.NjStrategy;
-import com.nj.model.generate.SysDictExample;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +47,7 @@ public class StrategyService {
 
 	@Resource
 	private NjStrategyMapperExtend njStrategyMapperExtend;
+
 
     public List<NjStrategy> list(PageData pd) throws Exception{
 		if(pd != null){

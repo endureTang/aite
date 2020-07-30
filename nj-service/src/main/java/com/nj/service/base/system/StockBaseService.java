@@ -145,15 +145,6 @@ public class StockBaseService {
 	*/
 	public void insertBathBaseAndChannel(ArrayList<StockBase> stockBases) {
 		for (StockBase stockBase : stockBases) {
-			ChannelStock channelStock = new ChannelStock();
-			channelStock.setId(UuidUtil.get32UUID());
-			channelStock.setAmount(stockBase.getAmount());
-			channelStock.setSpecification(stockBase.getSpecification());
-			channelStock.setStockNo(stockBase.getStockNo());
-			channelStock.setChannelPrice(stockBase.getChannelPrice());
-			channelStock.setType(1);
-			channelStockMapper.insertSelective(channelStock);
-
 			//根据货号+规格获取档案库信息
 			String stockNo = stockBase.getStockNo();
 			String spec = stockBase.getSpecification();
@@ -173,6 +164,17 @@ public class StockBaseService {
 			}
 			stockBase.setDiscount(bigDecimal.toString());
 			stockBaseMapper.insertSelective(stockBase);
+
+			ChannelStock channelStock = new ChannelStock();
+			channelStock.setId(UuidUtil.get32UUID());
+			channelStock.setAmount(stockBase.getAmount());
+			channelStock.setSpecification(stockBase.getSpecification());
+			channelStock.setStockNo(stockBase.getStockNo());
+			channelStock.setChannelPrice(stockBase.getChannelPrice());
+			channelStock.setBasePrice(stockBase.getBasePrice());
+			channelStock.setDiscount(stockBase.getDiscount());
+			channelStock.setType(1);
+			channelStockMapper.insertSelective(channelStock);
 
 		}
 	}

@@ -44,7 +44,7 @@ public class ProductTemplateService {
 	
 	public Map<String,Object> getTemplateDataByTempId(HttpServletRequest request, String tempId) throws Exception {
 		
-		String path = request.getSession().getServletContext().getRealPath("upload");
+		String path = request.getSession().getServletContext().getRealPath("static"+File.separator +"upload");
 
 		NjProductMapperExtend sm = dao.getMapper(NjProductMapperExtend.class);
 		String fileName = sm.getTemplateNameByTempId(tempId);
@@ -56,7 +56,7 @@ public class ProductTemplateService {
 	
 	public Map<String,Object> getTemplateData(HttpServletRequest request, String productId) throws Exception {
 		
-		String path = request.getSession().getServletContext().getRealPath("upload");
+		String path = request.getSession().getServletContext().getRealPath("static"+File.separator +"upload");
 
 		NjProductMapperExtend sm = dao.getMapper(NjProductMapperExtend.class);
 		String fileName = sm.getTemplateName(productId);

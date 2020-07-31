@@ -27,6 +27,7 @@ import com.nj.dao.StrategyOrderMapper;
 import com.nj.dao.extend.NjStrategyMapperExtend;
 import com.nj.model.datamodel.ErrorErpModel;
 import com.nj.model.generate.*;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -89,9 +90,16 @@ public class ErpOrderService {
 		erpOrderMapper.deleteByExample(null);
 		strategyOrderMapper.deleteByExample(null);
 		errorErpOrderModelMapper.deleteByExample(null);
+//		Map<String, String> repeatMap = new HashedMap(); //根据原始单号、货号、规格生成key，实现list对象去重
 		for (ErpOrder erpOrder : erpOrderList) {
+			String mapKey = erpOrder.getOrderNo()+erpOrder.getSourceOrderNo() + erpOrder.getSpecification();
+//			String data = repeatMap.get(mapKey);
+//			if(data != null && !data.equals("")){
+//				continue;
+//			}
 			erpOrder.setId(UuidUtil.get32UUID());
 			erpOrderMapper.insertSelective(erpOrder);
+//			repeatMap.put(mapKey, "data");
 		}
 		if(errorErpOrderModels != null && errorErpOrderModels.size() > 0){
 			for (ErrorErpOrderModel errorErpOrderModel : errorErpOrderModels) {
@@ -166,7 +174,9 @@ public class ErpOrderService {
 			Row titleRow = xssfSheet.getRow(0);
 			totalCells = titleRow.getPhysicalNumberOfCells(); //总列数
 			List<Map<String,Object>> completeInfo = new ArrayList<>();
-			Integer sourceNoCellIndex = null;
+			Integer sourceNoCellIndex = null; //单号所在列
+			Integer stockNoCellIndex = null; //货号所在列
+			Integer specificationCellIndex = null; //规格、尺码所在列
 			try {
 				for (int i = 0; i < totalCells; i++) { //遍历标题，同时与订单关联策略key对比，获取需要进行匹配的列数以及对应ERP订单的表字段
 					Map<String,Object> tempMap = new HashMap<>();
@@ -176,7 +186,17 @@ public class ErpOrderService {
 						tempMap.put("keyWord", "sourceNo");
 						sourceNoCellIndex = i;
 						completeInfo.add(tempMap);
-					} else if(njStrategy.getTransWayStus() == 1 && title.equals(njStrategy.getTransWay())){//是否是物流方式
+					} else if(title.equals(njStrategy.getStockNo())){//是否是货号匹配
+						tempMap.put("cellIndex", i);
+						tempMap.put("keyWord", "stockNo");
+						stockNoCellIndex = i;
+						completeInfo.add(tempMap);
+					}else if(title.equals(njStrategy.getSpecification())){//是否是规格、尺码匹配
+						tempMap.put("cellIndex", i);
+						tempMap.put("keyWord", "specification");
+						specificationCellIndex = i;
+						completeInfo.add(tempMap);
+					}else if(njStrategy.getTransWayStus() == 1 && title.equals(njStrategy.getTransWay())){//是否是物流方式
 						tempMap.put("cellIndex", i);
 						tempMap.put("keyWord", "transWay");
 						completeInfo.add(tempMap);
@@ -192,11 +212,21 @@ public class ErpOrderService {
 						tempMap.put("cellIndex", i);
 						tempMap.put("keyWord", "amount");
 						completeInfo.add(tempMap);
+					}else if(title.equals(njStrategy.getRemark())){//是否是备注
+						tempMap.put("cellIndex", i);
+						tempMap.put("keyWord", "remark");
+						completeInfo.add(tempMap);
 					}
 
 				}
 				if(sourceNoCellIndex == null){
 					throw new BaseException("没有找到原始订单号，或者策略中尚未启用");
+				}
+				if(stockNoCellIndex == null){
+					throw new BaseException("没有找到货号所在匹配列");
+				}
+				if(specificationCellIndex == null){
+					throw new BaseException("没有找到规格、尺码所在匹配列");
 				}
 			} catch (BaseException e) {
 				logger.error(e.getMessage());
@@ -208,8 +238,10 @@ public class ErpOrderService {
 				if (xssfRow != null) {
 					try {
 						String sourceNo = ExcelUtil.getXValue(xssfRow.getCell(sourceNoCellIndex)).trim();//获取原始订单号
+						String stockNo = ExcelUtil.getXValue(xssfRow.getCell(stockNoCellIndex)).trim();//获取货号
+						String specification = ExcelUtil.getXValue(xssfRow.getCell(specificationCellIndex)).trim();//获取规格、尺码
 
-						List<ErpOrder> erpOrders = njStrategyMapperExtend.getErpOrderBySourceNo(sourceNo);
+						List<ErpOrder> erpOrders = njStrategyMapperExtend.getErpOrderBySourceNo(sourceNo,stockNo,specification);
 						if(erpOrders == null || erpOrders.size() ==0){
 							Map<String,Object> map = new HashMap<>();
 							map.put("sourceType", fileName);
@@ -218,15 +250,23 @@ public class ErpOrderService {
 							errorData.add(map);
 							throw new BaseException("没有匹配到原始订单："+sourceNo);
 						}
+						ErpOrder erpOrder = null;
+						//如果匹配到多条，将多余的放入备注字段
 						if(erpOrders.size() > 1){
-							Map<String,Object> map = new HashMap<>();
-							map.put("sourceType", fileName);
-							map.put("sourceNo", sourceNo);
-							map.put("message", "原始订单重复");
-							errorData.add(map);
-							throw new BaseException("原始订单重复："+sourceNo);
+							erpOrder = erpOrders.get(0);
 						}
-						ErpOrder erpOrder = erpOrders.get(0);
+						StringBuilder remark = new StringBuilder();
+						remark.append("订单：" + sourceNo + "，存在多条相同规格、货号的数据。");
+						for (int i = 1; i < erpOrders.size(); i++) {
+							ErpOrder erpOrderTemp = erpOrders.get(i);
+							remark.append("规格：：" + specification);
+							remark.append("，货号：：" + stockNo);
+							remark.append("，物流方式：" + erpOrderTemp.getTransWay());
+							remark.append("，物流单号：" + erpOrderTemp.getTransNo());
+							remark.append("，运费：" + erpOrderTemp.getTransMoney());
+							remark.append("，数量：" + erpOrderTemp.getAmount());
+						}
+
 
 						for (Map<String, Object> map : completeInfo) {
 							Integer cellIndex = (Integer) map.get("cellIndex");
@@ -241,6 +281,8 @@ public class ErpOrderService {
 								cellValue = erpOrder.getTransMoney();
 							}else if(map.get("keyWord").equals("amount")){
 								cellValue = erpOrder.getAmount();
+							}else if(map.get("keyWord").equals("remark")){
+								cellValue = remark.toString();
 							}
 							if(cellValue != null && !cellValue.equals("")){
 								Cell cell= xssfSheet.getRow(rowNum).getCell(cellIndex);
@@ -303,7 +345,7 @@ public class ErpOrderService {
 		}
 		try {
 			String basePath = reqst.getContextPath();
-			basePath = reqst.getScheme() + "://" + reqst.getServerName() + ":" + reqst.getServerPort() + basePath + "/";
+			basePath = reqst.getScheme() + ":"+File.separator +File.separator  + reqst.getServerName() + ":" + reqst.getServerPort() + basePath + File.separator ;
 			String realPath = reqst.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator + "excelFile" + File.separator);
 			File dir = new File(realPath);
 			if (!dir.exists()) {
@@ -313,7 +355,7 @@ public class ErpOrderService {
 			wb.write(fileOut);
 			retMap = new HashMap<>();
 			retMap.put("name", "问题数据.xlsx");
-			retMap.put("url", basePath + "upload/excelFile/问题数据.xlsx");
+			retMap.put("url", basePath + "static/upload/excelFile/问题数据.xlsx");
 
 		} catch (Exception e) {
 			e.printStackTrace();

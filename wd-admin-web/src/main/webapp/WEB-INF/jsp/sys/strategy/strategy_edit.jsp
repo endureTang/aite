@@ -30,6 +30,8 @@
 						   minlength="1" class="form-control required" placeholder="请输入订单来源">
 				</div>
 			</div>
+			<div style="color: red"><h7>设置填充数据：设置渠道反馈订单需要被填充的数据字段。</h7></div>
+			<hr>
 			<div class="form-group">
 				<label for="sourceNo" class="col-sm-2 control-label">原始订单号</label>
 				<label>启用<input type="checkbox" id="sourceNoStatus" name="sourceNoStatus" value=""  <c:if test="${pd.sourceNoStus == 1}">checked</c:if> ></label>
@@ -73,6 +75,29 @@
 				<div class="col-sm-7">
 					<input id="amount" name="amount" type="text" maxlength="32" value="${pd.amount}"
 						   minlength="1" class="form-control" placeholder="请输入匹配值">
+				</div>
+			</div>
+			<div style="color: red"><h7>设置匹配数据：设置渠道反馈订单与ERP订单匹配的字段名称。</h7></div>
+			<hr>
+			<div class="form-group">
+				<label for="amount" class="col-sm-2 control-label">货品编号</label>
+				<div class="col-sm-7">
+					<input id="stockNo" name="stockNo" type="text" maxlength="32" value="${pd.stockNo}"
+						   minlength="1" class="form-control required" placeholder="请输入渠道订单货品编号列名">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="amount" class="col-sm-2 control-label">规格</label>
+				<div class="col-sm-7">
+					<input id="specification" name="specification" type="text" maxlength="32" value="${pd.specification}"
+						   minlength="1" class="form-control required" placeholder="请输入渠道订单规格列名">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="amount" class="col-sm-2 control-label">备注</label>
+				<div class="col-sm-7">
+					<input id="remark" name="remark" type="text" maxlength="32" value="${pd.remark}"
+						   minlength="1" class="form-control required" placeholder="请输入渠道订单备注列名">
 				</div>
 			</div>
 

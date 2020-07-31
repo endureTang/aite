@@ -10,11 +10,14 @@
                  style='display: block;'>
                 <button class='close' data-dismiss='modal' aria-label='Close'>×</button>
             </div>
-            <div class='bootstrap-dialog-title'>新增</div>
+            <div class='bootstrap-dialog-title'>编辑</div>
         </div>
     </div>
+
     <div class="modal-body">
         <div class="container-fluid" id="programMain">
+            <div style="color: red"><h7>顺序将决定导出Excel列名顺序</h7></div>
+            <hr>
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">格式名</label>
                 <div class="col-sm-5">

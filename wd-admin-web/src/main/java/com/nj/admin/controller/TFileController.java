@@ -183,6 +183,7 @@ public class TFileController extends BaseController {
                                     }
                                     erpOrder.setOrderNo(orderNo.trim());
                                     erpOrder.setSourceOrderNo(sourceNo);
+
                                     String transWay = ExcelUtil.getXValue(xssfRow.getCell(20));
                                     if(StringUtil.isBlank(transWay)){
                                         logger.error("物流方式为空");
@@ -212,7 +213,41 @@ public class TFileController extends BaseController {
                                         errorErpOrderModels.add(em);
                                         continue;
                                     }
+
                                     String amount = ExcelUtil.getXValue(xssfRow.getCell(10));
+                                    if(StringUtil.isBlank(amount)){
+                                        logger.error("数量为空");
+                                        ErrorErpOrderModel em = new ErrorErpOrderModel();
+                                        em.setRownumber(rowNum+1);
+                                        em.setMessage("数量为空");
+                                        errorErpOrderModels.add(em);
+                                        continue;
+                                    }
+                                    erpOrder.setAmount(amount);
+
+                                    String specification = ExcelUtil.getXValue(xssfRow.getCell(6));
+                                    if(StringUtil.isBlank(specification)){
+                                        logger.error("规格、尺码为空");
+                                        ErrorErpOrderModel em = new ErrorErpOrderModel();
+                                        em.setRownumber(rowNum+1);
+                                        em.setMessage("规格、尺码为空");
+                                        errorErpOrderModels.add(em);
+                                        continue;
+                                    }
+                                    String channelSpec = transSpecification(specification);
+                                    erpOrder.setSpecification(channelSpec);
+
+                                    String stockNo = ExcelUtil.getXValue(xssfRow.getCell(3));
+                                    if(StringUtil.isBlank(stockNo)){
+                                        logger.error("货号为空");
+                                        ErrorErpOrderModel em = new ErrorErpOrderModel();
+                                        em.setRownumber(rowNum+1);
+                                        em.setMessage("货号为空");
+                                        errorErpOrderModels.add(em);
+                                        continue;
+                                    }
+                                    erpOrder.setStockNo(stockNo);
+
                                     String province = "";
                                     try {
                                         int i = -1;
@@ -249,7 +284,7 @@ public class TFileController extends BaseController {
                                         logger.error("订单号,{}系统错误，错误信息{}",erpOrder.getOrderNo(),e);
                                         continue;
                                     }
-                                    erpOrder.setAmount(amount);
+
                                     erpOrder.setSourceType(ExcelUtil.getXValue(xssfRow.getCell(28)));
                                     erpOrder.setRemark(ExcelUtil.getXValue(xssfRow.getCell(30)));
                                     erpOrderList.add(erpOrder);
@@ -286,6 +321,18 @@ public class TFileController extends BaseController {
             result.put("msg", "上传失败");
         }
         return result;
+    }
+
+    private String transSpecification(String specification) {
+        if("XXS".equals(specification)){
+            return "2XS";
+        }else if("XXL".equals(specification)){
+            return "2XL";
+        }else if("XXXL".equals(specification)){
+            return "3XL";
+        }else{
+            return specification;
+        }
     }
 
     private String calcTransMoney(String province, String amount, List<Map<String, Object>> list) {

@@ -6,6 +6,7 @@ import com.nj.model.datamodel.ChannelStockModel;
 import com.nj.model.datamodel.ChannelStockModelNew;
 import com.nj.model.datamodel.ErrorErpModel;
 import com.nj.model.generate.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public interface NjStrategyMapperExtend extends BaseMapper {
 
     List<ErpOrder> selectPageErpOrder(Map<?, ?> condition);
 
-    List<ErpOrder> getErpOrderBySourceNo(String souruceNo);
+    List<ErpOrder> getErpOrderBySourceNo(@Param("sourceNo") String sourceNo, @Param("stockNo") String stockNo, @Param("specification") String specification);
 
     List<StockFormat> selectPageStockFormat(PageData pd);
 

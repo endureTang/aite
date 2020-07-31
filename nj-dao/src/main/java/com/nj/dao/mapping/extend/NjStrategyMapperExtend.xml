@@ -56,7 +56,7 @@
     </if>
   </select>
     <select id="getErpOrderBySourceNo" resultType="com.nj.model.generate.ErpOrder">
-      select * from erp_order where source_order_no = #{sourceNo}
+      select * from erp_order where source_order_no = #{sourceNo} and stock_no = #{stockNo} and specification = #{specification}
     </select>
 
     <select id="selectPageStockFormat" resultType="com.nj.model.generate.StockFormat">

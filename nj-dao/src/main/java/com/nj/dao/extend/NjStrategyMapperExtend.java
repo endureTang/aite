@@ -33,4 +33,8 @@ public interface NjStrategyMapperExtend extends BaseMapper {
     List<ChannelStockModelNew> selectPageChannelStockModelNew(PageData pd);
 
     List<ErrorErpModel> listErrorErp();
+
+    void bathInsertErpOrder(ArrayList<ErpOrder> list);
+
+    void bathInsertErrorErpOrder(List<ErrorErpOrderModel> list);
 }

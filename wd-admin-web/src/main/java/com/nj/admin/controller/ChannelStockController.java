@@ -22,15 +22,15 @@ import com.nj.core.utils.excel.ExcelUtil;
 import com.nj.core.utils.excel.ExportUtil;
 import com.nj.model.datamodel.ChannelStockModel;
 import com.nj.model.datamodel.ChannelStockModelNew;
-import com.nj.model.datamodel.NjUserContactModel;
-import com.nj.model.generate.*;
+import com.nj.model.generate.ChannelStock;
+import com.nj.model.generate.StockBase;
+import com.nj.model.generate.StockFormat;
+import com.nj.model.generate.StockFormatDict;
 import com.nj.service.base.system.ChannelStockService;
 import com.nj.service.base.system.StockBaseService;
 import com.nj.service.base.system.StockFormatService;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +45,13 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @FileName RoleController.java
@@ -397,6 +402,13 @@ public class ChannelStockController extends BaseController {
 		return result;
 	}
 
+	/** 
+	* @Description: 导入增补库存
+	* @Param:  
+	* @return:  
+	* @Author: endure
+	* @Date: 2020/7/31 
+	*/
 	@RequestMapping(value = "/uploadChannelStockAndBaseStock", method = RequestMethod.POST)
 	@ResponseBody
 	public PageData uploadChannelStockAndBaseStock(@RequestParam("file") MultipartFile file, HttpServletRequest request) {

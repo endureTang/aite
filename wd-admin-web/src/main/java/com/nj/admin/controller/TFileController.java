@@ -3,6 +3,7 @@ package com.nj.admin.controller;
 import com.jd.core.util.StringUtil;
 import com.nj.core.base.controller.BaseController;
 import com.nj.core.base.util.PageData;
+import com.nj.core.base.util.UuidUtil;
 import com.nj.core.utils.excel.ExcelUtil;
 import com.nj.core.utils.excel.ExportUtil;
 import com.nj.model.datamodel.ErrorErpModel;
@@ -178,6 +179,7 @@ public class TFileController extends BaseController {
                                         em.setRownumber(rowNum+1);
                                         em.setMessage("订单编号为空");
                                         errorErpOrderModels.add(em);
+                                        em.setId(UuidUtil.get32UUID());
                                         logger.error("订单编号为空");
                                         continue;
                                     }
@@ -190,6 +192,7 @@ public class TFileController extends BaseController {
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
                                         em.setMessage("物流方式为空");
+                                        em.setId(UuidUtil.get32UUID());
                                         errorErpOrderModels.add(em);
                                         continue;
                                     }
@@ -200,6 +203,7 @@ public class TFileController extends BaseController {
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
                                         em.setMessage("物流单号为空");
+                                        em.setId(UuidUtil.get32UUID());
                                         errorErpOrderModels.add(em);
                                         continue;
                                     }
@@ -210,6 +214,7 @@ public class TFileController extends BaseController {
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
                                         em.setMessage("地址为空");
+                                        em.setId(UuidUtil.get32UUID());
                                         errorErpOrderModels.add(em);
                                         continue;
                                     }
@@ -220,6 +225,7 @@ public class TFileController extends BaseController {
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
                                         em.setMessage("数量为空");
+                                        em.setId(UuidUtil.get32UUID());
                                         errorErpOrderModels.add(em);
                                         continue;
                                     }
@@ -231,6 +237,7 @@ public class TFileController extends BaseController {
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
                                         em.setMessage("规格、尺码为空");
+                                        em.setId(UuidUtil.get32UUID());
                                         errorErpOrderModels.add(em);
                                         continue;
                                     }
@@ -243,6 +250,7 @@ public class TFileController extends BaseController {
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
                                         em.setMessage("货号为空");
+                                        em.setId(UuidUtil.get32UUID());
                                         errorErpOrderModels.add(em);
                                         continue;
                                     }
@@ -280,6 +288,7 @@ public class TFileController extends BaseController {
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
                                         em.setMessage("计算运费出错");
+                                        em.setId(UuidUtil.get32UUID());
                                         errorErpOrderModels.add(em);
                                         logger.error("订单号,{}系统错误，错误信息{}",erpOrder.getOrderNo(),e);
                                         continue;
@@ -287,12 +296,14 @@ public class TFileController extends BaseController {
 
                                     erpOrder.setSourceType(ExcelUtil.getXValue(xssfRow.getCell(28)));
                                     erpOrder.setRemark(ExcelUtil.getXValue(xssfRow.getCell(30)));
+                                    erpOrder.setId(UuidUtil.get32UUID());
                                     erpOrderList.add(erpOrder);
                                 }
                             }else{
                                 ErrorErpOrderModel em = new ErrorErpOrderModel();
                                 em.setRownumber(rowNum+1);
                                 em.setMessage("原始单号为空");
+                                em.setId(UuidUtil.get32UUID());
                                 errorErpOrderModels.add(em);
                             }
                         }

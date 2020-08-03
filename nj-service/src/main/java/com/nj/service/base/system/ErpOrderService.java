@@ -90,22 +90,9 @@ public class ErpOrderService {
 		erpOrderMapper.deleteByExample(null);
 		strategyOrderMapper.deleteByExample(null);
 		errorErpOrderModelMapper.deleteByExample(null);
-//		Map<String, String> repeatMap = new HashedMap(); //根据原始单号、货号、规格生成key，实现list对象去重
-		for (ErpOrder erpOrder : erpOrderList) {
-			String mapKey = erpOrder.getOrderNo()+erpOrder.getSourceOrderNo() + erpOrder.getSpecification();
-//			String data = repeatMap.get(mapKey);
-//			if(data != null && !data.equals("")){
-//				continue;
-//			}
-			erpOrder.setId(UuidUtil.get32UUID());
-			erpOrderMapper.insertSelective(erpOrder);
-//			repeatMap.put(mapKey, "data");
-		}
+		njStrategyMapperExtend.bathInsertErpOrder(erpOrderList);
 		if(errorErpOrderModels != null && errorErpOrderModels.size() > 0){
-			for (ErrorErpOrderModel errorErpOrderModel : errorErpOrderModels) {
-				errorErpOrderModel.setId(UuidUtil.get32UUID());
-				errorErpOrderModelMapper.insertSelective(errorErpOrderModel);
-			}
+			njStrategyMapperExtend.bathInsertErrorErpOrder(errorErpOrderModels);
 		}
 
 	}

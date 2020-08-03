@@ -76,7 +76,7 @@ public class StrategyController extends BaseController {
 			PageData pd = super.getPageData();
 			List<NjStrategy> list = strategyService.list(pd);
 			Long count = strategyService.listAllCount(pd);
-			logger.info("");
+			logger.info("获取策略列表");
 			if(list != null && list.size() > 0){
 				result.insertDataList(list);
 				result.setTotalCount(count.intValue());

@@ -28,7 +28,7 @@
 			<property name="rootInterface" value="com.nj.core.base.mapper.BaseMapper" />
 		</javaClientGenerator>
 
-		<table tableName="nj_strategy">
+		<table tableName="black_stock">
 			<property name="useActualColumnNames" value="false"/>
 		</table>
 	</context>

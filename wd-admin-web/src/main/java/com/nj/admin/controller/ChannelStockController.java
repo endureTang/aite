@@ -368,11 +368,15 @@ public class ChannelStockController extends BaseController {
 							xssfRow.getCell(6).setCellType(Cell.CELL_TYPE_STRING);
 							String amount = ExcelUtil.getXValue(xssfRow.getCell(6)).trim();//获取可订购数量
 
+							xssfRow.getCell(7).setCellType(Cell.CELL_TYPE_STRING);
+							String basePrice = ExcelUtil.getXValue(xssfRow.getCell(7)).trim();//获取零售价
+
 							channelStock.setId(UuidUtil.get32UUID());
 							channelStock.setAmount(amount);
 							channelStock.setSpecification(specification);
 							channelStock.setStockNo(stockNo);
 							channelStock.setBrand(brand);
+							channelStock.setBasePrice(basePrice);
 							channelStocks.add(channelStock);
 						}
 					}

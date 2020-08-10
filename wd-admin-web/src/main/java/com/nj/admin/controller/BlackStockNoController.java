@@ -17,11 +17,16 @@ package com.nj.admin.controller;
 
 import com.nj.core.base.controller.BaseController;
 import com.nj.core.base.entity.ResourcesAnnotion;
-import com.nj.core.base.util.*;
+import com.nj.core.base.util.Const;
+import com.nj.core.base.util.DataTableResult;
+import com.nj.core.base.util.PageData;
+import com.nj.core.base.util.UuidUtil;
 import com.nj.core.utils.excel.ExcelUtil;
-import com.nj.model.generate.StockBase;
-import com.nj.model.generate.SysDict;
-import com.nj.service.base.system.StockBaseService;
+import com.nj.model.datamodel.StockFormatForm;
+import com.nj.model.generate.*;
+import com.nj.service.base.system.BlackStockNoService;
+import com.nj.service.base.system.DictService;
+import com.nj.service.base.system.StockFormatService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -55,19 +60,19 @@ import java.util.Map;
  * 
  */
 @Controller
-@RequestMapping(value = "/stockBase")
-public class StockBaseController extends BaseController {
+@RequestMapping(value = "/blackStockNo")
+public class BlackStockNoController extends BaseController {
 
-	private static Logger logger = LoggerFactory.getLogger(StockBaseController.class);
+	private static Logger logger = LoggerFactory.getLogger(BlackStockNoController.class);
 	
-	@Resource(name = "stockBaseService")
-	private StockBaseService stockBaseService;
+	@Resource(name = "blackStockNoService")
+	private BlackStockNoService blackStockNoService;
 
-	@ResourcesAnnotion(uri="/stockBase/page",name="库存档案",resourceType=1,parentId="2")
+	@ResourcesAnnotion(uri="/blackStockNo/page",name="库存黑名单",resourceType=1,parentId="3")
 	@RequestMapping(value="/page")
 	public ModelAndView page(){
 		ModelAndView mv = super.getModelAndView();
-		mv.setViewName("business/stockBase/list");
+		mv.setViewName("sys/blackStockNo/list");
 		return mv;
 	}
 	@RequestMapping(value="/list")
@@ -76,8 +81,8 @@ public class StockBaseController extends BaseController {
 		DataTableResult result = new DataTableResult(request);
 		try {
 			PageData pd = super.getPageData();
-			List<StockBase> list = stockBaseService.list(pd);
-			int count = stockBaseService.listAllCount(pd);
+			List<BlackStock> list = blackStockNoService.list(pd);
+			int count = blackStockNoService.listAllCount(pd);
 			logger.info("");
 			if(list != null && list.size() > 0){
 				result.insertDataList(list);
@@ -87,59 +92,8 @@ public class StockBaseController extends BaseController {
 				result.put(Const.RECORDSFILTERED, count);
 			}
 		} catch (Exception e) {
-			logger.error("list role error", e);
+			logger.error("list blackStockNo error", e);
 //			result = new PageData();
-		}
-		return result;
-	}
-
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	public ModelAndView toAdd() {
-		ModelAndView mv = super.getModelAndView();
-		mv.setViewName("WEB-INF/jsp/business/stockBase/add.jsp");
-		return mv;
-	}
-	@RequestMapping(value="/add", method=RequestMethod.POST)
-	@ResponseBody
-	public PageData add(StockBase stockBase){
-		PageData result = new PageData();
-		try {
-			stockBaseService.add(stockBase);
-			result.put("status", 1);
-		} catch (Exception e) {
-			logger.error("add njstockBase error", e);
-			result.put("status", 0);
-			result.put("msg", "新增失败");
-		}
-		return result;
-	}
-
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView toEdit(@RequestParam String id) {
-		ModelAndView mv = super.getModelAndView();
-		StockBase pd = null;
-		List<SysDict> dictList = null;
-		try {
-			pd = stockBaseService.getById(id);
-		} catch (Exception e) {
-			logger.error("get role error", e);
-		}
-		mv.addObject("pd", pd);
-		mv.setViewName("WEB-INF/jsp/business/stockBase/edit.jsp");
-		return mv;
-	}
-
-	@RequestMapping(value="/edit", method=RequestMethod.POST)
-	@ResponseBody
-	public PageData edit(StockBase stockBase){
-		PageData result = new PageData();
-		try {
-			stockBaseService.edit(stockBase);
-			result.put("status", 1);
-		} catch (Exception e) {
-			logger.error("add njstockBase error", e);
-			result.put("status", 0);
-			result.put("msg", "新增失败");
 		}
 		return result;
 	}
@@ -149,7 +103,7 @@ public class StockBaseController extends BaseController {
 	public PageData delete(@RequestParam String id){
 		PageData result = new PageData();
 		try {
-			Integer line = stockBaseService.delete(id);
+			Integer line = blackStockNoService.delete(id);
 			if(line>0){
 				result.put("status", 1);
 			}else{
@@ -157,31 +111,42 @@ public class StockBaseController extends BaseController {
 				result.put("msg", "删除失败");
 			}
 		} catch (Exception e) {
-			logger.error("delete njstockBase error", e);
+			logger.error("delete StockFormat error", e);
 			result.put("status", 0);
 			result.put("msg", "删除失败");
 		}
 		return result;
 	}
+	@RequestMapping(value="/batchDeleteBtn")
+	@ResponseBody
+	public PageData batchDeleteBtn(@RequestParam String ids){
+		PageData result = new PageData();
+		try {
+			blackStockNoService.batchDelete(ids);
+			result.put("status", 1);
+		} catch (Exception e) {
+			logger.error("batch delete button error", e);
+			result.put("status", 0);
+			result.put("msg", "批量删除失败");
+		}
+		return result;
+	}
 
-	@RequestMapping(value = "/uploadStock", method = RequestMethod.POST)
+	@RequestMapping(value = "/uploadBlackStockNo", method = RequestMethod.POST)
 	@ResponseBody
 	public PageData uploadStock(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
 		PageData result = new PageData();
 		try {
 			if (file.isEmpty()) {
-				result.put("msg", "上传失败");
+				result.put("msg", "上传失败，文件为空");
 			} else {
 				InputStream input = null;
-				Workbook wb = null;
-				List<Map<String, Object>> transModelList = null;
-				ArrayList<StockBase> stockBases = new ArrayList<>();
+				Workbook wb;
+				ArrayList<BlackStock> blackStocks = new ArrayList<>();
 				try {
 					input = file.getInputStream();
 					// 创建文档
-
 					wb = WorkbookFactory.create(input);
-
 					//读取sheet(页)
 					Sheet xssfSheet = wb.getSheetAt(0);
 					int totalRows; //sheet中总行数
@@ -198,8 +163,7 @@ public class StockBaseController extends BaseController {
 					try {
 						int totalCell = titleRow.getLastCellNum();
 						String realPath1 = request.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator);
-						File erpFile = new File(realPath1 + File.separator + "库存档案.xlsx");
-
+						File erpFile = new File(realPath1 + File.separator + "库存黑名单模板.xlsx");
 						inputTemp = new FileInputStream(erpFile);
 						wbTemp = new XSSFWorkbook(inputTemp);
 						XSSFRow modelTitleRow = wbTemp.getSheetAt(0).getRow(0);
@@ -230,55 +194,25 @@ public class StockBaseController extends BaseController {
 					for (int rowNum = 1; rowNum <= totalRows; rowNum++) {
 						Row xssfRow = xssfSheet.getRow(rowNum);
 						if (xssfRow != null) {
-
+							BlackStock blackStock = new BlackStock();
 							//读取列，从第一列开始
 							if(xssfRow.getCell(0) == null){
-								logger.error("第"+rowNum+1+"货号为空");
-								continue;
+								logger.error("第"+rowNum+1+"货品编号为空");
+								result.put("status", 0);
+								result.put("msg", "第"+rowNum+1+"货品编号为空");
+								return result;
 							}
 							String stockNo = ExcelUtil.getXValue(xssfRow.getCell(0)).trim();//获取货号
-
-							if(xssfRow.getCell(1) == null){
-								logger.error("第"+rowNum+1+"折扣为空");
-								continue;
-							}
-							xssfRow.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
-							String discount = ExcelUtil.getXValue(xssfRow.getCell(1)).trim();//获取折扣
-
-							if(xssfRow.getCell(2) == null){
-								logger.error("第"+rowNum+1+"吊牌价为空");
-								continue;
-							}
-							xssfRow.getCell(2).setCellType(Cell.CELL_TYPE_STRING);
-							String basePrice = ExcelUtil.getXValue(xssfRow.getCell(2)).trim();//获取吊牌价
-							if(xssfRow.getCell(3) == null){
-								logger.error("第"+rowNum+1+"渠道价为空");
-								continue;
-							}
-
-							xssfRow.getCell(3).setCellType(Cell.CELL_TYPE_STRING);
-							String channelPrice = ExcelUtil.getXValue(xssfRow.getCell(3)).trim();//获取渠道价
-							//剔除吊牌价、渠道价不合法的数据
-							if(!StringUtils.isNumeric(basePrice) || !StringUtils.isNumeric(channelPrice)){
-								logger.error("第"+rowNum+1+"吊牌价或者渠道价不合法");
-								continue;
-							}
-							StockBase stockBase = new StockBase();
-							stockBase.setId(UuidUtil.get32UUID());
-							stockBase.setBasePrice(basePrice);
-							stockBase.setChannelPrice(channelPrice);
-							stockBase.setStockNo(stockNo);
-							stockBase.setDiscount(discount);
-							stockBase.setId(UuidUtil.get32UUID());
-							stockBases.add(stockBase);
+							blackStock.setStockNo(stockNo);
+							blackStocks.add(blackStock);
 						}
 					}
-					if(stockBases.size() == 0){
+					if(blackStocks.size() == 0){
 						result.put("status", 0);
 						result.put("msg", "请勿上传空文件");
 						return result;
 					}
-					stockBaseService.insertBath(stockBases);
+					blackStockNoService.insertBath(blackStocks);
 				} catch (IOException e) {
 					e.printStackTrace();
 				} finally {

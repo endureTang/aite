@@ -114,25 +114,29 @@ public class StockBaseService {
 
 	public void insertBath(ArrayList<StockBase> stockBases) {
 		//导入ERP基础订单前，清理之前的数据
+
+//		Map<String, String> repeatMap = new HashedMap(); //根据货号、规格生成key，实现list对象去重
+//		for (StockBase stockBase : stockBases) {
+//			String mapKey = stockBase.getStockNo() + stockBase.getSpecification();
+//			String data = repeatMap.get(mapKey);
+//			if(data != null && !data.equals("")){
+//				continue;
+//			}
+//			BigDecimal bigDecimal = null;
+//			try {
+//				Double discount = new Double(stockBase.getChannelPrice()) / new Double(stockBase.getBasePrice());
+//				bigDecimal = new BigDecimal(discount);
+//				bigDecimal = bigDecimal.setScale(4, BigDecimal.ROUND_HALF_UP);
+//			} catch (NumberFormatException e) {
+//				bigDecimal = new BigDecimal(0);
+//			}
+//			stockBase.setDiscount(bigDecimal.toString());
+//			stockBaseMapper.insertSelective(stockBase);
+//			repeatMap.put(mapKey, "data");
+//		}
 		stockBaseMapper.deleteByExample(null);
-		Map<String, String> repeatMap = new HashedMap(); //根据货号、规格生成key，实现list对象去重
 		for (StockBase stockBase : stockBases) {
-			String mapKey = stockBase.getStockNo() + stockBase.getSpecification();
-			String data = repeatMap.get(mapKey);
-			if(data != null && !data.equals("")){
-				continue;
-			}
-			BigDecimal bigDecimal = null;
-			try {
-				Double discount = new Double(stockBase.getChannelPrice()) / new Double(stockBase.getBasePrice());
-				bigDecimal = new BigDecimal(discount);
-				bigDecimal = bigDecimal.setScale(4, BigDecimal.ROUND_HALF_UP);
-			} catch (NumberFormatException e) {
-				bigDecimal = new BigDecimal(0);
-			}
-			stockBase.setDiscount(bigDecimal.toString());
 			stockBaseMapper.insertSelective(stockBase);
-			repeatMap.put(mapKey, "data");
 		}
 	}
 

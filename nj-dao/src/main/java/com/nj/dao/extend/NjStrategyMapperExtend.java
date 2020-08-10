@@ -37,4 +37,8 @@ public interface NjStrategyMapperExtend extends BaseMapper {
     void bathInsertErpOrder(ArrayList<ErpOrder> list);
 
     void bathInsertErrorErpOrder(List<ErrorErpOrderModel> list);
+
+    void insertBlackStockBath(ArrayList<BlackStock> list);
+
+    List<BlackStock> selectPageBlackStock(PageData pd);
 }

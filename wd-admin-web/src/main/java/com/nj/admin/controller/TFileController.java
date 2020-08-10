@@ -427,7 +427,7 @@ public class TFileController extends BaseController {
 //                    return result;
 //                }
                 String basePath = reqst.getContextPath();
-                basePath = reqst.getScheme() + "://" + reqst.getServerName() + ":" + reqst.getServerPort() + basePath + File.separator;
+                basePath = reqst.getScheme() + "://" + reqst.getServerName() + ":" + reqst.getServerPort() + basePath ;
                 String realPath = reqst.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator + "excelFile" + File.separator);
                 File dir = new File(realPath);
                 if (!dir.exists()) {
@@ -440,7 +440,7 @@ public class TFileController extends BaseController {
                 StrategyOrder strategyOrder = new StrategyOrder();
                 strategyOrder.setId(id);
                 strategyOrder.setFileName(fileName);
-                strategyOrder.setFilePath(basePath + "static/upload/excelFile/" + fileName);
+                strategyOrder.setFilePath(basePath + "/static/upload/excelFile/" + fileName);
                 strategyOrder.setStrategyId(strategyId);
                 strategyOrder.setCreateDate(new Date());
                 erpOrderService.insertStrategyOrder(strategyOrder);

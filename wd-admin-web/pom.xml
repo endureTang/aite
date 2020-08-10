@@ -125,6 +125,12 @@
 			<artifactId>jackson-smile</artifactId>
 			<version>1.9.0</version>
 		</dependency>
+
+		<!--添加junit环境的jar包-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
 	</dependencies>
 
 

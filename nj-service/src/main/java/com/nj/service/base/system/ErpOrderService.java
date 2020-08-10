@@ -332,7 +332,7 @@ public class ErpOrderService {
 		}
 		try {
 			String basePath = reqst.getContextPath();
-			basePath = reqst.getScheme() + ":"+File.separator +File.separator  + reqst.getServerName() + ":" + reqst.getServerPort() + basePath + File.separator ;
+			basePath = reqst.getScheme() + "://" + reqst.getServerName() + ":" + reqst.getServerPort() + basePath ;
 			String realPath = reqst.getSession().getServletContext().getRealPath("static"+File.separator +"upload" + File.separator + "excelFile" + File.separator);
 			File dir = new File(realPath);
 			if (!dir.exists()) {
@@ -342,7 +342,7 @@ public class ErpOrderService {
 			wb.write(fileOut);
 			retMap = new HashMap<>();
 			retMap.put("name", "问题数据.xlsx");
-			retMap.put("url", basePath + "static/upload/excelFile/问题数据.xlsx");
+			retMap.put("url", basePath  + "/static/upload/excelFile/问题数据.xlsx");
 
 		} catch (Exception e) {
 			e.printStackTrace();

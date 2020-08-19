@@ -183,9 +183,11 @@ public class TFileController extends BaseController {
                                         logger.error("订单编号为空");
                                         continue;
                                     }
+
                                     erpOrder.setOrderNo(orderNo.trim());
                                     erpOrder.setSourceOrderNo(sourceNo);
-
+                                    String name = ExcelUtil.getXValue(xssfRow.getCell(1)); // 获取姓名
+                                    erpOrder.setName(name);
                                     String transWay = ExcelUtil.getXValue(xssfRow.getCell(20));
                                     if(StringUtil.isBlank(transWay)){
                                         logger.error("物流方式为空");

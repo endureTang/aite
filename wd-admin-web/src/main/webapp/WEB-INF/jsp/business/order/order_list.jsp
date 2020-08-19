@@ -52,6 +52,7 @@
 						<thead>
 						<tr>
 							<th width="10px" style="padding-right: 12px;"><input type='checkbox' id="defaultCheck" /></th>
+							<th>姓名</th>
 							<th>订单号</th>
 							<th>原始订单号</th>
 							<th>物流方式</th>
@@ -99,6 +100,7 @@
 			},
 			"columns": [
 				{ "data": "id" },
+				{ "data": "name" },
 				{ "data": "orderNo" },
 				{ "data": "sourceOrderNo" },
 				{ "data": "transWay" },
@@ -110,6 +112,9 @@
 			],
 			"drawCallback": function (settings) {
 				drawICheck('defaultCheck', 'chx_default');
+			},
+			"initComplete": function () {
+				initSearchForm(null, "搜索 原始单号/姓名/快递单号");
 			}
 		});
 	});

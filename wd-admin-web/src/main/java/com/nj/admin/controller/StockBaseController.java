@@ -41,6 +41,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -229,30 +230,36 @@ public class StockBaseController extends BaseController {
 					//读取Row,从第二行开始
 					for (int rowNum = 1; rowNum <= totalRows; rowNum++) {
 						Row xssfRow = xssfSheet.getRow(rowNum);
+						int rowCount = rowNum + 1;
 						if (xssfRow != null) {
 
 							//读取列，从第一列开始
 							if(xssfRow.getCell(0) == null){
-								logger.error("第"+rowNum+1+"货号为空");
+								logger.error("第"+rowCount+"行：货号为空");
 								continue;
 							}
 							String stockNo = ExcelUtil.getXValue(xssfRow.getCell(0)).trim();//获取货号
 
 							if(xssfRow.getCell(1) == null){
-								logger.error("第"+rowNum+1+"折扣为空");
+								logger.error("第"+rowCount+"行：折扣为空");
 								continue;
 							}
+
 							xssfRow.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
 							String discount = ExcelUtil.getXValue(xssfRow.getCell(1)).trim();//获取折扣
+							if(!StringUtils.isNumeric(discount)){//如果数量不合法
+								logger.error("第"+rowCount+"行：折扣不是数字");
+								continue;
+							}
 
 							if(xssfRow.getCell(2) == null){
-								logger.error("第"+rowNum+1+"吊牌价为空");
+								logger.error("第"+rowCount+"行：吊牌价为空");
 								continue;
 							}
 							xssfRow.getCell(2).setCellType(Cell.CELL_TYPE_STRING);
 							String basePrice = ExcelUtil.getXValue(xssfRow.getCell(2)).trim();//获取吊牌价
 							if(xssfRow.getCell(3) == null){
-								logger.error("第"+rowNum+1+"渠道价为空");
+								logger.error("第"+rowCount+"行：渠道价为空");
 								continue;
 							}
 
@@ -260,7 +267,7 @@ public class StockBaseController extends BaseController {
 							String channelPrice = ExcelUtil.getXValue(xssfRow.getCell(3)).trim();//获取渠道价
 							//剔除吊牌价、渠道价不合法的数据
 							if(!StringUtils.isNumeric(basePrice) || !StringUtils.isNumeric(channelPrice)){
-								logger.error("第"+rowNum+1+"吊牌价或者渠道价不合法");
+								logger.error("第"+rowCount+"行：吊牌价或者渠道价不合法");
 								continue;
 							}
 							StockBase stockBase = new StockBase();
@@ -268,7 +275,8 @@ public class StockBaseController extends BaseController {
 							stockBase.setBasePrice(basePrice);
 							stockBase.setChannelPrice(channelPrice);
 							stockBase.setStockNo(stockNo);
-							stockBase.setDiscount(discount);
+							BigDecimal bignum = new BigDecimal(discount);
+							stockBase.setDiscount( bignum.setScale(3, BigDecimal.ROUND_HALF_UP)+"");
 							stockBase.setId(UuidUtil.get32UUID());
 							stockBases.add(stockBase);
 						}

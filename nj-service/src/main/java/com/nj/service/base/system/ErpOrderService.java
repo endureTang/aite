@@ -81,7 +81,7 @@ public class ErpOrderService {
 	}
 
 	public int listAllCount(PageData pd) {
-		return erpOrderMapper.countByExample(null);
+		return njStrategyMapperExtend.countErpOrder(pd);
 	}
 
 	@Transactional(rollbackFor = { Throwable.class }, readOnly = false)
@@ -239,7 +239,7 @@ public class ErpOrderService {
 						}
 						ErpOrder erpOrder = null;
 						//如果匹配到多条，将多余的放入备注字段
-						if(erpOrders.size() > 1){
+						if(erpOrders.size() > 0){
 							erpOrder = erpOrders.get(0);
 						}
 						StringBuilder remark = new StringBuilder();

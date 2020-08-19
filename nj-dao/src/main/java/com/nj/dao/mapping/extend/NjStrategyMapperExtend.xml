@@ -32,13 +32,13 @@
     </foreach>
   </insert>
   <insert id="bathInsertErpOrder">
-    insert into  erp_order (id, order_no, source_order_no,
+    insert into  erp_order (id,name, order_no, source_order_no,
     trans_way, trans_no, trans_money,
     amount, source_type, remark,
     stock_no, specification)
     values
     <foreach collection="list" item="item" separator="," index="index">
-      (#{item.id,jdbcType=VARCHAR}, #{item.orderNo,jdbcType=INTEGER}, #{item.sourceOrderNo,jdbcType=VARCHAR},
+      (#{item.id,jdbcType=VARCHAR}, #{item.name,jdbcType=INTEGER},#{item.orderNo,jdbcType=INTEGER}, #{item.sourceOrderNo,jdbcType=VARCHAR},
       #{item.transWay,jdbcType=VARCHAR}, #{item.transNo,jdbcType=VARCHAR}, #{item.transMoney,jdbcType=VARCHAR},
       #{item.amount,jdbcType=VARCHAR}, #{item.sourceType,jdbcType=VARCHAR},
       #{item.remark,jdbcType=VARCHAR}, #{item.stockNo,jdbcType=VARCHAR},
@@ -79,6 +79,11 @@
     select
     *
     from erp_order
+    <if test="keyword != null">
+      where order_no  like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%') or
+      source_order_no  like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%') or
+      name  like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+    </if>
     <if test="start != null and length != null">
       limit #{start},#{length}
     </if>
@@ -142,4 +147,14 @@
         limit #{start},#{length}
       </if>
     </select>
+  <select id="countErpOrder" resultType="java.lang.Integer">
+    select
+    count(*)
+    from erp_order
+    <if test="keyword != null">
+      where order_no  like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%') or
+      source_order_no  like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%') or
+      name  like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
 </mapper>

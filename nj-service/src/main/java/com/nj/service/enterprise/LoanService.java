@@ -19,8 +19,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
@@ -36,8 +34,6 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jd.core.util.encrypt.EncrypRSA;
-import com.jd.core.util.sign.SignCommonUtil;
 import com.nj.core.base.common.AddressConstants;
 import com.nj.core.base.common.api.ResponseLoanMsg;
 import com.nj.core.base.common.api.ResponseSndkMsg;
@@ -47,11 +43,9 @@ import com.nj.core.base.enums.EProcessInfo;
 import com.nj.core.base.enums.EProcessResult;
 import com.nj.core.base.enums.EProductTemplate;
 import com.nj.core.base.util.Constants;
-import com.nj.core.base.util.DateUtil;
 import com.nj.core.base.util.PageData;
 import com.nj.core.base.util.StringUtils;
 import com.nj.core.base.util.UuidUtil;
-import com.nj.dao.NjCoporateMapper;
 import com.nj.dao.NjDebitRecordLineMapper;
 import com.nj.dao.NjDebitRecordMapper;
 import com.nj.dao.NjLoanExaminationLogMapper;
@@ -70,7 +64,6 @@ import com.nj.dao.extend.NjOrderUpdateLogMapperExtend;
 import com.nj.dao.extend.NjProcessMapperExtend;
 import com.nj.dao.extend.NjProductTempMapperExtend;
 import com.nj.dao.extend.NjRepayOfflineLineMapperExtend;
-import com.nj.model.generate.NjCoporate;
 import com.nj.model.generate.NjDebitRecord;
 import com.nj.model.generate.NjDebitRecordExample;
 import com.nj.model.generate.NjDebitRecordLine;
@@ -98,7 +91,6 @@ import com.nj.model.generate.NjRepayOfflineLineExample;
 import com.nj.model.generate.NjRepayOfflineLineHistory;
 import com.nj.model.generate.NjUserCredit;
 import com.nj.model.generate.NjUserCreditExample;
-import com.nj.service.itf.SndkHttpService;
 import com.nj.service.itf.TfcfHttpService;
 import com.nj.service.process.ManualProcess;
 import com.nj.service.process.ProcessFlowsService;
@@ -115,8 +107,7 @@ public class LoanService extends BaseCachesService {
 	@Resource(name = "tfcfHttpService")
 	private TfcfHttpService tfcfHttpService;
 
-	@Resource(name = "sndkHttpService")
-	private SndkHttpService sndkHttpService;
+
 	@Resource
 	NjLoanOrderCheckRecordMapper loanOrderCheckRecordMapper;
 	@Resource
@@ -403,7 +394,7 @@ public class LoanService extends BaseCachesService {
 	/**
 	 * 获取线下贷款还款计划列表
 	 * 
-	 * @param orderNo
+	 * @param
 	 * @return
 	 * @throws Exception
 	 */
@@ -504,7 +495,7 @@ public class LoanService extends BaseCachesService {
 	/**
 	 * 获取线下贷款还款计划列表
 	 * 
-	 * @param orderNo
+	 * @param
 	 * @return
 	 * @throws Exception
 	 */
@@ -621,23 +612,7 @@ public class LoanService extends BaseCachesService {
 			map.put("mobileNo", "18116623375");
 			map.put("cardNo", "8000000000000000291");
 
-			String tfcfResp = sndkHttpService.doHttpPostForSndk("nj_server", "TEST_KJ", "TEST_KJ", "01", map,
-					com.nj.core.base.common.Constants.SNDK.BIND_BANK_CARD);
-			logger.debug("sndkResp: " + tfcfResp);
-			if (StringUtils.isNotEmptyAndNull(tfcfResp)) {
-				tfcfResp = tfcfResp.replace("\\", "");
-				tfcfResp = tfcfResp.substring(1, tfcfResp.length() - 1);
-				// 根据天府财富返回的json,生成对应的object,天府财富的resultstatus:0,成功；-1，-2失败
-				ResponseSndkMsg tfcfResp1 = JSONObject.parseObject(tfcfResp, ResponseSndkMsg.class);
 
-				// JSONObject obj = JSONObject.parseObject(tfcfResp);
-				if (tfcfResp1 != null && tfcfResp1.isSuccess()) {
-					// pd1.put(Constants.Datas.RECORDSTOTAL, 10);
-					if (tfcfResp1.getResult() != null) {
-						String no = tfcfResp1.getResult().get("jd_serial_no").toString();
-					}
-				}
-			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -649,7 +624,7 @@ public class LoanService extends BaseCachesService {
 	/**
 	 * 获取线下贷款还款计划列表
 	 * 
-	 * @param orderNo
+	 * @param
 	 * @return
 	 * @throws Exception
 	 */
@@ -1205,8 +1180,6 @@ public class LoanService extends BaseCachesService {
 	/**
 	 * 流程执行成功后，更新审批意见
 	 * @param orderNo 订单编号
-	 * @param execUserId 操作人
-	 * @param eProcessInfo 当前订单状态
 	 * @param remark 审批意见json串
 	 * @throws Exception
 	 */

@@ -42,7 +42,8 @@
 						<thead>
 						<tr>
 							<th width="10px" style="padding-right: 12px;"><input type='checkbox' id="defaultCheck" /></th>
-							<th>策略名</th>
+							<th>货号</th>
+							<th>过滤尺码范围（全部过滤：ALL。部分过滤：请以英文逗号分隔。）</th>
 							<th>操作</th>
 						</tr>
 						</thead>
@@ -83,15 +84,15 @@
 			"columns": [
 				{ "data": "id" },
 				{ "data": "stockNo" },
+				{ "data": "sizeRange" },
 				{ "data": null }
 			],
 			"columnDefs": [{
-				"targets": 2,
+				"targets": 3,
 				"render": function(data, type, row) {
 					var html = htmlTpl.dropdown.prefix
-							<shiro:hasPermission name="blackStockNo/delete">
 							+ '  <li><a href="blackStockNo/delete?id='+row.id+'" data-msg="确定删除吗？" data-model="ajaxToDo" data-callback="refreshTable"><i class="fa fa-trash-o"></i>删除</a></li>'
-							</shiro:hasPermission>
+							+ '  <li><a href="blackStockNo/modify?id='+row.id+'" data-model="dialog"><i class="fa fa-pencil"></i>修改</a></li>'
 							+ htmlTpl.dropdown.suffix;
 					return html;
 				}

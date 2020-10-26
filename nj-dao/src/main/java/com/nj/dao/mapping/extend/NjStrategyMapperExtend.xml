@@ -53,10 +53,10 @@
     </foreach>
   </insert>
     <insert id="insertBlackStockBath">
-      insert into black_stock (stock_no)
+      insert into black_stock (stock_no,size_range)
       values
       <foreach collection="list" item="item" separator="," index="index">
-        (#{item.stockNo,jdbcType=VARCHAR})
+        (#{item.stockNo,jdbcType=VARCHAR},#{item.sizeRange,jdbcType=VARCHAR})
       </foreach>
     </insert>
 

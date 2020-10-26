@@ -6,9 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.nj.core.base.util.UuidUtil;
 import org.springframework.stereotype.Component;
 
-import com.jd.core.util.Md5Util;
 import com.nj.core.base.entity.ResourcesAnnotion;
 import com.nj.model.generate.SysResource;
 
@@ -37,7 +37,7 @@ public class AnnotationUtil {
                     	ResourcesAnnotion apiAnnotion = (ResourcesAnnotion) method.getAnnotation(ResourcesAnnotion.class);  
                         if (apiAnnotion != null) {  
                         	SysResource resource = new SysResource();
-                        	resource.setId(Md5Util.getMD5String(apiAnnotion.uri()));
+                        	resource.setId(UuidUtil.get32UUID());
                         	resource.setName(apiAnnotion.name());
                         	resource.setIsShow(String.valueOf(apiAnnotion.resourceType()));
                         	resource.setSort(0);

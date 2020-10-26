@@ -91,17 +91,7 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<!-- 本地需要手动引入统一用户中心公用jar -->
-		<dependency>
-			<groupId>com.jdcf</groupId>
-			<artifactId>Account-Center</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.yiqianbao</groupId>
-			<artifactId>yiqianbao-utils</artifactId>
-			<version>3.0.6</version>
-		</dependency>
+
 
 		<!-- HttpCore -->
 		<!-- <dependency> <groupId>org.apache.httpcomponents</groupId> <artifactId>httpcore</artifactId> 

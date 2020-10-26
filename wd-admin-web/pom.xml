@@ -131,6 +131,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.jdcf.asset</groupId>
+			<artifactId>nj-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 

@@ -32,7 +32,6 @@ import com.nj.model.generate.NjProductTagExample;
 import com.nj.model.generate.NjProductTagExample.Criteria;
 import com.nj.model.generate.NjProductTemp;
 import com.nj.model.generate.NjProductTempExample;
-import com.timevale.tgtext.text.pdf.ex;
 
 @Transactional(readOnly = true)
 @Service("productTemplateService")

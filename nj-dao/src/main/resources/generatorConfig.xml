@@ -2,13 +2,13 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 	<!--指定特定数据库的jdbc驱动jar包的位置 -->
-	<classPathEntry location="F:\lib\maven_download\mysql\mysql-connector-java\5.1.34\mysql-connector-java-5.1.34.jar" />
+	<classPathEntry location="D:\work\tools\mavenLocalRepository\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar" />
 	<context id="context1">
 		<property name="javaFileEncoding" value="UTF-8" />
 		<commentGenerator>
 			<property name="addRemarkComments" value="true" />
 		</commentGenerator>
-		<jdbcConnection connectionURL="jdbc:mysql://127.0.0.1:3306/nj_server"
+		<jdbcConnection connectionURL="jdbc:mysql://127.0.0.1:3306/nj_server?useUnicode=true&amp;serverTimezone=UTC&amp;characterEncoding=utf8"
 						driverClass="com.mysql.jdbc.Driver" password="root"
 						userId="root">
 		</jdbcConnection>
@@ -28,7 +28,7 @@
 			<property name="rootInterface" value="com.nj.core.base.mapper.BaseMapper" />
 		</javaClientGenerator>
 
-		<table tableName="erp_order">
+		<table tableName="black_stock">
 			<property name="useActualColumnNames" value="false"/>
 		</table>
 	</context>

@@ -15,34 +15,6 @@
 	  <swagger-version>2.6.1</swagger-version>
   </properties>
   <dependencies>
-    <dependency>
-		<groupId>com.alibaba</groupId>
-		<artifactId>zmxy</artifactId>
-		<version>0.0.1</version>
-	</dependency>
-	    <dependency>
-		<groupId>com.cloopen</groupId>
-		<artifactId>CCPRestSmsSDK</artifactId>
-		<version>v26</version>
-	</dependency>
-	<dependency>
-  		<groupId>com.jdcf</groupId>
-  		<artifactId>tech</artifactId>
-  		<version>2.0.9</version>
-  	</dependency>
-
-  	<dependency>
-  		<groupId>com.jdcf</groupId>
-  		<artifactId>tgtext</artifactId>
-  		<version>3.0.0</version>
-  	</dependency>
-  	
-  	<dependency>
-  		<groupId>com.yiqianbao</groupId>
-  		<artifactId>yiqianbao-utils</artifactId>
-  		<version>3.0.6</version>
-  	</dependency>
-  	
   	<dependency>
 	    <groupId>org.bouncycastle</groupId>
 	    <artifactId>bcprov-jdk15on</artifactId>
@@ -54,9 +26,7 @@
 	    <artifactId>bcpkix-jdk15on</artifactId>
 	    <version>1.48</version>
 	</dependency>
-	
 
-  	
   	<dependency>
 	    <groupId>com.google.zxing</groupId>
 	    <artifactId>core</artifactId>

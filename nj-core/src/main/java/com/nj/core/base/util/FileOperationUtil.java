@@ -1,10 +1,9 @@
 package com.nj.core.base.util;
 
-import com.jd.core.util.StringUtil;
+import com.github.pagehelper.util.StringUtil;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -44,6 +43,7 @@ public class FileOperationUtil {
     /**
      * 文件上传方法
      *
+     *
      * @param dir    文件归属目录
      * @param file   文件流
      * @param suffix 文件后缀
@@ -55,7 +55,7 @@ public class FileOperationUtil {
 
         String fileName = UUID.randomUUID().toString() + "." + suffix;
         // 判断是否存在文件夹，不存在则赋值默认文件夹
-        if (StringUtil.isBlank(dir)) {
+        if (StringUtil.isEmpty(dir)) {
             dir = FILE_DEFAULT_DIR;
         }
         String currentDate = new SimpleDateFormat(FILE_DATE_DIR_FORMAT).format(Calendar.getInstance().getTime());
@@ -84,7 +84,7 @@ public class FileOperationUtil {
 
         String fileName = UUID.randomUUID().toString() + "." + suffix;
         // 判断是否存在文件夹，不存在则赋值默认文件夹
-        if (StringUtil.isBlank(dir)) {
+        if (StringUtil.isEmpty(dir)) {
             dir = FILE_DEFAULT_DIR;
         }
         String currentDate = new SimpleDateFormat(FILE_DATE_DIR_FORMAT).format(Calendar.getInstance().getTime());
@@ -115,7 +115,7 @@ public class FileOperationUtil {
         response.setHeader("Content-Disposition", "attachment;fileName="
                 + orgFileName);
         // 判断是否存在文件夹，不存在则赋值默认文件夹
-        if (StringUtil.isBlank(dir)) {
+        if (StringUtil.isEmpty(dir)) {
             dir = FILE_DEFAULT_DIR;
         }
         logger.info("请求地址=============：" + FILE_DIR + filePath);
@@ -160,7 +160,7 @@ public class FileOperationUtil {
         response.setHeader("Content-Disposition", "attachment;fileName="
                 + URLEncoder.encode(orgFileName, "UTF-8"));
         // 判断是否存在文件夹，不存在则赋值默认文件夹
-        if (StringUtil.isBlank(dir)) {
+        if (StringUtil.isEmpty(dir)) {
             dir = FILE_DEFAULT_DIR;
         }
         logger.info("请求地址=============：" + dir + filePath);
@@ -197,7 +197,7 @@ public class FileOperationUtil {
         response.setHeader("Content-Disposition", "attachment;fileName="
                 + URLEncoder.encode(orgFileName, "UTF-8"));
         // 判断是否存在文件夹，不存在则赋值默认文件夹
-        if (StringUtil.isBlank(filePath)) {
+        if (StringUtil.isEmpty(filePath)) {
             filePath = FILE_DEFAULT_DIR;
         }
         logger.info("请求地址=============：" + filePath);

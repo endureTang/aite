@@ -15,34 +15,34 @@
 
 package com.nj.service.enterprise;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.annotation.Resource;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.nj.bean.OfflineRepayBean;
+import com.nj.core.base.common.AddressConstants;
+import com.nj.core.base.entity.ResponseDto;
+import com.nj.core.base.enums.*;
+import com.nj.core.base.exception.BaseException;
+import com.nj.core.base.exception.ExistException;
+import com.nj.core.base.exception.ParamsException;
+import com.nj.core.base.util.*;
+import com.nj.core.ehcache.EhCacheConstant;
+import com.nj.core.ehcache.EhCacheUtil;
+import com.nj.dao.*;
+import com.nj.dao.extend.*;
+import com.nj.model.constant.LoanOrderConstant;
+import com.nj.model.datamodel.UpdatePlanDto;
+import com.nj.model.esign.constants.EsignFileCateConstant;
+import com.nj.model.generate.*;
+import com.nj.model.generate.NjLoanOrderExample.Criteria;
+import com.nj.model.vo.OrderUpdateLogVO;
+import com.nj.service.base.system.DictService;
+import com.nj.service.itf.FileOperationService;
+import com.nj.service.itf.ItfFaceIdService;
+import com.nj.service.itf.TfcfHttpService;
+import com.nj.service.itf.UserBankCardService;
+import com.nj.service.process.ManualProcess;
+import com.nj.service.remoteing.BhDataService;
+import com.nj.service.remoteing.RepayPlanNewService;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -51,170 +51,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.jd.core.util.DateTimeHelper;
-import com.jd.core.util.RandomUtil;
-import com.nj.bean.OfflineRepayBean;
-import com.nj.core.base.common.AddressConstants;
-import com.nj.core.base.entity.ResponseDto;
-import com.nj.core.base.enums.ELoanOrderStatus;
-import com.nj.core.base.enums.EProcessInfo;
-import com.nj.core.base.enums.EProcessResult;
-import com.nj.core.base.enums.ERoleType;
-import com.nj.core.base.enums.ESysDictType;
-import com.nj.core.base.exception.BaseException;
-import com.nj.core.base.exception.ExistException;
-import com.nj.core.base.exception.ParamsException;
-import com.nj.core.base.util.AESUtil;
-import com.nj.core.base.util.CardCheck;
-import com.nj.core.base.util.Constants;
-import com.nj.core.base.util.DateUtil;
-import com.nj.core.base.util.FileOperationUtil;
-import com.nj.core.base.util.IdentifyUtil;
-import com.nj.core.base.util.ImageAnd64Binary;
-import com.nj.core.base.util.PageData;
-import com.nj.core.base.util.StringUtils;
-import com.nj.core.base.util.UserSessions;
-import com.nj.core.base.util.UuidUtil;
-import com.nj.core.ehcache.EhCacheConstant;
-import com.nj.core.ehcache.EhCacheUtil;
-import com.nj.dao.NjAssetGradeMapper;
-import com.nj.dao.NjBaseInfoCompanyMapper;
-import com.nj.dao.NjChannelRelativeMapper;
-import com.nj.dao.NjChannelUserMapper;
-import com.nj.dao.NjContactCompanyMapper;
-import com.nj.dao.NjCoporateMapper;
-import com.nj.dao.NjDeductionNoticeMapper;
-import com.nj.dao.NjHouseAttachmentMapper;
-import com.nj.dao.NjLoanOrderCheckRecordMapper;
-import com.nj.dao.NjLoanOrderMapper;
-import com.nj.dao.NjOrderArchiveRecordMapper;
-import com.nj.dao.NjOrderAreaMapper;
-import com.nj.dao.NjOrderAttachmentMapper;
-import com.nj.dao.NjOrderDebtMapper;
-import com.nj.dao.NjOrderFeeMapper;
-import com.nj.dao.NjOrderHouseMapper;
-import com.nj.dao.NjOrderPawnHouseLinkMapper;
-import com.nj.dao.NjOrderPawnHouseMapper;
-import com.nj.dao.NjOrderRelativeMapper;
-import com.nj.dao.NjOrderUpdateAttachmentMapper;
-import com.nj.dao.NjOrderUpdateLogMapper;
-import com.nj.dao.NjOrderUserCarMapper;
-import com.nj.dao.NjOrderWorkMapper;
-import com.nj.dao.NjProductChannelMapper;
-import com.nj.dao.NjScenesCompanyMapper;
-import com.nj.dao.NjStatisticsSummaryMapper;
-import com.nj.dao.NjUserAttachmentMapper;
-import com.nj.dao.NjUserBusinessApprovalMapper;
-import com.nj.dao.NjUserBusinessSurveyMapper;
-import com.nj.dao.NjUserCarMapper;
-import com.nj.dao.NjUserContactMapper;
-import com.nj.dao.NjUserDebtInfoMapper;
-import com.nj.dao.NjUserHouseMapper;
-import com.nj.dao.NjUserRelativesMapper;
-import com.nj.dao.NjUserSpotMapper;
-import com.nj.dao.NjUserWorkInfoMapper;
-import com.nj.dao.NjWithdrawingRecordMapper;
-import com.nj.dao.SysDictMapper;
-import com.nj.dao.SysUpdateTableLogMapper;
-import com.nj.dao.extend.NjAppUserBasicInfoMapperExtend;
-import com.nj.dao.extend.NjAppUserCarMapperExtend;
-import com.nj.dao.extend.NjAppUserRelativesMapperExtend;
-import com.nj.dao.extend.NjAppUserWorkMapperExtend;
-import com.nj.dao.extend.NjLoanOrderMapperExtend;
-import com.nj.dao.extend.NjOrderAreaMapperExtend;
-import com.nj.dao.extend.NjOrderProcessMapperExtend;
-import com.nj.dao.extend.NjOrderUpdateLogMapperExtend;
-import com.nj.dao.extend.NjProcessMapperExtend;
-import com.nj.dao.extend.NjProductChannelMapperExtend;
-import com.nj.dao.extend.NjProductCycleMapperExtend;
-import com.nj.dao.extend.NjProductTempMapperExtend;
-import com.nj.dao.extend.NjStatisticsSummaryMapperExtend;
-import com.nj.dao.extend.NjUserInfoMapperExtend;
-import com.nj.dao.extend.NjWithdrawingRecordMapperExtend;
-import com.nj.model.constant.LoanOrderConstant;
-import com.nj.model.datamodel.UpdatePlanDto;
-import com.nj.model.esign.constants.EsignFileCateConstant;
-import com.nj.model.generate.NjAssetGrade;
-import com.nj.model.generate.NjBankInfo;
-import com.nj.model.generate.NjBaseInfoCompany;
-import com.nj.model.generate.NjChannelRelative;
-import com.nj.model.generate.NjChannelUser;
-import com.nj.model.generate.NjChannelUserExample;
-import com.nj.model.generate.NjContactCompany;
-import com.nj.model.generate.NjCoporate;
-import com.nj.model.generate.NjCoporateExample;
-import com.nj.model.generate.NjDeductionNotice;
-import com.nj.model.generate.NjHouseAttachment;
-import com.nj.model.generate.NjLoanOrder;
-import com.nj.model.generate.NjLoanOrderCheckRecord;
-import com.nj.model.generate.NjLoanOrderCheckRecordExample;
-import com.nj.model.generate.NjLoanOrderExample;
-import com.nj.model.generate.NjLoanOrderExample.Criteria;
-import com.nj.model.generate.NjOrderArchiveRecord;
-import com.nj.model.generate.NjOrderArchiveRecordExample;
-import com.nj.model.generate.NjOrderArea;
-import com.nj.model.generate.NjOrderAreaExample;
-import com.nj.model.generate.NjOrderAttachmentExample;
-import com.nj.model.generate.NjOrderBhRecord;
-import com.nj.model.generate.NjOrderDebt;
-import com.nj.model.generate.NjOrderFee;
-import com.nj.model.generate.NjOrderFeeExample;
-import com.nj.model.generate.NjOrderFlowProcedure;
-import com.nj.model.generate.NjOrderFlows;
-import com.nj.model.generate.NjOrderHouse;
-import com.nj.model.generate.NjOrderPawnHouse;
-import com.nj.model.generate.NjOrderPawnHouseLink;
-import com.nj.model.generate.NjOrderPawnHouseLinkExample;
-import com.nj.model.generate.NjOrderRelative;
-import com.nj.model.generate.NjOrderUpdateAttachment;
-import com.nj.model.generate.NjOrderUpdateAttachmentExample;
-import com.nj.model.generate.NjOrderUpdateLog;
-import com.nj.model.generate.NjOrderUpdateLogExample;
-import com.nj.model.generate.NjOrderUserCar;
-import com.nj.model.generate.NjOrderWork;
-import com.nj.model.generate.NjProcessTemplateFlows;
-import com.nj.model.generate.NjProductChannel;
-import com.nj.model.generate.NjProductTemp;
-import com.nj.model.generate.NjProductTransactionOffline;
-import com.nj.model.generate.NjProductTransactionOnline;
-import com.nj.model.generate.NjScenesCompany;
-import com.nj.model.generate.NjStatisticsSummary;
-import com.nj.model.generate.NjUserAttachment;
-import com.nj.model.generate.NjUserBasicInfo;
-import com.nj.model.generate.NjUserBusinessApproval;
-import com.nj.model.generate.NjUserBusinessApprovalExample;
-import com.nj.model.generate.NjUserBusinessSurvey;
-import com.nj.model.generate.NjUserBusinessSurveyExample;
-import com.nj.model.generate.NjUserCar;
-import com.nj.model.generate.NjUserContact;
-import com.nj.model.generate.NjUserContactExample;
-import com.nj.model.generate.NjUserDebtInfo;
-import com.nj.model.generate.NjUserHouse;
-import com.nj.model.generate.NjUserInfo;
-import com.nj.model.generate.NjUserRelatives;
-import com.nj.model.generate.NjUserSpot;
-import com.nj.model.generate.NjUserSpotExample;
-import com.nj.model.generate.NjUserWorkInfo;
-import com.nj.model.generate.NjWithdrawingRecord;
-import com.nj.model.generate.SysDict;
-import com.nj.model.generate.SysDictExample;
-import com.nj.model.generate.SysUpdateTableLog;
-import com.nj.model.vo.OrderUpdateLogVO;
-import com.nj.service.base.system.DictService;
-import com.nj.service.esign.ApiEsignService;
-import com.nj.service.esign.UserSignService;
-import com.nj.service.itf.FileOperationService;
-import com.nj.service.itf.ItfFaceIdService;
-import com.nj.service.itf.TfcfHttpService;
-import com.nj.service.itf.UserBankCardService;
-import com.nj.service.process.ManualProcess;
-import com.nj.service.remoteing.BhDataService;
-import com.nj.service.remoteing.RepayPlanNewService;
-import com.timevale.esign.sdk.tech.bean.PosBean;
-import com.timevale.esign.sdk.tech.bean.SignPDFFileBean;
-import com.timevale.esign.sdk.tech.impl.constants.SignType;
+import javax.annotation.Resource;
+import java.io.File;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author 009
@@ -244,13 +90,6 @@ public class OrderService extends BaseCachesService {
 
 	@Autowired
 	private SizeFilterService filterService;
-
-	@Resource(name = "apiEsignService")
-	private ApiEsignService apiEsignService;
-
-	@Resource(name = "userSignService")
-	private UserSignService userSignService;
-
 	@Resource
 	private NjCoporateMapper njCoporateMapper;
 	@Resource
@@ -699,16 +538,6 @@ public class OrderService extends BaseCachesService {
 	/**
 	 * 审核订单
 	 * 
-	 * @param handUserId
-	 *            审批人
-	 * @param taskinsid
-	 *            当前要审核的任务实例Id
-	 * @param transationValue
-	 *            传入命令的值
-	 * @param comment
-	 *            审批意见
-	 * @param updateReason
-	 *            更新原因
 	 */
 	/*
 	 * @Transactional(rollbackFor = { Throwable.class }, readOnly = false)
@@ -1135,7 +964,7 @@ public class OrderService extends BaseCachesService {
 	/**
 	 * 查询订单的还款人列表
 	 * 
-	 * @param ordeId
+	 * @param
 	 * @return repayUserTfcfId:repayers在天府财富端的id
 	 */
 	public List<Map> getOrderRepayers(String orderId) throws Exception {
@@ -1553,7 +1382,7 @@ public class OrderService extends BaseCachesService {
 	/**
 	 * 查询订单的还款人列表
 	 * 
-	 * @param ordeId
+	 * @param
 	 * @return repayUserTfcfId:repayers在天府财富端的id
 	 */
 	public Map getOrderRepayers(String coporateId, String orderNo) throws Exception {
@@ -1793,7 +1622,7 @@ public class OrderService extends BaseCachesService {
 	/**
 	 * 查询所有产品审核权限的审核人员
 	 * 
-	 * @param productIds
+	 * @param
 	 * @return
 	 * @throws Exception
 	 */
@@ -2470,7 +2299,7 @@ public class OrderService extends BaseCachesService {
 	/**
 	 * 查询订单操作日志
 	 * 
-	 * @param orderSn
+	 * @param
 	 * @return
 	 * @throws Exception
 	 */
@@ -2482,7 +2311,7 @@ public class OrderService extends BaseCachesService {
 	/**
 	 * 查询人工审核日志
 	 * 
-	 * @param orderSn
+	 * @param
 	 * @return
 	 */
 	public List<OrderUpdateLogVO> listOrderAudite(String orderNo) {
@@ -2702,7 +2531,7 @@ public class OrderService extends BaseCachesService {
 	
 	/**
 	 * 获取订单指定keyword的附件
-	 * @param keywords 多个keyword用,分割
+	 * @param
 	 */
 	public List<Map<String, Object>> getOrderAttListByKeyword(String orderId,String fileTags) throws Exception {
 		NjLoanOrderMapperExtend mapper = dao.getMapper(NjLoanOrderMapperExtend.class);
@@ -2740,27 +2569,7 @@ public class OrderService extends BaseCachesService {
 		return extend.getLoanAfterRepayInfo(orderNo);
 	}
 
-	/**
-	 * 用户在订单申请表签字确认
-	 */
-	public void orderRequestFormSign(String tokenName, String userId, String orderNo, String srcFilePath,
-			String dstPdfFile, String sealData, String headImg) throws Exception {
 
-		SignPDFFileBean pdfFile = new SignPDFFileBean();
-		pdfFile.setSrcPdfFile(srcFilePath);
-		pdfFile.setDstPdfFile(dstPdfFile);
-
-		PosBean signPos = new PosBean();
-		signPos.setPosType(1); // 定位类型，0-坐标定位，1-关键字定位，默认0
-		signPos.setKey("甲方（借款人）："); // 关键字 TODO 做成产品或批复订单里配置
-		// signPos.setPosX(200 + (160 * signedSecondPartyNum));
-		signPos.setPosPage("1");
-
-		userSignService.userPdfSign_file(orderNo, userId, EsignFileCateConstant.ORDER_APPLY_FORM, sealData, pdfFile,
-				signPos, SignType.Key);
-
-		saveFormSignHeadImg(headImg);
-	}
 
 	private void saveFormSignHeadImg(String headImg) {
 		if (StringUtils.isNotEmpty(headImg)) {
@@ -3503,7 +3312,7 @@ public class OrderService extends BaseCachesService {
 	
 	/**
 	 * 保存企业基本信息
-	 * @param transInfo
+	 * @param
 	 * @param orderId
 	 * @throws Exception
 	 */
@@ -3519,7 +3328,7 @@ public class OrderService extends BaseCachesService {
 
 	/**
 	 * 保存企业联系人信息
-	 * @param transInfo
+	 * @param
 	 * @param orderId
 	 * @throws Exception
 	 */

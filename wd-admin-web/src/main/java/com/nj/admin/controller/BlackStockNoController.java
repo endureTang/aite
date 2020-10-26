@@ -33,10 +33,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -117,6 +114,36 @@ public class BlackStockNoController extends BaseController {
 		}
 		return result;
 	}
+
+	@RequestMapping(value="/modify",method = RequestMethod.GET)
+	public ModelAndView goModify(@RequestParam Integer id){
+		ModelAndView mv = super.getModelAndView();
+		BlackStock blackStock = blackStockNoService.get(id);
+		mv.addObject("pd", blackStock);
+		mv.setViewName("sys/blackStockNo/edit");
+		return mv;
+	}
+
+	@RequestMapping(value="/modify",method = RequestMethod.POST)
+	@ResponseBody
+	public PageData modify(@RequestParam Integer id,String stockNo,String sizeRange){
+		PageData result = new PageData();
+		try {
+			BlackStock blackStock = new BlackStock();
+			blackStock.setId(id);
+			blackStock.setStockNo(stockNo);
+			blackStock.setSizeRange(sizeRange);
+			blackStockNoService.modify(blackStock);
+			result.put("status", 1);
+			result.put("msg", "修改成功");
+		} catch (Exception e) {
+			logger.error("delete StockFormat error", e);
+			result.put("status", 0);
+			result.put("msg", "修改失败");
+		}
+		return result;
+	}
+
 	@RequestMapping(value="/batchDeleteBtn")
 	@ResponseBody
 	public PageData batchDeleteBtn(@RequestParam String ids){
@@ -203,7 +230,10 @@ public class BlackStockNoController extends BaseController {
 								return result;
 							}
 							String stockNo = ExcelUtil.getXValue(xssfRow.getCell(0)).trim();//获取货号
+							//读取列，从第一列开始
+							String sizeRange = ExcelUtil.getXValue(xssfRow.getCell(1));//过滤尺码范围
 							blackStock.setStockNo(stockNo);
+							blackStock.setSizeRange(sizeRange == null ? "":sizeRange);
 							blackStocks.add(blackStock);
 						}
 					}

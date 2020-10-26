@@ -81,4 +81,12 @@ public class BlackStockNoService {
 			}
 		}
     }
+
+    public BlackStock get(Integer id) {
+		return blackStockMapper.selectByPrimaryKey(id);
+    }
+
+	public void modify(BlackStock blackStock) {
+		blackStockMapper.updateByPrimaryKey(blackStock);
+	}
 }

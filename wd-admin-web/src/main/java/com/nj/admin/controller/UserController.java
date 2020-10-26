@@ -28,6 +28,7 @@ import javax.annotation.Resource;
 import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 
+import com.github.pagehelper.util.StringUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpRequest;
 import org.apache.shiro.SecurityUtils;
@@ -36,23 +37,19 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jd.core.util.StringUtil;
 import com.nj.core.base.controller.BaseController;
 import com.nj.core.base.entity.Page;
-import com.nj.core.base.entity.ResourcesAnnotion;
 import com.nj.model.generate.NjUserInfo;
 import com.nj.model.generate.SysRole;
 import com.nj.model.generate.SysRoleExample;
 import com.nj.model.generate.SysRoleExample.Criteria;
 import com.nj.model.generate.SysUser;
-import com.nj.model.generate.SysUserRole;
 import com.nj.service.base.system.RoleService;
 import com.nj.service.base.system.UserService;
 import com.nj.service.enterprise.CoporateService;
@@ -600,7 +597,7 @@ public class UserController extends BaseController {
 		result.put("productList", productList);
 		result.put("roleList", roleList);
 		
-		if(!StringUtil.isBlank(userId)){
+		if(!StringUtil.isEmpty(userId)){
 			result.put("hasRoleList", roleService.getUserHasRoleList(userId,2));
 			result.put("hasProductList", productService.getUserHasProductList(userId));
 		}

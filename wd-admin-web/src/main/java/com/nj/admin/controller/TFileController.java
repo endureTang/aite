@@ -1,6 +1,6 @@
 package com.nj.admin.controller;
 
-import com.jd.core.util.StringUtil;
+import com.github.pagehelper.util.StringUtil;
 import com.nj.core.base.controller.BaseController;
 import com.nj.core.base.util.PageData;
 import com.nj.core.base.util.UuidUtil;
@@ -174,7 +174,7 @@ public class TFileController extends BaseController {
                                 for (String sourceNo : sourceOrderNo) {
                                     ErpOrder erpOrder = new ErpOrder();
                                     String orderNo = ExcelUtil.getXValue(xssfRow.getCell(0));
-                                    if(StringUtil.isBlank(orderNo)){
+                                    if(StringUtil.isEmpty(orderNo)){
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
                                         em.setMessage("订单编号为空");
@@ -189,7 +189,7 @@ public class TFileController extends BaseController {
                                     String name = ExcelUtil.getXValue(xssfRow.getCell(1)); // 获取姓名
                                     erpOrder.setName(name);
                                     String transWay = ExcelUtil.getXValue(xssfRow.getCell(20));
-                                    if(StringUtil.isBlank(transWay)){
+                                    if(StringUtil.isEmpty(transWay)){
                                         logger.error("物流方式为空");
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
@@ -200,7 +200,7 @@ public class TFileController extends BaseController {
                                     }
                                     erpOrder.setTransWay(ExcelUtil.getXValue(xssfRow.getCell(20)));
                                     String transNo = ExcelUtil.getXValue(xssfRow.getCell(19));
-                                    if(StringUtil.isBlank(transNo)){
+                                    if(StringUtil.isEmpty(transNo)){
                                         logger.error("物流单号为空");
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
@@ -211,7 +211,7 @@ public class TFileController extends BaseController {
                                     }
                                     erpOrder.setTransNo(ExcelUtil.getXValue(xssfRow.getCell(19)));
                                     String address = ExcelUtil.getXValue(xssfRow.getCell(18));
-                                    if(StringUtil.isBlank(address)){
+                                    if(StringUtil.isEmpty(address)){
                                         logger.error("地址为空");
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
@@ -222,7 +222,7 @@ public class TFileController extends BaseController {
                                     }
 
                                     String amount = ExcelUtil.getXValue(xssfRow.getCell(10));
-                                    if(StringUtil.isBlank(amount)){
+                                    if(StringUtil.isEmpty(amount)){
                                         logger.error("数量为空");
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
@@ -234,7 +234,7 @@ public class TFileController extends BaseController {
                                     erpOrder.setAmount(amount);
 
                                     String specification = ExcelUtil.getXValue(xssfRow.getCell(6));
-                                    if(StringUtil.isBlank(specification)){
+                                    if(StringUtil.isEmpty(specification)){
                                         logger.error("规格、尺码为空");
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
@@ -247,7 +247,7 @@ public class TFileController extends BaseController {
                                     erpOrder.setSpecification(channelSpec);
 
                                     String stockNo = ExcelUtil.getXValue(xssfRow.getCell(3));
-                                    if(StringUtil.isBlank(stockNo)){
+                                    if(StringUtil.isEmpty(stockNo)){
                                         logger.error("货号为空");
                                         ErrorErpOrderModel em = new ErrorErpOrderModel();
                                         em.setRownumber(rowNum+1);
@@ -280,7 +280,7 @@ public class TFileController extends BaseController {
                                             if (transModelList == null) {
                                                 transModelList = getTransModel(request);
                                             }
-                                            if(StringUtil.isBlank(province)){
+                                            if(StringUtil.isEmpty(province)){
                                                 province = address.substring(0, i);
                                             }
                                             String transMoney = calcTransMoney(province, amount, transModelList);
@@ -352,7 +352,7 @@ public class TFileController extends BaseController {
         String money = "省份匹配失败";
         for (Map<String, Object> map : list) {
             String value = (String) map.get(province);
-            if (!StringUtil.isBlank(value)) {
+            if (!StringUtil.isEmpty(value)) {
                 List<String> strings = Arrays.asList(value.split(","));
                 String baseMoney = strings.get(0);
                 String moreMoney = strings.get(1);

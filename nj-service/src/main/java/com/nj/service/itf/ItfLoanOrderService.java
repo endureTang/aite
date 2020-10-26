@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.nj.core.base.exception.BaseException;
 import com.nj.core.fee.algoParam.external.*;
 import com.nj.core.fee.base.ExterBusinessFeeCalcParam;
 import com.nj.core.fee.base.ManualParam;
@@ -24,7 +25,6 @@ import org.springframework.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.jd.core.exception.BaseException;
 import com.nj.core.base.common.Constants;
 import com.nj.core.base.common.api.ResponseMsg;
 import com.nj.core.base.common.api.TFCFResponseMsg;
@@ -70,7 +70,6 @@ import com.nj.service.process.ProcessFlowsService;
 import com.nj.service.remoteing.IMqNdService;
 import com.nj.service.remoteing.IMqWDService;
 import com.nj.service.remoteing.TdReportService;
-import com.timevale.tgtext.text.ap;
 
 /**
  * @author 009
@@ -78,9 +77,6 @@ import com.timevale.tgtext.text.ap;
 @Transactional(readOnly = true)
 @Service("itfLoanOrderService")
 public class ItfLoanOrderService {
-
-    @Resource(name = "zhimaProvider")
-    private ZhimaProvider zhimaProvider;
 
     @Resource(name = "BaseDao")
     private BaseDao dao;

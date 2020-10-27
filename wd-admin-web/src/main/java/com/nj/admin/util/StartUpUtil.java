@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.nj.model.generate.SysResourceExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -40,7 +41,13 @@ public class StartUpUtil implements InitializingBean{
         annotationUtil.validAnnotation(clsList);  
         logger.info("加载授权资源：{}个",annotationUtil.getResourceList().size());
 		for(SysResource resource:annotationUtil.getResourceList()) {
-			SysResource oldResource=sysResourceMapper.selectByPrimaryKey(resource.getId());
+			SysResource oldResource=null;
+			SysResourceExample example = new SysResourceExample();
+			example.createCriteria().andNameEqualTo(resource.getName());
+			List<SysResource> sysResourceList = sysResourceMapper.selectByExample(example);
+			if(sysResourceList != null && sysResourceList.size() >0){
+				oldResource = sysResourceList.get(0);
+			}
 			if(oldResource==null) {
 				sysResourceMapper.insert(resource);
 			}else {

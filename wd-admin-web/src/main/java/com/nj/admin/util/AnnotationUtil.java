@@ -24,7 +24,7 @@ import com.nj.model.generate.SysResource;
  */
 @Component
 public class AnnotationUtil {
-	
+
 	private List<SysResource> sysResourceList = new ArrayList();
 	
 	public void validAnnotation(List<Class<?>> clsList){  
@@ -35,7 +35,7 @@ public class AnnotationUtil {
                 if (methods != null && methods.length > 0) {  
                     for (Method method : methods) {  
                     	ResourcesAnnotion apiAnnotion = (ResourcesAnnotion) method.getAnnotation(ResourcesAnnotion.class);  
-                        if (apiAnnotion != null) {  
+                        if (apiAnnotion != null) {
                         	SysResource resource = new SysResource();
                         	resource.setId(UuidUtil.get32UUID());
                         	resource.setName(apiAnnotion.name());

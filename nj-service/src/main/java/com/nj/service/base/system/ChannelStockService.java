@@ -39,10 +39,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author dzk
@@ -113,8 +110,9 @@ public class ChannelStockService {
             boolean isBlack = false; //是否存在黑名单中标识
             String stockNo = channelStock.getStockNo();
             for (BlackStock blackStock : blackStockList) {
-                //先过滤掉黑名单的货号
-                if(stockNo.equals(blackStock.getStockNo())){
+                //先过滤掉黑名单的货号（匹配货号+尺寸）
+                boolean match = doMatchBlack(channelStock,blackStock);
+                if(match){
                     isBlack = true;
                     break;
                 }
@@ -173,6 +171,23 @@ public class ChannelStockService {
 
         }
         njStrategyMapperExtend.insertBath(channelStocks);
+    }
+
+    public boolean doMatchBlack(ChannelStock channelStock, BlackStock blackStock) {
+        String sizeRang = blackStock.getSizeRange();
+        boolean isMatch = false;
+        if (channelStock.getStockNo().equals(blackStock.getStockNo())) {
+            if(sizeRang.equals("ALL")){
+                isMatch = true;
+            }else{
+                String [] sizes = sizeRang.split(",");
+                List<String> sizeList = Arrays.asList(sizes);
+                if(sizeList.indexOf(channelStock.getSpecification()) != -1){
+                    isMatch = true;
+                }
+            }
+        }
+        return isMatch;
     }
 
     public void edit(ChannelStock stockBase) {

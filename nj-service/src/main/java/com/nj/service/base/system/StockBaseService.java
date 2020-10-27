@@ -1,4 +1,4 @@
-/*
+	/*
  * COPYRIGHT. ShenZhen GreatVision Network Technology Co., Ltd. 2015.
  * ALL RIGHTS RESERVED.
  *
@@ -20,10 +20,7 @@ import com.nj.core.base.dao.BaseDao;
 import com.nj.core.base.util.PageData;
 import com.nj.core.base.util.StringUtils;
 import com.nj.core.base.util.UuidUtil;
-import com.nj.dao.ChannelStockMapper;
-import com.nj.dao.StockBaseMapper;
-import com.nj.dao.StockFormatDictMapper;
-import com.nj.dao.StockFormatMapper;
+import com.nj.dao.*;
 import com.nj.dao.extend.NjStrategyMapperExtend;
 import com.nj.model.datamodel.StockFormatDictForm;
 import com.nj.model.datamodel.StockFormatForm;
@@ -33,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -60,9 +58,13 @@ public class StockBaseService {
     private StockBaseMapper stockBaseMapper;
 	@Resource
 	private NjStrategyMapperExtend njStrategyMapperExtend;
+	@Resource
+	private ChannelStockService channelStockService;
 
 	@Resource
 	private ChannelStockMapper channelStockMapper;
+	@Resource
+	private BlackStockMapper blackStockMapper;
 
 
 	public List<StockBase> list(PageData pd) {
@@ -148,6 +150,8 @@ public class StockBaseService {
 	* @Date: 2020/7/28 
 	*/
 	public void insertBathBaseAndChannel(ArrayList<StockBase> stockBases) {
+		//获取黑名单货号列表
+		List<BlackStock> blackStockList = blackStockMapper.selectByExample(null);
 		for (StockBase stockBase : stockBases) {
 			//根据货号+规格获取档案库信息
 			String stockNo = stockBase.getStockNo();
@@ -177,7 +181,23 @@ public class StockBaseService {
 			channelStock.setChannelPrice(stockBase.getChannelPrice());
 			channelStock.setBasePrice(stockBase.getBasePrice());
 			channelStock.setDiscount(stockBase.getDiscount());
-			channelStock.setType(1);
+			boolean isBlack = false; //是否存在黑名单中标识
+			for (BlackStock blackStock : blackStockList) {
+				boolean match = channelStockService.doMatchBlack(channelStock, blackStock);
+				if(match){
+					isBlack = true;
+					break;
+				}
+			}
+			if(isBlack){
+				channelStock.setType(2);
+				channelStock.setChannelPrice("");
+				channelStock.setBasePrice("");
+				channelStock.setDiscount("");
+				channelStock.setRemark("货号存在黑名单中");
+			}else{
+				channelStock.setType(1);
+			}
 			channelStockMapper.insertSelective(channelStock);
 
 		}

@@ -88,5 +88,7 @@ public class BlackStockNoService {
 
 	public void modify(BlackStock blackStock) {
 		blackStockMapper.updateByPrimaryKey(blackStock);
+		String s ="1";
+		s.intern();
 	}
 }

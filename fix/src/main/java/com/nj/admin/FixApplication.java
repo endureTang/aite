@@ -1,0 +1,37 @@
+package com.nj.admin;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
+
+/**
+ * 
+ * @Name com.nj.enterprise.EnterpriseApplication
+ * @Description 
+ * 
+ * @Author bruce
+ * @Version 2018年2月23日 上午11:07:03
+ * @Copyright 金鼎财富
+ *
+ */
+@ComponentScan(basePackages={"com.nj.core", "com.nj.admin"})
+@ServletComponentScan
+@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
+public class FixApplication
+        extends SpringBootServletInitializer
+{
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application)
+    {
+        return application.sources(new Class[] { FixApplication.class });
+    }
+
+    public static void main(String[] args)
+            throws Exception
+    {
+        SpringApplication.run(FixApplication.class, args);
+    }
+}

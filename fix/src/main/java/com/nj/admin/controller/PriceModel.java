@@ -1,7 +1,6 @@
 package com.nj.admin.controller;
 
-public class PriceModel
-{
+public class PriceModel implements Comparable<PriceModel>{
   private String id;
   @ExportFormat(name="货号", align="center", sort=1)
   private String stockNo;
@@ -48,5 +47,9 @@ public class PriceModel
   public void setId(String id)
   {
     this.id = id;
+  }
+  @Override
+  public int compareTo(PriceModel o) {
+    return stockNo.compareTo(o.getStockNo());
   }
 }

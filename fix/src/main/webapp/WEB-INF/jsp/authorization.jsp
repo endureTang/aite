@@ -31,7 +31,7 @@ footer{height:50px;position:fixed;bottom:0px;left:0px;width:100%;text-align: cen
 	
 	
 <%--	<script type="text/javascript" src="static/js/jquery-1.5.1.min.js"></script>--%>
-	<script type="text/javascript" src="plugins/zTree/jquery.ztree-2.6.min.js"></script>
+<%--	<script type="text/javascript" src="plugins/zTree/jquery.ztree-2.6.min.js"></script>--%>
 	
 	<script type="text/javascript">
 	$(top.hangge());

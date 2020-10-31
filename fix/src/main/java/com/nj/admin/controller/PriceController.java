@@ -5,6 +5,7 @@ import com.nj.core.base.util.DataTableResult;
 import com.nj.core.base.util.PageData;
 import com.nj.core.base.util.UuidUtil;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,8 +36,8 @@ public class PriceController
     {
       HttpSession session = request.getSession();
       List<PriceModel> list = (List)session.getAttribute("priceList");
-      if ((list != null) && (list.size() > 0))
-      {
+      if ((list != null) && (list.size() > 0)){
+        Collections.sort(list);
         result.insertDataList(list);
         result.setTotalCount(10);
         result.put("draw", "draw");
@@ -156,6 +157,7 @@ public class PriceController
     {
       HttpSession session = reqst.getSession();
       List<PriceModel> retList = (List)session.getAttribute("priceList");
+      Collections.sort(retList);
       List<PriceModel> priceModels = new ArrayList();
       for (PriceModel priceModel : retList) {
         priceModels.add(priceModel);

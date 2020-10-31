@@ -32,7 +32,9 @@ public class StockController {
         try {
             HttpSession session = request.getSession();
             List<StockModel> list = (List) session.getAttribute("stockList");
-            Collections.sort(list);
+            if(list != null && list.size()>0){
+                Collections.sort(list);
+            }
             if ((list != null) && (list.size() > 0)) {
                 result.insertDataList(list);
                 result.put("draw", "draw");
@@ -141,7 +143,7 @@ public class StockController {
         try {
             HttpSession session = reqst.getSession();
             List<StockModel> retList = (List) session.getAttribute("stockList");
-
+            Collections.sort(retList);
             StringBuilder tempfilename = new StringBuilder();
             tempfilename.append("入库表格.xlsx");
             ExportUtil.baseExport(retList, StockModel.class, tempfilename.toString(), "入库表格", "入库表格", response);

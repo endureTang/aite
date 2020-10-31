@@ -12,7 +12,8 @@
 		<module>nj-dao</module>
 		<module>nj-service</module>
     	<module>wd-admin-web</module>
-	</modules>
+        <module>fix</module>
+    </modules>
 
 	<dependencyManagement>
 		<dependencies>

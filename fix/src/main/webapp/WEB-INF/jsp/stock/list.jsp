@@ -144,6 +144,37 @@
 							+ htmlTpl.dropdown.suffix;
 					return html;
 				}
+			},{
+				"targets": 4,
+				createdCell: function (cell, cellData, rowData, rowIndex, colIndex) {
+					$(cell).click(function () {
+						$(this).html('<input type="text" size="1" style="width: 100%"/>');
+						var aInput = $(this).find(":input");
+						aInput.focus().val(cellData);
+					});
+					$(cell).on("blur", ":input", function () {
+						var amount = $(this).val();
+						$(cell).html(amount);
+						$.ajax({
+							type: "POST",
+							url: 'editAmount',
+							data: {
+								id:rowData.id,
+								amount: amount
+							},
+							dataType: 'json',
+							cache: false,
+							success: function (data) {
+								refreshTable(true);
+								BootstrapDialog.show({
+									type: BootstrapDialog.TYPE_SUCCESS,
+									title: '操作结果提示',
+									message: "更新数量成功"
+								});
+							}
+						});
+					})
+				}
 			}],
 			"drawCallback": function (settings) {
 				drawICheck('defaultCheck', 'chx_default');
@@ -162,7 +193,6 @@
 			defTable.draw(false);
 		}
 	}
-
 	function doSubmit() {
 		var strategyId = $("#strategyId").val();
 		var stockNo = $("#stockNo").val();

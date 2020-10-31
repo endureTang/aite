@@ -95,6 +95,7 @@
 							<th>吊牌价</th>
 							<th>折扣</th>
 							<th>品牌</th>
+							<th>备注</th>
 							<th>操作</th>
 						</tr>
 						</thead>
@@ -140,10 +141,11 @@
 				{ "data": "basePrice" },
 				{ "data": "discount" },
 				{ "data": "brand" },
+				{ "data": "remark" },
 				{ "data": null }
 			],
 			"columnDefs": [{
-				"targets": 8,
+				"targets": 9,
 				"render": function(data, type, row) {
 					var html = htmlTpl.dropdown.prefix
 							<shiro:hasPermission name="strategy/edit">

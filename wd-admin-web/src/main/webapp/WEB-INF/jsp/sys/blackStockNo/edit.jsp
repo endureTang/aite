@@ -27,7 +27,7 @@
 				<label for="sizeRange" class="col-sm-3 control-label">过滤尺码范围</label>
 				<div class="col-sm-7">
 					<input id="sizeRange" name="sizeRange" type="text" maxlength="32" value="${pd.sizeRange}"
-						   minlength="1" class="form-control required" placeholder="请输入过滤尺码范围">
+						   minlength="1" class="form-control required" placeholder="请输入过滤尺码范围"> 全部过滤：ALL。部分过滤：请以英文逗号分隔。
 				</div>
 			</div>
 

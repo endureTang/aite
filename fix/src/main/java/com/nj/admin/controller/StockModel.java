@@ -2,8 +2,7 @@ package com.nj.admin.controller;
 
 import com.nj.core.utils.excel.ExportFormat;
 
-public class StockModel
-{
+public class StockModel implements Comparable<StockModel>{
   private String id;
   @ExportFormat(name="编号", align="center", sort=1)
   private String stockNo;
@@ -122,5 +121,10 @@ public class StockModel
   public void setId(String id)
   {
     this.id = id;
+  }
+
+  @Override
+  public int compareTo(StockModel o) {
+    return stockNo.compareTo(o.getStockNo());
   }
 }

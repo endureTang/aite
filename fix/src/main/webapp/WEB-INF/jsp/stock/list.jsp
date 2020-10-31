@@ -9,7 +9,7 @@
 <!--</section>-->
 <!-- Content Header (Page header) -->
 
-<script type="text/javascript" src="<%=basePath%>static/js/jquery-1.5.1.min.js"></script>
+<%--<script type="text/javascript" src="<%=basePath%>static/js/jquery-1.5.1.min.js"></script>--%>
 <script type="text/javascript" src="<%=basePath%>plugins/zTree/jquery.ztree-2.6.min.js"></script>
 
 <section class="content-header">
@@ -155,24 +155,27 @@
 					$(cell).on("blur", ":input", function () {
 						var amount = $(this).val();
 						$(cell).html(amount);
-						$.ajax({
-							type: "POST",
-							url: 'editAmount',
-							data: {
-								id:rowData.id,
-								amount: amount
-							},
-							dataType: 'json',
-							cache: false,
-							success: function (data) {
-								refreshTable(true);
-								BootstrapDialog.show({
-									type: BootstrapDialog.TYPE_SUCCESS,
-									title: '操作结果提示',
-									message: "更新数量成功"
-								});
-							}
-						});
+						if(cellData != amount){
+							$.ajax({
+								type: "POST",
+								url: 'editAmount',
+								data: {
+									id:rowData.id,
+									amount: amount
+								},
+								dataType: 'json',
+								cache: false,
+								success: function (data) {
+									refreshTable(true);
+									BootstrapDialog.show({
+										type: BootstrapDialog.TYPE_SUCCESS,
+										title: '操作结果提示',
+										message: "更新数量成功"
+									});
+								}
+							});
+						}
+
 					})
 				}
 			}],

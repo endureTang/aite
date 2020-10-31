@@ -9,7 +9,7 @@
 <!--</section>-->
 <!-- Content Header (Page header) -->
 <base href="<%=basePath%>">
-<script type="text/javascript" src="<%=basePath%>static/js/jquery-1.5.1.min.js"></script>
+<%--<script type="text/javascript" src="<%=basePath%>static/js/jquery-1.5.1.min.js"></script>--%>
 <script type="text/javascript" src="<%=basePath%>plugins/zTree/jquery.ztree-2.6.min.js"></script>
 <section class="content-header">
 	<ol class="breadcrumb">

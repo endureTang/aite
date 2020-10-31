@@ -5,6 +5,7 @@ import com.nj.core.base.util.PageData;
 import com.nj.core.base.util.UuidUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,7 @@ public class StockController {
         try {
             HttpSession session = request.getSession();
             List<StockModel> list = (List) session.getAttribute("stockList");
+            Collections.sort(list);
             if ((list != null) && (list.size() > 0)) {
                 result.insertDataList(list);
                 result.put("draw", "draw");

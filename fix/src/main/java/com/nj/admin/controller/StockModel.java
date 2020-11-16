@@ -1,10 +1,9 @@
 package com.nj.admin.controller;
 
-import com.nj.core.utils.excel.ExportFormat;
 
 public class StockModel implements Comparable<StockModel>{
   private String id;
-  @ExportFormat(name="编号", align="center", sort=1)
+  @ExportFormat(name="货号", align="center", sort=1)
   private String stockNo;
   @ExportFormat(name="品名", align="center", sort=2)
   private String brandName;

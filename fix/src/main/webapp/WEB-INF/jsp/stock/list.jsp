@@ -24,6 +24,18 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="box">
+
+				<div class="box-header">
+					<label class="col-sm-3 control-label">尺码规则：
+						<select id="sizeType" name="strategyId" style="height:25px;font-size: 16px;width: 200px;">
+							<option value="1">系统自动生成</option>
+							<option value="2">用户自定义</option>
+						</select>
+					</label>
+					<label class="col-sm-3 control-label" id="sizeRang" style="display: none">
+						尺码区间：<input class="" type="text" id="sizeStart" name="sizeStart" style="height:25px;font-size: 16px;width: 120px;">-<input class="" type="text" id="sizeEnd" name="sizeEnd" style="height:25px;font-size: 16px;width: 120px;">
+					</label>
+				</div>
 				<div class="box-header">
 					<label class="col-sm-3 control-label">选择配件：
 						<select id="strategyId" name="strategyId" style="height:25px;font-size: 16px">
@@ -41,8 +53,6 @@
 					<label class="col-sm-3 control-label">
 						品&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：<input class="formVal" id="brandName" type="text" name="brandName" style="height:25px;font-size: 16px">
 					</label>
-
-
 				</div>
 				<div class="box-header">
 					<label class="col-sm-3 control-label">
@@ -71,6 +81,11 @@
 					<input type="button" class="btn btn-sm btn-primary" value="写入" onclick="doSubmit()">
 					<input type="button" class="btn btn-sm btn-custom role-del" onclick="clearData()" value="清除数据">
 					<a class="btn btn-sm btn-primary" href="<%=basePath%>/exportStockData">导出</a>
+					<button type="button" data-url="batchDelete"
+							data-msg="确定批量删除吗？" data-model="ajaxToDo" class="btn role-del btn-save btn-sm btn-danger"
+							data-checkbox-name="chx_default" data-callback="refreshTable">
+						<i class="fa fa-fw fa-remove"></i>批量删除
+					</button>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -78,6 +93,7 @@
 						   class="table table-primary table-bordered table-hover table-striped table-custom">
 						<thead>
 						<tr>
+							<th width="10px" style="padding-right: 12px;"><input type='checkbox' id="defaultCheck" /></th>
 							<th>货品编号</th>
 							<th>品名</th>
 							<th>规格</th>
@@ -105,6 +121,16 @@
 <script type="text/javascript">
 	var defTable;
 	$(document).ready(function() {
+
+		$('#sizeType').change(function(){
+			var sizeType = $("#sizeType").val();
+			if(sizeType=="2"){
+				$("#sizeRang").show();
+			}else{
+				$("#sizeRang").hide();
+			}
+		})
+
 		defTable = $('#default_table').DataTable( {
 			"ordering": false,
 			"paging": false, // 禁止分页
@@ -123,7 +149,9 @@
 			"language": {
 				"url": "<%=basePath%>static/AdminLTE/plugins/datatables/cn.txt"
 			},
-
+			"createdRow": function (row, data, index ) {
+				$('td:eq(0)', row).html("<input type='checkbox' name='chx_default' value='" + data.id + "'/>");
+			},
 			"columns": [
 				{ "data": "stockNo" },
 				{ "data": "brandName" },
@@ -136,7 +164,7 @@
 				{ "data": "remark" }
 			],
 			"columnDefs": [{
-				"targets": 9,
+				"targets": 10,
 				"render": function(data, type, row) {
 					var html = htmlTpl.dropdown.prefix
 							+ '  <li><a href="editStock?id='+row.id+'" data-model="dialog"><i class="fa fa-pencil"></i>修改</a></li>'
@@ -206,7 +234,17 @@
 		var discountPrice = $("#discountPrice").val();
 		var basePrice = $("#basePrice").val();
 		var remark = $("#remark").val();
-
+		var sizeType = $("#sizeType").val();
+		var sizeStart = $("#sizeStart").val();
+		var sizeEnd = $("#sizeEnd").val();
+		if(sizeType == 2 && (sizeStart == null || sizeStart == ''||sizeEnd == null || sizeEnd == '')){
+			BootstrapDialog.show({
+				type: BootstrapDialog.TYPE_WARNING,
+				title: '提示',
+				message: "自定义尺码不能为空",
+			});
+			return ;
+		}
 		if(stockNo == null || stockNo == ''){
 			BootstrapDialog.show({
 				type: BootstrapDialog.TYPE_WARNING,
@@ -243,6 +281,9 @@
 				discountPrice: discountPrice,
 				basePrice: basePrice,
 				remark: remark,
+				sizeType: sizeType,
+				sizeStart: sizeStart,
+				sizeEnd: sizeEnd,
 				price:price
 			},
 			dataType: 'json',

@@ -33,7 +33,8 @@
 						</select>
 					</label>
 					<label class="col-sm-3 control-label" id="sizeRang" style="display: none">
-						尺码区间：<input class="" type="text" id="sizeStart" name="sizeStart" style="height:25px;font-size: 16px;width: 120px;">-<input class="" type="text" id="sizeEnd" name="sizeEnd" style="height:25px;font-size: 16px;width: 120px;">
+						尺码区间：<input class="" type="text" id="sizeStart" name="sizeStart" style="height:25px;font-size: 16px;width: 31%;">-
+						<input class="" type="text" id="sizeEnd" name="sizeEnd" style="height:25px;font-size: 16px;width: 31%;">
 					</label>
 				</div>
 				<div class="box-header">
@@ -153,6 +154,7 @@
 				$('td:eq(0)', row).html("<input type='checkbox' name='chx_default' value='" + data.id + "'/>");
 			},
 			"columns": [
+				{ "data": "id" },
 				{ "data": "stockNo" },
 				{ "data": "brandName" },
 				{ "data": "spec" },
@@ -173,7 +175,7 @@
 					return html;
 				}
 			},{
-				"targets": 4,
+				"targets": 5,
 				createdCell: function (cell, cellData, rowData, rowIndex, colIndex) {
 					$(cell).click(function () {
 						$(this).html('<input type="text" size="1" style="width: 100%"/>');

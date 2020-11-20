@@ -295,7 +295,7 @@ table.dataTable thead > tr > th. {
 }
 .box .box-header {
   background: #fff;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 .box .box-header button[type="button"] {
   float: right;

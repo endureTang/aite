@@ -76,7 +76,7 @@ public class StockController {
     }
 
     private static final String MAN_SHOES = ",39,40,40.5,41,42,42.5,43,44,44.5,45,";
-    private static final String WOMAN_SHOES = ",36,36.5,37,38,38.5,39,";
+    private static final String WOMAN_SHOES = ",36,36.5,37,38,38.5,39,40，";
     private static final String MID_SHOES = ",36,36.5,37,38,38.5,39,40,40.5,41,42,42.5,43,44,44.5,45,";
     private static final String MAN_CLOTHES = ",XS,S,M,L,XL,XXL,";
     private static final String WOMAN_CLOTHES = ",XS,S,M,L,XL,";

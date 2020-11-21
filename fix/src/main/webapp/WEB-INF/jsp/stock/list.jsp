@@ -43,9 +43,13 @@
 							<option value="1">男鞋</option>
 							<option value="2">女鞋</option>
 							<option value="3">中性鞋</option>
-							<option value="4">男装</option>
-							<option value="5">女装</option>
-							<option value="6">三叶草女装（数字尺码）</option>
+							<option value="4">童鞋</option>
+							<option value="5">男装</option>
+							<option value="6">女装</option>
+							<option value="7">三叶草男装</option>
+							<option value="8">三叶草女装</option>
+							<option value="9">服装日本</option>
+							<option value="10">童装</option>
 						</select>
 					</label>
 					<label class="col-sm-3 control-label">
@@ -291,12 +295,21 @@
 			dataType: 'json',
 			cache: false,
 			success: function (data) {
-				refreshTable(true);
-				BootstrapDialog.show({
-					type: BootstrapDialog.TYPE_SUCCESS,
-					title: '操作结果提示',
-					message: "写入成功"
-				});
+				if(data == 200){
+					refreshTable(true);
+					BootstrapDialog.show({
+						type: BootstrapDialog.TYPE_SUCCESS,
+						title: '操作结果提示',
+						message: "写入成功"
+					});
+				}else{
+					BootstrapDialog.show({
+						type: BootstrapDialog.TYPE_SUCCESS,
+						title: '操作结果提示',
+						message: "没有找到自定义的尺码"
+					});
+				}
+
 			}
 		});
 	}

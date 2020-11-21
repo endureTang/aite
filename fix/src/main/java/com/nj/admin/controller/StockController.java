@@ -53,7 +53,12 @@ public class StockController {
         if (mapList == null) {
             mapList = new ArrayList();
         }
-        List<String> list = generateSpec(type,sizeType,sizeStart,sizeEnd);
+        List<String> list = null;
+        try {
+            list = generateSpec(type,sizeType,sizeStart,sizeEnd);
+        } catch (Exception e) {
+            return "100";
+        }
         for (int i = 0; i < list.size(); i++) {
             if(list.get(i).equals("")){
                 continue;
@@ -75,12 +80,27 @@ public class StockController {
         return "200";
     }
 
-    private static final String MAN_SHOES = ",39,40,40.5,41,42,42.5,43,44,44.5,45,";
-    private static final String WOMAN_SHOES = ",36,36.5,37,38,38.5,39,40,";
+    //男鞋
+    private static final String MAN_SHOES = ",39,40,40.5,41,42,42.5,43,44,44.5,45,46,46.5,47,48,";
+    //女鞋
+    private static final String WOMAN_SHOES = ",35,35.5,36,36.5,37,38,38.5,39,40,";
+    //中性鞋
     private static final String MID_SHOES = ",36,36.5,37,38,38.5,39,40,40.5,41,42,42.5,43,44,44.5,45,";
-    private static final String MAN_CLOTHES = ",XS,S,M,L,XL,XXL,";
-    private static final String WOMAN_CLOTHES = ",XS,S,M,L,XL,";
-    private static final String SANYE_CLOTHES = ",30,32,34,36,38,40,";
+    //童鞋
+    private static final String CHILD_SHOES = ",2K,3K,4K,5K,5.5K,6K,6.5K,7K,7.5K,8K,8.5K,9K,9.5K,10K,10.5K,11K,11.5K,12K,12.5K,13K,13.5K,1UK,1.5UK,2UK,2.5UK,3UK,3.5UK,4UK,4.5UK,5UK,5.5UK,6UK,6.5UK,";
+    //男装
+    private static final String MAN_CLOTHES = ",XS,S,M,L,XL,XXL,XXXL,";
+    //女装
+    private static final String WOMAN_CLOTHES = ",XXS,XS,S,M,L,XL,XXL,";
+    //三叶草男装
+    private static final String SANYE_MAN_CLOTHES = ",42,46,50,54,58,62,64,";
+    //三叶草女装
+    private static final String SANYE_WOMAN_CLOTHES = ",30,32,34,36,38,40,42,";
+    //服装日本码
+    private static final String JAPAN_CLOTHES = ",J/XS,J/S,J/M,J/L,J/O,J/XO,";
+    //童装尺码
+    private static final String CHILD_CLOTHES = ",68,74,80,86,90,92,98,104,110,116,122,128,134,140,152,164,176,";
+
     public static void main(String[] args) {
         String sta = ",40,";
         String end = ",42,";
@@ -89,15 +109,19 @@ public class StockController {
         String s = MAN_SHOES.substring(i, j+end.length());
         System.out.println(s);
     }
-    private String sizeSub(String sizeStart,String sizeEnd,String string){
-        String sizeStartTemp = ","+sizeStart+",";
-        String sizeEndTemp = ","+sizeEnd+",";
-        int i = string.indexOf(sizeStartTemp);
-        int j = string.indexOf(sizeEndTemp);
-        String s = string.substring(i, j+sizeEndTemp.length());
-        return s;
+    private String sizeSub(String sizeStart,String sizeEnd,String string) throws Exception {
+        try {
+            String sizeStartTemp = ","+sizeStart+",";
+            String sizeEndTemp = ","+sizeEnd+",";
+            int i = string.indexOf(sizeStartTemp);
+            int j = string.indexOf(sizeEndTemp);
+            String s = string.substring(i, j+sizeEndTemp.length());
+            return s;
+        } catch (Exception e) {
+            throw new Exception("没有找到自定义的尺码");
+        }
     }
-    private List<String> generateSpec(String type,String sizeType,String sizeStart,String sizeEnd) {
+    private List<String> generateSpec(String type,String sizeType,String sizeStart,String sizeEnd) throws Exception {
         List<String> specList = new ArrayList();
         if(sizeType.equals("1")){ //如果是系统尺码、规格
             if (type.equals("1")) {
@@ -107,15 +131,21 @@ public class StockController {
             } else if (type.equals("3")) {
                 specList = Arrays.asList(MID_SHOES.split(","));
             } else if (type.equals("4")) {
-                specList = Arrays.asList(MAN_CLOTHES.split(","));
+                specList = Arrays.asList(CHILD_SHOES.split(","));
             } else if (type.equals("5")) {
-                specList = Arrays.asList(WOMAN_CLOTHES.split(","));
+                specList = Arrays.asList(MAN_CLOTHES.split(","));
             } else if (type.equals("6")) {
-                specList = Arrays.asList(SANYE_CLOTHES.split(","));
+                specList = Arrays.asList(WOMAN_CLOTHES.split(","));
+            }else if (type.equals("7")) {
+                specList = Arrays.asList(SANYE_MAN_CLOTHES.split(","));
+            }else if (type.equals("8")) {
+                specList = Arrays.asList(SANYE_WOMAN_CLOTHES.split(","));
+            }else if (type.equals("9")) {
+                specList = Arrays.asList(JAPAN_CLOTHES.split(","));
+            }else if (type.equals("10")) {
+                specList = Arrays.asList(CHILD_CLOTHES.split(","));
             }
         }else{//如果是用户自定义输入的尺码区间，截取系统尺码表
-            int startIndex;
-            int endIndex;
             if (type.equals("1")) {
                 String tempSize = sizeSub(sizeStart, sizeEnd, MAN_SHOES);
                 specList = Arrays.asList(tempSize.split(","));
@@ -126,75 +156,29 @@ public class StockController {
                 String tempSize = sizeSub(sizeStart, sizeEnd, MID_SHOES);
                 specList = Arrays.asList(tempSize.split(","));
             } else if (type.equals("4")) {
-                String tempSize = sizeSub(sizeStart, sizeEnd, MAN_CLOTHES);
+                String tempSize = sizeSub(sizeStart, sizeEnd, CHILD_SHOES);
                 specList = Arrays.asList(tempSize.split(","));
             } else if (type.equals("5")) {
-                String tempSize = sizeSub(sizeStart, sizeEnd, WOMAN_CLOTHES);
+                String tempSize = sizeSub(sizeStart, sizeEnd, MAN_CLOTHES);
                 specList = Arrays.asList(tempSize.split(","));
             } else if (type.equals("6")) {
-                String tempSize = sizeSub(sizeStart, sizeEnd, SANYE_CLOTHES);
+                String tempSize = sizeSub(sizeStart, sizeEnd, WOMAN_CLOTHES);
+                specList = Arrays.asList(tempSize.split(","));
+            }else if (type.equals("7")) {
+                String tempSize = sizeSub(sizeStart, sizeEnd, SANYE_MAN_CLOTHES);
+                specList = Arrays.asList(tempSize.split(","));
+            }else if (type.equals("8")) {
+                String tempSize = sizeSub(sizeStart, sizeEnd, SANYE_WOMAN_CLOTHES);
+                specList = Arrays.asList(tempSize.split(","));
+            }else if (type.equals("9")) {
+                String tempSize = sizeSub(sizeStart, sizeEnd, JAPAN_CLOTHES);
+                specList = Arrays.asList(tempSize.split(","));
+            }else if (type.equals("10")) {
+                String tempSize = sizeSub(sizeStart, sizeEnd, CHILD_CLOTHES);
                 specList = Arrays.asList(tempSize.split(","));
             }
         }
         return specList;
-
-//        List<String> specList = new ArrayList();
-//        if (type.equals("1")) {
-//            specList.add("39");
-//            specList.add("40");
-//            specList.add("40.5");
-//            specList.add("41");
-//            specList.add("42");
-//            specList.add("42.5");
-//            specList.add("43");
-//            specList.add("44");
-//            specList.add("44.5");
-//            specList.add("45");
-//        } else if (type.equals("2")) {
-//            specList.add("36");
-//            specList.add("36.5");
-//            specList.add("37");
-//            specList.add("38");
-//            specList.add("38.5");
-//            specList.add("39");
-//        } else if (type.equals("3")) {
-//            specList.add("36");
-//            specList.add("36.5");
-//            specList.add("37");
-//            specList.add("38");
-//            specList.add("38.5");
-//            specList.add("39");
-//            specList.add("40");
-//            specList.add("40.5");
-//            specList.add("41");
-//            specList.add("42");
-//            specList.add("42.5");
-//            specList.add("43");
-//            specList.add("44");
-//            specList.add("44.5");
-//            specList.add("45");
-//        } else if (type.equals("4")) {
-//            specList.add("XS");
-//            specList.add("S");
-//            specList.add("M");
-//            specList.add("L");
-//            specList.add("XL");
-//            specList.add("XXL");
-//        } else if (type.equals("5")) {
-//            specList.add("XS");
-//            specList.add("S");
-//            specList.add("M");
-//            specList.add("L");
-//            specList.add("XL");
-//        } else if (type.equals("6")) {
-//            specList.add("30");
-//            specList.add("32");
-//            specList.add("34");
-//            specList.add("36");
-//            specList.add("38");
-//            specList.add("40");
-//        }
-//        return specList;
     }
 
     @RequestMapping({"clearStockData"})

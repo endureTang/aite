@@ -100,15 +100,9 @@ public class StockController {
     private static final String JAPAN_CLOTHES = ",J/XS,J/S,J/M,J/L,J/O,J/XO,";
     //童装尺码
     private static final String CHILD_CLOTHES = ",68,74,80,86,90,92,98,104,110,116,122,128,134,140,152,164,176,";
+    //欧洲尺码
+    private static final String EUROPE_CLOTHES = ",XST,ST,MT,LT,XLT,XXLT,XXXLT,";
 
-    public static void main(String[] args) {
-        String sta = ",40,";
-        String end = ",42,";
-        int i = MAN_SHOES.indexOf(sta);
-        int j = MAN_SHOES.indexOf(end);
-        String s = MAN_SHOES.substring(i, j+end.length());
-        System.out.println(s);
-    }
     private String sizeSub(String sizeStart,String sizeEnd,String string) throws Exception {
         try {
             String sizeStartTemp = ","+sizeStart+",";
@@ -144,6 +138,8 @@ public class StockController {
                 specList = Arrays.asList(JAPAN_CLOTHES.split(","));
             }else if (type.equals("10")) {
                 specList = Arrays.asList(CHILD_CLOTHES.split(","));
+            }else if (type.equals("11")) {
+                specList = Arrays.asList(EUROPE_CLOTHES.split(","));
             }
         }else{//如果是用户自定义输入的尺码区间，截取系统尺码表
             if (type.equals("1")) {
@@ -175,6 +171,9 @@ public class StockController {
                 specList = Arrays.asList(tempSize.split(","));
             }else if (type.equals("10")) {
                 String tempSize = sizeSub(sizeStart, sizeEnd, CHILD_CLOTHES);
+                specList = Arrays.asList(tempSize.split(","));
+            }else if (type.equals("11")) {
+                String tempSize = sizeSub(sizeStart, sizeEnd, EUROPE_CLOTHES);
                 specList = Arrays.asList(tempSize.split(","));
             }
         }

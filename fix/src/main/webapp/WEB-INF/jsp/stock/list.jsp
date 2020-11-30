@@ -50,6 +50,7 @@
 							<option value="8">三叶草女装</option>
 							<option value="9">服装日本</option>
 							<option value="10">童装</option>
+							<option value="11">欧码服装</option>
 						</select>
 					</label>
 					<label class="col-sm-3 control-label">

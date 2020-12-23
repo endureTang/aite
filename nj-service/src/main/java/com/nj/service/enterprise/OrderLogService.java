@@ -64,11 +64,11 @@ public class OrderLogService {
 	private LoanService loanService;
 	@Resource
 	private NjLoanOrderCapitalChannelMapperExtend  njLoanOrderCapitalChannelMapperExtend;
-	@Autowired
+	@Resource
 	NjLoanOrderMapper loanOrderMapper;
-	@Autowired
+	@Resource
 	private NjOrderFeeMapperExtend njOrderFeeMapperExtend;
-	@Autowired
+	@Resource
 	private NjOrderFeeMapper njOrderFeeMapper;
 
 	@SuppressWarnings("rawtypes")

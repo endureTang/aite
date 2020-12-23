@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.nj.core.base.enums.ELoanOrderStatus;
 import com.nj.dao.extend.NjLoanOrderMapperExtend;
 
+import javax.annotation.Resource;
+
 /**
  * 
  * @Name com.nj.service.enterprise.DBSumHalfSizeFilterService
@@ -22,7 +24,7 @@ import com.nj.dao.extend.NjLoanOrderMapperExtend;
 @Service
 public class DBCalculateHalfSizeFilterService extends AbstractHalfSizeFilterService {
 
-	@Autowired
+	@Resource
 	private NjLoanOrderMapperExtend orderMapper;
 
 	/**

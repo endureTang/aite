@@ -16,6 +16,8 @@ import com.nj.model.generate.NjLoanOrder;
 import com.nj.model.generate.NjProcessOrderFlows;
 import com.nj.service.process.IAutoProcess;
 
+import javax.annotation.Resource;
+
 /**
  * @Name com.nj.service.process.shunt.AverageShunt
  * @Description 平均分配
@@ -25,8 +27,8 @@ import com.nj.service.process.IAutoProcess;
  */
 @Service("averageShunt")
 public class AverageShunt extends BaseShunt implements IAutoProcess {
-    @Autowired
-    NjProcessMapperExtend processMapper;
+    @Resource
+    NjProcessMapperExtend njProcessMapperExtend;
 
     /**
      * 统计派单情况
@@ -37,7 +39,7 @@ public class AverageShunt extends BaseShunt implements IAutoProcess {
     protected List<ExamineUserDO> statShunt(String orderId) {
         String today = DateUtil.getDay() + " 00:00:00";
         NjLoanOrder order = orderMapper.selectByPrimaryKey(orderId);
-        return processMapper.statShunt(today, order.getProductId());
+        return njProcessMapperExtend.statShunt(today, order.getProductId());
     }
 
     /**

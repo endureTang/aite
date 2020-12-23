@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.annotation.Transient;
-
 import com.nj.core.base.util.DateUtil;
 import com.nj.core.utils.excel.ExportFormat;
 import com.nj.core.utils.excel.ExportFormatConstant;
@@ -80,8 +78,6 @@ public class RepayPlanNew extends MongoEntity implements Comparable<RepayPlanNew
 
     @ApiModelProperty(value = "扣款方式：参考枚举EDeductType ；默认0")
     private Integer repayType;
-
-    @Transient
     private List<RepayPlanDetaileNew> listRepayPlanDetaileNew;
 
 

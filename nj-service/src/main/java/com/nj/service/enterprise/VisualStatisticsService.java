@@ -19,6 +19,8 @@ import com.nj.model.generate.NjOrderAreaExample;
 import com.nj.model.generate.NjStatisticsOrder;
 import com.nj.model.generate.NjStatisticsOrderExample;
 
+import javax.annotation.Resource;
+
 /**
  * enterprise页面统计用
  * @author wkh
@@ -29,13 +31,13 @@ public class VisualStatisticsService extends BaseCachesService{
 
 	Logger logger = LoggerFactory.getLogger(VisualStatisticsService.class);
 	
-	@Autowired
+	@Resource
 	private NjLoanOrderMapperExtend njLoanOrderMapperExtend;
-	@Autowired
+	@Resource
 	private NjStatisticsOrderMapper njStatisticsOrderMapper;
-	@Autowired
+	@Resource
 	private NjOrderAreaMapper njOrderAreaMapper;
-	@Autowired
+	@Resource
 	private NjStatisticsOrderMapperExtend njStatisticsOrderMapperExtend;
 	
 	/**

@@ -44,7 +44,6 @@ import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.mail.MailSendException;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 import com.nj.core.base.util.mail.MailSenderInfo;

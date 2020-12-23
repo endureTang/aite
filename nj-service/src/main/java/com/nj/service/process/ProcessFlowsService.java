@@ -198,8 +198,8 @@ public class ProcessFlowsService {
 	 * @throws Exception
 	 */
 	public NjProcessTemplateFlows selectCurrentProcess(String orderId, String templateId) throws Exception {
-		NjProcessMapperExtend processMapper = dao.getMapper(NjProcessMapperExtend.class);
-		return processMapper.selectCurrentProcess(orderId, templateId);
+		NjProcessMapperExtend njProcessMapperExtend = dao.getMapper(NjProcessMapperExtend.class);
+		return njProcessMapperExtend.selectCurrentProcess(orderId, templateId);
 	}
 	
 	/**
@@ -247,7 +247,7 @@ public class ProcessFlowsService {
 	/**
 	 * 保存手动分单信息
 	 * 
-	 * @param orderIds
+	 * @param orderId
 	 * @param users
 	 * @throws Exception
 	 */
@@ -272,7 +272,7 @@ public class ProcessFlowsService {
 	/**
 	 * 信用类产品手动分单信息
 	 * 
-	 * @param orderIds
+	 * @param order
 	 * @param users
 	 * @throws Exception
 	 */
@@ -304,7 +304,7 @@ public class ProcessFlowsService {
 	/**
 	 * 房屋类产品手动分单信息
 	 * 
-	 * @param orderIds
+	 * @param order
 	 * @param users
 	 * @throws Exception
 	 */
@@ -496,7 +496,7 @@ public class ProcessFlowsService {
 	/**
 	 * 查询第一个手动过程之前的过程
 	 * 
-	 * @param productId
+	 * @param orderId
 	 * @return
 	 * @throws Exception
 	 */

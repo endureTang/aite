@@ -37,25 +37,27 @@ import com.nj.model.generate.NjUserBasicInfoExample;
 import com.nj.model.generate.NjUserInfo;
 import com.nj.model.vo.CustomerRelationListVo;
 
+import javax.annotation.Resource;
+
 @Service("njAppUserService")
 @Transactional(readOnly=true)
 public class NjAppUserService {
 	
 	private static Logger logger = LoggerFactory.getLogger(NjAppUserService.class);
 
-	@Autowired
+	@Resource
 	private NjAppUserMapperExtend njAppUserMapperExtend;
-	@Autowired
+	@Resource
 	private NjAppUserMapper njAppUserMapper;
-	@Autowired
+	@Resource
 	private NjProcessOrderFlowsMapper njProcessOrderFlowsMapper;
-	@Autowired
+	@Resource
 	private NjLoanOrderMapper njLoanOrderMapper;
-	@Autowired
+	@Resource
 	private NjUserInfoMapper njUserInfoMapper;
-	@Autowired
+	@Resource
 	private NjAppUserBusicommUpdateMapper njAppUserBusicommUpdateMapper;
-	@Autowired
+	@Resource
 	private NjUserBasicInfoMapper njUserBasicInfoMapper;
 	
 	/**

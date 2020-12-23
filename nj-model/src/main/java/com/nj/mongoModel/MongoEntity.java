@@ -1,17 +1,15 @@
 package com.nj.mongoModel;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.sun.corba.se.spi.ior.ObjectId;
 
-import org.bson.types.ObjectId;
 public class MongoEntity {
     @JSONField(name = "_id", ordinal = 0, serialize = false)
     protected String id;
 
     public ObjectId getObjectId() {
-        if (this.id == null) {
-            return null;
-        }
-        return new ObjectId(this.id);
+        return null;
+
     }
 
     public String getId() {

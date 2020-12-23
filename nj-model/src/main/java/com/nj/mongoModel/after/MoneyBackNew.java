@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.annotation.Transient;
-
 import com.alibaba.fastjson.annotation.JSONField;
 import com.nj.core.base.util.DateUtil;
 import com.nj.core.utils.excel.ExportFormat;
@@ -84,10 +82,7 @@ public class MoneyBackNew extends MongoEntity {
     private Integer repayType;
 
     @ApiModelProperty(value = "企业名称")
-    @Transient
     private String coporateName;
-
-    @Transient
     private List<MoneyBackDetaileNew> listMoneyBackDetaileNew;
     @ApiModelProperty(value = "扣款状态：1暂停扣款；默认0")
     private Integer status;

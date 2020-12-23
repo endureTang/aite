@@ -14,6 +14,8 @@ import com.nj.core.base.enums.ELoanOrderStatus;
 import com.nj.dao.extend.NjLoanOrderMapperExtend;
 import com.nj.model.generate.NjLoanOrder;
 
+import javax.annotation.Resource;
+
 /**
  * 
  * @Name com.nj.service.enterprise.MemoryCalculateSizeFilterService
@@ -28,7 +30,7 @@ import com.nj.model.generate.NjLoanOrder;
 @Primary
 public class MemoryCalculateSizeFilterService implements SizeFilterService {
 
-	@Autowired
+	@Resource
 	private NjLoanOrderMapperExtend orderMapperExtend;
 
 	@Override

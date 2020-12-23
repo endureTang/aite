@@ -25,6 +25,8 @@ import com.nj.model.generate.NjLegalerCreditCompanyExample;
 import com.nj.model.generate.NjNaturalerCreditCompany;
 import com.nj.model.generate.NjNaturalerCreditCompanyExample;
 
+import javax.annotation.Resource;
+
 /**
  * 企业进件时，企业订单相关的service
  */
@@ -32,15 +34,15 @@ import com.nj.model.generate.NjNaturalerCreditCompanyExample;
 @Service("orderCompanyService")
 public class OrderCompanyService extends BaseCachesService{
 	
-	@Autowired
+	@Resource
 	private NjCreditCompanyMapper njCreditCompanyMapper;
-	@Autowired
+	@Resource
 	private NjLegalerCreditCompanyMapper njLegalerCreditCompanyMapper;
-	@Autowired
+	@Resource
 	private NjControllerCreditCompanyMapper njControllerCreditCompanyMapper;
-	@Autowired
+	@Resource
 	private NjNaturalerCreditCompanyMapper njNaturalerCreditCompanyMapper;
-	@Autowired
+	@Resource
 	private NjExtdataCompanyMapper njExtdataCompanyMapper;
 	
 	/**

@@ -11,6 +11,8 @@ import com.nj.dao.extend.NjProcessMapperExtend;
 import com.nj.model.generate.NjLoanOrderCheckRecord;
 import com.nj.model.generate.NjLoanOrderCheckRecordExample;
 
+import javax.annotation.Resource;
+
 /**
  * 
  * @Name com.nj.service.enterprise.AfterLoanOrderService
@@ -24,7 +26,7 @@ import com.nj.model.generate.NjLoanOrderCheckRecordExample;
 @Service
 public class AfterLoanOrderService {
 	
-	@Autowired
+	@Resource
 	NjProcessMapperExtend processMapperExtend;
 	/**
 	 * 获取贷后人工核查信息

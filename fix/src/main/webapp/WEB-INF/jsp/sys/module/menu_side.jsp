@@ -13,6 +13,7 @@
 			<!-- Optionally, you can add icons to the links -->
 			<li><a href="${ctx}/goIndex" data-target="navTab" selected-css="true"><i class="fa fa-caret-right"></i>改价表格</a></li>
 			<li><a href="${ctx}/goStock" data-target="navTab" selected-css="true"><i class="fa fa-caret-right"></i>入库表格</a></li>
+			<li><a href="${ctx}/stockQueryApi/goQueryStock" data-target="navTab" selected-css="true"><i class="fa fa-caret-right"></i>库存查询</a></li>
 		</ul>
 		<!-- /.sidebar-menu -->
 	</section>

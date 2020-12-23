@@ -25,19 +25,21 @@ import com.nj.model.generate.NjOrderContract;
 import com.nj.model.generate.NjOrderContractExample;
 import com.nj.model.generate.NjProductContractTemplate;
 
+import javax.annotation.Resource;
+
 @Service("orderContractService")
 public class OrderContractService {
 
-	@Autowired
+	@Resource
 	private NjOrderContractMapper NjOrderContractMapper;
 	
-	@Autowired
+	@Resource
 	private NjProductContractTemplateMapper njProductContractTemplateMapper;
 
-	@Autowired
+	@Resource
 	private NjOrderContractMapperExtend NjOrderContractMapperExtend;
 	
-	@Autowired
+	@Resource
 	private NjLoanOrderMapperExtend njLoanOrderMapperExtend;
 
 	/**

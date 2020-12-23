@@ -1,9 +1,6 @@
 package com.nj.mongoModel.after;
 
 import java.math.BigDecimal;
-
-import org.springframework.data.annotation.Transient;
-
 import com.nj.mongoModel.MongoEntity;
 
 import io.swagger.annotations.ApiModel;
@@ -28,7 +25,6 @@ public class MoneyBackDetaileNew extends MongoEntity{
 	private BigDecimal businessFeeValue;
 	
 	@ApiModelProperty(value = "业务费用的名称")
-	@Transient
 	private String businessFeeName;
 	
 	@ApiModelProperty(value = "数据类型：his 的时候为历史数据")

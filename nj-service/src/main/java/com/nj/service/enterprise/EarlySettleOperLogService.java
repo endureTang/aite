@@ -7,11 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nj.dao.EarlySettleOperLogMapper;
 import com.nj.model.generate.EarlySettleOperLog;
 
+import javax.annotation.Resource;
+
 @Service
 @Transactional(readOnly=true)
 public class EarlySettleOperLogService {
 
-	@Autowired
+	@Resource
 	private EarlySettleOperLogMapper earlySettleOperLogMapper;
 	
 	@Transactional(rollbackFor={Throwable.class})

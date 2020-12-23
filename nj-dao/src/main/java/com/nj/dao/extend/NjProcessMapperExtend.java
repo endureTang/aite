@@ -69,7 +69,7 @@ public interface NjProcessMapperExtend {
     Map<String,String> selectCheckRecord(@Param("orderId")String orderId,@Param("dateType")int dateType);
     /**
      * 查询产品手动审核流程
-     * @param productId
+     * @param param
      * @return
      */
     List<NjProcessTemplateFlows> selectCheckProcessByProductId(Map<String, Object> param);

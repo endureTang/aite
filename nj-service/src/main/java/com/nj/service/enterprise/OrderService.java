@@ -73,8 +73,8 @@ public class OrderService extends BaseCachesService {
 	/*
 	 * @Resource(name = "BaseDao") private BaseDao dao;
 	 */
-	@Resource
-	private ManualProcess manualProcess;
+//	@Resource
+//	private ManualProcess manualProcess;
 
 	@Resource(name = "tfcfHttpService")
 	private TfcfHttpService tfcfHttpService;
@@ -88,7 +88,7 @@ public class OrderService extends BaseCachesService {
 	@Resource
 	private NjOrderUpdateLogMapperExtend orderUpdateLogMapperExtend;
 
-	@Autowired
+	@Resource
 	private SizeFilterService filterService;
 	@Resource
 	private NjCoporateMapper njCoporateMapper;
@@ -107,10 +107,10 @@ public class OrderService extends BaseCachesService {
 	@Resource(name = "userBankCardService")
 	private UserBankCardService userBankCardService;
 
-	@Autowired
+	@Resource
 	private RepayPlanNewService repayPlanNewService;
 	
-	@Autowired
+	@Resource
 	private BhDataService bhDataService;
 
 	@Resource
@@ -1010,8 +1010,8 @@ public class OrderService extends BaseCachesService {
 					logger.error("订单：" + ord.get("orderId") + " 资产推送成功，开始进行下一个流程...");
 					NjProcessTemplateFlows corporeProcess = processMapperExtend.selectProcessTemplateByOrderProcess(
 							(String) ord.get("orderId"), EProcessInfo.SEND_MARK.getId());
-					manualProcess.execManualProcess((String) ord.get("orderId"), "SYSTEM", corporeProcess,
-							EProcessResult.AGREE, "");
+//					manualProcess.execManualProcess((String) ord.get("orderId"), "SYSTEM", corporeProcess,
+//							EProcessResult.AGREE, "");
 				}
 			}
 			logger.info("调用财富端生成天府财富项目结束。");
@@ -1941,13 +1941,13 @@ public class OrderService extends BaseCachesService {
 	}
 
 	@Transactional(readOnly = false, rollbackFor = { Throwable.class })
-	private void saveOrderApplyInfo(PageData pd) throws Exception {
+	void saveOrderApplyInfo(PageData pd) throws Exception {
 		NjLoanOrderMapperExtend mapper = dao.getMapper(NjLoanOrderMapperExtend.class);
 		mapper.saveOrderApplyInfo(pd);
 	}
 
 	@Transactional(readOnly = false, rollbackFor = { Throwable.class })
-	private void saveLoanOrderUserBaseInfo(PageData pd) throws Exception {
+	void saveLoanOrderUserBaseInfo(PageData pd) throws Exception {
 		NjLoanOrderMapperExtend mapper = dao.getMapper(NjLoanOrderMapperExtend.class);
 		mapper.saveLoanOrderUserBaseInfo(pd);
 	}
@@ -1962,7 +1962,7 @@ public class OrderService extends BaseCachesService {
 	 * 
 	 */
 	@Transactional(readOnly = false, rollbackFor = { Throwable.class })
-	private void saveLoanOrderUserWorkInfo(PageData pd, String orderId, String userId) throws Exception {
+	void saveLoanOrderUserWorkInfo(PageData pd, String orderId, String userId) throws Exception {
 		NjLoanOrderMapperExtend mapper = dao.getMapper(NjLoanOrderMapperExtend.class);
 		String workId = pd.getString("workId");
 		if (StringUtils.isEmpty(workId)) {
@@ -2032,7 +2032,7 @@ public class OrderService extends BaseCachesService {
 	 * @throws Exception
 	 */
 	@Transactional(readOnly = false, rollbackFor = { Throwable.class })
-	private void saveUserRelatives(List<NjUserRelatives> urList, String orderId, String userId) throws Exception {
+	void saveUserRelatives(List<NjUserRelatives> urList, String orderId, String userId) throws Exception {
 		NjAppUserRelativesMapperExtend mapper = dao.getMapper(NjAppUserRelativesMapperExtend.class);
 		NjUserRelativesMapper userRelativeMapper = dao.getMapper(NjUserRelativesMapper.class);
 		NjOrderRelativeMapper orderRelativeMapper = dao.getMapper(NjOrderRelativeMapper.class);
@@ -2066,7 +2066,7 @@ public class OrderService extends BaseCachesService {
 	 * @throws Exception
 	 */
 	@Transactional(readOnly = false, rollbackFor = { Throwable.class })
-	private void saveSpouseRelatives(NjUserRelatives spouse, String orderId, String userId) throws Exception {
+	void saveSpouseRelatives(NjUserRelatives spouse, String orderId, String userId) throws Exception {
 		NjAppUserRelativesMapperExtend mapper = dao.getMapper(NjAppUserRelativesMapperExtend.class);
 		if (StringUtils.isEmpty(spouse.getId())) {
 			// 新增配偶信息
@@ -2099,7 +2099,7 @@ public class OrderService extends BaseCachesService {
 	 * @throws Exception
 	 */
 	@Transactional(readOnly = false, rollbackFor = { Throwable.class })
-	private void savePawnHouse(NjOrderPawnHouse njOrderPawnHouse, String orderId, String userId, String sysUserId)
+	void savePawnHouse(NjOrderPawnHouse njOrderPawnHouse, String orderId, String userId, String sysUserId)
 			throws ParamsException, ExistException, Exception {
 		NjAppUserRelativesMapperExtend mapper = dao.getMapper(NjAppUserRelativesMapperExtend.class);
 		NjOrderPawnHouseMapper orderPawnHouseMapper = dao.getMapper(NjOrderPawnHouseMapper.class);
@@ -2174,7 +2174,7 @@ public class OrderService extends BaseCachesService {
 	 * @throws Exception
 	 */
 	@Transactional(readOnly = false, rollbackFor = { Throwable.class })
-	private void saveHouseInfo(NjUserHouse njUserHouse, String orderId, String userId, String sysUserId)
+	void saveHouseInfo(NjUserHouse njUserHouse, String orderId, String userId, String sysUserId)
 			throws Exception {
 		NjAppUserRelativesMapperExtend mapper = dao.getMapper(NjAppUserRelativesMapperExtend.class);
 		NjUserHouseMapper userHouseMapper = dao.getMapper(NjUserHouseMapper.class);
@@ -2212,7 +2212,7 @@ public class OrderService extends BaseCachesService {
 	 * @throws Exception
 	 */
 	@Transactional(readOnly = false, rollbackFor = { Throwable.class })
-	private void saveDebtInfo(List<NjUserDebtInfo> list, String orderId, String userId) throws Exception {
+	void saveDebtInfo(List<NjUserDebtInfo> list, String orderId, String userId) throws Exception {
 		NjAppUserRelativesMapperExtend mapper = dao.getMapper(NjAppUserRelativesMapperExtend.class);
 		NjUserDebtInfoMapper debtMapper = dao.getMapper(NjUserDebtInfoMapper.class);
 		NjOrderDebtMapper orderDebtMapper = dao.getMapper(NjOrderDebtMapper.class);

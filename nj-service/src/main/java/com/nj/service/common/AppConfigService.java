@@ -13,10 +13,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
+
 @Configuration
 public class AppConfigService {
 
-	@Autowired
+	@Resource
     private Environment env;
 
 	private static Properties properties= new Properties();
@@ -27,7 +29,7 @@ public class AppConfigService {
 	/**
 	 * spring mvc 配置使用
 	 */
-	/*public AppConfigService(@Autowired List<String> files){
+	/*public AppConfigService(@Resource List<String> files){
 		properties.clear();
 		for(String file: files){
 			if(!StringUtils.isEmpty(file)){

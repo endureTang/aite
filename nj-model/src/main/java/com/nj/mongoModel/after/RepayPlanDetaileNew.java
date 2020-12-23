@@ -2,8 +2,6 @@ package com.nj.mongoModel.after;
 
 import java.math.BigDecimal;
 
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
 
 import com.nj.mongoModel.MongoEntity;
 
@@ -15,9 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
  * 记录还款计划的所有明细费用项
  */
 @ApiModel(description="还款计划明细表")
-@CompoundIndexes({
-	@CompoundIndex(name="repay_plan_detail_order_period",def ="{'orderNo':1,'period':1}")
-})
+
 public class RepayPlanDetaileNew extends MongoEntity{
 
 	@ApiModelProperty(value = "订单编号")

@@ -4,10 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.annotation.Transient;
-
 import com.nj.mongoModel.MongoEntity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -15,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
  * 金融机构回款计划主表信息
  */
 @ApiModel(description="回款计划主表")
-public class CaptialMoneyBackMainNew extends MongoEntity{
+public class CaptialMoneyBackMainNew extends MongoEntity {
 
 	@ApiModelProperty(value = "订单编号")
 	private String orderNo;
@@ -56,7 +53,6 @@ public class CaptialMoneyBackMainNew extends MongoEntity{
 	@ApiModelProperty(value = "数据类型：his 的时候为历史数据")
 	private  String  dataFlag;
 	
-	@Transient
 	private List<CaptialMoneyBackNew> listMoneyBackNew;
 
 	public List<CaptialMoneyBackNew> getListMoneyBackNew() {

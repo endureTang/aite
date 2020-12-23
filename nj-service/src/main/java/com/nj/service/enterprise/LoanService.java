@@ -115,21 +115,21 @@ public class LoanService extends BaseCachesService {
 	@Resource(name = "njProcessFlowsService")
 	private ProcessFlowsService processFlowsService;
 	
-	@Autowired
-	private ManualProcess manualProcess;
-	@Autowired
+//	@Resource
+//	private ManualProcess manualProcess;
+	@Resource
 	NjLoanOrderPhoneCheckMapper phoneCheckMapper;
-	@Autowired
+	@Resource
 	NjLoanOrderMapper loanOrderMapper;
-	@Autowired
+	@Resource
 	NjUserCreditMapper userCreditMapper;
-	@Autowired
+	@Resource
 	NjProductTempMapperExtend productTempMapperExtend;
 	
-	@Autowired
+	@Resource
 	private  NjLoanOrderMapperExtend  njLoanOrderMapperExtend;
 	
-	@Autowired
+	@Resource
 	private  NjOrderUpdateLogMapper  njOrderUpdateLogMapper;
 	
 	@Resource
@@ -872,9 +872,9 @@ public class LoanService extends BaseCachesService {
 			throw new Exception("没有查询到过程");
 		}
 		
-		boolean result = manualProcess.execManualProcess(orderId, pd.getString("userId"), currentProcess, epInfo, pd.getString("remark"),rejectProcessId);
+//		boolean result = manualProcess.execManualProcess(orderId, pd.getString("userId"), currentProcess, epInfo, pd.getString("remark"),rejectProcessId);
 		//流程执行成功后，更新审批意见
-		if(result && !StringUtils.isEmpty(remarkExtend)) {
+		if(true && !StringUtils.isEmpty(remarkExtend)) {
 			updateApprovalOpinion(loanOrder.getOrderNo(), processId, remarkExtend);
 		}
 		NjProcessTemplateFlows nextCurrent = processFlowsService.selectNextProcess(currentProcess, EProcessResult.AGREE);
@@ -899,8 +899,8 @@ public class LoanService extends BaseCachesService {
 				//特殊需求，凉山金坤判断金额为50w
 				if(loanOrder.getCompanyId().equals("1a1e2a243d304ff6bce0bc17f0512b67")) {
 					if(makeLoanAmount + loanOrder.getAuditAmount().doubleValue() < 500000) {
-						boolean resultTwo = manualProcess.execManualProcess(orderId, pd.getString("userId"), nextCurrent, epInfo, pd.getString("remark"),rejectProcessId);
-						if(!resultTwo) {
+//						boolean resultTwo = manualProcess.execManualProcess(orderId, pd.getString("userId"), nextCurrent, epInfo, pd.getString("remark"),rejectProcessId);
+						if(!true) {
 							throw new Exception("流程执行出错");
 						}
 						//删除该流程
@@ -915,8 +915,8 @@ public class LoanService extends BaseCachesService {
 					}
 				}else {//其他金坤为100w
 					if(makeLoanAmount + loanOrder.getAuditAmount().doubleValue() < 1000000) {
-						boolean resultTwo = manualProcess.execManualProcess(orderId, pd.getString("userId"), nextCurrent, epInfo, pd.getString("remark"),rejectProcessId);
-						if(!resultTwo) {
+//						boolean resultTwo = manualProcess.execManualProcess(orderId, pd.getString("userId"), nextCurrent, epInfo, pd.getString("remark"),rejectProcessId);
+						if(!true) {
 							throw new Exception("流程执行出错");
 						}
 						//删除该流程
@@ -934,7 +934,7 @@ public class LoanService extends BaseCachesService {
 			}
 		}
 		
-		return result;
+		return true;
 	
 	}
 	/**
@@ -989,7 +989,7 @@ public class LoanService extends BaseCachesService {
 	
 
 	@Transactional(rollbackFor = { Throwable.class }, readOnly = false)
-	private void saveManualShunt(String orderId, String execUserId, List<String> users) throws Exception {
+	void saveManualShunt(String orderId, String execUserId, List<String> users) throws Exception {
 		// 查询当前过程
 		NjProcessTemplateFlows currentProcess = processMapperExtend.selectProcessTemplateByOrderProcess(orderId,
 				EProcessInfo.MANUAL_SHUNT.getId());
@@ -1000,7 +1000,7 @@ public class LoanService extends BaseCachesService {
 		// 保存分单信息
 		processFlowsService.saveManualShunt(orderId, users);
 		// 执行手动分单过程
-		manualProcess.execManualProcess(orderId, execUserId, currentProcess, EProcessResult.AGREE, "手动分单成功");
+//		manualProcess.execManualProcess(orderId, execUserId, currentProcess, EProcessResult.AGREE, "手动分单成功");
 	}
 	
 	/**

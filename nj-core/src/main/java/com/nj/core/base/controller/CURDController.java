@@ -3,6 +3,7 @@
  */
 package com.nj.core.base.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ import com.nj.core.base.vo.JsonPage;
  */
 public abstract class CURDController<T extends NjIdEntity, E> {
 
-	@Autowired
+	@Resource
 	protected BaseMapper<T, E> mapper;
 	
 	@ResponseBody

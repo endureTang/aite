@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.data.annotation.Transient;
-
 import com.nj.mongoModel.MongoEntity;
 
 import io.swagger.annotations.ApiModel;
@@ -60,7 +58,6 @@ public class RepayPlanMainNew extends MongoEntity{
 	@ApiModelProperty(value = "数据类型：his 的时候为历史数据")
 	private  String  dataFlag;
 
-	@Transient
 	private List<RepayPlanNew> listRepayPlanNew;
 	
 	public String getOrderNo() {

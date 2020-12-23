@@ -43,9 +43,9 @@ public class WithdrawingRecordService {
     // mqService
     @Resource
     private IMqNdService iMqService;
-    @Autowired
+    @Resource
     private RepayPlanNewService repayPlanNewService;
-    @Autowired
+    @Resource
     private NjWithdrawingRecordMapper  njWithdrawingRecordMapper;
 
 //    /**

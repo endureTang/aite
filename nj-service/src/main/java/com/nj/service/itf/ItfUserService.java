@@ -20,7 +20,7 @@ import com.nj.model.generate.NjAppUser;
 @Service("itfUserService")
 public class ItfUserService {
 	
-	@Autowired
+	@Resource
 	private AppUserService appUserservice;
 	
 	@Resource(name="tfcfHttpService")

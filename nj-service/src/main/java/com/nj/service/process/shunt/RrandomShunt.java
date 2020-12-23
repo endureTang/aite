@@ -23,6 +23,8 @@ import com.nj.model.generate.NjLoanOrder;
 import com.nj.model.generate.NjProcessOrderFlows;
 import com.nj.service.process.IAutoProcess;
 
+import javax.annotation.Resource;
+
 /**
  * 
  * @Name com.nj.service.process.RrandomShunt
@@ -35,9 +37,9 @@ import com.nj.service.process.IAutoProcess;
  */
 @Service("rrandomShunt")
 public class RrandomShunt extends BaseShunt implements IAutoProcess{
-	@Autowired
-	NjProcessMapperExtend processMapper;
-	@Autowired
+	@Resource
+	NjProcessMapperExtend njProcessMapperExtend;
+	@Resource
 	NjLoanOrderMapperExtend loanOrderMapperExtend;
 	
 	/**

@@ -44,6 +44,7 @@ import com.nj.mongoModel.after.RepayPlanDetaileNew;
 import com.nj.mongoModel.after.RepayPlanNew;
 import com.nj.service.remoteing.RepayPlanNewService;
 
+import javax.annotation.Resource;
 
 
 /**
@@ -55,21 +56,21 @@ public class OrderStatisticService {
 	
 	private Logger logger = LoggerFactory.getLogger(OrderStatisticService.class);
 	
-	@Autowired
+	@Resource
 	private NjLoanOrderMapper njLoanOrderMapper;
-	@Autowired
+	@Resource
 	private NjLoanOrderMapperExtend njLoanOrderMapperExtend;
-	@Autowired
+	@Resource
 	private NjStatisticsOrderMapper njStatisticsOrderMapper;
-	@Autowired
+	@Resource
 	private RepayPlanNewService repayPlanNewService;
-	@Autowired
+	@Resource
 	private NjStatisticsReturnMoneyMapper njStatisticsReturnMoneyMapper;
-	@Autowired
+	@Resource
 	private NjProductMapper njProductMapper;
-	@Autowired
+	@Resource
 	private NjStatisticsOverdayMapper njStatisticsOverdayMapper;
-	@Autowired
+	@Resource
 	private NjStatisticsSummaryMapper njStatisticsSummaryMapper;
 
 	/**

@@ -314,7 +314,6 @@ public class LoginController extends BaseController {
 	/**
 	 * 用户注销
 	 * 
-	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/logout")

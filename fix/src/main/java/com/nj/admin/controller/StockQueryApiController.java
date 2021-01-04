@@ -45,20 +45,28 @@ public class StockQueryApiController {
                 Map<String,Object> retObj = JSONObject.parseObject(resultList);
                 if(retObj.get("returncode").toString().equals("0")){
                     List<Map<String,Object>> datalist = (List<Map<String,Object>>) retObj.get("datalist");
+                    if(datalist == null || datalist.size() == 0){
+                        result.put("msg", "没有获取到相关库存信息");
+                        session.setAttribute("queryStockList", null);
+                        return result;
+                    }
                     List<QueryStockModel> models = new ArrayList<>();
                     for (Map<String, Object> data : datalist) {
+                        if((data.get("stock")+"").equals("0.0000")){
+                            continue;
+                        }
                         QueryStockModel stockModel = new QueryStockModel();
                         stockModel.setWarehouseid(data.get("data")+"");
                         stockModel.setWarehousename(data.get("warehousename")+"");
                         stockModel.setWarehouseid(data.get("data")+"");
                         stockModel.setGoodsid(data.get("goodsid")+"");
                         stockModel.setSpecid(data.get("specid")+"");
-                        stockModel.setStock(data.get("stock")+"");
-                        stockModel.setSndcount(data.get("sndcount")+"");
-                        stockModel.setOrdercount(data.get("ordercount")+"");
-                        stockModel.setDbincount(data.get("dbincount")+"");
-                        stockModel.setDboutcount(data.get("dboutcount")+"");
-                        stockModel.setPurchasecount(data.get("purchasecount")+"");
+                        stockModel.setStock(doubleStrToIntStr(data.get("stock")+""));
+                        stockModel.setSndcount(doubleStrToIntStr(data.get("sndcount")+""));
+                        stockModel.setOrdercount(doubleStrToIntStr(data.get("ordercount")+""));
+                        stockModel.setDbincount(doubleStrToIntStr(data.get("dbincount")+""));
+                        stockModel.setDboutcount(doubleStrToIntStr(data.get("dboutcount")+""));
+                        stockModel.setPurchasecount(doubleStrToIntStr(data.get("purchasecount")+""));
                         stockModel.setPurchaseplan(data.get("purchaseplan")+"");
                         stockModel.setGoodsno(data.get("goodsno")+"");
                         stockModel.setGoodsname(data.get("goodsname")+"");
@@ -66,7 +74,7 @@ public class StockQueryApiController {
                         stockModel.setSpecname(data.get("specname")+"");
                         stockModel.setPricecost(data.get("pricecost")+"");
                         stockModel.setWarehouseno(data.get("warehouseno")+"");
-                        stockModel.setStock3(data.get("stock3")+"");
+                        stockModel.setStock3(doubleStrToIntStr(data.get("stock3")+""));
                         models.add(stockModel);
                     }
                     session.setAttribute("queryStockList", models);
@@ -77,6 +85,11 @@ public class StockQueryApiController {
             e.printStackTrace();
         }
         return result;
+    }
+
+    private String doubleStrToIntStr(String old){
+        Double dbValue = Double.parseDouble(old);
+        return dbValue.intValue() + "";
     }
 
     /**
@@ -99,6 +112,12 @@ public class StockQueryApiController {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public static void main(String[] args) {
+        String s = "3.00";
+        System.out.println(new Integer(s
+        ));
     }
 
 }

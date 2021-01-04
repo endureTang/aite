@@ -30,7 +30,7 @@ public class StockQueryApiUtil {
 
         //设置应用参数/请求参数
         openApi.requestparas.put("pageno", "1");
-        openApi.requestparas.put("pagesize", "10");
+        openApi.requestparas.put("pagesize", "100");
         openApi.requestparas.put("searchtype", "1");
         openApi.requestparas.put("searchcode", stockNo);
 

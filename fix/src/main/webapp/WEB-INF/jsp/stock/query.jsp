@@ -35,6 +35,7 @@
 							<th>条码+附加码</th>
 							<th>规格</th>
 							<th>仓库名称</th>
+							<th>成本价</th>
 							<th>实际库存</th>
 							<th>待发货数</th>
 							<th>订购量</th>
@@ -43,7 +44,7 @@
 							<th>调出在途</th>
 							<th>采购在途</th>
 							<th>采购计划数</th>
-							<th>成本价</th>
+
 
 						</tr>
 						</thead>
@@ -93,19 +94,20 @@
 				"url": "<%=basePath%>static/AdminLTE/plugins/datatables/cn.txt"
 			},
 			"columns": [
-				{ "data": "goodsname" },
-				{ "data": "barcode" },
-				{ "data": "specname" },
-				{ "data": "warehousename" },
-				{ "data": "stock" },
-				{ "data": "sndcount" },
-				{ "data": "ordercount" },
-				{ "data": "stock3" },
-				{ "data": "dbincount" },
-				{ "data": "dboutcount" },
-				{ "data": "purchasecount" },
-				{ "data": "purchaseplan" },
-				{ "data": "pricecost" }
+				{ "data": "goodsname" ,"width":"10%"},
+				{ "data": "barcode","width":"10%" },
+				{ "data": "specname","width":"5%" },
+				{ "data": "warehousename","width":"10%" },
+				{ "data": "pricecost" ,"width":"5%"},
+				{ "data": "stock" ,"width":"5%"},
+				{ "data": "sndcount" ,"width":"5%"},
+				{ "data": "ordercount","width":"5%" },
+				{ "data": "stock3","width":"5%" },
+				{ "data": "dbincount","width":"5%" },
+				{ "data": "dboutcount" ,"width":"5%"},
+				{ "data": "purchasecount" ,"width":"10%"},
+				{ "data": "purchaseplan","width":"10%" }
+
 			],
 			"drawCallback": function (settings) {
 				drawICheck('defaultCheck', 'chx_default');
@@ -117,7 +119,7 @@
 	});
 
 	function refreshTable(toFirst) {
-		//defaultTable.ajax.reload();
+		// defTable.ajax.reload();
 		if(toFirst){//表格重绘，并跳转到第一页
 			defTable.draw();
 		}else{//表格重绘，保持在当前页
@@ -144,18 +146,18 @@
 			dataType: 'json',
 			cache: false,
 			success: function (data) {
-				if(data == 200){
-					refreshTable(true);
+				refreshTable(true);
+				if(data.status == 1){
 					BootstrapDialog.show({
 						type: BootstrapDialog.TYPE_SUCCESS,
 						title: '操作结果提示',
-						message: "写入成功"
+						message: "获取成功"
 					});
 				}else{
 					BootstrapDialog.show({
 						type: BootstrapDialog.TYPE_SUCCESS,
 						title: '操作结果提示',
-						message: ""
+						message: "获取失败，" + data.msg
 					});
 				}
 

@@ -36,8 +36,8 @@ public class StockQueryApiUtil {
 
         //发送请求
         String res = OpenApiUtil.HttpPostString(openApi);
-        System.out.println("发送的参数："+openApi.getPostparas());
-        System.out.println("返回的结果："+res);
+//        System.out.println("发送的参数："+openApi.getPostparas());
+//        System.out.println("返回的结果："+res);
         return res;
     }
 

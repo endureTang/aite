@@ -104,7 +104,7 @@ public class StockQueryApiController {
             HttpSession session = request.getSession();
             List<QueryStockModel> list = (List<QueryStockModel>) session.getAttribute("queryStockList");
             if ((list != null) && (list.size() > 0)) {
-                List<QueryStockModel> newList = list.stream().sorted(Comparator.comparing(QueryStockModel::getSpecname)).collect(Collectors.toList());
+                List<QueryStockModel> newList = list.stream().sorted(Comparator.comparing(QueryStockModel::getWarehousename)).collect(Collectors.toList());
                 result.insertDataList(newList);
                 result.put("draw", "draw");
             }

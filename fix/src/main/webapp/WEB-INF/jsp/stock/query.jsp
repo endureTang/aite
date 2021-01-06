@@ -21,7 +21,7 @@
 					<label class="col-sm-3 control-label">
 						输入货号：<input class="formVal" type="text" id="stockNo" name="stockNo" style="height:25px;font-size: 16px">
 					</label>
-					<button type="button" data-callback="refreshTable" class="btn btn-sm btn-primary" onclick="queryStock()">
+					<button id="queryBtn" type="button" data-callback="refreshTable" class="btn btn-sm btn-primary" onclick="queryStock()">
 						<i class="fa"></i>查询
 					</button>
 				</div>
@@ -126,7 +126,12 @@
 			defTable.draw(false);
 		}
 	}
-
+	$('#stockNo').bind('keypress', function (event) {
+		if (event.keyCode == "13") {
+			event.preventDefault();//阻止默认事件
+			$("#queryBtn").click();
+		}
+	})
 	function queryStock(){
 		var stockNo = $("#stockNo").val();
 		if(stockNo == null || stockNo == ''){
@@ -148,11 +153,7 @@
 			success: function (data) {
 				refreshTable(true);
 				if(data.status == 1){
-					BootstrapDialog.show({
-						type: BootstrapDialog.TYPE_SUCCESS,
-						title: '操作结果提示',
-						message: "获取成功"
-					});
+
 				}else{
 					BootstrapDialog.show({
 						type: BootstrapDialog.TYPE_SUCCESS,

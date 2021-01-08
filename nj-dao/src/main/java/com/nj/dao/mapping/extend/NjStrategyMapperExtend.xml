@@ -59,6 +59,9 @@
         (#{item.stockNo,jdbcType=VARCHAR},#{item.sizeRange,jdbcType=VARCHAR})
       </foreach>
     </insert>
+  <delete id="clearnBlackStock">
+    delete from black_stock
+  </delete>
 
     <select id="selectPage" parameterType="java.util.Map" resultMap="BaseResultMap">
     <!--
@@ -143,6 +146,11 @@
       select
       *
       from black_stock
+      <where>
+        <if test="keyword != null">
+          and stock_no  like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+        </if>
+      </where>
       <if test="start != null and length != null">
         limit #{start},#{length}
       </if>

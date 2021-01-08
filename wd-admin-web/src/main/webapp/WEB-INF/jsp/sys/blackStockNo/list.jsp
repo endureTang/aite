@@ -29,11 +29,11 @@
 					<a class="btn btn-sm btn-primary" href="static/upload/库存黑名单模板.xlsx">
 						<i class="fa fa-fw fa-plus"></i>下载黑名单货号模板
 					</a>
-					<button type="button" data-url="blackStockNo/batchDeleteBtn"
+					<a type="button" data-url="blackStockNo/batchDeleteBtn"
 							data-msg="确定批量删除吗？" data-model="ajaxToDo" class="btn btn-sm btn-danger"
 							data-checkbox-name="chx_default" data-callback="refreshTable">
 						<i class="fa fa-fw fa-remove"></i>批量删除
-					</button>
+					</a>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -99,6 +99,9 @@
 			}],
 			"drawCallback": function (settings) {
 				drawICheck('defaultCheck', 'chx_default');
+			},
+			"initComplete": function () {
+				initSearchForm(null, "搜索 货号");
 			}
 		});
 	});

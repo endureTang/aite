@@ -23,10 +23,7 @@ import com.nj.dao.StockFormatDictMapper;
 import com.nj.dao.extend.NjStrategyMapperExtend;
 import com.nj.model.datamodel.StockFormatDictForm;
 import com.nj.model.datamodel.StockFormatForm;
-import com.nj.model.generate.BlackStock;
-import com.nj.model.generate.StockFormat;
-import com.nj.model.generate.StockFormatDict;
-import com.nj.model.generate.StockFormatDictExample;
+import com.nj.model.generate.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,12 +59,22 @@ public class BlackStockNoService {
 		return njStrategyMapperExtend.selectPageBlackStock(pd);
 	}
 	public int listAllCount(PageData pd) {
-		return blackStockMapper.countByExample(null);
+		String keyword = pd.getString("keyword");
+		if(StringUtils.isNotEmpty(keyword)){
+			BlackStockExample example = new BlackStockExample();
+			example.createCriteria().andStockNoLike("%"+keyword+"%");
+			return blackStockMapper.countByExample(example);
+		}else{
+			return blackStockMapper.countByExample(null);
+		}
+
+
 	}
 	public Integer delete(String id) {
 		return blackStockMapper.deleteByPrimaryKey(Integer.parseInt(id));
 	}
 	public void insertBath(ArrayList<BlackStock> channelStocks) {
+		njStrategyMapperExtend.clearnBlackStock();
 		njStrategyMapperExtend.insertBlackStockBath(channelStocks);
 	}
     public void batchDelete(String ids) {

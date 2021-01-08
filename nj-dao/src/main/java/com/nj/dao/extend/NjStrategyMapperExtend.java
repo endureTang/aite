@@ -43,4 +43,6 @@ public interface NjStrategyMapperExtend extends BaseMapper {
     List<BlackStock> selectPageBlackStock(PageData pd);
 
     int countErpOrder(PageData pd);
+
+    void clearnBlackStock();
 }

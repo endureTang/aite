@@ -331,7 +331,7 @@ public class NjUserExdService {
 		record.setUpdateBy(pd.getString("createBy"));
 		SysUserMapper mapper = dao.getMapper(SysUserMapper.class);
 		mapper.insertSelective(record);
-		this.addCoporate(pd);
+//		this.addCoporate(pd);
 		this.addRole(pd);
 		
 	}

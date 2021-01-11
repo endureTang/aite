@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -75,12 +76,14 @@ public class StockFormatService {
 		stockFormat.setId(UuidUtil.get32UUID());
 		stockFormatMapper.insertSelective(stockFormat);
 		List<StockFormatDictForm> stockFormatDictForms = stockFormatForm.getStockFormatDictList();
+		int sort = 0;
 		for (StockFormatDictForm stockFormatDictForm : stockFormatDictForms) {
 			StockFormatDict stockFormatDict = new StockFormatDict();
 			stockFormatDict.setId(UuidUtil.get32UUID());
 			stockFormatDict.setStockFormatId(stockFormat.getId());
 			stockFormatDict.setColumName(stockFormatDictForm.getColumName());
 			stockFormatDict.setDictId(stockFormatDictForm.getDictId());
+			stockFormatDict.setSort(sort++);
 			stockFormatDictMapper.insertSelective(stockFormatDict);
 		}
 	}
@@ -92,6 +95,7 @@ public class StockFormatService {
 	public List<StockFormatDict> getDictByFormatId(String formatId) {
 		StockFormatDictExample stockFormatDictExample = new StockFormatDictExample();
 		stockFormatDictExample.createCriteria().andStockFormatIdEqualTo(formatId);
+		stockFormatDictExample.setOrderByClause("sort asc");
 		return stockFormatDictMapper.selectByExample(stockFormatDictExample);
 	}
 
@@ -106,6 +110,7 @@ public class StockFormatService {
 		StockFormatDictExample stockFormatDictExample = new StockFormatDictExample();
 		stockFormatDictExample.createCriteria().andStockFormatIdEqualTo(stockFormatForm.getId());
 		stockFormatDictMapper.deleteByExample(stockFormatDictExample);
+		int sort = 0;
 		for (StockFormatDictForm stockFormatDictForm : stockFormatDictForms) {
 			if(stockFormatDictForm != null && stockFormatDictForm.getDictId() != null){
 				StockFormatDict stockFormatDict = new StockFormatDict();
@@ -113,6 +118,7 @@ public class StockFormatService {
 				stockFormatDict.setStockFormatId(stockFormat.getId());
 				stockFormatDict.setColumName(stockFormatDictForm.getColumName());
 				stockFormatDict.setDictId(stockFormatDictForm.getDictId());
+				stockFormatDict.setSort(sort++);
 				stockFormatDictMapper.insertSelective(stockFormatDict);
 			}
 		}

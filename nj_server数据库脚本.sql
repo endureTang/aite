@@ -1,0 +1,1 @@
+ALTER TABLE `stock_format_dict` ADD COLUMN `sort` int NULL DEFAULT NULL AFTER `stock_format_id`;

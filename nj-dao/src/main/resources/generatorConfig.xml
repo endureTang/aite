@@ -2,7 +2,7 @@
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 	<!--指定特定数据库的jdbc驱动jar包的位置 -->
-	<classPathEntry location="D:\work\tools\mavenLocalRepository\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar" />
+	<classPathEntry location="D:\Maven\respository\mvn_repo\mysql\mysql-connector-java\8.0.18\mysql-connector-java-8.0.18.jar" />
 	<context id="context1">
 		<property name="javaFileEncoding" value="UTF-8" />
 		<commentGenerator>
@@ -28,7 +28,7 @@
 			<property name="rootInterface" value="com.nj.core.base.mapper.BaseMapper" />
 		</javaClientGenerator>
 
-		<table tableName="black_stock">
+		<table tableName="activity_stock">
 			<property name="useActualColumnNames" value="false"/>
 		</table>
 	</context>

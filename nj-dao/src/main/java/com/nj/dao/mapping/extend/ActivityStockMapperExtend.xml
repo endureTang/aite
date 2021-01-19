@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.ActivityStockMapperExtend">
+
+
+  <insert id="insertBath" parameterType="list">
+    insert into activity_stock (id , stock_no,activity_name)
+    values
+    <foreach collection="list" item="item" separator="," index="index">
+      (#{item.id,jdbcType=VARCHAR}, #{item.stockNo,jdbcType=VARCHAR}, #{item.activityName,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <select id="selectPage" resultType="com.nj.model.generate.ActivityStock">
+    select
+    *
+    from activity_stock
+    <where>
+      <if test="keyword != null">
+        and stock_no  like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
+    <if test="start != null and length != null">
+      limit #{start},#{length}
+    </if>
+  </select>
+</mapper>

@@ -205,7 +205,7 @@ public class StockBaseController extends BaseController {
 						wbTemp = new XSSFWorkbook(inputTemp);
 						XSSFRow modelTitleRow = wbTemp.getSheetAt(0).getRow(0);
 						int totalCell2 = modelTitleRow.getLastCellNum();
-						if(totalCell2 != totalCell2){
+						if(totalCell != totalCell2){
 							result.put("status", 0);
 							result.put("msg", "请上传正确格式文件");
 							return result;

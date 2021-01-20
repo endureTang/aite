@@ -21,8 +21,11 @@ import com.nj.core.base.util.Const;
 import com.nj.core.base.util.DataTableResult;
 import com.nj.core.base.util.PageData;
 import com.nj.core.utils.excel.ExcelUtil;
+import com.nj.core.utils.excel.ZipHelperUtils;
 import com.nj.model.generate.ActivityStock;
 import com.nj.service.base.system.ActivityStockService;
+import com.nj.service.base.system.StockCollectService;
+import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -41,6 +44,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +65,9 @@ public class StockCollectController extends BaseController {
 
 	@Resource
 	private ActivityStockService activityStockService;
+
+	@Resource
+	private StockCollectService stockCollectService;
 
 	/**
 	* @description: 跳转到参与过活动的库存上传页面
@@ -124,9 +132,8 @@ public class StockCollectController extends BaseController {
 							result.put("msg", msg);
 							return result;
 						}
-						HSSFSheet hssfSheet = wb.getSheetAt(0); //获取第一个sheet
-						Sheet xssfSheet = wb.getSheetAt(1); //获取第一个sheet
-						int totalRows = xssfSheet.getLastRowNum();
+						HSSFSheet hssfSheet = wb.getSheetAt(1); //获取第一个sheet
+						int totalRows = hssfSheet.getLastRowNum();
 						//读取Row,从第7行开始
 						for(int rowNum = 7;rowNum <= totalRows;rowNum++){
 							HSSFRow hssfRow = hssfSheet.getRow(rowNum);
@@ -271,4 +278,24 @@ public class StockCollectController extends BaseController {
 		}
 		return result;
 	}
+
+	@RequestMapping(value = "/updateZipFile", method = RequestMethod.POST)
+	@ResponseBody
+	public PageData updateZipFile(@RequestParam("file") MultipartFile file, HttpServletRequest request,@RequestParam("type") String type) {
+		PageData result = new PageData();
+		try {
+			String realPath = request.getSession().getServletContext().getRealPath("static"+ File.separator +"upload" + File.separator+"zipFile"+File.separator);
+			File zipFile = new File(realPath+File.separator+file.getOriginalFilename());
+			FileUtils.copyInputStreamToFile(file.getInputStream(), zipFile);
+			String tempPath = realPath + File.separator + "temp" + type;//tempPath根据type的不同区分
+			ZipHelperUtils.unzipFile(zipFile, tempPath);
+			stockCollectService.generateStockCollect(type,tempPath);
+			result.put("status", 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 }

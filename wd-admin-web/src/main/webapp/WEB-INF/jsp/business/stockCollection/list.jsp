@@ -23,14 +23,16 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header" id="boxHeader">
-					<shiro:hasPermission name="stockBase/add">
-						<a type="button" onclick="easyUpload()" id="import"class="btn btn-sm btn-primary">
-							<i class="fa fa-fw fa-plus"></i>导入库存档案
-						</a>
-						<a class="btn btn-sm btn-primary" href="static/upload/库存档案.xlsx">
-							<i class="fa fa-fw fa-plus"></i>下载库存档案模板
-						</a>
-					</shiro:hasPermission>
+					<div class="col-sm-2">
+					<select name="type" id="type" class="form-control required">
+						<option value="1">模板一</option>
+						<option value="2">模板二</option>
+						<option value="3">模板三</option>
+					</select>
+					</div>
+					<a type="button" onclick="easyUpload()" id="import"class="btn btn-sm btn-primary" >
+						<i class="fa fa-fw fa-plus"></i>导入库存汇总zip
+					</a>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -125,6 +127,7 @@
 	}
 
 	function easyUpload(){
+		var type = $("#type").val();
 		var input = document.createElement("input");
 		input.type = "file";
 		input.click();
@@ -134,8 +137,9 @@
 			var form = new FormData();
 			form.append("file", file); //第一个参数是后台读取的请求key值
 			form.append("fileName", file.name);
+			form.append("type", type);
 			var xhr = new XMLHttpRequest();
-			var action = "stockBase/uploadStock"; //上传服务的接口地址
+			var action = "stockCollect/updateZipFile"; //上传服务的接口地址
 			xhr.open("POST", action);
 			xhr.send(form); //发送表单数据
 			xhr.onreadystatechange = function(){

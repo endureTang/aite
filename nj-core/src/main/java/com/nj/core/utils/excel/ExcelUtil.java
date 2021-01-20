@@ -85,6 +85,9 @@ public class ExcelUtil {
 	 * @return
 	 */
 	public static String getXValue(Cell xssfCell){
+		if(xssfCell == null){
+			return "";
+		}
 		 if (xssfCell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {
 			 return String.valueOf(xssfCell.getBooleanCellValue());
 		 } else if (xssfCell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
@@ -104,7 +107,7 @@ public class ExcelUtil {
 		 } else {
 			return String.valueOf(xssfCell.getStringCellValue());
 		 }
-	}	
+	}
 	/**
 	 * 自定义xssf日期工具类
 	 * @author lp

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nj.dao.extend.StockCollectMapperExtend">
+
+
+  <insert id="insertBath" parameterType="list">
+    insert into stock_collect (id, type, crp,
+    erp, rrp, pub_date,
+    brand, brad_code, on_way_amount,
+    season_code, size, amount,
+    store_name, sex_type, cost_price,
+    description, is_activity, meterial_no,
+    sport_type, department, color_all,
+    first_receive_date)
+    values
+    <foreach collection="list" item="item" separator="," index="index">
+      (#{item.id,jdbcType=VARCHAR}, #{item.type,jdbcType=VARCHAR}, #{item.crp,jdbcType=VARCHAR},
+      #{item.erp,jdbcType=VARCHAR}, #{item.rrp,jdbcType=VARCHAR}, #{item.pubDate,jdbcType=VARCHAR},
+      #{item.brand,jdbcType=VARCHAR}, #{item.bradCode,jdbcType=VARCHAR}, #{item.onWayAmount,jdbcType=VARCHAR},
+      #{item.seasonCode,jdbcType=VARCHAR}, #{item.size,jdbcType=VARCHAR}, #{item.amount,jdbcType=VARCHAR},
+      #{item.storeName,jdbcType=VARCHAR}, #{item.sexType,jdbcType=VARCHAR}, #{item.costPrice,jdbcType=VARCHAR},
+      #{item.description,jdbcType=VARCHAR}, #{item.isActivity,jdbcType=VARCHAR}, #{item.meterialNo,jdbcType=VARCHAR},
+      #{item.sportType,jdbcType=VARCHAR}, #{item.department,jdbcType=VARCHAR}, #{item.colorAll,jdbcType=VARCHAR},
+      #{item.firstReceiveDate,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <select id="selectPage" resultType="com.nj.model.generate.ActivityStock">
+    select
+    *
+    from activity_stock
+    <where>
+      <if test="keyword != null">
+        and stock_no  like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
+    <if test="start != null and length != null">
+      limit #{start},#{length}
+    </if>
+  </select>
+</mapper>

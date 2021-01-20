@@ -571,4 +571,83 @@ public class ExportUtil {
 			e.printStackTrace();
 		}
 	}
+
+
+
+	/**
+	 * 库存汇总
+	 * @param datas	导出的数据集合
+	 * @param clazz	导出对象的Class对象
+	 * @param filename	文件名称
+	 * @param sheetname	sheet名称
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> void baseExportStockCollect(String savePath,List<T> datas,
+									  Class<T> clazz,
+									  String filename,
+									  String sheetname) throws Exception{
+
+		int columnNum = 0;		//要导出的数据列数
+		List<ExportFormat> formatList = new ArrayList<ExportFormat>();	//注解信息
+
+		Field[] fields = clazz.getDeclaredFields();
+		for (int i = 0; i < fields.length; i++) {
+			ExportFormat exportFormat = fields[i].getAnnotation(ExportFormat.class);
+			if(null != exportFormat){
+				++columnNum;
+				formatList.add(exportFormat);
+			}
+		}
+
+		Object[] rs = sort(formatList);
+		formatList = (List<ExportFormat>)rs[0];
+		Map<Integer,Integer> sortMap = (Map<Integer, Integer>) rs[1];
+
+		String[] tableHeaderArray = new String[columnNum];		//表头
+		String[] fieldNameArray = new String[columnNum];		//要导出的列名
+
+		for (int i = 0; i < fields.length; i++) {
+			ExportFormat exportFormat = fields[i].getAnnotation(ExportFormat.class);
+			if(null != exportFormat){
+				int index = sortMap.get(exportFormat.sort());
+				tableHeaderArray[index] = exportFormat.name();
+				fieldNameArray[index] = fields[i].getName();
+			}
+		}
+
+		try {
+			int rowIndex = 0;		//行索引
+			//创建workbook和sheet
+			workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(sheetname);
+
+			//创建标题行
+//			rowIndex = createTitle(columnNum, rowIndex, sheet ,titlename);
+
+			//创建表头行
+			rowIndex = createHeader(columnNum, rowIndex, tableHeaderArray, sheet);
+
+			if(CollectionUtils.isNotEmpty(datas)){
+				//创建数据行
+				baseCreateData(datas, columnNum, formatList, rowIndex, fieldNameArray, sheet);
+			}
+
+			File file = new File(savePath);
+			if(!file.exists()){
+				file.mkdirs();
+			}
+			file = new File(savePath + File.separator + filename);
+			if(!file.exists()){
+				file.createNewFile();
+			}
+
+			OutputStream out = new FileOutputStream(file);
+			workbook.write(out);
+		} catch (Exception e) {
+			log.error("创建行数据时发生异常，异常信息为：",e);
+			e.printStackTrace();
+			return;
+		}
+	}
+
 }

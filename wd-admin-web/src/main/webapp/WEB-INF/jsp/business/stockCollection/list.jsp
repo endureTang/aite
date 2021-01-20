@@ -33,6 +33,20 @@
 					<a type="button" onclick="easyUpload()" id="import"class="btn btn-sm btn-primary" >
 						<i class="fa fa-fw fa-plus"></i>导入库存汇总zip
 					</a>
+
+					<a onclick="clearData()"
+					   class="btn btn-sm btn-custom role-del">
+						<i class="fa fa-fw fa-plus"></i>清空数据
+					</a>
+
+					<button type="button" onclick="downLoadZip()"
+							class="btn btn-sm btn-primary role-add">
+						<i class="fa fa-fw fa-plus"></i>下载库存汇总
+					</button>
+					<button type="button" onclick="exportZip()"
+							class="btn btn-sm btn-primary role-add">
+						<i class="fa fa-fw fa-plus"></i>下载zip
+					</button>
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body">
@@ -164,6 +178,40 @@
 			}
 		}
 	}
+
+	function exportZip(){
+		$.ajax({
+			url:'stockCollect/exportZip',
+			dataType:'json',
+			type:'POST',
+			async: false,
+			processData : false, // 使数据不做处理
+			contentType : false, // 不要设置Content-Type请求头
+			success: function(data){
+				console.log(data);
+				if (data.status == '1') {
+					$(obj).attr("disabled","disabled");
+					$(obj).parent().parent().find("#strategyId").attr("disabled","disabled");
+					$(obj).parent().parent().find(".file").attr("disabled","disabled");
+					BootstrapDialog.show({
+						type: BootstrapDialog.TYPE_SUCCESS,
+						title: '操作结果提示',
+						message: "上传成功",
+					});
+				}else{
+					BootstrapDialog.show({
+						type: BootstrapDialog.TYPE_WARNING,
+						title: '操作结果提示',
+						message: "上传失败，"+data.msg,
+					});
+				}
+			},
+			error:function(response){
+				console.log(response);
+			}
+		});
+	}
+
 	function onloading(){
 		loading.baosight.showPageLoadingMsg(false);
 	}

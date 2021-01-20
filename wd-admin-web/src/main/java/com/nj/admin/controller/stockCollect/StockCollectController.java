@@ -21,7 +21,9 @@ import com.nj.core.base.util.Const;
 import com.nj.core.base.util.DataTableResult;
 import com.nj.core.base.util.PageData;
 import com.nj.core.utils.excel.ExcelUtil;
+import com.nj.core.utils.excel.ExportUtil;
 import com.nj.core.utils.excel.ZipHelperUtils;
+import com.nj.model.datamodel.StockCollectModel;
 import com.nj.model.generate.ActivityStock;
 import com.nj.service.base.system.ActivityStockService;
 import com.nj.service.base.system.StockCollectService;
@@ -44,10 +46,12 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -298,4 +302,15 @@ public class StockCollectController extends BaseController {
 		return result;
 	}
 
+	@RequestMapping(value={"/exportZip"})
+	@ResponseBody
+	public String exportPriceData(HttpServletRequest request, HttpServletResponse response)	{
+		try{
+			String realPath = request.getSession().getServletContext().getRealPath("static"+ File.separator +"upload" + File.separator+"zipFile"+File.separator);
+			stockCollectService.selectDownLoadZipList(realPath+File.separator + "exportExcel");
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return "导出成功";
+	}
 }

@@ -1,17 +1,15 @@
 package com.nj.service.base.system;
 
 import com.nj.core.base.dao.BaseDao;
-import com.nj.core.base.util.StringUtils;
-import com.nj.core.base.util.UuidUtil;
-import com.nj.core.utils.excel.ExcelUtil;
+import com.nj.core.utils.excel.ExportUtil;
+import com.nj.core.utils.excel.ZipHelperUtils;
 import com.nj.dao.ActivityStockMapper;
+import com.nj.dao.StockCollectMapper;
 import com.nj.dao.extend.StockCollectMapperExtend;
+import com.nj.model.datamodel.StockCollectModel;
+import com.nj.model.datamodel.StockCollectZipModel;
 import com.nj.model.generate.StockCollect;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
+import com.nj.model.generate.StockCollectExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +35,8 @@ public class StockCollectService {
     private ActivityStockMapper activityStockMapper;
     @Resource
     private StockCollectMapperExtend stockCollectMapperExtend;
+    @Resource
+    private StockCollectMapper stockCollectMapper;
     @Resource
     private StockCollectModelOne stockCollectModelOne;
     @Resource
@@ -74,4 +72,25 @@ public class StockCollectService {
         }
     }
 
+    public List<StockCollectZipModel> selectDownLoadZipList(String savePath) throws Exception {
+        List<String> storeNameList = stockCollectMapperExtend.getStoreNameList();
+        Date start = new Date();
+        System.out.println("开始执行时间："+start);
+        for (String storeName : storeNameList) {
+            List<StockCollectZipModel> stockList = stockCollectMapperExtend.selectByStoreName(storeName);
+            StringBuilder tempfilename = new StringBuilder();
+            tempfilename.append(storeName+".xlsx");
+            ExportUtil.baseExportStockCollect(savePath,stockList, StockCollectZipModel.class, tempfilename.toString(), storeName);
+        }
+        System.out.println("生成完成");
+        Date endDate = new Date();
+        System.out.println("结束时间："+endDate);
+        long sec = (endDate.getTime() - start.getTime()) / 1000;
+        System.out.println("耗时："+ sec);
+
+        File tempFile = new File(savePath);
+        File[] excelFiles = tempFile.listFiles();
+        ZipHelperUtils.zipFile(savePath+"全部门店.zip",excelFiles);
+        return  null;
+    }
 }

@@ -37,4 +37,18 @@
       limit #{start},#{length}
     </if>
   </select>
+    <select id="getStoreNameList" resultType="java.lang.String">
+      SELECT store_name as storeName from stock_collect GROUP BY store_name
+    </select>
+  <select id="selectByStoreName" resultType="com.nj.model.datamodel.StockCollectZipModel">
+        SELECT
+        a.*,
+       	IF(ISNULL(b.stock_no),'N','Y') as isActivity
+    FROM
+        stock_collect a
+        LEFT JOIN activity_stock b ON a.meterial_no = b.stock_no
+    WHERE
+        store_name = #{storeName}
+  </select>
+
 </mapper>

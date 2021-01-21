@@ -1,5 +1,6 @@
 package com.nj.service.base.system;
 
+import com.nj.core.base.util.DateUtil;
 import com.nj.core.base.util.StringUtils;
 import com.nj.core.base.util.UuidUtil;
 import com.nj.core.utils.excel.ExcelUtil;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -91,6 +93,11 @@ public class StockCollectModelOne {
                                 String brandCode = ExcelUtil.getXValue(hssfRow.getCell(3));
                                 String brand = ExcelUtil.getXValue(hssfRow.getCell(4));
                                 String publishDate = ExcelUtil.getXValue(hssfRow.getCell(5));
+                                try{
+                                    System.out.println(DateUtil.parseDateTime(publishDate));
+                                }catch (Exception e){
+                                    System.out.println(e);
+                                }
                                 String sexType = ExcelUtil.getXValue(hssfRow.getCell(6));
                                 String sportType = ExcelUtil.getXValue(hssfRow.getCell(7));
                                 String seasonCOde = ExcelUtil.getXValue(hssfRow.getCell(8));
@@ -186,13 +193,34 @@ public class StockCollectModelOne {
                             String brandCode = ExcelUtil.getXValue(xssfRow.getCell(3));
                             String brand = ExcelUtil.getXValue(xssfRow.getCell(4));
                             String publishDate = ExcelUtil.getXValue(xssfRow.getCell(5));
+                            if(StringUtils.isNotEmpty(publishDate)){
+                                try{
+                                    if(publishDate.contains("/")){
+                                        Date date = DateUtil.parseDate(publishDate,"yyyy/MM/dd");
+                                        publishDate = DateUtil.formatDate(date);
+                                    }
+
+                                }catch (Exception e){
+
+                                }
+                            }
+
                             String sexType = ExcelUtil.getXValue(xssfRow.getCell(6));
                             String sportType = ExcelUtil.getXValue(xssfRow.getCell(7));
                             String seasonCOde = ExcelUtil.getXValue(xssfRow.getCell(8));
                             String colorAll = ExcelUtil.getXValue(xssfRow.getCell(9));
                             String size = ExcelUtil.getXValue(xssfRow.getCell(10));
                             String firstReceiveDate = ExcelUtil.getXValue(xssfRow.getCell(11));
+                            if(StringUtils.isNotEmpty(firstReceiveDate)){
+                                try{
+                                    if(publishDate.contains("/")){
+                                        Date date = DateUtil.parseDate(firstReceiveDate,"yyyy/MM/dd");
+                                        firstReceiveDate = DateUtil.formatDate(date);
+                                    }
+                                }catch (Exception e){
 
+                                }
+                            }
                             String costPrice = ExcelUtil.getXValue(xssfRow.getCell(12));
                             String rrp = ExcelUtil.getXValue(xssfRow.getCell(13));
                             //首先RRP必须是数字，并且大于9才插入数据库

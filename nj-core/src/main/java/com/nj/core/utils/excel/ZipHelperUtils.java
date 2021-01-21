@@ -173,34 +173,61 @@ public class ZipHelperUtils {
             e.printStackTrace();
         }
     }
+    /**
+     * 压缩
+     */
+
+    public static void zip(File[] files, String output, String name) throws Exception {
+        //要生成的压缩文件
+        java.util.zip.ZipOutputStream out = new java.util.zip.ZipOutputStream(new FileOutputStream(output));
+        byte[] buffer = new byte[1024];
+        for (int i = 0; i < files.length; i++) {
+            FileInputStream fis = new FileInputStream(files[i]);
+            if (files.length == 1 && name != null) {
+                out.putNextEntry(new java.util.zip.ZipEntry(name));
+            } else {
+                out.putNextEntry(new java.util.zip.ZipEntry(files[i].getName()));
+            }
+            int len;
+            // 读入需要下载的文件的内容，打包到zip文件
+            while ((len = fis.read(buffer)) > 0) {
+                out.write(buffer, 0, len);
+            }
+            out.closeEntry();
+            fis.close();
+        }
+        out.close();
+    }
 
     public static void main(String[] args) {
-        String filePath = "D:\\CloudMusic\\模板一.zip";
-        // 获取原文所在目录
-        // 服务器上时，文件路径为“/”，此处测试需要换成filePath中的“\\”
-        //String oldFilePath = filePath.substring(0, filePath.lastIndexOf("/"));
-        String oldFilePath = filePath.substring(0, filePath.lastIndexOf("\\"));
-        System.out.println("原文件路径：" + oldFilePath);
-        // 临时目录，原压缩文件解压目录
-        String destDirPath = oldFilePath + "\\tmp\\";
-        System.out.println("临时路径：" + destDirPath);
-        // 将原压缩文件解压到临时目录
-        ZipHelperUtils.unzipFile(filePath, destDirPath);
-
-        // 临时目录文件对象
-        File destDir = new File(destDirPath);
-        // 获取临时目录下的所有文件
-        File[] files = destDir.listFiles();
-
-        // 获取原压缩文件后缀
-        int pos = filePath.lastIndexOf('.');
-        String suffix = filePath.substring(pos + 1);
-        // 新生成压缩文件路径
-        String newFilePath = filePath.substring(0, pos) + ".PSW." + suffix;
-        System.out.println("新的压缩文件路径：" + newFilePath);
+//        String filePath = "D:\\CloudMusic\\模板一.zip";
+//        // 获取原文所在目录
+//        // 服务器上时，文件路径为“/”，此处测试需要换成filePath中的“\\”
+//        //String oldFilePath = filePath.substring(0, filePath.lastIndexOf("/"));
+//        String oldFilePath = filePath.substring(0, filePath.lastIndexOf("\\"));
+//        System.out.println("原文件路径：" + oldFilePath);
+//        // 临时目录，原压缩文件解压目录
+//        String destDirPath = oldFilePath + "\\tmp\\";
+//        System.out.println("临时路径：" + destDirPath);
+//        // 将原压缩文件解压到临时目录
+//        ZipHelperUtils.unzipFile(filePath, destDirPath);
+//
+//        // 临时目录文件对象
+//        File destDir = new File(destDirPath);
+//        // 获取临时目录下的所有文件
+//        File[] files = destDir.listFiles();
+//
+//        // 获取原压缩文件后缀
+//        int pos = filePath.lastIndexOf('.');
+//        String suffix = filePath.substring(pos + 1);
+//        // 新生成压缩文件路径
+//        String newFilePath = filePath.substring(0, pos) + ".PSW." + suffix;
+//        System.out.println("新的压缩文件路径：" + newFilePath);
 
         // 将检验成功的文件压缩成一个新的压缩包
-        ZipHelperUtils.zipFile(newFilePath, files);
+        File file = new File("C:\\Users\\endure\\IdeaProjects\\aite\\wd-admin-web\\src\\main\\webapp\\static\\upload\\zipFile\\exportExcel");
+        File[] files = file.listFiles();
+        ZipHelperUtils.zipFile("C:\\Users\\endure\\IdeaProjects\\aite\\wd-admin-web\\src\\main\\webapp\\static\\upload\\zipFile\\exportExcel\\new.zip", files);
         // 删除临时目录
 //        ZipHelperUtils.deletefile(destDirPath);
     }

@@ -187,59 +187,21 @@ public class ExportUtil {
 	/**
 	 * 基础导出创建数据行
 	 */
-	private static <T> void baseCreateData(List<T> datas, 
-									   int columnNum, 
-									   List<ExportFormat> formatList, 
-									   int rowIndex,
-									   String[] fieldNameArray, 
-									   XSSFSheet sheet){
-		
-		XSSFCellStyle DefaultStringCellType = workbook.createCellStyle();
-		DefaultStringCellType.setAlignment(XSSFCellStyle.ALIGN_LEFT);
-		DefaultStringCellType.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-		
-		XSSFCellStyle defaultnumberCellTypeumberCellType = workbook.createCellStyle();
-		defaultnumberCellTypeumberCellType.setAlignment(XSSFCellStyle.ALIGN_RIGHT);
-		defaultnumberCellTypeumberCellType.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-		
-		XSSFCellStyle defaultimeCellTypeimeCellType = workbook.createCellStyle();
-		defaultimeCellTypeimeCellType.setAlignment(XSSFCellStyle.ALIGN_CENTER);
-		defaultimeCellTypeimeCellType.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
-		
+	private static <T> void baseCreateData(List<T> datas, int columnNum,  List<ExportFormat> formatList, int rowIndex,String[] fieldNameArray,  XSSFSheet sheet){
 		//创建数据行
 		try {
 			for (T data : datas) {
 				XSSFRow dataRow = sheet.createRow(rowIndex++);
-				
 				for (int i = 0; i < columnNum; i++) {
 					XSSFCell dataCell = dataRow.createCell(i);
-					
 					//得到要显示的值
 					String name = fieldNameArray[i];
 					name = name.substring(0, 1).toUpperCase() + name.substring(1);
 					Method m = data.getClass().getMethod("get" + name);
 					Object result = m.invoke(data);
-					
 					if(null != result){
-						String formatType = formatList.get(i).formatType();
-						String formatTypeValue = formatList.get(i).formatTypeValue();
-						String align = formatList.get(i).align();
-						
-						if(formatType.equals(ExportFormatConstant.FormatType.STRING)){
-							XSSFCellStyle cellStyle = getDataCellType(align);
-							dataCell.setCellStyle(null == cellStyle?DefaultStringCellType:cellStyle);
-							dataCell.setCellValue(result.toString());
-						}else if(formatType.equals(ExportFormatConstant.FormatType.NUMBER)){
-							XSSFCellStyle cellStyle = getDataCellType(align);
-							dataCell.setCellStyle(null == cellStyle?defaultnumberCellTypeumberCellType:cellStyle);
-							dataCell.setCellValue(format(formatType, formatTypeValue, result));
-						}else if(formatType.equals(ExportFormatConstant.FormatType.TIME)){
-							XSSFCellStyle cellStyle = getDataCellType(align);
-							dataCell.setCellStyle(null == cellStyle?defaultimeCellTypeimeCellType:cellStyle);
-							dataCell.setCellValue(format(formatType, formatTypeValue, result));
-						}
+						dataCell.setCellValue(result.toString());
 					}else{
-						dataCell.setCellStyle(DefaultStringCellType);
 						dataCell.setCellValue("");
 					}
 				}
@@ -598,7 +560,6 @@ public class ExportUtil {
 				formatList.add(exportFormat);
 			}
 		}
-
 		Object[] rs = sort(formatList);
 		formatList = (List<ExportFormat>)rs[0];
 		Map<Integer,Integer> sortMap = (Map<Integer, Integer>) rs[1];
@@ -614,24 +575,21 @@ public class ExportUtil {
 				fieldNameArray[index] = fields[i].getName();
 			}
 		}
-
 		try {
 			int rowIndex = 0;		//行索引
 			//创建workbook和sheet
 			workbook = new XSSFWorkbook();
 			XSSFSheet sheet = workbook.createSheet(sheetname);
-
-			//创建标题行
-//			rowIndex = createTitle(columnNum, rowIndex, sheet ,titlename);
-
 			//创建表头行
-			rowIndex = createHeader(columnNum, rowIndex, tableHeaderArray, sheet);
-
+			XSSFRow tableHeaderRow = sheet.createRow(rowIndex++);
+			for (int i = 0; i < columnNum; i++) {
+				XSSFCell cell = tableHeaderRow.createCell(i);
+				cell.setCellValue(tableHeaderArray[i]);
+			}
 			if(CollectionUtils.isNotEmpty(datas)){
 				//创建数据行
-				baseCreateData(datas, columnNum, formatList, rowIndex, fieldNameArray, sheet);
+				baseCreateData(datas, columnNum, formatList, rowIndex++, fieldNameArray, sheet);
 			}
-
 			File file = new File(savePath);
 			if(!file.exists()){
 				file.mkdirs();
@@ -649,5 +607,4 @@ public class ExportUtil {
 			return;
 		}
 	}
-
 }

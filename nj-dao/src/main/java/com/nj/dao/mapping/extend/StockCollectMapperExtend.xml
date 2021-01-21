@@ -33,7 +33,7 @@
         and stock_no  like CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
       </if>
     </where>
-    <if test="start != null and length != null">
+    <if test="start != null and length != ''">
       limit #{start},#{length}
     </if>
   </select>
@@ -41,14 +41,30 @@
       SELECT store_name as storeName from stock_collect GROUP BY store_name
     </select>
   <select id="selectByStoreName" resultType="com.nj.model.datamodel.StockCollectZipModel">
-        SELECT
+    SELECT
         a.*,
        	IF(ISNULL(b.stock_no),'N','Y') as isActivity
     FROM
         stock_collect a
         LEFT JOIN activity_stock b ON a.meterial_no = b.stock_no
-    WHERE
+    <where>
+      <if test="storeName != null and storeName != ''">
         store_name = #{storeName}
+      </if>
+    </where>
+  </select>
+  <select id="selectCollectList" resultType="com.nj.model.datamodel.StockCollectModel">
+      SELECT
+      ( @i := @i + 1 ) AS sort_name,
+      t.* from
+      (SELECT
+          a.*,
+      IF( ISNULL( b.stock_no ), 'N', 'Y' ) AS isActivity
+      FROM
+          stock_collect a
+          LEFT JOIN activity_stock b ON a.meterial_no = b.stock_no
+           ORDER BY a.store_name) as t,
+          (SELECT	@i := 0 ) AS it
   </select>
 
 </mapper>

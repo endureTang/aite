@@ -87,4 +87,6 @@ package com.nj.service.base.system;
             ActivityStockMapper activityStockMapper = dao.getMapper(ActivityStockMapper.class);
             activityStockMapper.deleteByExample(null);
         }
+
+
     }

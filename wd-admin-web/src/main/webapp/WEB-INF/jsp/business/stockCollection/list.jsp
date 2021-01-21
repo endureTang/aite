@@ -38,33 +38,64 @@
 					   class="btn btn-sm btn-custom role-del">
 						<i class="fa fa-fw fa-plus"></i>清空数据
 					</a>
+				</div>
 
-					<button type="button" onclick="downLoadZip()"
-							class="btn btn-sm btn-primary role-add">
-						<i class="fa fa-fw fa-plus"></i>下载库存汇总
-					</button>
-					<button type="button" onclick="exportZip()"
-							class="btn btn-sm btn-primary role-add">
+				<div class="box-header">
+
+					<a type="button" onclick="execZip()" class="btn btn-sm btn-primary" >
+						<i class="fa fa-fw fa-plus"></i>执行zip压缩
+					</a>
+					<a type="button" onclick="execCollect()" class="btn btn-sm btn-primary" >
+						<i class="fa fa-fw fa-plus"></i>执行总库存生成
+					</a>
+
+					<a href="static/upload/zipFile/全部门店.zip" class="btn btn-sm btn-success" id="downLoadZip" style="float: right;margin-left: 10px;display: none">
 						<i class="fa fa-fw fa-plus"></i>下载zip
-					</button>
+					</a>
+					<a href="static/upload/zipFile/总库存数据.xlsx" class="btn btn-sm btn-success" id="downLoadCollect" style="float: right;display: none">
+						<i class="fa fa-fw fa-plus"></i>下载总库存
+					</a>
+
+
 				</div>
 				<!-- /.box-header -->
-				<div class="box-body">
-					<table id="default_table"
-						   class="table table-primary table-bordered table-hover table-striped table-custom">
-						<thead>
-						<tr>
-							<th width="10px" style="padding-right: 12px;"><input type='checkbox' id="defaultCheck" /></th>
-							<th>货号</th>
-							<th>尺码</th>
-							<th>数量</th>
-							<th>折扣</th>
-							<th>吊牌价</th>
-							<th>渠道价</th>
-							<th>操作</th>
-						</tr>
-						</thead>
-					</table>
+				<div class="box-body" style="border-top:solid #ACC0D8 1px;width: 100%;margin-top: 10px;">
+					<h5>上传的模板zip文件和执行生成文件均会在此展示，点击即可下载。</h5>
+					<hr>
+					<div >已上传文件：<div id="uploadDiv"></div></div>
+					<hr>
+					<div >待下载文件：<div id="downloadDiv"></div></div>
+				</div>
+				<div class="box-body" style="border-top:solid #ACC0D8 1px;width: 100%;margin-top: 10px;">
+
+					<h4>操作说明：</h4>
+					<ul>
+						<li>操作汇总前，请确保活动文档已经上传，否则无法完成参与活动关联。</li>
+						<li>模板：
+							<ul>
+								<li style="color: red">根据PPT三种模板分类，需保证上传压缩zip文件中仅有对应的模板文件，否则程序将报错。</li>
+								<li>为了避免压缩包过大导致系统内存空间不足，建议分批次压缩，多次上传。</li>
+								<li>下拉框选择模板分类后，点击”导入库存汇总zip“选择压缩文件进行上传。</li>
+								<li >这一步操作是后续工作的基础。</li>
+							</ul>
+						</li>
+						</li>
+						<li>执行zip压缩：
+							<ul>
+								<li>将上传的模板文件按照给定的格式和不同门店重新生成excel文件，并将生成后的excel文件压缩为zip文件，以供下载。</li>
+								<li>这一步由于涉及到excel的创建，耗费时间会较长，请耐心等待。</li>
+								<li>文件压缩成功后，右侧会出现对应的下载按钮。</li>
+							</ul>
+						</li>
+						<li>执行总库存生成：
+							<ul>
+								<li>将上传的模板文件所有数据按照给定的汇总格式进行汇总，并生成一个excel，以供下载。</li>
+								<li>这一步由于涉及到excel的创建，耗费时间会较长，请耐心等待。</li>
+								<li>文件生成成功后，右侧会出现对应的下载按钮。</li>
+							</ul>
+						</li>
+						<li>清空数据：删除所有文件和数据。
+					</ul>
 				</div>
 				<!-- /.box-body -->
 			</div>
@@ -76,69 +107,9 @@
 </section>
 
 <script type="text/javascript">
-	var defTable;
-	$(document).ready(function() {
-		defTable = $('#default_table').DataTable( {
-			"ordering": false,
-			"pagingType": "simple_numbers",
-			"processing": true,
-			"autoWidth": false,
-			"serverSide": true,
-			"ajax": {
-				"url" : "stockBase/list",
-				"type" : "post",
-				"data": function (data) {
-					data.type = $("#type").val();
-					data.keyword = $("#keyword").val();
-				}
-			},
-			"language": {
-				"url": "<%=basePath%>static/AdminLTE/plugins/datatables/cn.txt"
-			},
-			"createdRow": function (row, data, index ) {
-				$('td:eq(0)', row).html("<input type='checkbox' name='chx_default' value='" + data.id + "'/>");
-			},
-			"columns": [
-				{ "data": "id" },
-				{ "data": "stockNo" },
-				{ "data": "specification" },
-				{ "data": "amount" },
-				{ "data": "discount" },
-				{ "data": "channelPrice" },
-				{ "data": "basePrice" },
-				{ "data": null }
-			],
-			"columnDefs": [{
-				"targets": 7,
-				"render": function(data, type, row) {
-					var html = htmlTpl.dropdown.prefix
-							<shiro:hasPermission name="strategy/edit">
-							+ '  <li><a href="stockBase/edit?id='+row.id+'" data-model="dialog"><i class="fa fa-pencil"></i>编辑</a></li>'
-							</shiro:hasPermission>
-							<shiro:hasPermission name="stockBase/delete">
-							+ '  <li><a href="stockBase/delete?id='+row.id+'" data-msg="确定删除吗？" data-model="ajaxToDo" data-callback="refreshTable"><i class="fa fa-trash-o"></i>删除</a></li>'
-							</shiro:hasPermission>
-							+ htmlTpl.dropdown.suffix;
-					return html;
-				}
-			}],
-			"drawCallback": function (settings) {
-				drawICheck('defaultCheck', 'chx_default');
-			},
-			"initComplete": function () {
-				initSearchForm(null, "搜索货号");
-			}
-		});
-	});
 
-	function refreshTable(toFirst) {
-		//defaultTable.ajax.reload();
-		if(toFirst){//表格重绘，并跳转到第一页
-			defTable.draw();
-		}else{//表格重绘，保持在当前页
-			defTable.draw(false);
-		}
-	}
+	getDownloadFiles();
+	getUploadFiles();
 
 	function easyUpload(){
 		var type = $("#type").val();
@@ -146,7 +117,7 @@
 		input.type = "file";
 		input.click();
 		input.onchange = function(){
-			onloading();
+			MaskUtil.mask("文件上传中...");
 			var file = input.files[0];
 			var form = new FormData();
 			form.append("file", file); //第一个参数是后台读取的请求key值
@@ -160,277 +131,271 @@
 				if(xhr.readyState==4 && xhr.status==200){
 					var resultObj = JSON.parse(xhr.responseText);
 					if(resultObj.status== 1){
-						refreshTable(true);
+						getUploadFiles();
 						BootstrapDialog.show({
 							type: BootstrapDialog.TYPE_SUCCESS,
 							title: '操作结果提示',
-							message: "库存档案上传完毕",
+							message: "上传完毕",
 						});
 					}else{
 						BootstrapDialog.show({
 							type: BootstrapDialog.TYPE_WARNING,
 							title: '操作结果提示',
-							message: "库存档案上传出错，"+resultObj.msg,
+							message: "上传出错，"+resultObj.msg,
 						});
 					}
-					removeload();
+					MaskUtil.unmask();
 				}
 			}
 		}
 	}
 
-	function exportZip(){
+	//将所有上传的门店数据按照门店名称分别生成excel并压缩
+	function execZip(){
+		MaskUtil.mask("请耐心等待，执行zip压缩中...");
 		$.ajax({
-			url:'stockCollect/exportZip',
+			url:'stockCollect/execZip',
 			dataType:'json',
 			type:'POST',
-			async: false,
 			processData : false, // 使数据不做处理
 			contentType : false, // 不要设置Content-Type请求头
 			success: function(data){
-				console.log(data);
+				MaskUtil.unmask();
 				if (data.status == '1') {
-					$(obj).attr("disabled","disabled");
-					$(obj).parent().parent().find("#strategyId").attr("disabled","disabled");
-					$(obj).parent().parent().find(".file").attr("disabled","disabled");
+					$("#downLoadZip").show();
+					getDownloadFiles();
 					BootstrapDialog.show({
 						type: BootstrapDialog.TYPE_SUCCESS,
 						title: '操作结果提示',
-						message: "上传成功",
+						message: "执行成功，总共耗时:"+data.msg,
 					});
 				}else{
 					BootstrapDialog.show({
 						type: BootstrapDialog.TYPE_WARNING,
 						title: '操作结果提示',
-						message: "上传失败，"+data.msg,
+						message: data.msg,
 					});
 				}
 			},
 			error:function(response){
+				MaskUtil.unmask();
 				console.log(response);
 			}
 		});
 	}
 
-	function onloading(){
-		loading.baosight.showPageLoadingMsg(false);
-	}
-	function removeload(){
-		loading.baosight.hidePageLoadingMsg();
-	}
-
-
-	var loading = {
-		baosight : {
-			showPageLoadingMsg : function(showMessage){
-				if($("#_loading_div").length == 0){
-					$(".row").append('<div id="_loading_div"><span class="item-1"></span><span class="item-2"></span><span class="item-3"></span><span class="item-4"></span><span class="item-5"></span><span class="item-6"></span><span class="item-7"></span></div>');
+	//生成汇总excel
+	function execCollect(){
+		MaskUtil.mask("请耐心等待，生成总库存中...");
+		$.ajax({
+			url:'stockCollect/execCollect',
+			dataType:'json',
+			type:'POST',
+			processData : false, // 使数据不做处理
+			contentType : false, // 不要设置Content-Type请求头
+			success: function(data){
+				MaskUtil.unmask();
+				console.log(data);
+				if (data.status == '1') {
+					$("#downLoadCollect").show();
+					getDownloadFiles();
+					BootstrapDialog.show({
+						type: BootstrapDialog.TYPE_SUCCESS,
+						title: '操作结果提示',
+						message: "汇总成功，总共耗时:"+data.msg,
+					});
+				}else{
+					BootstrapDialog.show({
+						type: BootstrapDialog.TYPE_WARNING,
+						title: '操作结果提示',
+						message: data.msg,
+					});
 				}
-				if($("#_loadMsg").length == 0){
-					$(".row").append('<div id="_loadMsg">正在加载,请稍候... ...</div>');
-				}
-				if(showMessage == true || showMessage == "true" ){
-					$("#_loadMsg").show();
-				}
-				$("#_loading_div").show();
 			},
-			hidePageLoadingMsg :function() {
-				$("#_loading_div").hide();
-				$("#_loadMsg").hide();
+			error:function(response){
+				MaskUtil.unmask();
+				console.log(response);
 			}
-		}
+		});
 	}
+
+	function clearData(){
+		if(confirm("确认清空数据？")){
+			MaskUtil.mask("数据清除中...");
+			$.ajax({
+				url:'stockCollect/clearStockCollectAndFiles',
+				dataType:'json',
+				type:'POST',
+				success: function(data){
+					MaskUtil.unmask();
+					if (data.status == '1') {
+						getUploadFiles();
+						getDownloadFiles();
+						BootstrapDialog.show({
+							type: BootstrapDialog.TYPE_SUCCESS,
+							title: '操作结果提示',
+							message: "数据已清空",
+						});
+					}else{
+						BootstrapDialog.show({
+							type: BootstrapDialog.TYPE_WARNING,
+							title: '操作结果提示',
+							message: "数据清空失败，"+data.msg,
+						});
+					}
+				},
+				error:function(response){
+					MaskUtil.unmask();
+					console.log(response);
+				}
+			});
+		}
+
+	}
+
+	//获取已经上传的文件
+	function getUploadFiles(){
+		$("#uploadDiv").html();
+		$.ajax({
+			url:'stockCollect/getUploadFiles',
+			dataType:'json',
+			type:'POST',
+			success: function(data){
+				if (data.status == '1') {
+					const files = data.files;
+					let tempStr = "";
+					$.each(files,function(index,element){
+						tempStr +="<a style='margin-right: 10px;' href="+element.filePath+">"+element.fileName+"</a>"
+					});
+					$("#uploadDiv").html(tempStr);
+				}
+			}
+		});
+	}
+	//获取已经生成待下载的文件
+	function getDownloadFiles(){
+		$.ajax({
+			url:'stockCollect/getDownloadFiles',
+			dataType:'json',
+			type:'POST',
+			success: function(data){
+				if (data.status == '1') {
+					const files = data.files;
+					let tempStr = "";
+					$.each(files,function(index,element){
+						tempStr +="<a style='margin-right: 10px;' href="+element.filePath+">"+element.fileName+"</a>"
+					});
+					$("#downloadDiv").html(tempStr);
+				}
+			}
+		});
+	}
+
 </script>
-<style>
 
-	#_loadMsg{
-		display: inline-block;
-		width: 100%;
-		text-align: center;
-		line-height: 45;
-		padding-left: 20px;
-		display : none;
-	}
+<script type="text/javascript">
+	/**
+	 * 使用方法:
+	 * 开启:MaskUtil.mask();
+	 * 关闭:MaskUtil.unmask();
+	 *
+	 * MaskUtil.mask('其它提示文字...');
+	 */
 
-	#_loading_div {
-		vertical-align: middle;
-		display: inline-block;
-		width: 100%;
-		height: 100%;
-		margin: 0 auto;
-		text-align: center;
-		position: absolute;
-		z-index: 3;
-		line-height: 40;
-		opacity: 0.5;
-		display : none;
-		background: #CCCCCC;
-	}
+// MaskUtil Start
 
-	#_loading_div span {
-		display: inline-block;
-		width: 10px;
-		height: 40px;
-		animation-name: scale;
-		-webkit-animation-name: scale;
-		-moz-animation-name: scale;
-		-ms-animation-name: scale;
-		-o-animation-name: scale;
-		animation-duration: 1.2s;
-		-webkit-animation-duration: 1.2s;
-		-moz-animation-duration: 1.2s;
-		-ms-animation-duration: 1.2s;
-		-o-animation-duration: 1.2s;
-		animation-iteration-count: infinite;
-		-webkit-animation-iteration-count: infinite;
-		-moz-animation-iteration-count: infinite;
-		-ms-animation-iteration-count: infinite;
-		-o-animation-iteration-count: infinite;
-	}
-	span.item-1 {
-		background: #2ecc71;
-	}
-	span.item-2 {
-		background: #3498db;
-	}
-	span.item-3 {
-		background: #9b59b6;
-	}
-	span.item-4 {
-		background: #e67e22;
-	}
-	span.item-5 {
-		background: #c0392b;
-	}
-	span.item-6 {
-		background: #e74c3c;
-	}
-	span.item-7 {
-		background: #e74c8c;
-	}
+	var MaskUtil = (function(){
+		var $mask,$maskMsg;
+		var defMsg = '处理中，请耐心等待...';
+		function init(){
+			if(!$mask){
+				$mask = $("<div></div>")
 
-	.item-1 {
-		animation-delay: -1s;
-		-webkit-animation-delay: -1s;
-		-moz-animation-delay: -1s;
-		-ms-animation-delay: -1s;
-		-o-animation-delay: -1s;
-	}
+						.css({
+							'position' : 'absolute'
 
-	.item-2 {
-		animation-delay: -0.9s;
-		-webkit-animation-delay: -0.9s;
-		-moz-animation-delay: -0.9s;
-		-ms-animation-delay: -0.9s;
-		-o-animation-delay: -0.9s;
-	}
+							,'left' : '0'
 
-	.item-3 {
-		animation-delay: -0.8s;
-		-webkit-animation-delay: -0.8s;
-		-moz-animation-delay: -0.8s;
-		-ms-animation-delay: -0.8s;
-		-o-animation-delay: -0.8s;
-	}
+							,'top' : '0'
 
-	.item-4 {
-		animation-delay: -0.7s;
-		-webkit-animation-delay: -0.7s;
-		-moz-animation-delay: -0.7s;
-		-ms-animation-delay: -0.7s;
-		-o-animation-delay: -0.7s;
-	}
+							,'width' : '100%'
 
-	.item-5 {
-		animation-delay: -0.6s;
-		-webkit-animation-delay: -0.6s;
-		-moz-animation-delay: -0.6s;
-		-ms-animation-delay: -0.6s;
-		-o-animation-delay: -0.6s;
-	}
+							,'height' : '100%'
 
-	.item-6 {
-		animation-delay: -0.5s;
-		-webkit-animation-delay: -0.5s;
-		-moz-animation-delay: -0.5s;
-		-ms-animation-delay: -0.5s;
-		-o-animation-delay: -0.5s;
-	}
+							,'opacity' : '0.3'
 
-	.item-7 {
-		animation-delay: -0.4s;
-		-webkit-animation-delay: -0.4s;
-		-moz-animation-delay: -0.4s;
-		-ms-animation-delay: -0.4s;
-		-o-animation-delay: -0.4s;
-	}
+							,'filter' : 'alpha(opacity=30)'
 
-	@-webkit-keyframes scale {
-		0%, 40%, 100% {
-			-moz-transform: scaleY(0.2);
-			-ms-transform: scaleY(0.2);
-			-o-transform: scaleY(0.2);
-			-webkit-transform: scaleY(0.2);
-			transform: scaleY(0.2);
+							,'display' : 'none'
+
+							,'background-color': '#ccc'
+
+						})
+
+						.appendTo("body");
+
+			}
+
+			if(!$maskMsg){
+				$maskMsg = $("<div></div>")
+						.css({
+							'position': 'absolute'
+
+							,'top': '50%'
+
+							,'margin-top': '-20px'
+
+							,'padding': '5px 20px 5px 20px'
+
+							,'width': 'auto'
+
+							,'border-width': '1px'
+
+							,'border-style': 'solid'
+
+							,'display': 'none'
+
+							,'background-color': '#ffffff'
+
+							,'font-size':'14px'
+
+						})
+
+						.appendTo("body");
+
+			}
+
+			$mask.css({width:"100%",height:$(document).height()});
+
+			var scrollTop = $(document.body).scrollTop();
+
+			$maskMsg.css({
+				left:( $(document.body).outerWidth(true) - 190 ) / 2
+
+				,top:( ($(window).height() - 45) / 2 ) + scrollTop
+
+			});
+
 		}
 
-		20%, 60% {
-			-moz-transform: scaleY(1);
-			-ms-transform: scaleY(1);
-			-o-transform: scaleY(1);
-			-webkit-transform: scaleY(1);
-			transform: scaleY(1);
-		}
-	}
-	@-moz-keyframes scale {
-		0%, 40%, 100% {
-			-moz-transform: scaleY(0.2);
-			-ms-transform: scaleY(0.2);
-			-o-transform: scaleY(0.2);
-			-webkit-transform: scaleY(0.2);
-			transform: scaleY(0.2);
+		return {
+			mask:function(msg){
+				init();
+
+				$mask.show();
+
+				$maskMsg.html(msg||defMsg).show();
+
+			}
+
+			,unmask:function(){
+				$mask.hide();
+
+				$maskMsg.hide();
+
+			}
+
 		}
 
-		20%, 60% {
-			-moz-transform: scaleY(1);
-			-ms-transform: scaleY(1);
-			-o-transform: scaleY(1);
-			-webkit-transform: scaleY(1);
-			transform: scaleY(1);
-		}
-	}
-	@-ms-keyframes scale {
-		0%, 40%, 100% {
-			-moz-transform: scaleY(0.2);
-			-ms-transform: scaleY(0.2);
-			-o-transform: scaleY(0.2);
-			-webkit-transform: scaleY(0.2);
-			transform: scaleY(0.2);
-		}
-
-		20%, 60% {
-			-moz-transform: scaleY(1);
-			-ms-transform: scaleY(1);
-			-o-transform: scaleY(1);
-			-webkit-transform: scaleY(1);
-			transform: scaleY(1);
-		}
-	}
-	@keyframes scale {
-		0%, 40%, 100% {
-			-moz-transform: scaleY(0.2);
-			-ms-transform: scaleY(0.2);
-			-o-transform: scaleY(0.2);
-			-webkit-transform: scaleY(0.2);
-			transform: scaleY(0.2);
-		}
-
-		20%, 60% {
-			-moz-transform: scaleY(1);
-			-ms-transform: scaleY(1);
-			-o-transform: scaleY(1);
-			-webkit-transform: scaleY(1);
-			transform: scaleY(1);
-		}
-	}
-</style>
+	}());
+</script>

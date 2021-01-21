@@ -6,6 +6,7 @@ import com.nj.model.datamodel.StockCollectModel;
 import com.nj.model.datamodel.StockCollectZipModel;
 import com.nj.model.generate.ActivityStock;
 import com.nj.model.generate.StockCollect;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,5 +18,7 @@ public interface StockCollectMapperExtend extends BaseMapper {
 
     List<String> getStoreNameList();
 
-    List<StockCollectZipModel> selectByStoreName(String storeName);
+    List<StockCollectZipModel> selectByStoreName(@Param("storeName") String storeName);
+
+    List<StockCollectModel> selectCollectList();
 }

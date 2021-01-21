@@ -50,9 +50,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @version 1.0
@@ -64,14 +62,17 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/stockCollect")
 public class StockCollectController extends BaseController {
+	//模板上传路径地址
+	private static final String MODEL_UPLOAD_PATH = "static" + File.separator + "upload" + File.separator + "zipFile" + File.separator + "upload" + File.separator;
+	//生成文件以供下载地址
+	private static final String DOWNLOAD_PATH = "static" + File.separator + "upload" + File.separator + "zipFile" + File.separator + "download" + File.separator;
+	//父级地址
+	private static final String BASE_PATH = "static" + File.separator + "upload" + File.separator + "zipFile" + File.separator;
 
 	private static Logger logger = LoggerFactory.getLogger(StockCollectController.class);
 
 	@Resource
 	private ActivityStockService activityStockService;
-
-	@Resource
-	private StockCollectService stockCollectService;
 
 	/**
 	* @description: 跳转到参与过活动的库存上传页面
@@ -79,7 +80,7 @@ public class StockCollectController extends BaseController {
 	* @return: org.springframework.web.servlet.ModelAndView
 	* @author endure
 	* @date: 2021-01-11 11:16
-	 */ 
+	 */
 	@ResourcesAnnotion(uri="/stockCollect/goEventUpload",name="活动库存上传",resourceType=1,parentId="2")
 	@RequestMapping("goEventUpload")
 	public ModelAndView goEventUpload (String s){
@@ -87,14 +88,14 @@ public class StockCollectController extends BaseController {
 		mv.setViewName("business/stockCollection/activityUpload");
 		return mv;
 	}
-	
+
 	/**
 	* @description: 跳转到库存汇总操作页面
 	* @param: []
 	* @return: org.springframework.web.servlet.ModelAndView
 	* @author endure
 	* @date: 2021-01-11 11:17
-	 */ 
+	 */
 	@ResourcesAnnotion(uri="/stockCollect/goCollect",name="库存汇总",resourceType=1,parentId="2")
 	@RequestMapping("goCollect")
 	public ModelAndView goCollect (){
@@ -102,6 +103,9 @@ public class StockCollectController extends BaseController {
 		mv.setViewName("business/stockCollection/list");
 		return mv;
 	}
+
+	@Resource
+	private StockCollectService stockCollectService;
 
 	/**
 	* @description: 活动文件上传
@@ -261,7 +265,7 @@ public class StockCollectController extends BaseController {
 	}
 
 	/**
-	* @description: 清空数据
+	* @description: 清空活动数据
 	* @param: [request]
 	* @return: com.nj.core.base.util.PageData
 	* @author endure
@@ -283,12 +287,36 @@ public class StockCollectController extends BaseController {
 		return result;
 	}
 
+	/**
+	 * @description: 清空汇总数据和文件
+	 * @param: [request]
+	 * @return: com.nj.core.base.util.PageData
+	 * @author endure
+	 * @date: 2021-01-19 10:10
+	 */
+	@RequestMapping(value="/clearStockCollectAndFiles", method = RequestMethod.POST)
+	@ResponseBody
+	public PageData clearStockCollectAndFiles(HttpServletRequest request){
+		PageData result = new PageData();
+		try {
+			String realPath = request.getSession().getServletContext().getRealPath(BASE_PATH);
+			ZipHelperUtils.deletefile(realPath); //删除文件
+			stockCollectService.clearStockCollect();//删除数据
+			result.put("status", 1);
+		} catch (Exception e) {
+			logger.error("add role error", e);
+			result.put("status", 0);
+			result.put("msg", "清空失败");
+		}
+		return result;
+	}
+
 	@RequestMapping(value = "/updateZipFile", method = RequestMethod.POST)
 	@ResponseBody
 	public PageData updateZipFile(@RequestParam("file") MultipartFile file, HttpServletRequest request,@RequestParam("type") String type) {
 		PageData result = new PageData();
 		try {
-			String realPath = request.getSession().getServletContext().getRealPath("static"+ File.separator +"upload" + File.separator+"zipFile"+File.separator);
+			String realPath = request.getSession().getServletContext().getRealPath(MODEL_UPLOAD_PATH);
 			File zipFile = new File(realPath+File.separator+file.getOriginalFilename());
 			FileUtils.copyInputStreamToFile(file.getInputStream(), zipFile);
 			String tempPath = realPath + File.separator + "temp" + type;//tempPath根据type的不同区分
@@ -302,15 +330,102 @@ public class StockCollectController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value={"/exportZip"})
+	@RequestMapping(value={"/execZip"})
 	@ResponseBody
-	public String exportPriceData(HttpServletRequest request, HttpServletResponse response)	{
+	public PageData execZip(HttpServletRequest request, HttpServletResponse response)	{
+		PageData result = new PageData();
 		try{
-			String realPath = request.getSession().getServletContext().getRealPath("static"+ File.separator +"upload" + File.separator+"zipFile"+File.separator);
-			stockCollectService.selectDownLoadZipList(realPath+File.separator + "exportExcel");
+			String realPath = request.getSession().getServletContext().getRealPath(DOWNLOAD_PATH);
+			long totalSec = stockCollectService.selectDownLoadZipList(realPath);
+			if(totalSec >60){
+				result.put("msg", totalSec / 60 +"分");
+			}else{
+				result.put("msg", totalSec+"秒");
+			}
+			result.put("status", 1);
+
 		}catch (Exception e){
+			logger.error(e.fillInStackTrace()+"");
+			result.put("msg", "压缩失败，错误信息：" + e.getMessage());
+		}
+		return result;
+	}
+
+	@RequestMapping(value={"/execCollect"})
+	@ResponseBody
+	public PageData execCollect(HttpServletRequest request, HttpServletResponse response)	{
+		PageData result = new PageData();
+		try{
+			String realPath = request.getSession().getServletContext().getRealPath(DOWNLOAD_PATH);
+			long totalSec = stockCollectService.execCollect(realPath);
+			if(totalSec >60){
+				result.put("msg", totalSec / 60 +"分");
+			}else{
+				result.put("msg", totalSec+"秒");
+			}
+			result.put("status", 1);
+		}catch (Exception e){
+			logger.error(e.fillInStackTrace()+"");
+			result.put("msg", "汇总失败，错误信息：" + e.getMessage());
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/getUploadFiles", method = RequestMethod.POST)
+	@ResponseBody
+	public PageData getUploadFiles(HttpServletRequest request) {
+		PageData result = new PageData();
+		try {
+			String realPath = request.getSession().getServletContext().getRealPath(MODEL_UPLOAD_PATH);
+			String path = request.getContextPath();
+			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+			File tempFile = new File(realPath);
+			File[] excelFiles = tempFile.listFiles();
+			List<Map<String,String>> fileStr = new ArrayList<>();
+			if(excelFiles != null && excelFiles.length>0){
+				for(File file:excelFiles) { //遍历File[]数组
+					if (!file.isDirectory()) {//若非目录(即文件)
+						Map<String, String> fileMap = new HashMap<>();
+						fileMap.put("fileName", file.getName());
+						fileMap.put("filePath", basePath +MODEL_UPLOAD_PATH+ file.getName());
+						fileStr.add(fileMap);
+					}
+				}
+			}
+
+			result.put("status", 1);
+			result.put("files", fileStr);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "导出成功";
+		return result;
+	}
+	@RequestMapping(value = "/getDownloadFiles", method = RequestMethod.POST)
+	@ResponseBody
+	public PageData getDownloadFiles(HttpServletRequest request) {
+		PageData result = new PageData();
+		try {
+			String realPath = request.getSession().getServletContext().getRealPath(DOWNLOAD_PATH);
+			String path = request.getContextPath();
+			String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+			File tempFile = new File(realPath);
+			File[] excelFiles = tempFile.listFiles();
+			List<Map<String,String>> fileStr = new ArrayList<>();
+			if(excelFiles != null && excelFiles.length>0){
+				for(File file:excelFiles) { //遍历File[]数组
+					if (!file.isDirectory()) {//若非目录(即文件)
+						Map<String, String> fileMap = new HashMap<>();
+						fileMap.put("fileName", file.getName());
+						fileMap.put("filePath", basePath +DOWNLOAD_PATH+ file.getName());
+						fileStr.add(fileMap);
+					}
+				}
+			}
+			result.put("status", 1);
+			result.put("files", fileStr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

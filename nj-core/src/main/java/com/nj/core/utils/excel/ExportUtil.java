@@ -20,7 +20,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -33,7 +37,7 @@ import org.slf4j.LoggerFactory;
 import com.nj.core.base.util.StringUtils;
 
 public class ExportUtil {
-	
+
 	private static Logger log = LoggerFactory.getLogger(ExportUtil.class);
 
 	private static XSSFWorkbook workbook;
@@ -408,7 +412,7 @@ public class ExportUtil {
 	/**
 	 * 对集合排序
 	 */
-	private static Object[] sort(List<ExportFormat> efList){
+	public static Object[] sort(List<ExportFormat> efList){
 		
 		List<Integer> list = new ArrayList<Integer>();
 		List<ExportFormat> ef = new ArrayList<ExportFormat>();
@@ -588,7 +592,9 @@ public class ExportUtil {
 			}
 			if(CollectionUtils.isNotEmpty(datas)){
 				//创建数据行
+				log.info("开始创建数据行...");
 				baseCreateData(datas, columnNum, formatList, rowIndex++, fieldNameArray, sheet);
+				log.info("结束创建数据行...");
 			}
 			File file = new File(savePath);
 			if(!file.exists()){

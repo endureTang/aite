@@ -55,16 +55,25 @@
   </select>
   <select id="selectCollectList" resultType="com.nj.model.datamodel.StockCollectModel">
       SELECT
-      ( @i := @i + 1 ) AS sort_name,
-      t.* from
-      (SELECT
+          0 as sortName,
           a.*,
       IF( ISNULL( b.stock_no ), 'N', 'Y' ) AS isActivity
       FROM
           stock_collect a
-          LEFT JOIN activity_stock b ON a.meterial_no = b.stock_no
-           ORDER BY a.store_name) as t,
-          (SELECT	@i := 0 ) AS it
+          LEFT JOIN activity_stock b ON a.meterial_no = b.stock_no limit 100000
   </select>
+  <select id="selectCollectCount" resultType="java.lang.Long">
+    SELECT count(meterial_no) from stock_collect
+  </select>
+  <select id="selectCollectListPage" resultType="com.nj.model.datamodel.StockCollectModel">
+    SELECT
+          0 as sortName,
+          a.*,
+      IF( ISNULL( b.stock_no ), 'N', 'Y' ) AS isActivity
+      FROM
+          stock_collect a
+          LEFT JOIN activity_stock b ON a.meterial_no = b.stock_no limit #{start},#{end}
+  </select>
+
 
 </mapper>

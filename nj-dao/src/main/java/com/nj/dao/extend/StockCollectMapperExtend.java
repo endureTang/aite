@@ -21,4 +21,9 @@ public interface StockCollectMapperExtend extends BaseMapper {
     List<StockCollectZipModel> selectByStoreName(@Param("storeName") String storeName);
 
     List<StockCollectModel> selectCollectList();
+
+    long selectCollectCount();
+
+
+    List<StockCollectModel> selectCollectListPage(@Param("start") int start, @Param("end")int end);
 }

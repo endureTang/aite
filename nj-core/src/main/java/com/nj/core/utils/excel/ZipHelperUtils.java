@@ -184,7 +184,7 @@ public class ZipHelperUtils {
         for (int i = 0; i < files.length; i++) {
             FileInputStream fis = new FileInputStream(files[i]);
             if (files.length == 1 && name != null) {
-                out.putNextEntry(new java.util.zip.ZipEntry(name));
+                out.putNextEntry(new java.util.zip.ZipEntry(files[i].getName()));
             } else {
                 out.putNextEntry(new java.util.zip.ZipEntry(files[i].getName()));
             }

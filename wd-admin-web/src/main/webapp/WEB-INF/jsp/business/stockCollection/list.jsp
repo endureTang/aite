@@ -100,8 +100,9 @@
 					</ul>
 				</div>
 				<div class="box-body" style="border-top:solid #ACC0D8 1px;width: 100%;margin-top: 10px;">
-					<h4>开发模拟处理效率参考：时间仅作为参考，效率与服务器系统配置和数据量有关。</h4>
+					<h4>开发模拟：</h4>
 					<hr>
+					仅作为参考，响应时间与服务器系统配置和数据量有关。
 					<ul>
 						<li>本机电脑配置：i511 CPU,16G内存</li>
 						<li>模板上传

@@ -66,17 +66,19 @@
 					<hr>
 					<div >待下载文件：<div id="downloadDiv"></div></div>
 				</div>
+
 				<div class="box-body" style="border-top:solid #ACC0D8 1px;width: 100%;margin-top: 10px;">
 
 					<h4>操作说明：</h4>
+					<hr>
 					<ul>
 						<li>操作汇总前，请确保活动文档已经上传，否则无法完成参与活动关联。</li>
 						<li>模板：
 							<ul>
-								<li style="color: red">根据PPT三种模板分类，需保证上传压缩zip文件中仅有对应的模板文件，否则程序将报错。</li>
-								<li>为了避免压缩包过大导致系统内存空间不足，建议分批次压缩，多次上传。</li>
+								<li><label style="color: red">根据PPT三种模板分类，需保证上传压缩zip文件中仅有对应的模板文件，否则程序将报错。</label></li>
 								<li>下拉框选择模板分类后，点击”导入库存汇总zip“选择压缩文件进行上传。</li>
 								<li >这一步操作是后续工作的基础。</li>
+								<li><label style="color: red">注意</label>：如果数据量太大，为了避免压缩包过大导致系统内存空间不足，建议分批次压缩，多次上传。</li>
 							</ul>
 						</li>
 						</li>
@@ -97,6 +99,22 @@
 						<li>清空数据：删除所有文件和数据。
 					</ul>
 				</div>
+				<div class="box-body" style="border-top:solid #ACC0D8 1px;width: 100%;margin-top: 10px;">
+					<h4>开发模拟处理效率参考：时间仅作为参考，效率与服务器系统配置和数据量有关。</h4>
+					<hr>
+					<ul>
+						<li>本机电脑配置：i511 CPU,16G内存</li>
+						<li>模板上传
+							<ul>
+								<li>模板一：20家门店，每家门店8319条数据，上传需要2.6分钟，平均每家门店需要7.8秒</li>
+								<li>模板二：30家门店，每家门店5067条数据，上传需要2.7分钟，平均每家门店需要5.4秒</li>
+								<li>模板三：21家门店，每家门店5067条数据，上传需要3.1分钟，平均每家门店需要8.8秒</li>
+							</ul>
+						</li>
+						<li>生成汇总zip：61家门店，48万条数据，耗时12分钟</li>
+						<li>生成汇总excel：一共48万条数据，耗时 7分钟</li>
+					</ul>
+				</div>
 				<!-- /.box-body -->
 			</div>
 			<!-- /.box -->
@@ -105,6 +123,11 @@
 	</div>
 	<!-- /.row -->
 </section>
+<style type="text/css">
+	ul li{
+		margin: 10px 0px;
+	}
+</style>
 
 <script type="text/javascript">
 

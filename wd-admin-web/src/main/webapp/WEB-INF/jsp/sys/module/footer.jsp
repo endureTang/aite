@@ -4,6 +4,6 @@
 	<!-- To the right -->
 	<div class="pull-right hidden-xs">Version 1.0</div>
 	<!-- Default to the left -->
-	<strong>Copyright &copy; 2015 <a href="javascript:;" onclick="window.open('http://www.baidu.com.cn/');"></a>.
+	<strong>Copyright &copy; 2021 <a href="javascript:;" onclick="window.open('http://www.baidu.com.cn/');"></a>.
 	</strong> 版权保留
 </footer>

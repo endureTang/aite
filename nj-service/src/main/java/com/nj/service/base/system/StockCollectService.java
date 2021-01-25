@@ -101,6 +101,10 @@ public class StockCollectService {
         }
         File tempFile = new File(savePath+ File.separator + "exportExcel");
         File[] excelFiles = tempFile.listFiles();
+        File file = new File(savePath);
+        if(!file.exists()){
+            throw new Exception("请先上传模板文件");
+        }
         ZipHelperUtils.zip(excelFiles,savePath +File.separator+"全部门店.zip","全部门店");
         ZipHelperUtils.deletefile(savePath+ File.separator + "exportExcel");
         Date endDate = new Date();
@@ -117,6 +121,10 @@ public class StockCollectService {
 //        List<StockCollectModel> stockList = stockCollectMapperExtend.selectCollectList();
 //        logger.info("查询数据结束，一共："+stockList.size()+"条数据");
 //        ExportUtil.baseExportStockCollect(savePath,stockList, StockCollectModel.class, "总库存数据.xlsx", "总库存数据");
+        File file = new File(savePath);
+        if(!file.exists()){
+            throw new Exception("请先上传模板文件");
+        }
         exportBigDataExcel(totalCount,savePath);
         Date endDate = new Date();
         long sec = (endDate.getTime() - start.getTime()) / 1000;

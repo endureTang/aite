@@ -14,7 +14,7 @@
 	<ol class="breadcrumb">
 		<li><a href="./"><i class="fa fa-dashboard"></i> 主页</a></li>
 		<li class="active">业务管理</li>
-		<li><a href="stockBase/page" data-target="navTab">库存档案</a></li>
+		<li><a href="stockBase/page" data-target="navTab">库存汇总</a></li>
 	</ol>
 </section>
 <!-- Main content -->
@@ -100,11 +100,10 @@
 					</ul>
 				</div>
 				<div class="box-body" style="border-top:solid #ACC0D8 1px;width: 100%;margin-top: 10px;">
-					<h4>开发模拟：</h4>
+					<h4>测试结果：</h4>
 					<hr>
-					仅作为参考，响应时间与服务器系统配置和数据量有关。
+					仅作为参考，响应时间与服务器系统配置和数据量有关。本机电脑配置：i511 CPU,16G内存
 					<ul>
-						<li>本机电脑配置：i511 CPU,16G内存</li>
 						<li>模板上传
 							<ul>
 								<li>模板一：20家门店，每家门店8319条数据，上传需要2.6分钟，平均每家门店需要7.8秒</li>
@@ -112,8 +111,8 @@
 								<li>模板三：21家门店，每家门店5067条数据，上传需要3.1分钟，平均每家门店需要8.8秒</li>
 							</ul>
 						</li>
-						<li>生成汇总zip：61家门店，48万条数据，耗时12分钟</li>
-						<li>生成汇总excel：一共48万条数据，耗时 7分钟</li>
+						<li>生成汇总zip：61家门店，48万条数据，耗时15分钟</li>
+						<li>生成汇总excel：一共48万条数据，耗时 12分钟</li>
 					</ul>
 				</div>
 				<!-- /.box-body -->

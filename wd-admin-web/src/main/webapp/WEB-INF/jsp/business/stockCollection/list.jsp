@@ -48,18 +48,14 @@
 					<a type="button" onclick="execCollect()" class="btn btn-sm btn-primary" >
 						<i class="fa fa-fw fa-plus"></i>执行总库存生成
 					</a>
-
-					<a href="static/upload/zipFile/全部门店.zip" class="btn btn-sm btn-success" id="downLoadZip" style="float: right;margin-left: 10px;display: none">
-						<i class="fa fa-fw fa-plus"></i>下载zip
 					</a>
-					<a href="static/upload/zipFile/总库存数据.xlsx" class="btn btn-sm btn-success" id="downLoadCollect" style="float: right;display: none">
-						<i class="fa fa-fw fa-plus"></i>下载总库存
-					</a>
-
-
+				</div>
+				<div class="box-header">
+					<label>应服务器管理员要求，“执行zip压缩”和“执行总库存生成”改为异步响应模式（及时响应）。</label><label style="color: red">点击后请耐心等待，切勿重复多次点击，手动刷新本页面查看“待下载文件”是否生成成功</label>。
 				</div>
 				<!-- /.box-header -->
 				<div class="box-body" style="border-top:solid #ACC0D8 1px;width: 100%;margin-top: 10px;">
+
 					<h5>上传的模板zip文件和执行生成文件均会在此展示，点击即可下载。</h5>
 					<hr>
 					<div >已上传文件：<div id="uploadDiv"></div></div>
@@ -190,7 +186,7 @@
 					BootstrapDialog.show({
 						type: BootstrapDialog.TYPE_SUCCESS,
 						title: '操作结果提示',
-						message: "执行成功，总共耗时:"+data.msg,
+						message: "后端程序执行中，请耐心等待",
 					});
 				}else{
 					BootstrapDialog.show({
@@ -225,7 +221,7 @@
 					BootstrapDialog.show({
 						type: BootstrapDialog.TYPE_SUCCESS,
 						title: '操作结果提示',
-						message: "汇总成功，总共耗时:"+data.msg,
+						message: "汇总执行中，请耐心等待。",
 					});
 				}else{
 					BootstrapDialog.show({

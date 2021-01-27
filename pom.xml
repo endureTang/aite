@@ -13,6 +13,7 @@
 		<module>nj-service</module>
     	<module>wd-admin-web</module>
         <module>fix</module>
+        <module>collect</module>
     </modules>
 
 	<dependencyManagement>

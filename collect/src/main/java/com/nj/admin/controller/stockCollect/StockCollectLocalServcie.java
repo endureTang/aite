@@ -56,13 +56,13 @@ public class StockCollectLocalServcie {
                     saveStockCollect = stockCollectModelThree.execExcel(file,type,xmlFile);
                 }
                 if(saveStockCollect.size()>0) {
-                    stockCollectLocalServcie.saveStockXml(saveStockCollect,xmlPath+File.separator+type);
+                    stockCollectLocalServcie.saveStockXml(file.getName(),saveStockCollect,xmlPath+File.separator+type);
                 }
             }
         }
     }
 
-    private void saveStockXml(List<StockCollectZipModel> saveStockCollect, String tempPath) {
+    private void saveStockXml(String fileName,List<StockCollectZipModel> saveStockCollect, String tempPath) {
         System.out.println("保存zip开始");
         XStream xs = new XStream(new DomDriver());
         xs.alias("temp", ArrayList.class); // 类别名
@@ -71,7 +71,7 @@ public class StockCollectLocalServcie {
         if (!file.exists()) {
             file.mkdirs();
         }
-        File outFile = new File(file, "库存数据.xml");
+        File outFile = new File(file, fileName+"库存数据.xml");
         try {
             FileOutputStream fos = new FileOutputStream(outFile);
             OutputStreamWriter osw = new OutputStreamWriter(fos, Charset.forName("utf-8"));

@@ -6,7 +6,7 @@
 	<!-- Logo -->
 	<a href="javascript:;" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
 		<span class="logo-mini"><b></b></span> <!-- logo for regular state and mobile devices -->
-		<span class="logo-lg"><b></b>导表调价</span>
+		<span class="logo-lg"><b></b>库存汇总</span>
 	</a>
 
 	<!-- Header Navbar -->

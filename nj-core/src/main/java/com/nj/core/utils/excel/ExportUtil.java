@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -194,7 +195,14 @@ public class ExportUtil {
 	private static <T> void baseCreateData(List<T> datas, int columnNum,  List<ExportFormat> formatList, int rowIndex,String[] fieldNameArray,  XSSFSheet sheet){
 		//创建数据行
 		try {
+			int count = 0;
+			int times = 0;
 			for (T data : datas) {
+				count ++;
+				if(count %10000 ==0){
+					times++;
+					System.out.println("已处理"+times+"万条数据！");
+				}
 				XSSFRow dataRow = sheet.createRow(rowIndex++);
 				for (int i = 0; i < columnNum; i++) {
 					XSSFCell dataCell = dataRow.createCell(i);
@@ -215,6 +223,7 @@ public class ExportUtil {
 			e.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * 创建excel的title
@@ -552,7 +561,7 @@ public class ExportUtil {
 									  Class<T> clazz,
 									  String filename,
 									  String sheetname) throws Exception{
-
+		log.info("门店"+filename+"创建开始...");
 		int columnNum = 0;		//要导出的数据列数
 		List<ExportFormat> formatList = new ArrayList<ExportFormat>();	//注解信息
 
@@ -583,19 +592,28 @@ public class ExportUtil {
 			int rowIndex = 0;		//行索引
 			//创建workbook和sheet
 			workbook = new XSSFWorkbook();
-			XSSFSheet sheet = workbook.createSheet(sheetname);
-			//创建表头行
-			XSSFRow tableHeaderRow = sheet.createRow(rowIndex++);
-			for (int i = 0; i < columnNum; i++) {
-				XSSFCell cell = tableHeaderRow.createCell(i);
-				cell.setCellValue(tableHeaderArray[i]);
+
+			//将数据以20w为一个sheet进行excel创建
+			int pageSize = 200000;
+			int sheetCount = datas.size() % pageSize == 0 ? datas.size() / pageSize :datas.size() % pageSize +1;
+			for (int sheetNo = 0; sheetNo < sheetCount; sheetNo++) {
+				System.out.println("创建第"+sheetNo+1+"个sheet");
+				List<T> tempList = datas.stream().skip(sheetNo*pageSize).limit(pageSize).collect(Collectors.toList());
+				XSSFSheet sheet = workbook.createSheet(sheetname+sheetNo);
+				//创建表头行
+				XSSFRow tableHeaderRow = sheet.createRow(rowIndex++);
+				for (int i = 0; i < columnNum; i++) {
+					XSSFCell cell = tableHeaderRow.createCell(i);
+					cell.setCellValue(tableHeaderArray[i]);
+				}
+				if(CollectionUtils.isNotEmpty(datas)){
+					//创建数据行
+					baseCreateData(tempList, columnNum, formatList, rowIndex++, fieldNameArray, sheet);
+
+				}
 			}
-			if(CollectionUtils.isNotEmpty(datas)){
-				//创建数据行
-				log.info("开始创建数据行...");
-				baseCreateData(datas, columnNum, formatList, rowIndex++, fieldNameArray, sheet);
-				log.info("结束创建数据行...");
-			}
+
+
 			File file = new File(savePath);
 			if(!file.exists()){
 				file.mkdirs();
@@ -607,8 +625,9 @@ public class ExportUtil {
 
 			OutputStream out = new FileOutputStream(file);
 			workbook.write(out);
+			log.info("门店"+filename+"创建完毕！");
 		} catch (Exception e) {
-			log.error("创建行数据时发生异常，异常信息为：",e);
+			log.error("门店"+filename+"创建行数据时发生异常，异常信息为：",e);
 			e.printStackTrace();
 			return;
 		}

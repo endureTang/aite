@@ -41,12 +41,8 @@ public class StockCollectModelOne {
      * @author endure
      * @date: 2021-01-19 16:24
      */
-    public List<StockCollectZipModel> execExcel(File file, String type,File activityFile) throws Exception {
-        XStream xs = new XStream(new DomDriver());
-        FileInputStream fis = new FileInputStream(activityFile);
-        xs.alias("temp", ArrayList.class); // 类别名
-        xs.alias("activity", ActivityStock.class);
-        List<String> activityStocks = (List<String>) xs.fromXML(fis);
+    public List<StockCollectZipModel> execExcel(File file, String type,List<String> activityStocks) throws Exception {
+
         InputStream input = null;
         String postfix = ExcelUtil.getPostfix(file.getName());
         String fileName = file.getName();
@@ -126,7 +122,6 @@ public class StockCollectModelOne {
                                 String amount = ExcelUtil.getXValue(hssfRow.getCell(16));
                                 String onTheWayAmount = ExcelUtil.getXValue(hssfRow.getCell(17));
                                 String storage = ExcelUtil.getXValue(hssfRow.getCell(18));
-
                                 StockCollectZipModel stockCollectZipModel = new StockCollectZipModel();
                                 stockCollectZipModel.setDepartment(department);
                                 stockCollectZipModel.setMeterialNo(meterialNo);
@@ -148,7 +143,6 @@ public class StockCollectModelOne {
                                 stockCollectZipModel.setOnWayAmount(onTheWayAmount);
                                 stockCollectZipModel.setStorage(storage);
                                 stockCollectZipModel.setStoreName(fileName.substring(0,fileName.lastIndexOf(".")));
-
                                 stockCollectList.add(stockCollectZipModel);
                             }
                         }
@@ -164,7 +158,6 @@ public class StockCollectModelOne {
                 Workbook wb = WorkbookFactory.create(input);
                 Sheet xssfSheet = wb.getSheetAt(0); //获取第一个sheet
                 int totalRows = xssfSheet.getLastRowNum();
-
                 //获取标题行在第几行，获取规则为：连续15列数据不为空
                 Integer titleRow = null;
                 for(int rowNum = 0;rowNum <= totalRows;rowNum++){
@@ -264,7 +257,6 @@ public class StockCollectModelOne {
                             stockCollectZipModel.setOnWayAmount(onTheWayAmount);
                             stockCollectZipModel.setStorage(storage);
                             stockCollectZipModel.setStoreName(fileName.substring(0,fileName.lastIndexOf(".")));
-
                             stockCollectList.add(stockCollectZipModel);
                         }
                     }

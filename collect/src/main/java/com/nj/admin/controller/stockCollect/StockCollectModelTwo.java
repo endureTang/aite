@@ -40,13 +40,7 @@ public class StockCollectModelTwo {
      * @author endure
      * @date: 2021-01-19 16:24
      */
-    public List<StockCollectZipModel> execExcel(File file, String type,File activityFile) throws Exception {
-        XStream xs = new XStream(new DomDriver());
-        FileInputStream fis = new FileInputStream(activityFile);
-        xs.alias("temp", ArrayList.class); // 类别名
-        xs.alias("activity", ActivityStock.class);
-        List<String> activityStocks = (List<String>) xs.fromXML(fis);
-
+    public List<StockCollectZipModel> execExcel(File file, String type,List<String> activityStocks) throws Exception {
         InputStream input = null;
         String postfix = ExcelUtil.getPostfix(file.getName());
         String fileName = file.getName();
@@ -81,7 +75,6 @@ public class StockCollectModelTwo {
                         }
                     }
                 }
-
                 if(titleRow != null){
                     //读取Row,从标题行的下一行开始
                     List<StockCollectZipModel> stockCollectList = new ArrayList<>();

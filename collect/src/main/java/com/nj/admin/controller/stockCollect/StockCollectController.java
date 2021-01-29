@@ -68,6 +68,8 @@ public class StockCollectController extends BaseController {
 	//父级地址
 	private static final String BASE_PATH = "static" + File.separator + "upload" + File.separator + "zipFile" + File.separator;
 
+	private static final String XML_PATN = "static" + File.separator + "upload" + File.separator + "xml" + File.separator;
+
 	private static Logger logger = LoggerFactory.getLogger(StockCollectController.class);
 	@Resource
 	private StockCollectLocalServcie stockCollectLocalServcie;
@@ -120,6 +122,7 @@ public class StockCollectController extends BaseController {
 				result.put("msg", "文件不能为空");
 				result.put("status", 0);
 			}else{
+				System.out.println("开始处理活动文件......");
 				InputStream input = null;
 				ArrayList<String> rowList = null;
 				List<String> stockNoStr = new ArrayList<>();
@@ -186,7 +189,9 @@ public class StockCollectController extends BaseController {
 						result.put("status", 0);
 						return result;
 					}
+					System.out.println("活动文件读取结束！");
 					String realPath = request.getSession().getServletContext().getRealPath("static" + File.separator + "upload" + File.separator+"xml" + File.separator+"activity");
+					request.getSession().setAttribute("activityList", stockNoStr);
 					activityStockService.saveXml(stockNoStr,realPath);
 					result.put("status", 1);
 				}
@@ -277,7 +282,9 @@ public class StockCollectController extends BaseController {
 		PageData result = new PageData();
 		try {
 			String realPath = request.getSession().getServletContext().getRealPath(BASE_PATH);
-			ZipHelperUtils.deletefile(realPath); //删除文件
+			ZipHelperUtils.deletefile(realPath); //删除文件excel文件
+			String xmlPath = request.getSession().getServletContext().getRealPath(XML_PATN+File.separator+"stock");
+			ZipHelperUtils.deletefile(xmlPath); //删除文件xml文件
 			stockCollectLocalServcie.clearStockCollect();//删除数据
 			result.put("status", 1);
 		} catch (Exception e) {
@@ -300,7 +307,7 @@ public class StockCollectController extends BaseController {
 			ZipHelperUtils.unzipFile(zipFile, tempPath);
 			String xmlPath = request.getSession().getServletContext().getRealPath("static" + File.separator + "upload" + File.separator+"xml" + File.separator+"stock");
 			String activityPath = request.getSession().getServletContext().getRealPath("static" + File.separator + "upload" + File.separator+"xml" + File.separator+"activity");
-			stockCollectLocalServcie.generateStockCollect(type,tempPath,xmlPath,activityPath);
+			stockCollectLocalServcie.generateStockCollect(request,type,tempPath,xmlPath,activityPath);
 			result.put("status", 1);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -309,6 +316,13 @@ public class StockCollectController extends BaseController {
 		return result;
 	}
 
+	/**
+	* @description: 导出zip和xml文件
+	* @param: [request, response]
+	* @return: com.nj.core.base.util.PageData
+	* @author endure
+	* @date: 2021-01-28 13:42
+	 */ 
 	@RequestMapping(value={"/execZip"})
 	@ResponseBody
 	public PageData execZip(HttpServletRequest request, HttpServletResponse response)	{
@@ -331,26 +345,34 @@ public class StockCollectController extends BaseController {
 		return result;
 	}
 
-	@RequestMapping(value={"/execCollect"})
+	/**
+	* @description: 导出zip和汇总excel
+	* @param: [request, response]
+	* @return: com.nj.core.base.util.PageData
+	* @author endure
+	* @date: 2021-01-28 13:42
+	 */ 
+	@RequestMapping(value={"/execZipAndExcel"})
 	@ResponseBody
-	public PageData execCollect(HttpServletRequest request, HttpServletResponse response)	{
+	public PageData execZipAndExcel(HttpServletRequest request, HttpServletResponse response)	{
 		PageData result = new PageData();
 		try{
 			String realPath = request.getSession().getServletContext().getRealPath(DOWNLOAD_PATH);
-			long totalSec = stockCollectLocalServcie.execCollect(realPath);
+			String xmlPath = request.getSession().getServletContext().getRealPath("static" + File.separator + "upload" + File.separator+"xml" + File.separator+"stock");
+			long totalSec = stockCollectLocalServcie.selectDownLoadZipAndExcelList(realPath,xmlPath);
 			if(totalSec >60){
 				result.put("msg", totalSec / 60 +"分");
 			}else{
 				result.put("msg", totalSec+"秒");
 			}
 			result.put("status", 1);
+
 		}catch (Exception e){
 			logger.error(e.fillInStackTrace()+"");
-			result.put("msg", "汇总失败，错误信息：" + e.getMessage());
+			result.put("msg", "压缩失败，错误信息：" + e.getMessage());
 		}
 		return result;
 	}
-
 	@RequestMapping(value = "/getUploadFiles", method = RequestMethod.POST)
 	@ResponseBody
 	public PageData getUploadFiles(HttpServletRequest request) {

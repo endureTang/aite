@@ -39,8 +39,9 @@ public class ActivityServcie {
 
 
     public void saveXml(List<String> stockNoStr, String savePath) {
-        System.out.println("保存活动列表开始");
+        System.out.println("保存活动文件开始");
         XStream xs = new XStream(new DomDriver());
+        xs.allowTypesByRegExp(new String[] { ".*" });
         xs.alias("temp", ArrayList.class); // 类别名
         xs.alias("activity", ActivityStock.class);
         File file = new File(savePath);
@@ -55,8 +56,10 @@ public class ActivityServcie {
             xs.toXML(stockNoStr, bw);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            System.out.println("保存活动文件失败，错误信息"+e);
+
         }
-        System.out.println("保存活动列表成功");
+        System.out.println("保存活动文件成功");
 
     }
 

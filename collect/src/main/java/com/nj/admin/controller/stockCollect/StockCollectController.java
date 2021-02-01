@@ -190,9 +190,9 @@ public class StockCollectController extends BaseController {
 						return result;
 					}
 					System.out.println("活动文件读取结束！");
-					String realPath = request.getSession().getServletContext().getRealPath("static" + File.separator + "upload" + File.separator+"xml" + File.separator+"activity");
+//					String realPath = request.getSession().getServletContext().getRealPath("static" + File.separator + "upload" + File.separator+"xml" + File.separator+"activity");
 					request.getSession().setAttribute("activityList", stockNoStr);
-					activityStockService.saveXml(stockNoStr,realPath);
+//					activityStockService.saveXml(stockNoStr,realPath);
 					result.put("status", 1);
 				}
 			}
@@ -300,16 +300,20 @@ public class StockCollectController extends BaseController {
 	public PageData updateZipFile(@RequestParam("file") MultipartFile file, HttpServletRequest request,@RequestParam("type") String type) {
 		PageData result = new PageData();
 		try {
+			List<String> activityStocks = (List<String>) request.getSession().getAttribute("activityList");
+			if(activityStocks==null || activityStocks.isEmpty()) {
+				throw new Exception("活动文件未上传");
+			}
 			String realPath = request.getSession().getServletContext().getRealPath(MODEL_UPLOAD_PATH);
 			File zipFile = new File(realPath+File.separator+file.getOriginalFilename());
 			FileUtils.copyInputStreamToFile(file.getInputStream(), zipFile);
 			String tempPath = realPath + File.separator + "temp" + type;//tempPath根据type的不同区分
 			ZipHelperUtils.unzipFile(zipFile, tempPath);
 			String xmlPath = request.getSession().getServletContext().getRealPath("static" + File.separator + "upload" + File.separator+"xml" + File.separator+"stock");
-			String activityPath = request.getSession().getServletContext().getRealPath("static" + File.separator + "upload" + File.separator+"xml" + File.separator+"activity");
-			stockCollectLocalServcie.generateStockCollect(request,type,tempPath,xmlPath,activityPath);
+			stockCollectLocalServcie.generateStockCollect(request,type,tempPath,xmlPath);
 			result.put("status", 1);
 		} catch (Exception e) {
+			result.put("msg", e.getMessage());
 			e.printStackTrace();
 		}
 

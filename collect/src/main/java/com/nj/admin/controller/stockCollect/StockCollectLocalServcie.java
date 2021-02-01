@@ -45,25 +45,27 @@ public class StockCollectLocalServcie {
     public void clearStockCollect() {
     }
 
-    public void generateStockCollect(HttpServletRequest request,String type, String tempPath, String xmlPath, String activityPath) throws Exception {
+    public void generateStockCollect(HttpServletRequest request,String type, String tempPath, String xmlPath) throws Exception {
         Date start = new Date();
         System.out.println("开始解析上传压缩包....");
         System.out.println("开始时间："+ DateUtil.formatDate(start,"yyyy-MM-dd HH:mm:ss"));
         List<String> activityStocks = (List<String>) request.getSession().getAttribute("activityList");
-        if(activityStocks==null || activityStocks.isEmpty()){
-            System.out.println("=======================================");
-            System.out.println("读取活动文件数据开始......");
-            XStream xs = new XStream(new DomDriver());
-            xs.allowTypesByRegExp(new String[] { ".*" });
-            File activityFile = new File(activityPath);
-            File xmlFile = new File(activityFile, "活动列表.xml");
-            FileInputStream fis = new FileInputStream(xmlFile);
-            xs.alias("temp", ArrayList.class); // 类别名
-            xs.alias("activity", ActivityStock.class);
-            activityStocks = (List<String>) xs.fromXML(fis);
-            System.out.println("读取活动文件数据结束！");
-            request.getSession().setAttribute("activityList", activityStocks);
-        }
+//        if(activityStocks==null || activityStocks.isEmpty()){
+//            System.out.println("请先上传活动文件！");
+//            throw new Exception("活动文件未上传");
+//            System.out.println("=======================================");
+//            System.out.println("读取活动文件数据开始......");
+//            XStream xs = new XStream(new DomDriver());
+//            xs.allowTypesByRegExp(new String[] { ".*" });
+//            File activityFile = new File(activityPath);
+//            File xmlFile = new File(activityFile, "活动列表.xml");
+//            FileInputStream fis = new FileInputStream(xmlFile);
+//            xs.alias("temp", ArrayList.class); // 类别名
+//            xs.alias("activity", ActivityStock.class);
+//            activityStocks = (List<String>) xs.fromXML(fis);
+//            System.out.println("读取活动文件数据结束！");
+//            request.getSession().setAttribute("activityList", activityStocks);
+//        }
         File tempFile = new File(tempPath);
         File[] excelFiles = tempFile.listFiles();
         List<StockCollectZipModel> saveStockCollect = new ArrayList<>();

@@ -314,7 +314,7 @@ public class StockCollectController extends BaseController {
 			result.put("status", 1);
 		} catch (Exception e) {
 			result.put("msg", e.getMessage());
-			e.printStackTrace();
+			logger.error(e.fillInStackTrace()+"");
 		}
 
 		return result;
@@ -402,7 +402,8 @@ public class StockCollectController extends BaseController {
 			result.put("status", 1);
 			result.put("files", fileStr);
 		} catch (Exception e) {
-			e.printStackTrace();
+			result.put("status", 0);
+			logger.error(e.fillInStackTrace()+"");
 		}
 		return result;
 	}
@@ -430,7 +431,8 @@ public class StockCollectController extends BaseController {
 			result.put("status", 1);
 			result.put("files", fileStr);
 		} catch (Exception e) {
-			e.printStackTrace();
+			result.put("status", 0);
+			logger.error(e.fillInStackTrace()+"");
 		}
 		return result;
 	}

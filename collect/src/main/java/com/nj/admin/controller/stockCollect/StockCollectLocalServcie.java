@@ -5,6 +5,7 @@ import com.nj.core.base.util.DateUtil;
 import com.nj.core.utils.excel.ExportFormat;
 import com.nj.core.utils.excel.ExportUtil;
 import com.nj.core.utils.excel.ZipHelperUtils;
+import com.nj.model.datamodel.StockCollectModel;
 import com.nj.model.datamodel.StockCollectZipModel;
 import com.nj.model.generate.ActivityStock;
 import com.thoughtworks.xstream.XStream;
@@ -20,6 +21,8 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * @version 1.0
@@ -229,7 +232,35 @@ public class StockCollectLocalServcie {
         System.out.println("保存库存汇总excel开始......");
         System.out.println("共有"+stockCollectZipModels.size()+"条数据，请耐心等待。");
         try {
-            ExportMaxUtil.baseExportStockCollect(savePath,stockCollectZipModels, StockCollectZipModel.class, "库存汇总.xlsx", "库存汇总");
+            AtomicInteger index=new AtomicInteger(1);
+            List<StockCollectModel> stockCollectModels =
+            stockCollectZipModels.stream().map(stockCollectZipModel -> {
+                StockCollectModel stockCollectModel = new StockCollectModel();
+                stockCollectModel.setSortName(index.getAndIncrement());
+                stockCollectModel.setDepartment(stockCollectZipModel.getDepartment());
+                stockCollectModel.setMeterialNo(stockCollectZipModel.getMeterialNo());
+                stockCollectModel.setIsActivity(stockCollectZipModel.getIsActivity());
+                stockCollectModel.setDescription(stockCollectZipModel.getDescription());
+                stockCollectModel.setBradCode(stockCollectZipModel.getBradCode());
+                stockCollectModel.setBrand(stockCollectZipModel.getBrand());
+                stockCollectModel.setPubDate(stockCollectZipModel.getPubDate());
+                stockCollectModel.setSexType(stockCollectZipModel.getSexType());
+                stockCollectModel.setSportType(stockCollectZipModel.getSportType());
+                stockCollectModel.setSeasonCode(stockCollectZipModel.getSeasonCode());
+                stockCollectModel.setColorAll(stockCollectZipModel.getColorAll());
+                stockCollectModel.setFirstReceiveDate(stockCollectZipModel.getFirstReceiveDate());
+                stockCollectModel.setCostPrice(stockCollectZipModel.getCostPrice());
+                stockCollectModel.setRrp(stockCollectZipModel.getRrp());
+                stockCollectModel.setCrp(stockCollectZipModel.getCrp());
+                stockCollectModel.setErp(stockCollectZipModel.getErp());
+                stockCollectModel.setAmount(stockCollectZipModel.getAmount());
+                stockCollectModel.setOnWayAmount(stockCollectZipModel.getOnWayAmount());
+                stockCollectModel.setStorage(stockCollectZipModel.getStorage());
+                stockCollectModel.setStoreName(stockCollectZipModel.getStoreName());
+                return stockCollectModel;
+            }).collect(Collectors.toList());
+            stockCollectZipModels.clear();
+            ExportMaxUtil.baseExportStockCollect(savePath,stockCollectModels, StockCollectModel.class, "库存汇总.xlsx", "库存汇总");
         } catch (Exception e) {
             System.out.println("保存库存汇总excel失败，错误信息："+e);
             e.printStackTrace();

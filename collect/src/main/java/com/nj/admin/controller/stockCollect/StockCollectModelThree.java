@@ -151,6 +151,7 @@ public class StockCollectModelThree {
                                 stockCollectZipModel.setSportType(sportType);
                                 stockCollectZipModel.setSeasonCode(seasonCOde);
                                 stockCollectZipModel.setColorAll(colorAll);
+                                stockCollectZipModel.setSize(size);
                                 stockCollectZipModel.setFirstReceiveDate(firstReceiveDate);
                                 stockCollectZipModel.setCostPrice(costPrice);
                                 stockCollectZipModel.setRrp(rrp);
@@ -268,6 +269,7 @@ public class StockCollectModelThree {
                             stockCollectZipModel.setSportType(sportType);
                             stockCollectZipModel.setSeasonCode(seasonCOde);
                             stockCollectZipModel.setColorAll(colorAll);
+                            stockCollectZipModel.setSize(size);
                             stockCollectZipModel.setFirstReceiveDate(firstReceiveDate);
                             stockCollectZipModel.setCostPrice(costPrice);
                             stockCollectZipModel.setRrp(rrp);

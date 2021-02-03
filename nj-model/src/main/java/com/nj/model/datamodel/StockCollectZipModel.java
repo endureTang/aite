@@ -27,23 +27,25 @@ public class StockCollectZipModel implements Comparable<StockCollectZipModel>{
   private String seasonCode;
   @ExportFormat(name="颜色合并", align="center", sort=11)
   private String colorAll;
-  @ExportFormat(name="首次收获日期", align="center", sort=12)
+  @ExportFormat(name="尺寸", align="center", sort=12)
+  private String size;
+  @ExportFormat(name="首次收获日期", align="center", sort=13)
   private String firstReceiveDate;
-  @ExportFormat(name="成本均价", align="center", sort=13)
+  @ExportFormat(name="成本均价", align="center", sort=14)
   private String costPrice;
-  @ExportFormat(name="RRP", align="center", sort=14)
+  @ExportFormat(name="RRP", align="center", sort=15)
   private String rrp;
-  @ExportFormat(name="CPR", align="center", sort=15)
+  @ExportFormat(name="CPR", align="center", sort=16)
   private String crp;
-  @ExportFormat(name="EPR%", align="center", sort=16)
+  @ExportFormat(name="EPR%", align="center", sort=17)
   private String erp;
-  @ExportFormat(name="库存", align="center", sort=17)
+  @ExportFormat(name="库存", align="center", sort=18)
   private String amount;
-  @ExportFormat(name="在途总数", align="center", sort=18)
+  @ExportFormat(name="在途总数", align="center", sort=19)
   private String onWayAmount;
-  @ExportFormat(name="仓库", align="center", sort=19)
+  @ExportFormat(name="仓库", align="center", sort=20)
   private String storage;
-  @ExportFormat(name="店铺", align="center", sort=20)
+  @ExportFormat(name="店铺", align="center", sort=21)
   private String storeName;
 
   public String getDepartment() {
@@ -204,6 +206,14 @@ public class StockCollectZipModel implements Comparable<StockCollectZipModel>{
 
   public void setStoreName(String storeName) {
     this.storeName = storeName;
+  }
+
+  public String getSize() {
+    return size;
+  }
+
+  public void setSize(String size) {
+    this.size = size;
   }
 
   @Override

@@ -256,6 +256,7 @@ public class StockCollectLocalServcie {
                 stockCollectModel.setAmount(stockCollectZipModel.getAmount());
                 stockCollectModel.setOnWayAmount(stockCollectZipModel.getOnWayAmount());
                 stockCollectModel.setStorage(stockCollectZipModel.getStorage());
+                stockCollectModel.setSize(stockCollectZipModel.getSize());
                 stockCollectModel.setStoreName(stockCollectZipModel.getStoreName());
                 return stockCollectModel;
             }).collect(Collectors.toList());

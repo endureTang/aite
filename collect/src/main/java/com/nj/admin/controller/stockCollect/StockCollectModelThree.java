@@ -44,6 +44,9 @@ public class StockCollectModelThree {
         InputStream input = null;
         String postfix = ExcelUtil.getPostfix(file.getName());
         String fileName = file.getName();
+        fileName = fileName.replaceAll("\\d+", "");
+        fileName = fileName.replaceFirst(".", "");
+        fileName = fileName.replace("库存", "");
         //如果是xls文件格式
         if(!ExcelUtil.EMPTY.equals(postfix)){
             if(ExcelUtil.OFFICE_EXCEL_2003_POSTFIX.equals(postfix)){
